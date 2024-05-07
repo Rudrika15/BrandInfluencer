@@ -1,70 +1,40 @@
-
 @if (count($campaign) > 0)
     <div class="row">
-        <div class="col-md-8">
-            @foreach ($campaign as $data)
-                <div class="card">
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="card-title text-center">{{ $data->title }}
-                                <hr>
-                            </h3>
+        <div class="col-md-12">
+            <div class="row">
+                @foreach ($campaign as $data)
+                    <div class="col-md-4 mb-4">
+                        <div class="card" style="width: 18rem;">
                             @if (isset($data->photo))
-                                <img class="img-fluid" src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" alt="Card image cap" />
+                                <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" class="card-img-top" alt="Campaign Image">
                             @else
-                                <img class="img-fluid" src="{{ asset('asset/img/defaultCover.jpg') }}" alt="Card image cap" />
+                                <img src="{{ asset('asset/img/defaultCover.jpg') }}" class="card-img-top" alt="Default Campaign Image">
                             @endif
-                        </div>
-                        <div class="col-md-12 ">
                             <div class="card-body">
-
-
-                                <div class="text-center">
-                                    <strong>Details</strong>
-                                    <p class="card-text">{{ $data->detail }}</p>
-                                </div>
+                                <h5 class="card-title">{{ $data->title }}</h5>
+                                <p class="card-text">{{ $data->detail }}</p>
                                 <div class="row">
-
-                                    <div class="col-md-4">
-                                        <strong>price</strong>
-                                        <p class="card-text">{{ $data->price }}</p>
-                                        <strong>Rules</strong>
-                                        <p class="card-text" style="word-wrap: break-word;">{{ $data->rule }}</p>
-                                        <strong>Eligible Criteria</strong>
-                                        <p class="card-text">{{ $data->eligibleCriteria }}</p>
-
+                                    <div class="col-md-6">
+                                        <p class="card-text"><strong>Price:</strong> {{ $data->price }}</p>
                                     </div>
-                                    <div class="col-md-4">
-                                        <strong>Start Date</strong>
-                                        <p class="card-text">{{ $data->startDate }}</p>
-                                        <strong>End Date</strong>
-                                        <p class="card-text">{{ $data->endDate }}</p>
-                                        <strong>Apply For Last Date</strong>
-                                        <p class="card-text">{{ $data->applyForLastDate }}</p>
-
+                                    <div class="col-md-6">
+                                        <p class="card-text"><strong>Start Date:</strong> {{ $data->startDate }}</p>
                                     </div>
-                                    <div class="col-md-4">
-                                        <strong>Target Gender</strong>
-                                        <p class="card-text">{{ $data->targetGender }}</p>
-                                        <strong>Target Age Group</strong>
-                                        <p class="card-text">{{ $data->targetAgeGroup }}</p>
-                                        <strong>Max Application</strong>
-                                        <p class="card-text">{{ $data->maxApplication }}</p>
+                                    <div class="col-md-6">
+                                        <p class="card-text"><strong>End Date:</strong> {{ $data->endDate }}</p>
                                     </div>
                                 </div>
-
-                                <div class="" style="display: flex; justify-content: end; margin: 10px">
-                                    <a style="margin-right: 10px;" class="btn btn-success btn-info btn-sm" href="{{ route('brand.campaign.edit', $data->id) }}">Edit</a>
-                                    <a class="btn btn-success btn-danger btn-sm" href="{{ route('brand.campaign.delete', $data->id) }}">Delete</a>
+                                <div class="text-center mt-3">
+                                    <a href="{{ route('brand.campaign.edit', $data->id) }}" class="btn btn-success btn-sm me-2">Edit</a>
+                                    <a href="{{ route('brand.campaign.delete', $data->id) }}" class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
+
 
 
         <div class="col-md-4">

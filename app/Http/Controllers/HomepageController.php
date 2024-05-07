@@ -13,37 +13,52 @@ class HomepageController extends Controller
 {
     //
 
-    function index()
+    function index(Request $request)
     {
 
-        // $influencers = User::whereHas('roles', function ($q) {
-        //     $q->where('name', 'Influencer');
-        // })
-        //     ->with('card.cardPortfolio')
-        //     ->whereHas('card.cardPortfolio')
-        //     // ->inRandomOrder()
-        //     ->get();
+        // influencer
 
-        // // Shuffle card portfolios within each influencer's collection
-        // $influencers->each(function ($influencer) {
-        //     $influencer->card->cardPortfolio->shuffle();
-        // });
-        $influencers = Cardportfoilo::with(['card.user' => function ($query) {
-            $query->whereHas('roles', function ($q) {
+        $brands = User::whereHas(
+            'roles',
+            function ($q) {
+                $q->where('name', 'Brand');
+            }
+        )->whereHas('brand')->with('brand')->get();
+
+
+
+        // brand 
+        $category = CategoryInfluencer::all();
+
+        $influencer = User::whereHas('roles', function ($q) {
+            $q->where('name', 'Influencer');
+        })->with('card')->whereHas('influencer');
+
+        $categoryName = $request->category;
+        // return dd($categoryName);
+        if ($categoryName) {
+            $influencer = User::whereHas('roles', function ($q) {
                 $q->where('name', 'Influencer');
+            })->with('card')->whereHas('influencer', function ($q) use ($categoryName) {
+                $q->whereJsonContains('categoryId', $categoryName);
             });
-        }])
-            ->whereHas('card.user')
-            ->inRandomOrder()
-            ->get();
+        }
 
-        // Shuffle the collection
-        $influencers->shuffle();
-
-        // return $portfolios;
+        $influencer = $influencer->get();
 
 
-        return view('home', compact('influencers'));
+        return view('home', compact('brands', 'influencer', 'category'));
+    }
+
+    public function updateSession(Request $request)
+    {
+        // Get the role from the request
+        $role = $request->input('role');
+
+        // Update the session with the selected role
+        session(['role' => $role]);
+
+        return response()->json(['message' => 'Session updated successfully']);
     }
 
     function about()

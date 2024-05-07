@@ -533,12 +533,12 @@ class CampaignController extends Controller
 
         return view('brand.influencerList', compact('influencer', 'category'));
     }
-    public function influencerProfile($id, $userId)
+    public function influencerProfile($id)
     {
         // for Influencer
         $influencer = InfluencerProfile::where('userId', $id)->whereHas('profile')->first();
 
-        $seenStatus = ContactInfluencer::where('userId', $userId)
+        $seenStatus = ContactInfluencer::where('userId', $id)
             ->where('influencerId', $id)
             ->count();
         return view('brand.influencerProfileView', compact('influencer', 'seenStatus'));

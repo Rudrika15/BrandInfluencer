@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\PricingController;
 use App\Http\Controllers\Admin\user\SubscriptionpackageController;
 use App\Http\Controllers\Auth\OtpController;
+use App\Http\Controllers\brand\BrandPackageDetailController;
+use App\Http\Controllers\brand\CampaignController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\influencer\InfluencerController;
 use App\Http\Controllers\influencer\InfluencerPackagesController;
@@ -38,6 +41,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [App\Http\Controllers\HomepageController::class, 'index'])->name('home');
+    Route::post('/update-session', [HomepageController::class, 'updateSession'])->name('update.session');
 
 
     // influencer routes
@@ -110,6 +114,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('influencer/campaign/step/{campaignId?}', [InfluencerStepController::class, 'index'])->name('brand.campaign.campaign.step');
     Route::post('influencer/campaign/step', [InfluencerStepController::class, 'store'])->name('influencer.campaign.step.store');
 
+
+
+    // influencer status management
+    Route::get('brand/campaign/influencer/approval/{campaignId?}/{userId?}', [CampaignController::class, 'influencerApproval'])->name('brand.campaign.influencerApproval');
+    Route::get('brand/campaign/influencer/hold/{campaignId?}/{userId?}', [CampaignController::class, 'influencerOnHold'])->name('brand.campaign.influencerOnHold');
+    Route::get('brand/campaign/influencer/reject/{campaignId?}/{userId?}', [CampaignController::class, 'influencerReject'])->name('brand.campaign.influencerReject');
+    Route::get('brand/campaign/influencer/detail/{campaignId?}/{userId?}', [CampaignController::class, 'influencerDetail'])->name('brand.campaign.influencerDetail');
+    Route::get('brand/campaign/influencer/portfolio/{campaignId?}/{userId?}', [CampaignController::class, 'influencerPortfolio'])->name('brand.campaign.influencerPortfolio');
+
+
+    // influencer content Management
+    Route::get('brand/campaign/influencer/content/approval/{campaignId?}/{userId?}/{id?}', [CampaignController::class, 'influencerContentApproval'])->name('brand.campaign.influencerContentApproval');
+    Route::get('brand/campaign/influencer/content/hold/{campaignId?}/{userId?}/{id?}', [CampaignController::class, 'influencerContentOnHold'])->name('brand.campaign.influencerContentOnHold');
+    Route::post('brand/campaign/influencer/content/reject/{campaignId?}/{userId?}/{id?}', [CampaignController::class, 'influencerContentReject'])->name('brand.campaign.influencerContentReject');
+    Route::get('brand/brandPointLog', [CampaignController::class, 'brandPointLog'])->name('brand.log');
+
     // influencer Portfolio
     Route::get('influencer/portfolio', [InfluencerPortfolioController::class, 'index'])->name('influencer.portfolio.index');
     Route::get('influencer/portfolio/create', [InfluencerPortfolioController::class, 'create'])->name('influencer.portfolio.create');
@@ -126,6 +146,40 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('influencer/package/update', [InfluencerPackagesController::class, 'update'])->name('influencer.package.update');
     Route::get('influencer/package/delete/{id?}', [InfluencerPackagesController::class, 'destroy'])->name('influencer.package.delete');
     Route::get('influencer/package', [InfluencerPackagesController::class, 'packageView'])->name('influencer.packages');
+
+
+    // brand 
+
+    // campaign
+    Route::get('brand/campaign/index', [CampaignController::class, 'index'])->name('brand.campaign.index');
+    Route::get('brand/campaign/create', [CampaignController::class, 'create'])->name('brand.campaign.create');
+    Route::post('brand/campaign/store', [CampaignController::class, 'store'])->name('brand.campaign.store');
+    Route::get('brand/campaign/edit/{id?}', [CampaignController::class, 'edit'])->name('brand.campaign.edit');
+    Route::post('brand/campaign/update', [CampaignController::class, 'update'])->name('brand.campaign.update');
+    Route::get('brand/campaign/delete/{id?}', [CampaignController::class, 'delete'])->name('brand.campaign.delete');
+    Route::get('brand/campaign/appliers', [CampaignController::class, 'appliers'])->name('brand.campaign.appliers');
+
+    // Payment 
+
+    Route::get('payment', [PricingController::class, 'index']);
+    Route::post('razorpay-payment', [PricingController::class, 'store'])->name('razorpay.payment.store');
+
+    // 
+    Route::get('brand/pricing', [BrandPackageDetailController::class, 'pricingView'])->name('brand.pricing');
+
+
+    // pricing
+
+    Route::get('/pricing', [PricingController::class, 'index'])->name('pricing.index');
+    // Route::post('/pricing/payment', [PricingController::class, 'store'])->name('pay');
+
+    // influencer list for brand
+    Route::get('brand/influencerList', [CampaignController::class, 'influencerList'])->name('brand.influencerList');
+    Route::get('brand/influencerList/profile/{id?}', [CampaignController::class, 'influencerProfile'])->name('brand.influencerProfile');
+    Route::post('brand/influencerPointCode', [CampaignController::class, 'influencerContactPoint'])->name('brand.influencerContactPoint');
+
+    // brand log
+    Route::get('brand/brandPointLog', [CampaignController::class, 'brandPointLog'])->name('brand.log');
 });
 
 // OTP 
