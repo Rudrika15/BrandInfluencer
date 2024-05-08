@@ -121,4 +121,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(MyOfferQrCodes::class, 'buyerId', 'id');
     }
+
+    public function chat()
+    {
+        return $this->hasMany(Chat::class, 'receiverId', 'id');
+    }
 }

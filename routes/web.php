@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\user\SubscriptionpackageController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\brand\BrandPackageDetailController;
 use App\Http\Controllers\brand\CampaignController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\influencer\InfluencerController;
 use App\Http\Controllers\influencer\InfluencerPackagesController;
@@ -180,6 +181,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     // brand log
     Route::get('brand/brandPointLog', [CampaignController::class, 'brandPointLog'])->name('brand.log');
+
+
+    // Chat Functionality
+    Route::get('influencer/chat/index', [ChatController::class, 'influencerChatIndex'])->name('influencer.chat.index');
 });
 
 // OTP 
