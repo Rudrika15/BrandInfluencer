@@ -57,7 +57,7 @@
             border: none;
             border-radius: 30% color: #323232;
             /* border-top-left-radius: 50px;
-                                                                                                                                                                                                                                                                                                        border-bottom-left-radius: 50px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-bottom-left-radius: 50px; */
         }
 
         button:hover {
@@ -90,44 +90,212 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid ">
-
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-5  bg-white h-100">
-                    <div class="pt-2 mt-1 bg-light  rounded-pill">
-                        <button style="background: none; border: none; padding: 0; "><span style="font-size: 20px; vertical-align: -1px; color: #9B9B9B" class="material-symbols-outlined">search</span></button>
-                        <input style="vertical-align: 4px; width: 255px;" type="search" name="focus" placeholder="Search" id="search-input" value="">
+                <div class="col-md-5 bg-white" style="height: 600px; overflow-y: auto;">
+                    <div class="pt-2 mt-1 bg-light rounded-pill">
+                        <button style="background: none; border: none; padding: 0;">
+                            <span style="font-size: 20px; vertical-align: -1px; color: #9B9B9B" class="material-symbols-outlined">search</span>
+                        </button>
+                        <input style="vertical-align: 4px; width: 255px;" type="search" name="focus" placeholder="Search" id="search" value="">
                     </div>
                     <hr>
-
-                    {{-- {{ $chats }} --}}
-                    @foreach ($chats as $chat)
-                        <div class="bg-light pt-3">
-                            <span class="ps-3">
-                                @if ($chat->sender->image)
-                                    <img src="{{ asset('profile') }}/{{ $chat->sender->image }}" class="rounded-circle" width="40px" alt="">
-                                @else
-                                    <img src="{{ asset('images/defaultPerson.jpg') }}" class="rounded-circle" width="40px" alt="">
-                                @endif
-                                <b class="ps-2">
-                                    {{ $chat->sender->name }}
-                                    @if ($chat->messages && $chat->messages->isNotEmpty())
-                                        <small class="text-muted">{{ $chat->messages->last()->content }}</small>
+                    @if (count($chats) > 0)
+                        @foreach ($chats as $chat)
+                            <div class="bg-light pt-3 chat-item" data-brand-id="{{ $chat->brandId }}">
+                                <span class="ps-3">
+                                    @if ($chat->brand->profile)
+                                        <img src="{{ asset('profile') }}/{{ $chat->brand->profile->profilePhoto }}" class="rounded-circle" width="40px" alt="">
+                                    @else
+                                        <img src="{{ asset('images/defaultPerson.jpg') }}" class="rounded-circle" width="40px" alt="">
                                     @endif
-                                </b>
-                            </span>
-                            <hr>
-                        </div>
-                    @endforeach
-                    <br>
+                                    <b class="ps-2">
+                                        {{ $chat->brand->name }}
+                                        @if ($chat->messages && $chat->messages->isNotEmpty())
+                                            <small class="text-muted">{{ $chat->messages->last()->content }}</small>
+                                        @endif
+                                    </b>
+                                </span>
+                                <hr>
+                            </div>
+                        @endforeach
+                        <br>
+                    @else
+                        <span>No Chats</span>
+                    @endif
 
-
-
+                    <!-- Empty list element to display fetched user names -->
+                    <ul id="user-list"></ul>
                 </div>
-                <div class="col-md-7 bg-light"> chats</div>
+                <div class="col-md-7 bg-light" style="height: 600px;">
+                    <div class="d-flex flex-column h-100">
+                        <div id="chatHeader" class="p-3 border-bottom">
+                            <h5 id="receiverName">Selected Chat Receiver Name</h5>
+                        </div>
+                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100" style="display: flex; flex-direction: column-reverse;">
+                            {{-- <div class="bg-danger text-end">influencer message </div>
+                            <div class="bg-warning">brand message </div> --}}
+                            <div style="height: 600px; align-self: center; padding-top: 100px" id="defaultMessage">
+                                <span class="text-muted">You have no conversations</span>
+                            </div>
+                        </div>
+                        <div id="chatFooter" class="p-3 border-top">
+                            <form id="sendMessageForm">
+                                @csrf
+                                <input type="hidden" name="brandName" id="selectedReceiverId" value="">
+                                <input type="hidden" name="groupId" id="groupId" value="">
+                                <div class="input-group">
+                                    <input name="message" class="form-control" placeholder="Type a message">
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // When clicking on a chat item
+            $('.chat-item').click(function() {
+                var brandId = $(this).data('brand-id');
+                var receiverName = $(this).find('b').text();
+                $('#selectedReceiverId').val(brandId);
+                $('#receiverName').text(receiverName);
+                // Fetch and display chat messages related to the selected receiverId
+                // console.log('receiverId', brandId);
+                fetchChatMessages(brandId);
+            });
+
+            // Fetch chat messages via AJAX
+            function fetchChatMessages(brandId) {
+                var url = '/chats/messages/' + brandId;
+                console.log(url);
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(response) {
+                        // Clear the chat body before appending new messages
+                        $('#chatBody').empty();
+
+                        // Iterate over the array of messages and construct HTML elements for each message
+                        response.forEach(function(message) {
+
+                            var messageHtml = '<div class="message">';
+
+                            // Check if the sender ID is null
+                            if (message.senderId === null) {
+                                messageHtml += '<div style="background-color: #156b9f;" class="badge text-white rounded-pill fs-6 text p-3 mb-2">' + message.message + '</div>';
+                            } else {
+                                messageHtml += '<div style="background-color: #00b9f0;" class="badge text-white rounded-pill fs-6 text text-end p-3 mb-2 float-end">' + message.message + '</div>';
+                            }
+
+                            messageHtml += '</div>';
+
+                            // Append the message HTML to the chat body
+                            $('#chatBody').prepend(messageHtml);
+                        });
+                        $('#groupId').val(response[0].groupId);
+                    },
+
+
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+            // Submitting the form via AJAX
+            $('#sendMessageForm').submit(function(event) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('influencer.chat.store') }}',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Handle success response
+                        console.log(response);
+                        // Clear the message input
+                        $('#sendMessageForm input[name="message"]').val('');
+                        // Refresh chat messages
+                        fetchChatMessages($('#selectedReceiverId').val());
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error response
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+    {{-- search functionality --}}
+    <script>
+        $(document).ready(function() {
+            $('#search').on('keyup', function() {
+                var value = $(this).val().toLowerCase();
+                $('.chat-item').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+
+                // If chat item is not found, call AJAX to fetch data from user table
+                if ($('.chat-item:visible').length === 0) {
+                    console.log('No results found');
+                    $.ajax({
+                        url: '/new/chats', // Update the URL according to your route
+                        type: 'GET',
+                        data: {
+                            search: value
+                        },
+                        success: function(response) {
+                            // Update chat interface with fetched user data
+                            $('#user-list').empty(); // Clear previous results
+                            $.each(response.users, function(index, user) {
+                                $('#user-list').append('<li class="user-item" style="cursor: pointer;" data-user-id="' + user.id + '">' + user.name + '</li>');
+                            });
+
+                            // Add click event listener to user items
+                            $('.user-item').click(function() {
+                                var userId = $(this).data('user-id');
+                                addUserToTable(userId);
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            // Handle error
+                        }
+                    });
+                } else {
+                    $('#user-list').empty(); // Clear the user list if chat items are found
+                }
+            });
+        });
+
+        function addUserToTable(userId) {
+            $.ajax({
+                url: '/add-user-to-table', // Update the URL according to your route
+                type: 'POST',
+                data: {
+                    user_id: userId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    // Handle error
+                }
+            });
+        }
+    </script>
+
 
 @endsection

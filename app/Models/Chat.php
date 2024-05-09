@@ -10,13 +10,8 @@ class Chat extends Model
     use HasFactory;
 
 
-    public function sender()
+    public function chatGroup()
     {
-        return $this->belongsTo(User::class, 'senderId', 'id');
-    }
-
-    public function receiver()
-    {
-        return $this->belongsTo(User::class, 'receiverId', 'id');
+        return $this->belongsTo(ChatGroup::class, 'groupId', 'id');
     }
 }

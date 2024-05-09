@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\ChatGroup;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,21 +12,72 @@ class ChatController extends Controller
 {
     public function influencerChatIndex()
     {
-        // $influencer = User::whereHas('roles', function ($q) {
-        //     $q->where('name', 'Influencer');
-        // })
-        //     // ->whereHas('chat')
-        //     //     ->with('chat')
-        //     ->get();
+        // return         $influencer = User::whereHas('roles', function ($q) {
+        //     $q->where('name', 'brand');
+        // })->get();
 
-        $chats = Chat::where('receiverId', Auth::user()->id)->get();
+        $chats = ChatGroup::with('chat')->with('influencer')->with('brand')->get();
+        // return $chats = Chat::with('chatGroup')->get();
+
 
         return view('chats.influencer.index', compact('chats'));
     }
 
-    public function create()
+    public function sendMessageInfluencer(Request $request)
     {
-        //
+        // $chatStatus = Chat::where('groupId', $request->groupId)
+        //     ->where('senderId', Auth::user()->id)->latest()->first();
+        // $chatStatus->status = 'read';
+        // $chatStatus->save();
+
+        $chat = new Chat();
+        $chat->groupId = $request->groupId;
+        $chat->senderId = Auth::user()->id;
+        $chat->message = $request->message;
+        $chat->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function fetchBrandMessages($brandId)
+    {
+
+        $chatGroups = ChatGroup::where('brandId', $brandId)
+            ->where('influencerId', Auth::user()->id)->first();
+        $chats = Chat::where('groupId', $chatGroups->id)
+            ->orderBy('created_at', 'asc')
+            // where('senderId', $chatGroups->influencerId)
+            // ->where('senderId', Auth::user()->id)
+            ->get();
+
+
+        return response()->json($chats);
+    }
+
+
+    public function findNewChat(Request $request)
+    {
+        $search = $request->input('search');
+        $users = User::whereHas('roles', function ($q) {
+            $q->where('name', 'Brand');
+        })->where('name', 'like', '%' . $search . '%')->get();
+
+        return response()->json(['users' => $users]);
+    }
+
+
+    public function addUserToTable(Request $request)
+    {
+        // Retrieve user ID from the request
+        $userId = $request->input('user_id');
+
+        // Assuming you have a table called 'selected_users', you can add the user to it
+        $selectedUser = new ChatGroup();
+        $selectedUser->brandId = $userId;
+        $selectedUser->influencerId = Auth::user()->id;
+        $selectedUser->save();
+
+        return response()->json(['success' => true]);
     }
 
     public function store(Request $request)

@@ -185,6 +185,16 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Chat Functionality
     Route::get('influencer/chat/index', [ChatController::class, 'influencerChatIndex'])->name('influencer.chat.index');
+    Route::post('influencer/chat/store', [ChatController::class, 'sendMessageInfluencer'])->name('influencer.chat.store');
+    Route::get('/chats/messages/{receiverId}', [ChatController::class, 'fetchBrandMessages'])->name('influencer.chats.messages');
+
+    // find new chat 
+    Route::get('/new/chats', [ChatController::class, 'findNewChat'])->name('find.new.chat');
+    // searched user get into the chat
+    Route::post('/add-user-to-table', [ChatController::class, 'addUserToTable'])->name('add.user.to.table');
+
+
+    // Route::get('/chats/messages/{receiverId}', 'ChatController@fetchMessages')->name('chats.messages');
 });
 
 // OTP 
