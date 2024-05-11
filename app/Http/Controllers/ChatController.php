@@ -15,21 +15,19 @@ class ChatController extends Controller
         // return         $influencer = User::whereHas('roles', function ($q) {
         //     $q->where('name', 'brand');
         // })->get();
+        // return "influencer";
 
         $chats = ChatGroup::with('chat')
+            ->whereHas('chat')
             ->with('influencer')
-            ->with('brand')
-            ->where('session', session('role'))
-            ->when(session('role') === 'influencer', function ($query) {
-                $query->where('influencerId', Auth::user()->id);
-            })
-            ->when(session('role') === 'brand', function ($query) {
-                $query->where('brandId', Auth::user()->id);
-            })
-            ->get();
+            ->with('brand');
 
-        // return $chats = Chat::with('chatGroup')->get();
-
+        if (Auth::user()->hasRole(['Influencer'])) {
+            $chats = $chats->where('influencerId', Auth::user()->id)->get();
+        }
+        if (Auth::user()->hasRole(['Brand'])) {
+            $chats = $chats->where('brandId', Auth::user()->id)->get();
+        }
 
         return view('chats.influencer.index', compact('chats'));
     }
@@ -50,11 +48,13 @@ class ChatController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function fetchBrandMessages($brandId)
+    public function fetchBrandMessages($brandId, $influencerId)
     {
 
+
         $chatGroups = ChatGroup::where('brandId', $brandId)
-            ->where('influencerId', Auth::user()->id)->first();
+            ->where('influencerId', $influencerId)
+            ->first();
         $chats = Chat::where('groupId', $chatGroups->id)
             ->orderBy('created_at', 'asc')
             ->with('chatGroup')
@@ -71,11 +71,28 @@ class ChatController extends Controller
     public function findNewChat(Request $request)
     {
         $search = $request->input('search');
-        $users = User::whereHas('roles', function ($q) {
-            $q->where('name', 'Brand');
-        })->where('name', 'like', '%' . $search . '%')->get();
+        if (session('role') == 'influencer') {
+            $users = User::whereHas('roles', function ($q) {
+                $q->where('name', 'Brand');
+            })->where('name', 'like', '%' . $search . '%')->get();
+        } else {
 
+            $users = User::whereHas('roles', function ($q) {
+                $q->where('name', 'Influencer');
+            })->where('name', 'like', '%' . $search . '%')->get();
+        }
         return response()->json(['users' => $users]);
+    }
+
+    public function firstChatStore(Request $request)
+    {
+        $chat = new Chat();
+        $chat->groupId = $chat->id;
+        $chat->session = session('role');
+        $chat->message = $request->message;
+        $chat->save();
+
+        return response()->json(['message' => 'Chat message stored successfully', 'chat' => $chat]);
     }
 
 
@@ -86,10 +103,23 @@ class ChatController extends Controller
 
         // Assuming you have a table called 'selected_users', you can add the user to it
         $selectedUser = new ChatGroup();
-        $selectedUser->brandId = $userId;
-        $selectedUser->influencerId = Auth::user()->id;
+        if (Auth::user()->hasRole(['Influencer'])) {
+
+            $selectedUser->influencerId = Auth::user()->id;
+            $selectedUser->brandId = $userId;
+        } else {
+            $selectedUser->brandId = Auth::user()->id;
+            $selectedUser->influencerId = $userId;
+        }
         $selectedUser->session = session('role');
         $selectedUser->save();
+
+        $newChat = new Chat();
+        $newChat->groupId = $selectedUser->id;
+        $newChat->session = session('role');
+        $newChat->message = "";
+        $newChat->save();
+
 
         return response()->json(['success' => true]);
     }
