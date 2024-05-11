@@ -11,7 +11,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     {{-- bootstrap 5 --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('influencerbrand/style.css') }}">
     {{-- icons --}}
@@ -49,7 +50,8 @@
         </header>
         <div class="menu-bar">
             <div class="menu">
-                <ul class="menu-links" id="brand" @if (session('role') === 'influencer') style="display: block;" @else style="display: none;" @endif>
+                <ul class="menu-links" id="brand"
+                    @if (session('role') === 'influencer') style="display: block;" @else style="display: none;" @endif>
                     {{-- <li class="search-bar">
                         <i class="bx bx-search icons"></i>
                         <input type="search" placeholder="Search..." />
@@ -67,7 +69,7 @@
                         </a>
                     </li>
                     <li class="nav-linkm">
-                        <a href="">
+                        <a href="{{ route('influencer.notifications') }}">
                             <i class="bx bx-bell icons"></i>
                             <span class="text nav-text">Notifications</span>
                         </a>
@@ -86,7 +88,8 @@
                     </li>
 
                 </ul>
-                <ul class="menu-links" id="influencer" @if (session('role') === 'brand') style="display: block;" @else style="display: none;" @endif>
+                <ul class="menu-links" id="influencer"
+                    @if (session('role') === 'brand') style="display: block;" @else style="display: none;" @endif>
                     {{-- brand menu --}}
                     <li class="nav-linkm active">
                         <a href="{{ route('home') }}">
@@ -159,7 +162,8 @@
 
             <div class="bottom-content">
                 <li class="nav-linkm">
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="bx bx-log-out icons"></i>
                         <span class="text nav-text">Log Out</span>
                     </a>
@@ -186,16 +190,19 @@
         <ul class="nav">
             <li class="nav-item pe-3" style="color: #156b9f;"> </li>
             <li class="nav-item dropdown">
-                <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }}
                 </a>
                 <ul class="dropdown-menu bg-blue " aria-labelledby="navbarDropdownMenuLink">
                     <li>
                         <span class="ps-2" style="color: #156b9f;">I'm an</span>
                         <div class="btn-frame">
-                            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" @if (session('role') === 'influencer') checked @endif>
+                            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false"
+                                type="radio" @if (session('role') === 'influencer') checked @endif>
                             <label for="toggle-on" class="btn left">Influencer</label>
-                            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio" @if (session('role') === 'brand') checked @endif>
+                            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true"
+                                type="radio" @if (session('role') === 'brand') checked @endif>
                             <label for="toggle-off" class="btn right">Brand</label>
                         </div>
 
@@ -205,11 +212,13 @@
                         <li class="menu-li ms-3">Profile</li>
                     </a>
                     <hr>
-                    <a class="header-menu-link " href="{{ route('user.card') }}/{{ Auth::user()->mobileno }}" target="_blank">
+                    <a class="header-menu-link " href="{{ route('user.card') }}/{{ Auth::user()->mobileno }}"
+                        target="_blank">
                         <li class="menu-li ms-3">View Social Card</li>
                     </a>
                     <hr>
-                    <a class="header-menu-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a class="header-menu-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <li class="menu-li ms-3">
                             Logout
                         </li>
@@ -223,14 +232,17 @@
 
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <div class="container content">
         <div class="text-info text-end pb-2 fw-bold">Points: {{ $total }}</div>
         @yield('content')
+
     </div>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('influencerbrand/script.js') }}"></script>
 
     <script>

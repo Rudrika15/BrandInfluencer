@@ -126,4 +126,8 @@ class HomepageController extends Controller
             throw $th;
         }
     }
+    public function influencerNotifications()
+    {
+        return \view('influencer.notifications.index');
+    }
 }

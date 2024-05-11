@@ -209,6 +209,7 @@ Route::controller(OtpController::class)->group(function () {
 // influencer details
 Route::get('/influencer', [HomepageController::class, 'influencer'])->name('main.influencer');
 Route::get('/influencer/profile/{id?}', [HomepageController::class, 'influencerProfileView'])->name('main.influencer.profile');
+Route::get('/influencer/notifications', [HomepageController::class, 'influencerNotifications'])->name('influencer.notifications');
 
 
 Route::get('/about', [HomepageController::class, 'about'])->name('about');
