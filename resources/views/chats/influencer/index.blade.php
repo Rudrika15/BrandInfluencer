@@ -57,7 +57,7 @@
             border: none;
             border-radius: 30% color: #323232;
             /* border-top-left-radius: 50px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border-bottom-left-radius: 50px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border-bottom-left-radius: 50px; */
         }
 
         button:hover {
@@ -107,7 +107,7 @@
                                     @if ($chat->brand->profile)
                                         <img src="{{ asset('profile') }}/{{ $chat->brand->profile->profilePhoto }}" class="rounded-circle" width="40px" alt="">
                                     @else
-                                        <img src="{{ asset('images/defaultPerson.jpg') }}" class="rounded-circle" width="40px" alt="">
+                                        <img src="{{ asset('images/default.jpg') }}" class="rounded-circle" width="40px" alt="">
                                     @endif
                                     <b class="ps-2">
                                         {{ $chat->brand->name }}
