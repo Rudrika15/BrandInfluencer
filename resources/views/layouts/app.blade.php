@@ -122,7 +122,7 @@
                         </a>
                     </li>
                     <li class="nav-linkm">
-                        <a href="">
+                        <a href="{{ route('influencer.chat.index') }}">
                             <i class="bx bx-message icons"></i>
                             <span class="text nav-text">Chats</span>
                         </a>

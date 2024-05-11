@@ -16,7 +16,18 @@ class ChatController extends Controller
         //     $q->where('name', 'brand');
         // })->get();
 
-        $chats = ChatGroup::with('chat')->with('influencer')->with('brand')->get();
+        $chats = ChatGroup::with('chat')
+            ->with('influencer')
+            ->with('brand')
+            ->where('session', session('role'))
+            ->when(session('role') === 'influencer', function ($query) {
+                $query->where('influencerId', Auth::user()->id);
+            })
+            ->when(session('role') === 'brand', function ($query) {
+                $query->where('brandId', Auth::user()->id);
+            })
+            ->get();
+
         // return $chats = Chat::with('chatGroup')->get();
 
 
@@ -32,7 +43,7 @@ class ChatController extends Controller
 
         $chat = new Chat();
         $chat->groupId = $request->groupId;
-        $chat->senderId = Auth::user()->id;
+        $chat->session = session('role');
         $chat->message = $request->message;
         $chat->save();
 
@@ -46,6 +57,8 @@ class ChatController extends Controller
             ->where('influencerId', Auth::user()->id)->first();
         $chats = Chat::where('groupId', $chatGroups->id)
             ->orderBy('created_at', 'asc')
+            ->with('chatGroup')
+            ->whereHas('chatGroup')
             // where('senderId', $chatGroups->influencerId)
             // ->where('senderId', Auth::user()->id)
             ->get();
@@ -75,6 +88,7 @@ class ChatController extends Controller
         $selectedUser = new ChatGroup();
         $selectedUser->brandId = $userId;
         $selectedUser->influencerId = Auth::user()->id;
+        $selectedUser->session = session('role');
         $selectedUser->save();
 
         return response()->json(['success' => true]);

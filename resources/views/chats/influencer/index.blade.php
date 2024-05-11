@@ -57,7 +57,7 @@
             border: none;
             border-radius: 30% color: #323232;
             /* border-top-left-radius: 50px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-bottom-left-radius: 50px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border-bottom-left-radius: 50px; */
         }
 
         button:hover {
@@ -161,6 +161,9 @@
 
     <script>
         $(document).ready(function() {
+            $('#chatFooter').hide();
+            var sessionRole = '{{ session('role') }}';
+            console.log("Session role:", sessionRole);
             // When clicking on a chat item
             $('.chat-item').click(function() {
                 var brandId = $(this).data('brand-id');
@@ -169,30 +172,32 @@
                 $('#receiverName').text(receiverName);
                 // Fetch and display chat messages related to the selected receiverId
                 // console.log('receiverId', brandId);
+
                 fetchChatMessages(brandId);
             });
 
             // Fetch chat messages via AJAX
             function fetchChatMessages(brandId) {
                 var url = '/chats/messages/' + brandId;
+                $('#chatFooter').show();
                 console.log(url);
                 $.ajax({
                     type: 'GET',
                     url: url,
                     success: function(response) {
                         // Clear the chat body before appending new messages
+                        console.log("response", response);
                         $('#chatBody').empty();
 
                         // Iterate over the array of messages and construct HTML elements for each message
-                        response.forEach(function(message) {
-
+                        response.forEach(function(chatGroup) {
                             var messageHtml = '<div class="message">';
 
-                            // Check if the sender ID is null
-                            if (message.senderId === null) {
-                                messageHtml += '<div style="background-color: #156b9f;" class="badge text-white rounded-pill fs-6 text p-3 mb-2">' + message.message + '</div>';
+                            // Check if the session is not equal to the session role
+                            if (chatGroup.session !== sessionRole) {
+                                messageHtml += '<div style="background-color: #156b9f;" class="badge text-white rounded-pill fs-6 text p-3 mb-2">' + chatGroup.message + '</div>';
                             } else {
-                                messageHtml += '<div style="background-color: #00b9f0;" class="badge text-white rounded-pill fs-6 text text-end p-3 mb-2 float-end">' + message.message + '</div>';
+                                messageHtml += '<div style="background-color: #00b9f0;" class="badge text-white rounded-pill fs-6 text text-end p-3 mb-2 float-end">' + chatGroup.message + '</div>';
                             }
 
                             messageHtml += '</div>';
@@ -200,8 +205,12 @@
                             // Append the message HTML to the chat body
                             $('#chatBody').prepend(messageHtml);
                         });
+
+                        // Assuming the first chat group contains the groupId
                         $('#groupId').val(response[0].groupId);
                     },
+
+
 
 
                     error: function(xhr, status, error) {
