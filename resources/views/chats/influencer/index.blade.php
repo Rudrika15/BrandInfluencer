@@ -3,7 +3,8 @@
 @section('content')
 
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,0,0" />
 
     <style>
         @font-face {
@@ -56,8 +57,7 @@
             font-size: 20px;
             border: none;
             border-radius: 30% color: #323232;
-            /* border-top-left-radius: 50px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                border-bottom-left-radius: 50px; */
+            /* border-top-left-radius: 50px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      border-bottom-left-radius: 50px; */
         }
 
         button:hover {
@@ -95,39 +95,45 @@
                 <div class="col-md-5 bg-white" style="height: 600px; overflow-y: auto;">
                     <div class="pt-2 mt-1 bg-light rounded-pill">
                         <button style="background: none; border: none; padding: 0;">
-                            <span style="font-size: 20px; vertical-align: -1px; color: #9B9B9B" class="material-symbols-outlined">search</span>
+                            <span style="font-size: 20px; vertical-align: -1px; color: #9B9B9B"
+                                class="material-symbols-outlined">search</span>
                         </button>
-                        <input style="vertical-align: 4px; width: 255px;" type="search" name="focus" placeholder="Search" id="search" value="">
+                        <input style="vertical-align: 4px; width: 255px;" type="search" name="focus" placeholder="Search"
+                            id="search" value="">
                     </div>
                     <hr>
-                    {{-- @if (count($chats) > 0) --}}
-                    @foreach ($chats as $chat)
-                        <input type="hidden" name="groupId" id="group-id" value="{{ $chat->id }}">
-                        <div class="bg-light pt-3 chat-item" data-brand-id="{{ $chat->brandId }}" data-influencer-id="{{ $chat->influencerId }}">
-                            <span class="ps-3">
-                                @if ($chat->brand->profile)
-                                    <img src="{{ asset('profile') }}/{{ $chat->brand->profile->profilePhoto }}" class="rounded-circle" width="40px" alt="">
-                                @else
-                                    <img src="{{ asset('images/default.jpg') }}" class="rounded-circle" width="40px" alt="">
-                                @endif <b class="ps-2">
-                                    @if (Auth::user()->hasRole('Influencer'))
-                                        {{ $chat->brand->name }}
+                    @if (count($chats) > 0)
+                        @foreach ($chats as $chat)
+                            <input type="hidden" name="groupId" id="group-id" value="{{ $chat->id }}">
+                            <div class="bg-light pt-3 chat-item" data-brand-id="{{ $chat->brandId }}"
+                                data-influencer-id="{{ $chat->influencerId }}">
+                                <span class="ps-3">
+                                    @if ($chat->brand->profile)
+                                        <img src="{{ asset('profile') }}/@if (Auth::user()->hasRole('Influencer')) {{ $chat->influencer->profile->profilePhoto }} @endif/@if (Auth::user()->hasRole('Brand')) {{ $chat->brand->profile->profilePhoto }} @endif"
+                                            class="rounded-circle" width="40px" alt="">
+                                    @else
+                                        <img src="{{ asset('images/default.jpg') }}" class="rounded-circle" width="40px"
+                                            alt="">
                                     @endif
-                                    @if (Auth::user()->hasRole('Brand'))
-                                        {{ $chat->influencer->name }}
-                                    @endif
-                                    @if ($chat->messages && $chat->messages->isNotEmpty())
-                                        <small class="text-muted">{{ $chat->messages->last()->content }}</small>
-                                    @endif
-                                </b>
-                            </span>
-                            <hr>
-                        </div>
-                    @endforeach
-                    <br>
-                    {{-- @else
-                    <span>No Chats</span>
-                    @endif --}}
+                                    <b class="ps-2">
+                                        @if (Auth::user()->hasRole('Influencer'))
+                                            {{ $chat->brand->name }}
+                                        @endif
+                                        @if (Auth::user()->hasRole('Brand'))
+                                            {{ $chat->influencer->name }}
+                                        @endif
+                                        @if ($chat->messages && $chat->messages->isNotEmpty())
+                                            <small class="text-muted">{{ $chat->messages->last()->content }}</small>
+                                        @endif
+                                    </b>
+                                </span>
+                                <hr>
+                            </div>
+                        @endforeach
+                        <br>
+                    @else
+                        <span>You have No Chats</span>
+                    @endif
 
                     <!-- Empty list element to display fetched user names -->
                     <ul id="user-list"></ul>
@@ -137,18 +143,26 @@
                         <div id="chatHeader" class="p-3 border-bottom">
                             <h5 id="receiverName">Selected Chat Receiver Name</h5>
                         </div>
-                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100" style="display: flex; flex-direction: column-reverse;">
+                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100"
+                            style="display: flex; flex-direction: column-reverse;">
                             {{-- <div class="bg-danger text-end">influencer message </div>
                             <div class="bg-warning">brand message </div> --}}
                             <div style="height: 600px; align-self: center; padding-top: 100px" id="defaultMessage">
-                                <span class="text-muted">You have no conversations</span>
+                                <div class="pt-2 text-center">
+
+                                    <img src="{{ asset('profile') }}/{{ Auth::user()->profilePhoto }}"
+                                        class="rounded-circle" width="100px" alt="">
+                                </div>
+                                <span class="text-muted">
+                                    Select a chat to start messaging
+                                </span>
                             </div>
                         </div>
                         <div id="chatFooter" class="p-3 border-top">
                             <form id="sendMessageForm">
                                 @csrf
                                 <input type="hidden" name="brandName" id="selectedReceiverId" value="">
-                                <input type="hiddenn" name="groupId" id="groupId" value="">
+                                <input type="hidden" name="groupId" id="groupId" value="">
                                 <div class="input-group">
                                     <input name="message" class="form-control" placeholder="Type a message">
                                     <button type="submit" class="btn btn-primary">Send</button>
@@ -175,6 +189,9 @@
                 $.ajax({
                     url: '{{ route('find.new.chat.store') }}',
                     method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: {
                         groupId: groupId,
                         message: message
@@ -193,11 +210,13 @@
             $('.chat-item').click(function() {
                 var senderId = '{{ Auth::id() }}'; // Assuming you have access to the sender's ID
                 var receiverId = $(this).data('brand-id');
+                console.log('receiverId:', receiverId);
                 var influencerId = $(this).data('influencer-id');
                 var message = " "; // Example message
                 var groupId = $('#group-id').val();
                 console.log('groupId of chat:', groupId);
                 $('#selectedReceiverId').val(receiverId);
+                var receiverName = $(this).find('b').text().trim();
                 $('#receiverName').text(receiverName);
 
                 // Store the chat message
@@ -225,14 +244,19 @@
                         response.forEach(function(chatGroup) {
                             console.log("chatGroup", chatGroup);
                             var messageHtml = '<div class="message">';
-                            var role = '{{ Auth::check() && Auth::user()->hasRole('Influencer') ? 'Influencer' : (Auth::check() && Auth::user()->hasRole('Brand') ? 'Brand' : '') }}';
+                            var role =
+                                '{{ Auth::check() && Auth::user()->hasRole('Influencer') ? 'Influencer' : (Auth::check() && Auth::user()->hasRole('Brand') ? 'Brand' : '') }}';
                             // console.log("role", role);
                             // Check if the session is not equal to the session role
                             if (chatGroup.session !== sessionRole) {
                                 // if (role === '') {
-                                messageHtml += '<div style="background-color: #156b9f;" class="badge text-white rounded-pill fs-6 text p-3 mb-2">' + chatGroup.message + '</div>';
+                                messageHtml +=
+                                    '<div style="background-color: #156b9f;" class="badge text-white rounded-pill fs-6 text p-3 mb-2">' +
+                                    chatGroup.message + '</div>';
                             } else {
-                                messageHtml += '<div style="background-color: #00b9f0;" class="badge text-white rounded-pill fs-6 text text-end p-3 mb-2 float-end">' + chatGroup.message + '</div>';
+                                messageHtml +=
+                                    '<div style="background-color: #00b9f0;" class="badge text-white rounded-pill fs-6 text text-end p-3 mb-2 float-end">' +
+                                    chatGroup.message + '</div>';
                             }
 
                             messageHtml += '</div>';
@@ -300,9 +324,11 @@
                         },
                         success: function(response) {
                             $('#user-list').empty();
-                            $.each(response.users, function(index, user) {
-                                $('#user-list').append('<li class="user-item" style="cursor: pointer;" data-user-id="' + user.id + '">' + user.name + '</li>');
-                            });
+                            // $.each(response.users, function(index, user) {
+                            //     $('#user-list').append(
+                            //         '<li class="user-item" style="cursor: pointer;" data-user-id="' +
+                            //         user.id + '">' + user.name + '</li>');
+                            // });
 
                             $('.user-item').click(function() {
                                 var userId = $(this).data('user-id');

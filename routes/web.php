@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\user\SubscriptionpackageController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\brand\BrandPackageDetailController;
 use App\Http\Controllers\brand\CampaignController;
+use App\Http\Controllers\BrandInfluencerNotificationController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\influencer\InfluencerController;
@@ -44,6 +45,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [App\Http\Controllers\HomepageController::class, 'index'])->name('home');
     Route::post('/update-session', [HomepageController::class, 'updateSession'])->name('update.session');
 
+    // notification
+    Route::get('/influencer/notifications', [BrandInfluencerNotificationController::class, 'index'])->name('influencer.notifications');
 
     // influencer routes
 
@@ -183,6 +186,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('brand/brandPointLog', [CampaignController::class, 'brandPointLog'])->name('brand.log');
 
 
+
     // Chat Functionality
     Route::get('influencer/chat/index', [ChatController::class, 'influencerChatIndex'])->name('influencer.chat.index');
     Route::post('influencer/chat/store', [ChatController::class, 'sendMessageInfluencer'])->name('influencer.chat.store');
@@ -210,7 +214,7 @@ Route::controller(OtpController::class)->group(function () {
 // influencer details
 Route::get('/influencer', [HomepageController::class, 'influencer'])->name('main.influencer');
 Route::get('/influencer/profile/{id?}', [HomepageController::class, 'influencerProfileView'])->name('main.influencer.profile');
-Route::get('/influencer/notifications', [HomepageController::class, 'influencerNotifications'])->name('influencer.notifications');
+
 
 
 Route::get('/about', [HomepageController::class, 'about'])->name('about');

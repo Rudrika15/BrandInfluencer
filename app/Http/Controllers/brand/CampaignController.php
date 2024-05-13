@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Apply;
 use App\Models\BrandCategory;
+use App\Models\BrandInfluencerNotification;
 use App\Models\BrandPackage;
 use App\Models\ContactInfluencer;
 use App\Models\BrandPackageDetail;
@@ -153,12 +154,22 @@ class CampaignController extends Controller
                         $point->remark = 'Create Campaign';
                         $point->save();
 
+
+                        $notification = new BrandInfluencerNotification();
+                        $notification->userId = $userId;
+                        $notification->title = $campaign->title;
+                        $notification->type = "Campaign";
+                        $notification->dateTime = Carbon::now();
+                        $notification->save();
+
                         return redirect('brand/campaign/index')->with('success', 'Campaign Added Successfully..');
                     } else {
                         return redirect('brand/pricing')->with('warning', "You don't have enough points to create a campaign. Please purchase or renew your package.");
                     }
                 }
             }
+
+
 
             return redirect('brand/pricing')->with('warning', "You don't have enough points to create a campaign. Please purchase or renew your package.");
         } catch (\Throwable $th) {

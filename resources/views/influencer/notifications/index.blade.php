@@ -61,21 +61,30 @@
     <div class="tab-content mt-4" id="myTabsContent">
         <div class="tab-pane fade active show " id="All" role="tabpanel" aria-labelledby="All-tab">
 
+            @foreach ($notifications as $notification)
+                <div class="row w-75">
+                    <div class="col-md-1">
+                        @if ($notification->type == 'Campaign')
+                            <i class="bi bi-megaphone fa-3x text-muted"></i>
+                        @elseif($notification->type == 'Chat')
+                            <i class="bi bi-chat-dots-fill fa-3x text-muted"></i>
+                        @else
+                            <i class="fa fa-user fa-3x text-muted" aria-hidden="true"></i>
+                        @endif
+                    </div>
+                    <div class="col-md-10 pt-3 ps-3">
+                        <span class="fw-bold text-muted">{{ $notification->title }}</span> <br>
+                        <small class="text-muted">{{ \Carbon\Carbon::parse($notification->dateTime)->diffForHumans() }}
+                        </small>
+                    </div>
+                    <div class="col-md-1 ">
+                        {{-- <img src="{{ asset('images/default.jpg') }}" class="img-thumbnail" width="500px" height="500px"
+                            alt=""> --}}
+                    </div>
 
-            <div class="row w-75">
-                <div class="col-md-1">
-                    <i class="fa fa-user fa-4x text-muted" aria-hidden="true"></i>
+                    <hr class="mt-2">
                 </div>
-                <div class="col-md-10">
-                    <span class="">Zouk</span> <br>
-                    <small class="text-muted">20 hrs ago</small>
-                </div>
-                <div class="col-md-1 ">
-                    <img src="{{ asset('images/default.jpg') }}" class="img-thumbnail " alt="">
-                </div>
-
-                <hr class="mt-2">
-            </div>
+            @endforeach
         </div>
 
 
