@@ -148,11 +148,11 @@
                             {{-- <div class="bg-danger text-end">influencer message </div>
                             <div class="bg-warning">brand message </div> --}}
                             <div style="height: 600px; align-self: center; padding-top: 100px" id="defaultMessage">
-                                <div class="pt-2 text-center">
+                                {{-- <div class="pt-2 text-center">
 
                                     <img src="{{ asset('profile') }}/{{ Auth::user()->profilePhoto }}"
                                         class="rounded-circle" width="100px" alt="">
-                                </div>
+                                </div> --}}
                                 <span class="text-muted">
                                     Select a chat to start messaging
                                 </span>
