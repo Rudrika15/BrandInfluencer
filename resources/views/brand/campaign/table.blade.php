@@ -8,7 +8,7 @@
                             @if (isset($data->photo))
                                 <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" class="card-img-top" alt="Campaign Image">
                             @else
-                                <img src="{{ asset('asset/img/defaultCover.jpg') }}" class="card-img-top" alt="Default Campaign Image">
+                                <img src="{{ asset('images/default.jpg') }}" class="card-img-top" alt="Default Campaign Image">
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $data->title }}</h5>
