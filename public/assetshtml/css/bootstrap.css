@@ -8048,6 +8048,37 @@ button.close {
         display: none !important;
     }
 }
+/* .item {
+    padding-left: 5px;
+    padding-right: 5px;
+} */
+
+/* .item-card {
+    transition: 0.5s;
+    cursor: pointer;
+} */
+
+/* .item-card-title {
+    font-size: 15px;
+    transition: 1s;
+    cursor: pointer;
+} */
+
+
+
+
+
+/* .card {
+    transform: scale(1.05);
+    box-shadow: 10px 10px 10px 7px  rgba(0, 0, 0, 0.2);
+    border-radius: 1%;
+    padding: 15px;
+
+} */
+
+/* .card-text {
+    height: 80px;
+} */
 
 
 /*# sourceMappingURL=bootstrap.css.map */

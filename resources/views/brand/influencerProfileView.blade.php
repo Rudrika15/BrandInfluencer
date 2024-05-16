@@ -9,7 +9,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="">
     <title>Influencer Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 </head>
@@ -397,6 +398,7 @@
             margin: 20px auto;
         }
     </style>
+
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id }}">
@@ -408,7 +410,8 @@
             <div class="profile-img">
 
                 @if (isset($influencer->profile->profilePhoto))
-                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200" alt="Profile Image">
+                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
+                        alt="Profile Image" style="object-fit: contain;">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
@@ -436,9 +439,11 @@
                     @if ($seenStatus > 0)
                         <span class="mobile-no"> {{ $influencer->profile->mobileno }} </span>
                         <br>
-                        <span class="user-mail formattedEmail" data-influencer-id="{{ $influencer->id }}"><i class="bi bi-envelope-fill"></i> {{ $influencer->profile->email }}</span>
+                        <span class="user-mail formattedEmail" data-influencer-id="{{ $influencer->id }}"><i
+                                class="bi bi-envelope-fill"></i> {{ $influencer->profile->email }}</span>
                     @else
-                        <span class="mobile-no formattedMobileNumber" data-influencer-id="{{ $influencer->id }}"> {{ $influencer->profile->mobileno }} </span>
+                        <span class="mobile-no formattedMobileNumber" data-influencer-id="{{ $influencer->id }}">
+                            {{ $influencer->profile->mobileno }} </span>
                     @endif
                     <div class="user-bio">
                         <h3>About</h3>
@@ -483,7 +488,8 @@
                                             }
                                         </style>
                                         <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
-                                            <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
+                                            <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200"
+                                                class="card-img-top p-3 img-thumbnail portImage" alt="">
                                         </a>
 
                                     </div>
@@ -521,7 +527,8 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
@@ -540,7 +547,8 @@
             }
             $('#chatBtn').click(function() {
                 // Toggle between original and formatted numbers
-                var $formattedMobileNumber = $('.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]');
+                var $formattedMobileNumber = $(
+                    '.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]');
                 var currentText = $formattedMobileNumber.text();
 
                 var id = $("#authId").val();
@@ -582,7 +590,8 @@
                                             title: 'You spent points for contacting this influencer',
                                             text: response.message
                                         }).then(function() {
-                                            $formattedMobileNumber.text(rawMobileNumber);
+                                            $formattedMobileNumber.text(
+                                                rawMobileNumber);
                                         });
                                     } else {
                                         Swal.fire({
@@ -592,7 +601,8 @@
                                         }).then(function() {
 
                                             // console.warn(response);
-                                            window.location.href = '{{ route('brand.pricing') }}';
+                                            window.location.href =
+                                                '{{ route('brand.pricing') }}';
                                         });
                                     }
 

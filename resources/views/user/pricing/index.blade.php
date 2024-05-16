@@ -33,15 +33,19 @@
 
                                 <div class="text-center">
                                     @if ($subpack->priceType == 'Free')
-                                        <a href="register"><button type="button" class="btn btn-outline-primary btn-sm mt-2">SIGN
+                                        <a href="register"><button type="button"
+                                                class="btn btn-outline-primary btn-sm mt-2">SIGN
                                                 UP
                                                 FREE</button></a>
                                     @else
-                                        <form id="payment-form" action="{{ route('razorpay.payment.store') }}" method="POST">
+                                        <form id="payment-form" action="{{ route('razorpay.payment.store') }}"
+                                            method="POST">
                                             @csrf
                                             <div class="pay-container">
-                                                <input type="hidden" name="amount" class="amount" value="{{ $subpack->price }}" />
-                                                <button class="pay-button btn btn-primary btn-sm mt-2" type="button">Get Started</button>
+                                                <input type="hidden" name="amount" class="amount"
+                                                    value="{{ $subpack->price }}" />
+                                                <button class="pay-button btn btn-primary btn-sm mt-2" type="button">Get
+                                                    Started</button>
                                             </div>
                                         </form>
                                     @endif

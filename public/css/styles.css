@@ -12756,3 +12756,6 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 .accordion-option .toggle-accordion.active:before {
   content: "Collapse All";
 }
+.text-blue{
+  color: rgb(29, 72, 128);
+}

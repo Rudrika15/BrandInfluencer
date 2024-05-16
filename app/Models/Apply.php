@@ -12,7 +12,7 @@ class Apply extends Model
 
     public function campaign()
     {
-        return $this->hasMany(Campaign::class, 'id', 'campaignId');
+        return $this->belongsTo(Campaign::class, 'campaignId', 'id');
     }
 
     public function campaignData()
@@ -22,6 +22,6 @@ class Apply extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class, 'id', 'userId');
+        return $this->belongsTo(User::class, 'userId', 'id');
     }
 }
