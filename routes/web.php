@@ -155,13 +155,13 @@ Route::group(['middleware' => ['auth']], function () {
     // brand 
 
     // campaign
-    Route::get('brand/campaign/index', [CampaignController::class, 'index'])->name('brand.campaign.index');
+    Route::get('brand/campaign/index/', [CampaignController::class, 'index'])->name('brand.campaign.index');
     Route::get('brand/campaign/create', [CampaignController::class, 'create'])->name('brand.campaign.create');
     Route::post('brand/campaign/store', [CampaignController::class, 'store'])->name('brand.campaign.store');
     Route::get('brand/campaign/edit/{id?}', [CampaignController::class, 'edit'])->name('brand.campaign.edit');
     Route::post('brand/campaign/update', [CampaignController::class, 'update'])->name('brand.campaign.update');
     Route::get('brand/campaign/delete/{id?}', [CampaignController::class, 'delete'])->name('brand.campaign.delete');
-    Route::get('brand/campaign/appliers', [CampaignController::class, 'appliers'])->name('brand.campaign.appliers');
+    Route::get('brand/campaign/appliers/{id}', [CampaignController::class, 'appliers'])->name('brand.campaign.appliers');
 
     // Payment 
 

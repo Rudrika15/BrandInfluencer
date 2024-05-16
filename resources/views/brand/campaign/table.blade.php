@@ -4,12 +4,12 @@
             <div class="row">
                 @foreach ($campaign as $data)
                     <div class="col-md-4 mb-4">
-                        <div class="card" style="width: 18rem;">
-                            @if (isset($data->photo))
-                                <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" class="card-img-top" alt="Campaign Image">
-                            @else
-                                <img src="{{ asset('asset/img/defaultCover.jpg') }}" class="card-img-top" alt="Default Campaign Image">
-                            @endif
+                        <div class="card" style="width: 18rem; height: 35rem;">
+
+                            <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}"
+                                onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top"
+                                alt="Campaign Image" height="260px">
+
                             <div class="card-body">
                                 <h5 class="card-title">{{ $data->title }}</h5>
                                 <p class="card-text">{{ $data->detail }}</p>
@@ -24,9 +24,14 @@
                                         <p class="card-text"><strong>End Date:</strong> {{ $data->endDate }}</p>
                                     </div>
                                 </div>
-                                <div class="text-center mt-3">
-                                    <a href="{{ route('brand.campaign.edit', $data->id) }}" class="btn btn-success btn-sm me-2">Edit</a>
-                                    <a href="{{ route('brand.campaign.delete', $data->id) }}" class="btn btn-danger btn-sm">Delete</a>
+                                <div class="text-center mb-3  d-flex justify-content-center "
+                                    style="position: absolute; bottom: 0%; margin-left: 13%">
+                                    <a href="{{ route('brand.campaign.edit', $data->id) }}"
+                                        class="btn btn-success btn-sm me-2">Edit</a>
+                                    <a href="{{ route('brand.campaign.delete', $data->id) }}"
+                                        class="btn btn-danger btn-sm me-2">Delete</a>
+                                    <a href="{{ route('brand.campaign.appliers', $data->id) }}"
+                                        class="btn btn-info btn-sm">Appliers</a>
                                 </div>
                             </div>
                         </div>
@@ -44,15 +49,16 @@
             @if (isset($influencer))
                 <div class="col-md-12">
                     @foreach ($influencer as $influencerData)
-                        <a href="{{ route('brand.influencerProfile') }}/{{ $influencerData->id }}/{{ Auth::user()->id }}">
+                        <a
+                            href="{{ route('brand.influencerProfile') }}/{{ $influencerData->id }}/{{ Auth::user()->id }}">
 
                             <div class="card">
                                 <div class="text-center">
-                                    @if (isset($influencerData->profilePhoto))
-                                        <img src="{{ asset('profile') }}/{{ $influencerData->profilePhoto }}" style="border: 1px solid white; border-radius: 20%" width="200px" alt="image">
-                                    @else
-                                        <img src="{{ asset('images/defaultPerson.jpg') }}" class="img-thumbnail" style="border: 1px solid white; border-radius: 20%" width="200px" alt="image">
-                                    @endif
+
+                                    <img src="{{ asset('profile') }}/{{ $influencerData->profilePhoto }}"
+                                        style="border: 1px solid white; border-radius: 20%" width="200px"
+                                        alt="image" onerror="this.src='{{ asset('images/defaultPerson.jpg') }}'">
+
                                 </div>
                                 <div class="card-body text-dark">
                                     {{-- <h3 class="card-title">{{ $influencerData->name }}</h3> --}}

@@ -847,5 +847,33 @@ html {
     border-bottom-left-radius: 0;
 }
 
+.text-blue{
+    color: rgb(29, 72, 128) !important;
+}
+
+a:hover .text-blue{
+color: #15c6eb !important;
+}
+
+.icons{
+    color: #15c6eb !important;
+}
+
+a:hover .icons{
+    color: rgb(29, 72, 128) !important;
+}
+
+.nav-linkm.active a{ 
+    background-color: rgb(247, 243, 243);
+    color: #15c6eb !important;
+
+}
+.nav-linkm.active a .nav-text {
+    color: #15c6eb !important;
+}
+.nav-linkm.active a .icons {
+    color: rgb(29, 72, 128) !important;
+}
+
 
 /* end */

@@ -408,8 +408,8 @@
             <div class="profile-img">
 
                 @if (isset($influencer->profile->profilePhoto))
-                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
-                        alt="Profile Image">
+                    <img src="{{ asset('profile/' . $influencer->profile->profilePhoto) }}"
+                        style="max-width: 300px; max-height: 500px; object-fit: contain;" alt="Profile Image">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif

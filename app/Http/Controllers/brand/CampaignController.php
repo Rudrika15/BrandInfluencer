@@ -179,66 +179,11 @@ class CampaignController extends Controller
     }
 
     // Appliers List and Add details After Approval
-    public function appliers(Request $request)
+    public function appliers(Request $request, $id)
     {
         try {
-            $campaignId = Auth::user()->id;
-
-            $appliers =    DB::table('applies')
-                ->crossJoin('campaigns')
-                ->crossJoin('users')
-                ->select('campaigns.title', 'applies.*', 'users.name')
-                ->where('applies.campaignId', '=', DB::raw('campaigns.id'))
-                ->where('campaigns.userId', '=',  $campaignId)
-                ->where('applies.userId', '=', DB::raw('users.id'))
-                ->get();
-
-            $counter = count($appliers);
-
-            $filer = $request->filter;
-
-            if ($filer == "Approved") {
-                $appliers =    DB::table('applies')
-                    ->crossJoin('campaigns')
-                    ->crossJoin('users')
-                    ->select('campaigns.title', 'applies.*', 'users.name')
-                    ->where('applies.campaignId', '=', DB::raw('campaigns.id'))
-                    ->where('campaigns.userId', '=',  $campaignId)
-                    ->where('applies.status', '=', "Approved")
-                    ->where('applies.userId', '=', DB::raw('users.id'))
-                    ->get();
-            } else if ($filer == "On Hold") {
-                $appliers =    DB::table('applies')
-                    ->crossJoin('campaigns')
-                    ->crossJoin('users')
-                    ->select('campaigns.title', 'applies.*', 'users.name')
-                    ->where('applies.campaignId', '=', DB::raw('campaigns.id'))
-                    ->where('campaigns.userId', '=',  $campaignId)
-                    ->where('applies.status', '=', "On Hold")
-                    ->where('applies.userId', '=', DB::raw('users.id'))
-                    ->get();
-            } else if ($filer == "Rejected") {
-                $appliers =    DB::table('applies')
-                    ->crossJoin('campaigns')
-                    ->crossJoin('users')
-                    ->select('campaigns.title', 'applies.*', 'users.name')
-                    ->where('applies.campaignId', '=', DB::raw('campaigns.id'))
-                    ->where('campaigns.userId', '=',  $campaignId)
-                    ->where('applies.status', '=', "Rejected")
-                    ->where('applies.userId', '=', DB::raw('users.id'))
-                    ->get();
-            } else if ($filer == "Applied") {
-                $appliers =    DB::table('applies')
-                    ->crossJoin('campaigns')
-                    ->crossJoin('users')
-                    ->select('campaigns.title', 'applies.*', 'users.name')
-                    ->where('applies.campaignId', '=', DB::raw('campaigns.id'))
-                    ->where('campaigns.userId', '=',  $campaignId)
-                    ->where('applies.status', '=', "Applied")
-                    ->where('applies.userId', '=', DB::raw('users.id'))
-                    ->get();
-            }
-            return view('brand.appliers.index', \compact('appliers', 'counter'));
+            $campaign = Campaign::with('AppliedInfluencer')->findOrFail($id);
+            return view('brand.appliers.index', \compact('campaign'));
         } catch (\Throwable $th) {
             throw $th;
         }
