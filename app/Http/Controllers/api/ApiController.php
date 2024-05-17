@@ -4551,6 +4551,7 @@ class ApiController extends Controller
     {
         $rules = array(
             'userId' => 'required',
+            'reciverId' => 'required',
             'message' => 'required',
         );
 
@@ -4561,38 +4562,72 @@ class ApiController extends Controller
 
         $userId = $request->userId;
         $findLoginUser = User::find($userId);
-        $role = $findLoginUser->getRoleNames();
+        $roleCollection = $findLoginUser->getRoleNames();
+        $roles = $roleCollection->toArray();
 
-        // return $role;
+        if (in_array("Influencer", $roles)) {
+            $findChat = ChatGroup::where('influencerId', $userId)
+                ->where('brandId', $request->reciverId)
+                ->first();
+            if ($findChat) {
+                $chat = new Chat();
+                $chat->groupId = $findChat->id;
+                $chat->session = 'influencer';
+                $chat->message = $request->message;
+                $chat->save();
+                $allChats = Chat::where('groupId', $findChat->id)->get();
+                return response([
+                    'status' => 200,
+                    'chats' => $allChats
+                ]);
+            } else {
 
-        if ($role === "Influencer") {
+                $newChat = new ChatGroup();
+                $newChat->influencerId = $userId;
+                $newChat->brandId = $request->reciverId;
+                $newChat->session = "influencer";
+                $newChat->save();
 
-            $newChat = new ChatGroup();
-            $newChat->influencerId = $userId;
-            $newChat->brandId = $request->brandId;
-            $newChat->session = "influencer";
-            $newChat->save();
-
-            $chat = new Chat();
-            $chat->groupId = $newChat->id;
-            $chat->session = $newChat->session;
-            $chat->message = $request->message;
-            $chat->save();
+                $chat = new Chat();
+                $chat->groupId = $newChat->id;
+                $chat->session = $newChat->session;
+                $chat->message = $request->message;
+                $chat->save();
+            }
         }
-        if ($role === "Brand") {
 
-            $newChat = new ChatGroup();
-            $newChat->influencerId = $userId;
-            $newChat->brandId = $request->brandId;
-            $newChat->session = "influencer";
-            $newChat->save();
+        if (in_array("Brand", $roles)) {
 
-            $chat = new Chat();
-            $chat->groupId = $newChat->id;
-            $chat->session = $newChat->session;
-            $chat->message = $request->message;
-            $chat->save();
+            $findChat = ChatGroup::where('influencerId', $request->reciverId)
+                ->where('brandId', $userId)
+                ->first();
+            if ($findChat) {
+                $chat = new Chat();
+                $chat->groupId = $findChat->id;
+                $chat->session = "brand";
+                $chat->message = $request->message;
+                $chat->save();
+                $allChats = Chat::where('groupId', $findChat->id)->get();
+                return response([
+                    'status' => 200,
+                    'chats' => $allChats
+                ]);
+            } else {
+                $newChat = new ChatGroup();
+                $newChat->influencerId = $request->reciverId;
+                $newChat->brandId = $userId;
+                $newChat->session = "brand";
+                $newChat->save();
+
+                $chat = new Chat();
+                $chat->groupId = $newChat->id;
+                $chat->session = $newChat->session;
+                $chat->message = $request->message;
+                $chat->save();
+            }
         }
+
+        return response()->json(['success' => true, 'chats' => $chat], 200);
     }
     public function getChats(Request $request)
     {
