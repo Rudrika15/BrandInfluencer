@@ -252,6 +252,11 @@ Route::post('/package/check', [ApiController::class, 'packageCheck']);
 Route::get('/list', [ApiController::class, 'BrandInfluencerList']);
 
 
+
+// chat module
+Route::post('/newChat', [ApiController::class, 'newChat']);
+
+
 // -------------Brand
 
 

@@ -57,6 +57,8 @@ use App\Models\ContactInfluencer;
 use App\Models\IMPGPayment;
 use App\Models\BrandOffer;
 use App\Models\BrandWithCategory;
+use App\Models\Chat;
+use App\Models\ChatGroup;
 use App\Models\MyOfferQrCodes;
 use App\Models\OfferSlider;
 use Carbon\Carbon;
@@ -4543,5 +4545,67 @@ class ApiController extends Controller
         ];
         // Return the recommended offers as JSON response
         return response()->json($response, 200);
+    }
+
+    public function newChat(Request $request)
+    {
+        $rules = array(
+            'userId' => 'required',
+            'message' => 'required',
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
+        $userId = $request->userId;
+        $findLoginUser = User::find($userId);
+        $role = $findLoginUser->getRoleNames();
+
+        // return $role;
+
+        if ($role === "Influencer") {
+
+            $newChat = new ChatGroup();
+            $newChat->influencerId = $userId;
+            $newChat->brandId = $request->brandId;
+            $newChat->session = "influencer";
+            $newChat->save();
+
+            $chat = new Chat();
+            $chat->groupId = $newChat->id;
+            $chat->session = $newChat->session;
+            $chat->message = $request->message;
+            $chat->save();
+        }
+        if ($role === "Brand") {
+
+            $newChat = new ChatGroup();
+            $newChat->influencerId = $userId;
+            $newChat->brandId = $request->brandId;
+            $newChat->session = "influencer";
+            $newChat->save();
+
+            $chat = new Chat();
+            $chat->groupId = $newChat->id;
+            $chat->session = $newChat->session;
+            $chat->message = $request->message;
+            $chat->save();
+        }
+    }
+    public function getChats(Request $request)
+    {
+        $rules = array(
+            'groupId' => 'required',
+            'message' => 'required',
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
+        // 
     }
 }
