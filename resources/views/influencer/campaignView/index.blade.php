@@ -58,21 +58,21 @@
                                                     <p class="card-text"><b>Status</b>:
                                                         <span class="text-success">{{ $data->status }}</span>
                                                     </p>
-                                                    @if ($campaignCount == 1)
-                                                        <a class="btn btn-success btn-sm" href="{{ route('brand.campaign.campaign.step') }}/{{ $data->id }}">Campaign Steps</a>
-                                                    @endif
+                                                    <a class="btn btn-success btn-sm" href="{{ route('brand.campaign.campaign.step') }}/{{ $data->id }}">Campaign Steps</a>
+                                                    {{-- @if ($campaignCount == 1)
+                                                    @endif --}}
                                                 </div>
                                             </div>
                                             <div style="display: flex; justify-content: end">
-                                                @if ($campaignCount == 0)
-                                                    <form action="{{ route('influencer.campaignApply') }}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="campaignId" value="{{ $data->id }}">
-                                                        <button type="submit" class="btn btn-sm btn-primary">Apply</button>
-                                                    </form>
+                                                <form action="{{ route('influencer.campaignApply') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="campaignId" value="{{ $data->id }}">
+                                                    <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+                                                </form>
+                                                {{-- @if ($campaignCount == 0)
                                                 @else
                                                     Already applied
-                                                @endif
+                                                @endif --}}
                                             </div>
 
                                         </div>

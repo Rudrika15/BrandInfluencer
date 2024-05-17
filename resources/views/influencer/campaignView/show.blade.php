@@ -33,9 +33,10 @@
                             @foreach ($campaignList as $data)
                                 <tr>
                                     <td>
-                                        @foreach ($data->campaign as $campaign)
+                                        {{ $data->campaign->title }}
+                                        {{-- @foreach ($data->campaign as $campaign)
                                             {{ $campaign->title }}
-                                        @endforeach
+                                        @endforeach --}}
                                     </td>
                                     @if ($data->status == 'Approved')
                                         <td class="text-success">{{ $data->status }}</td>
@@ -43,11 +44,10 @@
                                         <td class="text-primary">{{ $data->status }}</td>
                                     @endif
                                     <td>
+                                        @if ($data->status == 'Approved')
+                                            <a class="btn btn-primary btn-sm" href="{{ route('brand.campaign.appliersCreate') }}/{{ $data->campaign->id }}/{{ $data->userId }}">Details</a>
+                                        @endif
                                         @foreach ($data->campaign as $campaign)
-                                            @if ($data->status == 'Approved')
-                                                <a class="btn btn-primary btn-sm"
-                                                    href="{{ route('brand.campaign.appliersCreate') }}/{{ $campaign->id }}/{{ $data->userId }}">Details</a>
-                                            @endif
                                         @endforeach
                                     </td>
                                 </tr>
