@@ -9,8 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="">
     <title>Influencer Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 </head>
@@ -195,8 +194,8 @@
             display: flex;
         }
 
-        button.chatbtn,
-        button.createbtn {
+        a.chatbtn,
+        a.createbtn {
             border: 0;
             padding: 10px;
             width: 100%;
@@ -205,6 +204,8 @@
             color: #fff;
             font-family: "Bree Serif";
             font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
             margin: 5px 2px;
             cursor: pointer;
             outline: none;
@@ -213,14 +214,14 @@
             box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.3);
         }
 
-        button.chatbtn:hover,
-        button.createbtn:hover {
+        a.chatbtn:hover,
+        a.createbtn:hover {
             background: rgba(2, 214, 241, 0.9);
 
         }
 
-        button.chatbtn i,
-        button.createbtn i {
+        a.chatbtn i,
+        a.createbtn i {
             margin-right: 5px;
         }
 
@@ -402,16 +403,12 @@
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id }}">
-        <div class="pb-2">
-            {{-- <a href="{{ route('brand.influencerList') }}" class="btn btn-light">
-                < Back</a> --}}
-        </div>
+       
         <div class="profile-header">
             <div class="profile-img">
 
                 @if (isset($influencer->profile->profilePhoto))
-                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
-                        alt="Profile Image" style="object-fit: contain;">
+                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200" alt="Profile Image" style="object-fit: contain;">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
@@ -435,16 +432,8 @@
         <div class="main-bd">
             <div class="left-side">
                 <div class="profile-side">
-                    <span class="mobile-no"><i class="bi bi-telephone-plus-fill"></i></span>
-                    @if ($seenStatus > 0)
-                        <span class="mobile-no"> {{ $influencer->profile->mobileno }} </span>
-                        <br>
-                        <span class="user-mail formattedEmail" data-influencer-id="{{ $influencer->id }}"><i
-                                class="bi bi-envelope-fill"></i> {{ $influencer->profile->email }}</span>
-                    @else
-                        <span class="mobile-no formattedMobileNumber" data-influencer-id="{{ $influencer->id }}">
-                            {{ $influencer->profile->mobileno }} </span>
-                    @endif
+
+
                     <div class="user-bio">
                         <h3>About</h3>
                         <p class="bio">
@@ -452,7 +441,8 @@
                         </p>
                     </div>
                     <div class="profile-btn">
-                        <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Contact</button>
+                        {{-- <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Message </button> --}}
+                        <a class="chatbtn" id="chatBtn" href="{{ route('influencer.chat.index') }}">Message</a>
                         {{-- <button class="createbtn" id="Create-post"><i class="fa fa-plus"></i> Create</button> --}}
                     </div>
 
@@ -488,8 +478,7 @@
                                             }
                                         </style>
                                         <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
-                                            <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200"
-                                                class="card-img-top p-3 img-thumbnail portImage" alt="">
+                                            <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
                                         </a>
 
                                     </div>
@@ -527,8 +516,7 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {

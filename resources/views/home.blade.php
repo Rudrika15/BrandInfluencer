@@ -5,8 +5,9 @@
 
 
     <div class='container'>
-
-        @if (session('role') === 'influencer')
+      
+        {{-- @if (session('role') === 'influencer') --}}
+        @role('Influencer')
             <div class="row">
 
                 @foreach ($brands as $brand)
@@ -27,9 +28,10 @@
                     </div>
                 @endforeach
             </div>
-        @endif
+        @endrole
 
-        @if (session('role') === 'brand')
+        {{-- @if (session('role') === 'brand') --}}
+        @role('Brand')
             <div class="card" style="width: 95%">
                 <div class="card-body p-3">
                     <div class='row'>
@@ -92,7 +94,7 @@
                 @endforeach
             </div>
 
-        @endif
+        @endrole
     </div>
 
 

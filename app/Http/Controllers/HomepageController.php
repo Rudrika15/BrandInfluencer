@@ -7,7 +7,7 @@ use App\Models\CategoryInfluencer;
 use App\Models\InfluencerProfile;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class HomepageController extends Controller
 {
@@ -15,6 +15,9 @@ class HomepageController extends Controller
 
     function index(Request $request)
     {
+
+
+        $roles = Auth::user()->roles->pluck('name');
 
         // influencer
 
@@ -46,6 +49,12 @@ class HomepageController extends Controller
 
         $influencer = $influencer->get();
 
+        if ($roles->contains('Brand')) {
+            session(['role' => 'brand']);
+        }
+        if ($roles->contains('Influencer')) {
+            session(['role' => 'influencer']);
+        }
 
         return view('home', compact('brands', 'influencer', 'category'));
     }
@@ -126,5 +135,4 @@ class HomepageController extends Controller
             throw $th;
         }
     }
-    
 }

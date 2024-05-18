@@ -157,8 +157,9 @@ class CampaignController extends Controller
 
                         $notification = new BrandInfluencerNotification();
                         $notification->userId = $userId;
-                        $notification->title = $campaign->title;
+                        $notification->title = Auth::user()->name . " Created Campaign " . $campaign->title;
                         $notification->type = "Campaign";
+                        $notification->visible = "I";
                         $notification->dateTime = Carbon::now();
                         $notification->save();
 

@@ -4,13 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Models\BrandInfluencerNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BrandInfluencerNotificationController extends Controller
 {
     public function index()
     {
-        $notifications = BrandInfluencerNotification::orderBy('created_at', 'desc')->get();
-        return view('influencer.notifications.index', compact('notifications'));
+
+        $roles = Auth::user()->roles->pluck('name');
+
+        if ($roles->contains('Influencer')) {
+
+            $notificationsAll = BrandInfluencerNotification::orderBy('created_at', 'desc')
+                ->where('visible', 'I')
+                ->orWhere('userId', Auth::user()->id)
+                ->get();
+
+            $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
+                ->where('type', 'General')
+                ->where('visible', 'I')
+                ->where('userId', Auth::user()->id)
+                ->get();
+            $notificationsCampaign = BrandInfluencerNotification::orderBy('created_at', 'desc')
+                ->where('type', 'Campaign')
+                ->where('visible', 'I')
+                // ->orWhere('userId', Auth::user()->id)
+                ->get();
+        }
+
+        if ($roles->contains('Brand')) {
+            $notificationsAll = BrandInfluencerNotification::orderBy('created_at', 'desc')
+                ->where('visible', 'B')
+                ->orWhere('userId', Auth::user()->id)
+                ->get();
+
+            $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
+                ->where('type', 'General')
+                ->where('visible', 'B')
+                ->where('userId', Auth::user()->id)
+                ->get();
+            $notificationsCampaign = BrandInfluencerNotification::orderBy('created_at', 'desc')
+                ->where('type', 'Campaign')
+                ->where('visible', 'B')
+                ->orWhere('userId', Auth::user()->id)
+                ->get();
+        }
+
+        return view('influencer.notifications.index', compact('notificationsAll', 'notificationsGeneral', 'notificationsCampaign'));
     }
 
 

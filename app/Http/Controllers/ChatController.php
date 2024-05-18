@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BrandInfluencerNotification;
 use App\Models\Chat;
 use App\Models\ChatGroup;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +46,14 @@ class ChatController extends Controller
         $chat->session = session('role');
         $chat->message = $request->message;
         $chat->save();
+
+        $notification = new BrandInfluencerNotification();
+        $notification->userId = $request->recevierId;   // receiver id
+        $notification->title = "New Message from " . Auth::user()->name;
+        $notification->type = "General";
+        $notification->visible = "N";
+        $notification->dateTime = Carbon::now();
+        $notification->save();
 
         return response()->json(['success' => true]);
     }

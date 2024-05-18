@@ -11,8 +11,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     {{-- bootstrap 5 --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('influencerbrand/style.css') }}">
     {{-- icons --}}
@@ -51,121 +50,127 @@
         </header>
         <div class="menu-bar">
             <div class="menu">
-                <ul class="menu-links" id="brand"
-                    @if (session('role') === 'influencer') style="display: block;" @else style="display: none;" @endif>
-                    {{-- <li class="search-bar">
+                {{-- @if (Auth::check() && Auth::user()->roles->contains('Influencer'))
+                    hi
+                @else
+                    hello
+                @endif --}}
+                @role('Influencer')
+                    <ul class="menu-links" id="brand">
+                        {{-- <li class="search-bar">
                         <i class="bx bx-search icons"></i>
                         <input type="search" placeholder="Search..." />
-                    </li> --}}
-                    <li class="nav-linkm {{ request()->routeIs('home') ? 'active' : '' }} ">
-                        <a href="{{ route('home') }}" class="text-hover">
-                            <i class="bx bx-home-alt icons text-blue"></i>
-                            <span class="text nav-text text-blue">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-linkm {{ request()->routeIs('influencer.campaignApplyList') ? 'active' : '' }}">
-                        <a href="{{ route('influencer.campaignApplyList') }}">
-                            <i class="bx bx-bar-chart-alt-2 icons"></i>
-                            <span class="text nav-text text-blue">My Applied Campaigns</span>
-                        </a>
-                    </li>
-                    <li class="nav-linkm {{ request()->routeIs('influencer.notifications') ? 'active' : '' }}">
-                        <a href="{{ route('influencer.notifications') }}">
-                            <i class="bx bx-bell icons"></i>
-                            <span class="text nav-text text-blue">Notifications</span>
-                        </a>
-                    </li>
-                    <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
-                        <a href="{{ route('influencer.chat.index') }}">
-                            <i class="bx bx-message icons"></i>
-                            <span class="text nav-text text-blue">Chats</span>
-                        </a>
-                    </li>
-                    <li class="nav-linkm {{ request()->routeIs('influencer.package.index') ? 'active' : '' }}">
-                        <a href="{{ route('influencer.package.index') }}">
-                            <i class="bx bx-pie-chart-alt icons"></i>
-                            <span class="text nav-text text-blue">Packages</span>
-                        </a>
-                    </li>
+                            </li> --}}
+                        <li class="nav-linkm {{ request()->routeIs('home') ? 'active' : '' }} ">
+                            <a href="{{ route('home') }}" class="text-hover">
+                                <i class="bx bx-home-alt icons text-blue"></i>
+                                <span class="text nav-text text-blue">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-linkm {{ request()->routeIs('influencer.campaignApplyList') ? 'active' : '' }}">
+                            <a href="{{ route('influencer.campaignApplyList') }}">
+                                <i class="bx bx-bar-chart-alt-2 icons"></i>
+                                <span class="text nav-text text-blue">My Applied Campaigns</span>
+                            </a>
+                        </li>
+                        <li class="nav-linkm {{ request()->routeIs('influencer.notifications') ? 'active' : '' }}">
+                            <a href="{{ route('influencer.notifications') }}">
+                                <i class="bx bx-bell icons"></i>
+                                <span class="text nav-text text-blue">Notifications</span>
+                            </a>
+                        </li>
+                        <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
+                            <a href="{{ route('influencer.chat.index') }}">
+                                <i class="bx bx-message icons"></i>
+                                <span class="text nav-text text-blue">Chats</span>
+                            </a>
+                        </li>
+                        <li class="nav-linkm {{ request()->routeIs('influencer.package.index') ? 'active' : '' }}">
+                            <a href="{{ route('influencer.package.index') }}">
+                                <i class="bx bx-pie-chart-alt icons"></i>
+                                <span class="text nav-text text-blue">Packages</span>
+                            </a>
+                        </li>
 
-                </ul>
-                <ul class="menu-links" id="influencer"
-                    @if (session('role') === 'brand') style="display: block;" @else style="display: none;" @endif>
-                    {{-- brand menu --}}
-                    <li class="nav-linkm {{ request()->routeIs('home') ? 'active' : '' }}">
-                        <a href="{{ route('home') }}">
-                            <i class="bx bx-home-alt icons"></i>
-                            <span class="text nav-text text-blue">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-linkm {{ request()->routeIs('brand.campaign.index') ? 'active' : '' }} ">
-                        <a href="{{ route('brand.campaign.index') }}">
-                            <i class="bi bi-person-workspace icons"></i>
-                            <span class="text nav-text text-blue">Campaign</span>
-                        </a>
-                    </li>
-                    {{-- <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} active">
+                    </ul>
+                @endrole
+                @role('Brand')
+                    <ul class="menu-links" id="influencer">
+                        {{-- brand menu --}}
+
+                        <li class="nav-linkm {{ request()->routeIs('home') ? 'active' : '' }}">
+                            <a href="{{ route('home') }}">
+                                <i class="bx bx-home-alt icons"></i>
+                                <span class="text nav-text text-blue">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-linkm {{ request()->routeIs('brand.campaign.index') ? 'active' : '' }} ">
+                            <a href="{{ route('brand.campaign.index') }}">
+                                <i class="bi bi-person-workspace icons"></i>
+                                <span class="text nav-text text-blue">Campaign</span>
+                            </a>
+                        </li>
+                        {{-- <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} active">
                         <a href="{{ route('brand.campaign.step.index') }}">
                             <i class="bx bx-home-alt icons"></i>
                             <span class="text nav-text text-blue">Campaign Steps</span>
                         </a>
                     </li> --}}
-                    {{-- <li class="nav-linkm {{ request()->routeIs('brand.campaign.appliers') ? 'active' : '' }} ">
+                        {{-- <li class="nav-linkm {{ request()->routeIs('brand.campaign.appliers') ? 'active' : '' }} ">
                         <a href="{{ route('brand.campaign.appliers') }}">
                             <i class="bi bi-person-add icons"></i>
                             <span class="text nav-text text-blue">Appliers</span>
                         </a>
                     </li> --}}
-                    <li class="nav-linkm {{ request()->routeIs('') ? 'active' : '' }}">
-                        <a href="">
-                            <i class="bx bx-bell icons"></i>
-                            <span class="text nav-text text-blue">Notifications</span>
-                        </a>
-                    </li>
-                    <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
-                        <a href="{{ route('influencer.chat.index') }}">
-                            <i class="bx bx-message icons"></i>
-                            <span class="text nav-text text-blue">Chats</span>
-                        </a>
-                    </li>
-                    <li
-                        class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
-                        <a href="{{ route('pricing.index') }}">
-                            <i class="bi bi-piggy-bank-fill icons"></i>
-                            <span class="text nav-text text-blue">Pricing</span>
-                        </a>
-                    </li>
+                        <li class="nav-linkm {{ request()->routeIs('') ? 'active' : '' }}">
+                            <a href="{{ route('influencer.notifications') }}">
+                                <i class="bx bx-bell icons"></i>
+                                <span class="text nav-text text-blue">Notifications</span>
+                            </a>
+                        </li>
+                        <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
+                            <a href="{{ route('influencer.chat.index') }}">
+                                <i class="bx bx-message icons"></i>
+                                <span class="text nav-text text-blue">Chats</span>
+                            </a>
+                        </li>
+                        <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
+                            <a href="{{ route('pricing.index') }}">
+                                <i class="bi bi-piggy-bank-fill icons"></i>
+                                <span class="text nav-text text-blue">Pricing</span>
+                            </a>
+                        </li>
 
-                    <li class="nav-linkm {{ request()->routeIs('brand.log') ? 'active' : '' }} ">
-                        <a href="{{ route('brand.log') }}">
-                            <i class="bi bi-list-nested icons"></i>
-                            <span class="text nav-text text-blue">Point Log</span>
-                        </a>
-                    </li>
-                    {{-- <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} active">
+                        <li class="nav-linkm {{ request()->routeIs('brand.log') ? 'active' : '' }} ">
+                            <a href="{{ route('brand.log') }}">
+                                <i class="bi bi-list-nested icons"></i>
+                                <span class="text nav-text text-blue">Point Log</span>
+                            </a>
+                        </li>
+                        {{-- <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} active">
                         <a href="{{ route('brand.offers') }}">
                             <i class="bx bx-home-alt icons"></i>
                             <span class="text nav-text text-blue">Brand Offers</span>
                         </a>
                     </li> --}}
-                    <li class="nav-linkm ">
-                        <a href="{{ route('brand.campaign.create') }}" class="btn btn-primary btn-sm rounded-pill">
-                            <i class="bx bx-plus icons text-white" style="color: white !important"></i>
-                            <span class="text nav-text text-center text-white h6">
-                                Create
-                                Campaign
-                            </span>
-                        </a>
-                    </li>
+                        <li class="nav-linkm ">
+                            <a href="{{ route('brand.campaign.create') }}" class="btn btn-primary btn-sm rounded-pill">
+                                <i class="bx bx-plus icons text-white" style="color: white !important"></i>
+                                <span class="text nav-text text-center text-white h6">
+                                    Create
+                                    Campaign
+                                </span>
+                            </a>
+                        </li>
 
 
-                </ul>
+                    </ul>
+                @endrole
             </div>
 
             <div class="bottom-content">
                 <li class="nav-linkm ">
-                    <a href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="bx bx-log-out icons"></i>
                         <span class="text nav-text text-blue">Log Out</span>
                     </a>
@@ -192,20 +197,18 @@
         <ul class="nav">
             <li class="nav-item pe-3" style="color: #156b9f;"> </li>
             <li class="nav-item dropdown">
-                <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink"
-                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }}
                 </a>
                 <ul class="dropdown-menu bg-blue " aria-labelledby="navbarDropdownMenuLink">
-                    <li>
+                    <li class="d-none">
                         <span class="ps-2" style="color: #156b9f;">I'm an</span>
                         <div class="btn-frame">
-                            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false"
-                                type="radio" @if (session('role') === 'influencer') checked @endif>
+                            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" @if (Auth::user()->roles->contains('Influencer')) checked @endif>
                             <label for="toggle-on" class="btn left">Influencer</label>
-                            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true"
-                                type="radio" @if (session('role') === 'brand') checked @endif>
+                            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio" @if (Auth::user()->roles->contains('Brand')) checked @endif>
                             <label for="toggle-off" class="btn right">Brand</label>
+
                         </div>
 
                     </li>
@@ -214,13 +217,11 @@
                         <li class="menu-li ms-3">Profile</li>
                     </a>
                     <hr>
-                    <a class="header-menu-link " href="{{ route('user.card') }}/{{ Auth::user()->mobileno }}"
-                        target="_blank">
+                    <a class="header-menu-link " href="{{ route('user.card') }}/{{ Auth::user()->mobileno }}" target="_blank">
                         <li class="menu-li ms-3">View Social Card</li>
                     </a>
                     <hr>
-                    <a class="header-menu-link" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a class="header-menu-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <li class="menu-li ms-3">
                             Logout
                         </li>
@@ -242,15 +243,12 @@
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="{{ asset('influencerbrand/script.js') }}"></script>
 
-    <script>
+    {{-- <script>
         // JavaScript code to handle the toggle buttons and AJAX request
         $(document).ready(function() {
-            console.log('jQuery is ready!');
             const toggleOn = $('#toggle-on');
             const toggleOff = $('#toggle-off');
             const roleName = $('#role-name');
@@ -288,7 +286,7 @@
                 });
             }
         });
-    </script>
+    </script> --}}
 
 </body>
 
