@@ -9,9 +9,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="">
     <title>Influencer Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
 </head>
 
 <body>
@@ -194,7 +196,7 @@
             display: flex;
         }
 
-        a.chatbtn,
+        button.chatbtn,
         a.createbtn {
             border: 0;
             padding: 10px;
@@ -214,13 +216,13 @@
             box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.3);
         }
 
-        a.chatbtn:hover,
+        button.chatbtn:hover,
         a.createbtn:hover {
             background: rgba(2, 214, 241, 0.9);
 
         }
 
-        a.chatbtn i,
+        button.chatbtn i,
         a.createbtn i {
             margin-right: 5px;
         }
@@ -403,12 +405,28 @@
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id }}">
+        <div class="d-flex justify-content-end p-3">
 
+            @if (session()->has('success'))
+                <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive"
+                    aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
+
+        </div>
         <div class="profile-header">
             <div class="profile-img">
 
                 @if (isset($influencer->profile->profilePhoto))
-                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200" alt="Profile Image" style="object-fit: contain;">
+                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
+                        alt="Profile Image" style="object-fit: contain;">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
@@ -441,12 +459,43 @@
                         </p>
                     </div>
                     <div class="profile-btn">
-                        {{-- <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Message </button> --}}
-                        {{-- <a class="chatbtn" id="chatBtn" href="{{ route('influencer.chat.index') }}">Message</a> --}}
-                        <a class="chatbtn" id="chatBtn" href="{{ route('new.influencer.chat.index') }}/{{ Auth::user()->id }}/{{ $influencer->profile->id }}">Message</a>
-                        {{-- <button class="createbtn" id="Create-post"><i class="fa fa-plus"></i> Create</button> --}}
+                        <button type="button" class="chatbtn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                class="fa fa-comment"></i> Message </button>
+
+
                     </div>
 
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Send Message to
+                                        {{ $influencer->profile->name }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('new.influencer.chat.index') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="receiverId" value="{{ $influencer->profile->id }}">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" name="message"
+                                                placeholder="Write a message" aria-label="Recipient's username"
+                                                aria-describedby="button-addon2">
+                                            <button class="btn btn-outline-info" type="submit" id="button-addon2">
+                                                <i class="bi bi-send"></i> </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {{-- <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -479,7 +528,9 @@
                                             }
                                         </style>
                                         <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
-                                            <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
+                                            <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                                alt="">
                                         </a>
 
                                     </div>
@@ -517,7 +568,17 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {

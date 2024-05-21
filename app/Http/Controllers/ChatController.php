@@ -22,7 +22,8 @@ class ChatController extends Controller
         $chats = ChatGroup::with('chat')
             ->whereHas('chat')
             ->with('influencer')
-            ->with('brand');
+            ->with('brand')
+            ->orderBy('id', 'desc');
 
         if (Auth::user()->hasRole(['Influencer'])) {
             $chats = $chats->where('influencerId', Auth::user()->id)->get();
@@ -34,9 +35,10 @@ class ChatController extends Controller
         return view('chats.influencer.index', compact('chats'));
     }
 
-    public function newInfluencerChatIndex($id, $receiverId)
+    public function newInfluencerChatIndex(Request $request)
     {
-
+        $id = Auth::user()->id;
+        $receiverId = $request->receiverId;
         $newChat = new ChatGroup();
         $newChat->brandId = $id;
         $newChat->influencerId = $receiverId;
@@ -46,11 +48,10 @@ class ChatController extends Controller
         $chat  = new Chat();
         $chat->groupId = $newChat->id;
         $chat->session = "brand";
-        $chat->message = "";
+        $chat->message = $request->message;
         $chat->save();
 
-        $this->fetchMessage($id, $receiverId);
-        return redirect()->route('influencer.chat.index');
+        return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
     }
 
     function fetchMessage($brandId, $influencerId)

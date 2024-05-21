@@ -232,20 +232,20 @@
         </ul>
 
     </nav>
-    <div class="d-flex justify-content-end p-3">
+        <div class="d-flex justify-content-end p-3">
 
-        @if (session()->has('success'))
-            <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('success') }}
+            @if (session()->has('success'))
+                <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-            </div>
-        @endif
+            @endif
 
-    </div>
+        </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <div class="container content">
