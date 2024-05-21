@@ -255,7 +255,10 @@ Route::get('/list', [ApiController::class, 'BrandInfluencerList']);
 
 // chat module
 Route::post('/newChat', [ApiController::class, 'newChat']);
+Route::get('/getChatList/{userId?}', [ApiController::class, 'chatList']);
+Route::get('/getChats', [ApiController::class, 'getChats']);
 
+Route::post('/updateDeviceToken', [ApiController::class, 'getDeviceToken']);
 
 // -------------Brand
 

@@ -189,6 +189,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Chat Functionality
     Route::get('influencer/chat/index', [ChatController::class, 'influencerChatIndex'])->name('influencer.chat.index');
+    Route::get('new/influencer/chat/index/{senderId?}/{receiverId?}', [ChatController::class, 'newInfluencerChatIndex'])->name('new.influencer.chat.index');
     Route::post('influencer/chat/store', [ChatController::class, 'sendMessageInfluencer'])->name('influencer.chat.store');
     Route::get('/chats/messages/{receiverId}/{influencerId?}', [ChatController::class, 'fetchBrandMessages'])->name('influencer.chats.messages');
 

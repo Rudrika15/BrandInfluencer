@@ -103,6 +103,7 @@ class CampaignController extends Controller
             'maxTargetAgeGroup' => 'numeric|gt:minTargetAgeGroup',
             'startDate' => 'date|after:today',
             'endDate' => 'date|after:today',
+            'targetGender' => 'required',
             'applyForLastDate' => 'date:after:today',
             // 'task' => 'required',
             // 'maxApplication' => 'required',
@@ -113,19 +114,20 @@ class CampaignController extends Controller
             $email = Auth::user()->email;
             $campaign = new Campaign();
             $campaign->title = $request->title;
+            $campaign->campaignType = $request->campaignType;
             $campaign->userId = $userId;
             $campaign->detail = $request->detail;
             $campaign->price = $request->price;
             $campaign->photo = time() . '.' . $request->photo->extension();
             $request->photo->move(public_path('campaignPhoto'), $campaign->photo);
-            $campaign->rule = $request->rule;
+            // $campaign->rule = $request->rule;
             $campaign->eligibleCriteria = $request->eligibleCriteria;
             $campaign->targetGender = $request->targetGender;
             $campaign->targetAgeGroup = $request->minTargetAgeGroup . "-" . $request->maxTargetAgeGroup;
             $campaign->startDate = $request->startDate;
             $campaign->endDate = $request->endDate;
             $campaign->applyForLastDate = $request->applyForLastDate;
-            $campaign->task = $request->task;
+            // $campaign->task = $request->task;
             $campaign->maxApplication = $request->maxApplication;
             $campaign->status = "Active";
 

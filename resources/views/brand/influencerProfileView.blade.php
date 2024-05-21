@@ -403,7 +403,7 @@
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id }}">
-       
+
         <div class="profile-header">
             <div class="profile-img">
 
@@ -442,7 +442,8 @@
                     </div>
                     <div class="profile-btn">
                         {{-- <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Message </button> --}}
-                        <a class="chatbtn" id="chatBtn" href="{{ route('influencer.chat.index') }}">Message</a>
+                        {{-- <a class="chatbtn" id="chatBtn" href="{{ route('influencer.chat.index') }}">Message</a> --}}
+                        <a class="chatbtn" id="chatBtn" href="{{ route('new.influencer.chat.index') }}/{{ Auth::user()->id }}/{{ $influencer->profile->id }}">Message</a>
                         {{-- <button class="createbtn" id="Create-post"><i class="fa fa-plus"></i> Create</button> --}}
                     </div>
 

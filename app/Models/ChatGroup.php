@@ -24,4 +24,13 @@ class ChatGroup extends Model
     {
         return $this->belongsTo(User::class, 'brandId', 'id');
     }
+
+    public function getInfluencerDetail()
+    {
+        return $this->belongsTo(User::class, 'influencerId', 'id')->with('roles');
+    }
+    public function getBrandDetail()
+    {
+        return $this->belongsTo(User::class, 'brandId', 'id')->with('roles');
+    }
 }

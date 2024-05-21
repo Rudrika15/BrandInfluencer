@@ -4629,11 +4629,36 @@ class ApiController extends Controller
 
         return response()->json(['success' => true, 'chats' => $chat], 200);
     }
+    public function chatList($userId)
+    {
+        $user = User::whereHas('roles', function ($q) {
+            $q->where('name', 'Influencer')->orWhere('name', 'Brand');
+        })->where('id', $userId)->with('roles')->first();
+
+        if ($user) {
+            $role = $user->roles->pluck('name')->first();
+            $chatListQuery = ChatGroup::where('influencerId', $userId)
+                ->orWhere('brandId', $userId);
+
+            if ($role == "Influencer") {
+                $chatListQuery->with('getBrandDetail');
+            } elseif ($role == "Brand") {
+                $chatListQuery->with('getInfluencerDetail');
+            }
+
+            $chatList = $chatListQuery->get();
+
+            return response()->json(['success' => true, 'chatList' => $chatList], 200);
+        } else {
+            return response()->json(['success' => false, 'message' => 'User not found or does not have a valid role'], 404);
+        }
+    }
+
     public function getChats(Request $request)
     {
         $rules = array(
-            'groupId' => 'required',
-            'message' => 'required',
+            'userId' => 'required',
+            'reciverId' => 'required',
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -4641,6 +4666,59 @@ class ApiController extends Controller
             return $validator->errors();
         }
 
-        // 
+        $userId = $request->userId;
+        $reciverId = $request->reciverId;
+
+        $findRole = User::whereHas('roles', function ($q) {
+            $q->where('name', 'Influencer')->orWhere('name', 'Brand');
+        })->where('id', $userId)->with('roles')->first();
+
+        $role = $findRole->roles->pluck('name')->first();
+        if ($role == "Influencer") {
+            $chats = ChatGroup::where('influencerId', $userId)
+                ->where('brandId', $reciverId)
+                ->with('getBrandDetail')
+                ->with('chat')
+                ->get();
+        }
+        if ($role == "Brand") {
+            $chats = ChatGroup::where('brandId', $userId)
+                ->where('influencerId', $reciverId)
+                ->with('getInfluencerDetail')
+                ->with('chat')
+                ->get();
+        }
+
+        return response()->json(['success' => true, 'chats' => $chats], 200);
+    }
+
+    public function getDeviceToken(Request $request)
+    {
+        $rules = array(
+            'userId' => 'required',
+            'deviceToken' => 'required',
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
+
+        $userId = $request->userId;
+        $deviceToken = $request->deviceToken;
+
+        $findLoginUser = User::find($userId);
+        if (!$findLoginUser) {
+            return response()->json(['success' => false, 'message' => 'User Not Found'], 404);
+        } else {
+            $findLoginUser->deviceToken = $deviceToken;
+            $findLoginUser->save();
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Device Token Updated',
+            'data' => $findLoginUser,
+        ], 200);
     }
 }

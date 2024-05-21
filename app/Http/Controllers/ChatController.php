@@ -34,6 +34,43 @@ class ChatController extends Controller
         return view('chats.influencer.index', compact('chats'));
     }
 
+    public function newInfluencerChatIndex($id, $receiverId)
+    {
+
+        $newChat = new ChatGroup();
+        $newChat->brandId = $id;
+        $newChat->influencerId = $receiverId;
+        $newChat->session = "brand";
+        $newChat->save();
+
+        $chat  = new Chat();
+        $chat->groupId = $newChat->id;
+        $chat->session = "brand";
+        $chat->message = "";
+        $chat->save();
+
+        $this->fetchMessage($id, $receiverId);
+        return redirect()->route('influencer.chat.index');
+    }
+
+    function fetchMessage($brandId, $influencerId)
+    {
+
+
+        $chatGroups = ChatGroup::where('brandId', $brandId)
+            ->where('influencerId', $influencerId)
+            ->first();
+        $chats = Chat::where('groupId', $chatGroups->id)
+            ->orderBy('created_at', 'asc')
+            ->with('chatGroup')
+            ->whereHas('chatGroup')
+            // where('senderId', $chatGroups->influencerId)
+            // ->where('senderId', Auth::user()->id)
+            ->get();
+
+
+        return response()->json($chats);
+    }
     public function sendMessageInfluencer(Request $request)
     {
         // $chatStatus = Chat::where('groupId', $request->groupId)
