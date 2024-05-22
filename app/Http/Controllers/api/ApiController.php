@@ -4654,20 +4654,20 @@ class ApiController extends Controller
         }
     }
 
-    public function getChats(Request $request)
+    public function getChats(Request $request, $userId, $reciverId)
     {
-        $rules = array(
-            'userId' => 'required',
-            'reciverId' => 'required',
-        );
+        // $rules = array(
+        //     'userId' => 'required',
+        //     'reciverId' => 'required',
+        // );
 
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return $validator->errors();
-        }
+        // $validator = Validator::make($request->all(), $rules);
+        // if ($validator->fails()) {
+        //     return $validator->errors();
+        // }
 
-        $userId = $request->userId;
-        $reciverId = $request->reciverId;
+        // $userId = $request->userId;
+        // $reciverId = $request->reciverId;
 
         $findRole = User::whereHas('roles', function ($q) {
             $q->where('name', 'Influencer')->orWhere('name', 'Brand');

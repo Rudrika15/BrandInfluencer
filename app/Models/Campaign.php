@@ -13,4 +13,9 @@ class Campaign extends Model
     {
         return $this->hasMany(Apply::class, 'campaignId', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'userId');
+    }
 }

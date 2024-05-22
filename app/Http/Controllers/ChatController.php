@@ -54,6 +54,25 @@ class ChatController extends Controller
         return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
     }
 
+    public function newBrandChatIndex(Request $request)
+    {
+        $id = Auth::user()->id;
+        $receiverId = $request->receiverId;
+        $newChat = new ChatGroup();
+        $newChat->brandId = $receiverId;
+        $newChat->influencerId = $id;
+        $newChat->session = "influencer";
+        $newChat->save();
+
+        $chat  = new Chat();
+        $chat->groupId = $newChat->id;
+        $chat->session = "influencer";
+        $chat->message = $request->message;
+        $chat->save();
+
+        return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
+    }
+
     function fetchMessage($brandId, $influencerId)
     {
 
