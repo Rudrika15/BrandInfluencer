@@ -19,18 +19,19 @@
                 </div> --}}
             {{-- </div> --}}
         </div>
+
         <div class="row ps-5">
             <div class="col-md-12">
-                <div class="card w-75">
+                <div class="card w-75 ">
                     <div class="card-body">
                         <div class="row">
                             @foreach ($campaign as $data)
                                 {{-- {{ $data->user }} --}}
                                 <div class="col-md-12">
                                     {{-- <h4 class="card-title"> {{ $data->title }}</h4> --}}
-                                    {{-- <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" alt="image"
-                                                class="img-thumbnail w-100"> --}}
-                                    <img src="{{ asset('campaignPhoto') }}/1698906013.jpg" class="rounded" alt="image">
+                                    <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" alt="image"
+                                        class=" w-100" onerror="this.src='{{ asset('images/default.jpg') }}'">
+                                    {{-- <img src="{{ asset('campaignPhoto') }}/1698906013.jpg" class="rounded" alt="image"> --}}
                                     <div class="p-3">
                                         <h4 class="card-title text-uppercase mb-3"> {{ $data->title }}</h4>
 
@@ -52,17 +53,20 @@
                                                 <span>Message</span>
                                             </div>
                                         </button>
+                                        {{-- {{ $campaignCount }} --}}
+                                        {{-- {{ url()->previous() }} --}}
+
                                         @if ($campaignCount != 0)
+                                            <div class=" col text-white p-3  text-center bg-secondary rounded-pill">
+                                                <b> <span>Already Applied</span> </b>
+                                            </div>
+                                        @else
+                                            {{-- <h5 class="text-success"> <strong> Already Applied </strong></h5> --}}
                                             <a href="" class="col rounded-pill btn-primary">
                                                 <div class="text-white p-3  text-center">
                                                     <b> <span>Apply</span> </b>
                                                 </div>
                                             </a>
-                                        @else
-                                            {{-- <h5 class="text-success"> <strong> Already Applied </strong></h5> --}}
-                                            <div class=" col text-white p-3  text-center bg-secondary rounded-pill">
-                                                <b> <span>Already Applied</span> </b>
-                                            </div>
                                         @endif
 
                                     </div>
@@ -93,11 +97,7 @@
                                                         </div>
                                                     </form>
                                                 </div>
-                                                {{-- <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div> --}}
+
                                             </div>
                                         </div>
                                     </div>
@@ -108,9 +108,7 @@
                                             <h5 class="card-text mb-3">
                                                 Description
                                             </h5>
-                                            <p>{{ $data->detail }}. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Esse veniam facilis mollitia, iste maxime earum sit et odit, quos dolorem
-                                                quae natus distinctio ipsa deleniti tenetur beatae libero eum voluptatibus?
+                                            <p>{{ $data->detail }}.
                                             </p>
 
 
