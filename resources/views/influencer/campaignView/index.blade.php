@@ -52,12 +52,21 @@
                                                 <span>Message</span>
                                             </div>
                                         </button>
-                                        <a href="" class="col rounded-pill btn-primary">
-                                            <div class="text-white p-3  text-center">
-                                                <b> <span>Apply</span> </b>
+                                        @if ($campaignCount != 0)
+                                            <a href="" class="col rounded-pill btn-primary">
+                                                <div class="text-white p-3  text-center">
+                                                    <b> <span>Apply</span> </b>
+                                                </div>
+                                            </a>
+                                        @else
+                                            {{-- <h5 class="text-success"> <strong> Already Applied </strong></h5> --}}
+                                            <div class=" col text-white p-3  text-center bg-secondary rounded-pill">
+                                                <b> <span>Already Applied</span> </b>
                                             </div>
-                                        </a>
+                                        @endif
+
                                     </div>
+
                                     <div class="modal fade" id="exampleModal" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">

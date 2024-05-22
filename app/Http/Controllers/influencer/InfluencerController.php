@@ -68,13 +68,16 @@ class InfluencerController extends Controller
         try {
             $userId = Auth::user()->id;
             $campaign = Campaign::where('userId', '=', $id)->orderBy('id', 'DESC')->get();
-            // foreach ($campaign as $campaignId) {
-            //     $campaignCountData = Apply::where('userId', '=', $userId)
-            //         ->where('campaignId', '=', $campaignId->id)
-            //         ->get()
-            //         ->count();
-            //     $campaignCount = $campaignCountData;
-            // }
+            if (count($campaign) > 0) {
+                foreach ($campaign as $campaignId) {
+                    $campaignCountData = Apply::where('userId', '=', $userId)
+                        ->where('campaignId', '=', $campaignId->id)
+                        ->get()
+                        ->count();
+                    $campaignCount = $campaignCountData;
+                }
+                return view('influencer.campaignView.index', \compact('campaign', 'campaignCount'));
+            }
 
 
             return view('influencer.campaignView.index', \compact('campaign'));
