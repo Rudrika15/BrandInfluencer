@@ -67,7 +67,9 @@ class InfluencerController extends Controller
     {
         try {
             $userId = Auth::user()->id;
-            $campaign = Campaign::where('userId', '=', $id)->orderBy('id', 'DESC')->get();
+            // return $userId;
+            $campaign = Campaign::where('id', '=', $id)->orderBy('id', 'DESC')->get();
+            // return $campaign;
             if (count($campaign) > 0) {
                 foreach ($campaign as $campaignId) {
                     $campaignCountData = Apply::where('userId', '=', $userId)
@@ -78,8 +80,6 @@ class InfluencerController extends Controller
                 }
                 return view('influencer.campaignView.index', \compact('campaign', 'campaignCount'));
             }
-
-
             return view('influencer.campaignView.index', \compact('campaign'));
         } catch (\Throwable $th) {
             throw $th;
@@ -111,6 +111,7 @@ class InfluencerController extends Controller
                 ->where('userId', '=', $userId)
                 ->orderBy('id', 'DESC')
                 ->get();
+            // return $campaignList;
             // $campaignList = Apply::join('campaigns', 'campaigns.id', '=', 'applies.campaignId')
             //     ->where('applies.userId', '=', $userId)
             //     ->get();

@@ -47,6 +47,7 @@ class HomepageController extends Controller
             });
         }
 
+
         $influencer = $influencer->get();
 
         if ($roles->contains('Brand')) {

@@ -76,7 +76,7 @@ class OtpController extends Controller
             // Process your response here
             // return $response;
 
-            return \redirect('auth/checkotp');
+            return \redirect('/auth/checkotp');
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -110,7 +110,7 @@ class OtpController extends Controller
 
                     Auth::login($user);
                     // return Auth::user()->role;
-                    return redirect("/user/dashboard");
+                    return redirect("/home");
                     // if ($user->hasRole(['Admin'])) {
                     //     return \redirect('/');
                     // } else if ($user->hasRole(['User', 'Writer', 'Designer'])) {
@@ -130,7 +130,7 @@ class OtpController extends Controller
                         Auth::login($user);
 
                         // return Auth::user()->role;
-                        return \redirect('/user/dashboard');
+                        return \redirect('/home');
                         // if ($user->hasRole(['Admin'])) {
 
                         // } else if ($user->hasRole(['User', 'Writer', 'Designer'])) {
@@ -153,7 +153,7 @@ class OtpController extends Controller
 
                 // $otptab->delete();
             } else {
-                return redirect('auth/checkotp')->with("success", 'Otp Does not match');
+                return redirect('/home')->with("success", 'Otp Does not match');
             }
             // find mobileno in user table
         } catch (\Throwable $th) {

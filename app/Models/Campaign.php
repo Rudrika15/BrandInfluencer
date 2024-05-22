@@ -16,6 +16,6 @@ class Campaign extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'userId');
+        return $this->belongsTo(User::class, 'userId', 'id');
     }
 }
