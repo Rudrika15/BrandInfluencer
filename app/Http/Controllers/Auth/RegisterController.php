@@ -63,7 +63,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255',],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'category' => ['required_if:type,==,Business'],
+            
             'password' => 'required|same:confirm-password',
         ]);
     }
@@ -84,53 +84,18 @@ class RegisterController extends Controller
                 'username' => $data['username'],
                 'email' => $data['email'],
                 'package' => "FREE",
-                'refer' => $data['refer'],
                 'mobileno' => $data['mobileno'],
+                'session' => $data['session'],
                 'password' => Hash::make($data['password']),
             ]);
 
             // $email = User::where('email', '=', $data['email'])->get();
             // return $email;
 
-            $user->assignRole(['User', 'Brand']);
-            if ($data['type'] ==  'Individual') {
-                $card = new CardsModels();
-                $card->user_id = $user->id;
-                $card->name = $user->name;
-                $type = $data['type'];
-                $cat = Category::where('name', '=', $type)->get();
-                $cat_id = $cat[0]->id;
-                $card->category = $cat_id;
-                $card->save();
-            } else {
-                if ($data['category'] == 'other') {
-                    $category = new Category();
-                    $category->name = $data['categoryname'];
-                    $category->iconPath = "default.jpg";
-                    $category->isBusiness = "yes";
-                    $category->save();
-
-                    $card = new CardsModels();
-                    $card->user_id = $user->id;
-                    $card->name = $user->name;
-                    $card->category = $category->id;
-                    $card->save();
-                } else {
-                    $card = new CardsModels();
-                    $card->user_id = $user->id;
-                    $card->name = $user->name;
-                    $card->category = $data['category'];
-                    $card->save();
-                }
-            }
-            $payment = new Payment();
-            $payment->card_id = $card->id;
-            $payment->save();
-
-            $links = new Link();
-            $links->card_id  = $card->id;
-            $links->phone1  = $data['mobileno'];
-            $links->save();
+            if ($data['session'] == 'brand')
+                $user->assignRole(['Brand']);
+            else
+                $user->assignRole(['Influencer']);
 
 
             $id = $user->id;

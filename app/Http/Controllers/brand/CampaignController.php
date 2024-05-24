@@ -86,7 +86,7 @@ class CampaignController extends Controller
                 throw $th;
             }
         } else {
-            return redirect()->back()->with('warnings', 'You are not a BrandBeans Premium User. Unlock premium benefits for your campaign success 🚀 Please  to Purchase Premium Package..');
+            return redirect()->back()->with('warning', 'You are not a BrandBeans Premium User. Unlock premium benefits for your campaign success 🚀 Please  to Purchase Premium Package..');
         }
     }
 

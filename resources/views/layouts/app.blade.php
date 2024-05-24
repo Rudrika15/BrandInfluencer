@@ -92,6 +92,13 @@
                                 <span class="text nav-text text-blue">Packages</span>
                             </a>
                         </li>
+                        <li
+                            class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
+                            <a href="{{ route('pricing.index') }}">
+                                <i class="bi bi-piggy-bank-fill icons"></i>
+                                <span class="text nav-text text-blue">Pricing</span>
+                            </a>
+                        </li>
 
                     </ul>
                 @endrole
@@ -251,8 +258,92 @@
                     <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
                         aria-label="Close"></button>
                 </div>
+                <div class="progress" style="height: 3px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
+                        style="width: 0%"></div>
+                </div>
             </div>
         @endif
+        @if (session()->has('error'))
+            <div class="toast align-items-center text-white show bg-danger" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('error') }}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+                <div class="progress" style="height: 3px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
+                        style="width: 0%"></div>
+                </div>
+            </div>
+        @endif
+        @if (session()->has('warning'))
+            <div class="toast align-items-center text-white show bg-warning" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('warning') }}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+                <div class="progress" style="height: 3px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
+                        style="width: 0%"></div>
+                </div>
+            </div>
+        @endif
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const toasts = document.querySelectorAll('.toast');
+                toasts.forEach(toast => {
+                    const delay = toast.getAttribute('data-bs-delay');
+                    const progressBar = toast.querySelector('.progress-bar');
+                    if (progressBar) {
+                        progressBar.style.transition = `width ${delay}ms linear`;
+                        progressBar.style.width = '100%';
+                        setTimeout(() => {
+                            progressBar.style.width = '0%';
+                        }, 100); // Start the progress bar after a short delay
+                    }
+                });
+
+                // Reset progress bar when mouse enters
+                toasts.forEach(toast => {
+                    const progressBar = toast.querySelector('.progress-bar');
+                    if (progressBar) {
+                        let interval = setInterval(() => {
+                            let progressWidth = parseInt(progressBar.style.width.slice(0, -1));
+                            progressWidth -= 100 / parseInt(toast.getAttribute('data-bs-delay'));
+                            progressBar.style.width = `${progressWidth}%`;
+                            if (progressWidth <= 0) clearInterval(interval);
+                        }, 100);
+
+                        toast.addEventListener('mouseenter', function() {
+                            clearInterval(interval);
+                        });
+                        toast.addEventListener('mouseleave', function() {
+                            interval = setInterval(() => {
+                                let progressWidth = parseInt(progressBar.style.width.slice(0, -
+                                    1));
+                                progressWidth -= 100 / parseInt(toast.getAttribute(
+                                    'data-bs-delay'));
+                                progressBar.style.width = `${progressWidth}%`;
+                                if (progressWidth <= 0) clearInterval(interval);
+                            }, 100);
+                        });
+                    }
+                });
+            });
+        </script>
+
+
+
+
 
     </div>
 
