@@ -3480,6 +3480,8 @@ class ApiController extends Controller
         $category = CategoryInfluencer::whereHas('Influencer.profile')
             ->with('Influencer.profile')
             ->get();
+
+
         if ($category) {
 
             $response = [
