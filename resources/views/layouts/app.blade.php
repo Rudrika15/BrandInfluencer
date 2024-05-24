@@ -92,6 +92,13 @@
                                 <span class="text nav-text text-blue">Packages</span>
                             </a>
                         </li>
+                        <li
+                            class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
+                            <a href="{{ route('pricing.index') }}">
+                                <i class="bi bi-piggy-bank-fill icons"></i>
+                                <span class="text nav-text text-blue">Pricing</span>
+                            </a>
+                        </li>
 
                     </ul>
                 @endrole
@@ -251,8 +258,51 @@
                     <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
                         aria-label="Close"></button>
                 </div>
+                <div class="progress" style="height: 3px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
+                        style="width: 0%"></div>
+                </div>
             </div>
         @endif
+        @if (session()->has('error'))
+            <div class="toast align-items-center text-white show bg-danger" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('error') }}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+                <div class="progress" style="height: 3px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
+                        style="width: 0%"></div>
+                </div>
+            </div>
+        @endif
+        @if (session()->has('warning'))
+            <div class="toast align-items-center text-white show bg-warning" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('warning') }}
+                    </div>
+                    {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button> --}}
+                </div>
+                <div class="progress" style="height: 3px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar"
+                        style="width: 0%"></div>
+                </div>
+            </div>
+        @endif
+
+
+
+
+
+
+
 
     </div>
 
@@ -269,6 +319,68 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> --}}
     <script src="{{ asset('influencerbrand/script.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.toast');
+
+            function startProgressBar(toast) {
+                const progressBar = toast.querySelector('.progress-bar');
+                if (progressBar) {
+                    if (!toast.classList.contains('progress-in-progress')) {
+                        const delay = parseInt(toast.getAttribute('data-bs-delay'));
+                        progressBar.style.transition = `width ${delay}ms linear`;
+                        progressBar.style.width = '100%';
+                        toast.classList.add('progress-in-progress');
+
+                        // Check when progress bar reaches 100% width
+                        progressBar.addEventListener('transitionend', function() {
+                            if (progressBar.style.width === '100%' && !toast.classList.contains(
+                                    'hovered')) {
+                                toast.remove();
+                            }
+                        });
+                    }
+                }
+            }
+
+            function resetProgressBar(toast) {
+                const progressBar = toast.querySelector('.progress-bar');
+                if (progressBar) {
+                    progressBar.style.width = '0%';
+                    toast.classList.remove('progress-in-progress');
+                }
+            }
+
+            toasts.forEach(toast => {
+                toast.addEventListener('mouseenter', function() {
+                    toast.classList.add('hovered');
+                    resetProgressBar(toast);
+                });
+
+                toast.addEventListener('mouseleave', function() {
+                    toast.classList.remove('hovered');
+                    startProgressBar(toast);
+                });
+
+                startProgressBar(toast);
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     {{-- <script>
         // JavaScript code to handle the toggle buttons and AJAX request

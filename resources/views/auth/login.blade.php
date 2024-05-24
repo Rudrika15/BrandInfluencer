@@ -91,17 +91,18 @@
                 </div>
                 <br>
 
-                <div class="d-flex justify-content-between">
+                <div style="display:  flex;  justify-content: space-between">
                     <button type="submit" class="btn btn-primary">Submit</button>
 
                     @if (Route::has('password.request'))
-                        <div class="pt-3"><a href="{{ route('password.request') }}" class="a-link"><i
-                                    class="fa fa-unlock-alt"></i>Forgot password?</a></div>
+                        <div class="pt-3" style="margin-top: 15px !important"><a
+                                href="{{ route('password.request') }}" class="a-link">Forgot
+                                password?</a></div>
                     @endif
                 </div>
             </form>
             <hr>
-            <div class="pt-2  d-flex justify-content-between">
+            <div class="pt-2" style="display: flex; justify-content: space-between">
                 <a href="{{ route('otp.login') }}" class="a-link"><i class="fa fa-user-plus"></i>Login with OTP</a>
                 <a href="{{ route('register') }}" class="a-link"><i class="fa fa-user-plus"></i>Register</a>
             </div>

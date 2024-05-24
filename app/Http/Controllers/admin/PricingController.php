@@ -186,9 +186,7 @@ class PricingController extends Controller
         }
         $user->validity = $validity;
         $user->save();
-        if (!$user->hasRole('Brand')) {
-            $user->assignRole(['Brand']);
-        }
+      
         // $user->assignRole(['User', 'Brand']);
 
         // add points of user
