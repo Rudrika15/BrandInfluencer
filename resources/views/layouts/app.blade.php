@@ -287,59 +287,18 @@
                     <div class="toast-body">
                         {{ session('warning') }}
                     </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
+                    {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button> --}}
                 </div>
                 <div class="progress" style="height: 3px;">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar"
                         style="width: 0%"></div>
                 </div>
             </div>
         @endif
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const toasts = document.querySelectorAll('.toast');
-                toasts.forEach(toast => {
-                    const delay = toast.getAttribute('data-bs-delay');
-                    const progressBar = toast.querySelector('.progress-bar');
-                    if (progressBar) {
-                        progressBar.style.transition = `width ${delay}ms linear`;
-                        progressBar.style.width = '100%';
-                        setTimeout(() => {
-                            progressBar.style.width = '0%';
-                        }, 100); // Start the progress bar after a short delay
-                    }
-                });
 
-                // Reset progress bar when mouse enters
-                toasts.forEach(toast => {
-                    const progressBar = toast.querySelector('.progress-bar');
-                    if (progressBar) {
-                        let interval = setInterval(() => {
-                            let progressWidth = parseInt(progressBar.style.width.slice(0, -1));
-                            progressWidth -= 100 / parseInt(toast.getAttribute('data-bs-delay'));
-                            progressBar.style.width = `${progressWidth}%`;
-                            if (progressWidth <= 0) clearInterval(interval);
-                        }, 100);
 
-                        toast.addEventListener('mouseenter', function() {
-                            clearInterval(interval);
-                        });
-                        toast.addEventListener('mouseleave', function() {
-                            interval = setInterval(() => {
-                                let progressWidth = parseInt(progressBar.style.width.slice(0, -
-                                    1));
-                                progressWidth -= 100 / parseInt(toast.getAttribute(
-                                    'data-bs-delay'));
-                                progressBar.style.width = `${progressWidth}%`;
-                                if (progressWidth <= 0) clearInterval(interval);
-                            }, 100);
-                        });
-                    }
-                });
-            });
-        </script>
 
 
 
@@ -360,6 +319,68 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> --}}
     <script src="{{ asset('influencerbrand/script.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.toast');
+
+            function startProgressBar(toast) {
+                const progressBar = toast.querySelector('.progress-bar');
+                if (progressBar) {
+                    if (!toast.classList.contains('progress-in-progress')) {
+                        const delay = parseInt(toast.getAttribute('data-bs-delay'));
+                        progressBar.style.transition = `width ${delay}ms linear`;
+                        progressBar.style.width = '100%';
+                        toast.classList.add('progress-in-progress');
+
+                        // Check when progress bar reaches 100% width
+                        progressBar.addEventListener('transitionend', function() {
+                            if (progressBar.style.width === '100%' && !toast.classList.contains(
+                                    'hovered')) {
+                                toast.remove();
+                            }
+                        });
+                    }
+                }
+            }
+
+            function resetProgressBar(toast) {
+                const progressBar = toast.querySelector('.progress-bar');
+                if (progressBar) {
+                    progressBar.style.width = '0%';
+                    toast.classList.remove('progress-in-progress');
+                }
+            }
+
+            toasts.forEach(toast => {
+                toast.addEventListener('mouseenter', function() {
+                    toast.classList.add('hovered');
+                    resetProgressBar(toast);
+                });
+
+                toast.addEventListener('mouseleave', function() {
+                    toast.classList.remove('hovered');
+                    startProgressBar(toast);
+                });
+
+                startProgressBar(toast);
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     {{-- <script>
         // JavaScript code to handle the toggle buttons and AJAX request
