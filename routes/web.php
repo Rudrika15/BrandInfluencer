@@ -41,6 +41,30 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+// OTP 
+
+Route::controller(OtpController::class)->group(function () {
+    Route::get('loginn', 'login')->name('otp.login');
+    Route::get('auth/checkotp', 'checkotp')->name('auth.checkotp');
+    Route::post('auth/loginotp/{id?}', 'loginotp')->name('auth.loginotp');
+    Route::post('otp/generate', 'generate')->name('otp.generate');
+});
+
+// influencer details
+Route::get('/influencer', [HomepageController::class, 'influencer'])->name('main.influencer');
+Route::get('/influencer/profile/{id?}', [HomepageController::class, 'influencerProfileView'])->name('main.influencer.profile');
+
+
+
+Route::get('/about', [HomepageController::class, 'about'])->name('about');
+Route::get('/contact', [HomepageController::class, 'contact'])->name('contact');
+Route::get('/privacy', [HomepageController::class, 'privacy'])->name('privacy');
+Route::get('/refund', [HomepageController::class, 'refund'])->name('refund');
+Route::get('/term', [HomepageController::class, 'term'])->name('term');
+
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [App\Http\Controllers\HomepageController::class, 'index'])->name('home');
     Route::post('/update-session', [HomepageController::class, 'updateSession'])->name('update.session');
@@ -202,25 +226,11 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     // Route::get('/chats/messages/{receiverId}', 'ChatController@fetchMessages')->name('chats.messages');
+
+
 });
 
-// OTP 
 
-Route::controller(OtpController::class)->group(function () {
-    Route::get('loginn', 'login')->name('otp.login');
-    Route::get('auth/checkotp', 'checkotp')->name('auth.checkotp');
-    Route::post('auth/loginotp/{id?}', 'loginotp')->name('auth.loginotp');
-    Route::post('otp/generate', 'generate')->name('otp.generate');
-});
+// admin side
 
-// influencer details
-Route::get('/influencer', [HomepageController::class, 'influencer'])->name('main.influencer');
-Route::get('/influencer/profile/{id?}', [HomepageController::class, 'influencerProfileView'])->name('main.influencer.profile');
-
-
-
-Route::get('/about', [HomepageController::class, 'about'])->name('about');
-Route::get('/contact', [HomepageController::class, 'contact'])->name('contact');
-Route::get('/privacy', [HomepageController::class, 'privacy'])->name('privacy');
-Route::get('/refund', [HomepageController::class, 'refund'])->name('refund');
-Route::get('/term', [HomepageController::class, 'term'])->name('term');
+// Route::get('/admin/home', [AdminHomeController::class, 'login'])->name('admin.login');
