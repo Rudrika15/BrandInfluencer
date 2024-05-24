@@ -83,7 +83,7 @@ class ApiController extends Controller
     {
         $user = User::where('email', $request->email)
             ->first();
-        $card = CardsModels::where('user_id', '=', $user->id)->get();
+        // $card = CardsModels::where('user_id', '=', $user->id)->get();
 
         // print_r($data);
         if ($user && Hash::check($request->password, $user->password)) {
@@ -92,7 +92,7 @@ class ApiController extends Controller
             $role = $user->getRoleNames();
             $response = [
                 'User Data' => $user,
-                'CardData' => $card,
+                // 'CardData' => $card,
                 'token' => $token,
             ];
 
@@ -105,6 +105,16 @@ class ApiController extends Controller
     }
     function sendotp(Request $request)
     {
+        $rules = array(
+            'mobile' => 'required',
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
         $apiKey = urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b');
 
         // Message details
@@ -142,7 +152,18 @@ class ApiController extends Controller
         $otps->save();
 
         // Process your response here
-        return $response;
+        // return $response;
+        if ($response) {
+            $response = [
+                'message' => "OTP Send Successfully",
+            ];
+
+            return response($response, 201);
+        } else {
+            return response([
+                'message' => ['No Data Found']
+            ], 404);
+        }
 
         // old code
         // $rules = array(
@@ -202,39 +223,16 @@ class ApiController extends Controller
 
         $otps = Otp::where('mobileno', $mobile)->where('otp', $otp)->first();
         $user = User::where('mobileno', '=', $mobile)->first();
-        $usercount = User::where('mobileno', '=', $mobile)->get()->count();
-        $link = Link::where('phone1', '=', $mobile)->orWhere('phone2', '=', $mobile)->first();
-        $linkcount = Link::where('phone1', '=', $mobile)->orWhere('phone2', '=', $mobile)->get()->count();
+
         if ($otps) {
-            if ($linkcount > 0) {
-                $card_id = $link->card_id;
+            if ($user) {
 
-                $cardData = CardsModels::where('id', '=', $card_id)->first();
-                $userData = User::where('id', '=', $cardData->user_id)->first();
-                $role = $userData->getRoleNames();
-                $userId = $cardData->user_id;
-
-                $token = $userData->createToken('my-app-token')->plainTextToken;
-
-                $card = CardsModels::where('user_id', '=', $userId)->get();
-
-                $response = [
-                    'User Data' => $userData,
-                    'Card Data' => $card,
-                    'token' => $token,
-                ];
-
-                return response($response, 200);
-            } else if ($usercount > 0) {
-
-                $card = CardsModels::where('user_id', '=', $user->id)->get();
                 $token = $user->createToken('my-app-token')->plainTextToken;
                 $role = $user->getRoleNames();
 
                 $response = [
                     'User Data' => $user,
-                    'Card Data' => $card,
-                    'token' => $token,
+                    // 'token' => $token,
                 ];
 
                 return response($response, 200);
@@ -3569,7 +3567,9 @@ class ApiController extends Controller
 
     function categoryWiseInfluencerList()
     {
-        $category = CategoryInfluencer::whereHas('Influencer.profile')->get();
+        $category = CategoryInfluencer::whereHas('Influencer.profile')
+            ->with('Influencer.profile')
+            ->get();
         if ($category) {
 
             $response = [
