@@ -82,27 +82,29 @@
             </style>
             <div class="row">
                 @foreach ($influencer as $influencers)
-                    <div class="col-md-4">
-                        <div class="card" style="width: 18rem;">
-                            <a
-                                href="{{ route('brand.influencerProfile') }}/{{ $influencers->id }}/{{ $influencers->userId }}">
+                    @if ($influencers->profilePhoto != null)
+                        <div class="col-md-4">
+                            <div class="card" style="width: 18rem;">
+                                <a
+                                    href="{{ route('brand.influencerProfile') }}/{{ $influencers->id }}/{{ $influencers->userId }}">
 
-                                <img src="{{ asset('profile') }}/{{ $influencers->profilePhoto }}" class="card-img-top"
-                                    style="weight: 150px; height: 300px; object-fit: contain;"
-                                    onerror="this.src='{{ asset('images/defaultPerson.jpg') }}'" alt="...">
+                                    <img src="{{ asset('profile') }}/{{ $influencers->profilePhoto }}" class="card-img-top"
+                                        style="weight: 150px; height: 300px; object-fit: contain;"
+                                        onerror="this.src='{{ asset('images/defaultPerson.jpg') }}'" alt="...">
 
-                                <hr>
-                                <div class="card-body">
+                                    <hr>
+                                    <div class="card-body">
 
-                                    <h5 class="card-title">{{ $influencers->name }}</h5>
+                                        <h5 class="card-title">{{ $influencers->name }}</h5>
 
 
-                                </div>
-                            </a>
+                                    </div>
+                                </a>
+                            </div>
+
+
                         </div>
-
-
-                    </div>
+                    @endif
                 @endforeach
             </div>
 

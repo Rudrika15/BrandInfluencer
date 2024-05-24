@@ -405,7 +405,11 @@
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id }}">
-        <div class="d-flex justify-content-end p-3">
+        <div class="d-flex justify-content-between p-3">
+            <div class="pb-2">
+                <a href="{{ route('home') }}" class="btn btn-light">
+                    < Back</a>
+            </div>
 
             @if (session()->has('success'))
                 <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive"

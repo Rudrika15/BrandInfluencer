@@ -401,8 +401,8 @@
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id }}">
         <div class="pb-2">
-            {{-- <a href="{{ route('brand.influencerList') }}" class="btn btn-light">
-                < Back</a> --}}
+            <a href="{{ route('brand.influencerList') }}" class="btn btn-light">
+                < Back</a>
         </div>
         <div class="profile-header">
             <div class="profile-img">

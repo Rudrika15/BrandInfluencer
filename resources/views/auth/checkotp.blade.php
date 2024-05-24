@@ -69,7 +69,7 @@
                         <div class="mx-2">
 
                             <div class="mb-2">
-                                <label class="form-label">Check Otp</label>
+                                <label class="form-label">Check OTP</label>
                                 <input type="text" class="form-control" value="{{ old('otp') }}" id="otp"
                                     name="otp" required autocomplete="otp" autofocus placeholder="Enter OTP here"><i
                                     class="fa fa-phone frm-ico"></i>
