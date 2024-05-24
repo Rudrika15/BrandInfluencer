@@ -221,8 +221,8 @@ class ApiController extends Controller
         $mobile = $request->mobile;
         $otp = $request->otp;
 
-        $otps = Otp::where('mobileno', $mobile)->where('otp', $otp)->first();
         $user = User::where('mobileno', '=', $mobile)->first();
+        $otps = Otp::where('mobileno', $mobile)->where('otp', $otp)->first();
 
         if ($otps) {
             if ($user) {
@@ -243,102 +243,12 @@ class ApiController extends Controller
             }
         } else {
             return response([
-                'message' => ['Otp does not exist']
+                'message' => ['User or Otp does not exist']
             ], 404);
         }
-
-
-
-        // old code
-
-        // $email = $request->email;
-        // $otp = $request->otp;
-        // $user = User::where('email', '=', $email)->first();
-        // $card = CardsModels::where('user_id', '=', $user->id)->get();
-        // $otps = Otp::where('email', '=', $email)->where('otp', '=', $otp)->first();
-
-        // // print_r($data);
-
-        // // return $otp;
-        // if ($user && $otps) {
-        //     $token = $user->createToken('my-app-token')->plainTextToken;
-        //     //send mail + random number   code here 
-        //     $role = $user->getRoleNames();
-        //     $response = [
-        //         'User Data' => $user,
-        //         'CardData' => $card,
-        //         'token' => $token,
-        //     ];
-
-        //     return response($response, 201);
-        // } else {
-        //     return response([
-        //         'message' => ['These credentials do not match our records.']
-        //     ], 404);
-        // }
-    }
-
-    function otpapi(Request $request)
-    {
-        // $rules = array(
-        //     'mobile'  => "required",
-        // );
-
-        // $validator = Validator::make($request->all(), $rules);
-        // if ($validator->fails()) {
-        //     return $validator->errors();
-        // }
-
-        // $mobile = $request->mobile;
-
-        // $user = User::where('mobileno', '=', $mobile)->first();
-
-        // if ($user) {
-        //     $token = $user->createToken('my-app-token')->plainTextToken;
-
-        //     $card = CardsModels::where('user_id', '=', $user->id)->get();
-
-        //     $response = [
-        //         'User Data' => $user,
-        //         'Card Data' => $card,
-        //         'token' => $token,
-        //     ];
-
-        //     return response($response, 200);
-        // } else {
-        //     return response([
-        //         'message' => ['User does not exist']
-        //     ], 404);
-        // }
     }
 
 
-    // function login(Request $request)
-    // {
-    //     $user = User::where('email', $request->email)->first();
-
-    //     if ($user) {
-    //         $otp =  random_int(100000, 999999);
-    //         $time = Carbon::now()->toTimeString();
-    //         $otps = new Otp();
-    //         $otps->otp = $otp;
-    //         $otps->email = $request->email;
-    //         $otps->time = $time;
-    //         $otps->save();
-    //         $email = $request->email;
-    //         $mail = Mail::to($email)->send(new OtpMail($otp));
-    //         $response = [
-    //             'User Data' => $user,
-    //             'OTP' => $otps->otp,
-    //         ];
-
-    //         return response($response, 201);
-    //     } else {
-    //         return response([
-    //             'message' => ['These credentials do not match our records.']
-    //         ], 404);
-    //     }
-    // }
 
     // Register
     function register(Request $request)
