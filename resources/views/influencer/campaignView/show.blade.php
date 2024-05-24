@@ -60,8 +60,8 @@
 
             @foreach ($campaignList as $brand)
                 <div class="col-md-4">
-                    <a href="{{ route('influencer.campaignView') }}/{{ $brand->campaign->id }}">
-                        <div class="card" style="width: 18rem;">
+                    <div class="card" style="width: 18rem; height: 22rem">
+                        <a href="{{ route('influencer.campaignView') }}/{{ $brand->campaign->id }}">
 
                             <img src="{{ asset('campaignPhoto') }}/{{ $brand->campaign->photo }}"
                                 onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top"
@@ -69,12 +69,16 @@
 
                             <div class="card-body">
                                 <h5 class="card-title">{{ $brand->campaign->title }}</h5>
-                                <p class="card-text">{{ $brand->campaign->detail }}</p>
+                                <p class="card-text"
+                                    style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
+                                    {{ $brand->campaign->detail }}
+                                </p>
 
 
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+
                 </div>
             @endforeach
         </div>

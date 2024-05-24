@@ -11,7 +11,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     {{-- bootstrap 5 --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('influencerbrand/style.css') }}">
     {{-- icons --}}
@@ -134,7 +135,8 @@
                                 <span class="text nav-text text-blue">Chats</span>
                             </a>
                         </li>
-                        <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
+                        <li
+                            class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
                             <a href="{{ route('pricing.index') }}">
                                 <i class="bi bi-piggy-bank-fill icons"></i>
                                 <span class="text nav-text text-blue">Pricing</span>
@@ -170,7 +172,8 @@
 
             <div class="bottom-content">
                 <li class="nav-linkm ">
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="bx bx-log-out icons"></i>
                         <span class="text nav-text text-blue">Log Out</span>
                     </a>
@@ -192,36 +195,40 @@
         </div>
 
     </nav>
-    <nav class="nav menu-links text-white justify-content-end bg-light py-4 pe-4" style="z-index: -1">
+    <nav class="nav menu-links text-white justify-content-end  py-4 pe-4" style="z-index: -1">
 
         <ul class="nav">
             <li class="nav-item pe-3" style="color: #156b9f;"> </li>
             <li class="nav-item dropdown">
-                <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }}
                 </a>
-                <ul class="dropdown-menu bg-blue " aria-labelledby="navbarDropdownMenuLink">
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li class="d-none">
                         <span class="ps-2" style="color: #156b9f;">I'm an</span>
                         <div class="btn-frame">
-                            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" @if (Auth::user()->roles->contains('Influencer')) checked @endif>
+                            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false"
+                                type="radio" @if (Auth::user()->roles->contains('Influencer')) checked @endif>
                             <label for="toggle-on" class="btn left">Influencer</label>
-                            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio" @if (Auth::user()->roles->contains('Brand')) checked @endif>
+                            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true"
+                                type="radio" @if (Auth::user()->roles->contains('Brand')) checked @endif>
                             <label for="toggle-off" class="btn right">Brand</label>
 
                         </div>
 
                     </li>
-                    <hr>
-                    <a class="header-menu-link " href="{{ route('profile') }}">
+
+                    <a class="" href="{{ route('profile') }}">
                         <li class="menu-li ms-3">Profile</li>
                     </a>
                     <hr>
-                    <a class="header-menu-link " href="{{ route('user.card') }}/{{ Auth::user()->mobileno }}" target="_blank">
+                    <a class=" " href="{{ route('user.card') }}/{{ Auth::user()->mobileno }}" target="_blank">
                         <li class="menu-li ms-3">View Social Card</li>
                     </a>
                     <hr>
-                    <a class="header-menu-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a class="" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <li class="menu-li ms-3">
                             Logout
                         </li>
@@ -232,20 +239,22 @@
         </ul>
 
     </nav>
-        <div class="d-flex justify-content-end p-3">
+    <div class="d-flex justify-content-end p-3">
 
-            @if (session()->has('success'))
-                <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
-                    <div class="d-flex">
-                        <div class="toast-body">
-                            {{ session('success') }}
-                        </div>
-                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        @if (session()->has('success'))
+            <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('success') }}
                     </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
                 </div>
-            @endif
+            </div>
+        @endif
 
-        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <div class="container content">
@@ -254,7 +263,9 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> --}}
     <script src="{{ asset('influencerbrand/script.js') }}"></script>
