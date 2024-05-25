@@ -118,9 +118,13 @@
                                     <b class="ps-2">
                                         @if (Auth::user()->hasRole('Influencer'))
                                             {{ $chat->brand->name }}
+
+                                            Influencer
                                         @endif
+
                                         @if (Auth::user()->hasRole('Brand'))
                                             {{ $chat->influencer->name }}
+                                            brand
                                         @endif
                                         @if ($chat->messages && $chat->messages->isNotEmpty())
                                             <small class="text-muted">{{ $chat->messages->last()->content }}</small>
@@ -137,6 +141,10 @@
 
                     <!-- Empty list element to display fetched user names -->
                     <ul id="user-list"></ul>
+                    {{-- @foreach ($chats as $item)
+                        {{ $item->id }}
+                    @endforeach --}}
+
                 </div>
                 <div class="col-md-7 bg-light" style="height: 600px;">
                     <div class="d-flex flex-column h-100">
