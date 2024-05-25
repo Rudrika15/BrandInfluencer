@@ -185,7 +185,7 @@
             <hr>
             <div class="pt-2" style="display: flex; justify-content: space-between">
                 <a href="{{ route('otp.login') }}" class="a-link"><i class="fa fa-user-plus"></i>Login with OTP</a>
-                <a href="{{ route('register') }}" class="a-link"><i class="fa fa-user-plus"></i>Login</a>
+                <a href="{{ route('login') }}" class="a-link"><i class="fa fa-user-plus"></i>Login</a>
             </div>
         </div>
 

@@ -24,6 +24,7 @@ class ChatController extends Controller
             ->with('influencer')
             ->with('brand')
             ->orderBy('id', 'desc');
+        // return $chats;
 
         if (Auth::user()->hasRole(['Influencer'])) {
             $chats = $chats->where('influencerId', Auth::user()->id)->get();

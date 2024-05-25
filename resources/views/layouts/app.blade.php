@@ -227,16 +227,16 @@
                     </li>
 
                     <a class="" href="{{ route('profile') }}">
-                        <li class="menu-li ms-3">Profile</li>
+                        <li class="menu-li ms-3" style="  pointer-events: none;">Profile</li>
                     </a>
                     <hr>
                     <a class=" " href="{{ route('user.card') }}/{{ Auth::user()->mobileno }}" target="_blank">
-                        <li class="menu-li ms-3">View Social Card</li>
+                        <li class="menu-li ms-3" style="  pointer-events: none;">View Social Card</li>
                     </a>
                     <hr>
                     <a class="" href="{{ route('logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <li class="menu-li ms-3">
+                        <li class="menu-li ms-3" style="  pointer-events: none;">
                             Logout
                         </li>
                     </a>

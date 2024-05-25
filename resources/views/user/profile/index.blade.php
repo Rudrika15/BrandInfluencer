@@ -399,7 +399,7 @@
     </style>
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
-        <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id }}">
+        <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id ?? '-' }}">
         <div class="pb-2">
             <a href="{{ route('brand.influencerList') }}" class="btn btn-light">
                 < Back</a>
@@ -415,10 +415,10 @@
                 @endif
             </div>
             <div class="profile-nav-info">
-                <h3 class="user-name">{{ $influencer->profile->name }}</h3>
+                <h3 class="user-name">{{ $influencer->profile->name ?? '-' }}</h3>
                 <div class="address">
-                    <p id="state" class="state">{{ $influencer->city }},</p>
-                    <span id="country" class="country">{{ $influencer->state }}.</span>
+                    <p id="state" class="state">{{ $influencer->city ?? '-' }},</p>
+                    <span id="country" class="country">{{ $influencer->state ?? '-' }}.</span>
                 </div>
 
 
@@ -427,7 +427,7 @@
                 <div class="notification">
                     {{-- <i class="bi bi-bell"></i>
                     <span class="alert-message">3</span> --}}
-                    <a href="#" class="btn btn-light">Edit Profile</a>
+                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-light shadow-none">Edit Profile</a>
                 </div>
             </div>
         </div>
@@ -437,12 +437,12 @@
                 <div class="profile-side">
                     <span class="mobile-no"><i class="bi bi-telephone-plus-fill"></i></span>
 
-                    <span class="mobile-no formattedMobileNumber" data-influencer-id="{{ $influencer->id }}">
-                        {{ $influencer->profile->mobileno }} </span>
+                    <span class="mobile-no formattedMobileNumber" data-influencer-id="{{ $influencer->id ?? '-' }}">
+                        {{ $influencer->profile->mobileno ?? '-' }} </span>
                     <div class="user-bio">
                         <h3>About</h3>
                         <p class="bio">
-                            {{ $influencer->about }}
+                            {{ $influencer->about ?? '-' }}
                         </p>
                     </div>
                     <div class="profile-btn">
@@ -465,55 +465,61 @@
                     <div class="profile-Gallery tab">
                         <div class="row">
 
+                            @if (isset($influencer->profile))
 
-                            @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
-                                <div class="col-md-4">
-                                    <div class="card text-start" style="width: 15rem;">
+                                @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                                    <div class="col-md-4">
+                                        <div class="card text-start" style="width: 15rem;">
 
-                                        <style>
-                                            .card-img-top {
-                                                aspect-ratio: 2/2;
-                                            }
+                                            <style>
+                                                .card-img-top {
+                                                    aspect-ratio: 2/2;
+                                                }
 
-                                            .card-img-top:hover {
-                                                transform: scale(1.1);
-                                                transition: 0.1s ease-in-out;
-                                                margin-top: -10px;
-                                            }
-                                        </style>
-                                        <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
-                                            <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200"
-                                                class="card-img-top p-3 img-thumbnail portImage" alt="">
-                                        </a>
+                                                .card-img-top:hover {
+                                                    transform: scale(1.1);
+                                                    transition: 0.1s ease-in-out;
+                                                    margin-top: -10px;
+                                                }
+                                            </style>
+                                            <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                target="_blank">
+                                                <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                    height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                                    alt="">
+                                            </a>
 
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            @endif
 
                         </div>
 
 
                     </div>
-                    <div class="profile-Packages tab">
-                        <div class="row ">
-                            @foreach ($influencer->profile->influencerPackage as $package)
-                                <div class="col-md-4 p-2">
-                                    <div class="card" style="width: 15rem;">
-                                        <div class="card-header">
-                                            {{ $package->title }}
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text">{!! $package->description !!}</p>
-                                            {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                    @if (isset($influencer->profile))
+                        <div class="profile-Packages tab">
+                            <div class="row ">
+                                @foreach ($influencer->profile->influencerPackage as $package)
+                                    <div class="col-md-4 p-2">
+                                        <div class="card" style="width: 15rem;">
+                                            <div class="card-header">
+                                                {{ $package->title }}
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text">{!! $package->description !!}</p>
+                                                {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+
+                            </div>
+
 
                         </div>
-
-
-                    </div>
+                    @endif
 
                 </div>
             </div>
@@ -527,90 +533,96 @@
     <script>
         $(document).ready(function() {
             // Get the raw mobile number
-            var rawMobileNumber = '{{ $influencer->profile->mobileno }}';
+            @if (isset($influencer->profile))
+                var rawMobileNumber = '{{ $influencer->profile->mobileno }}';
+            @else
+                var rawMobileNumber = 'N/A';
+            @endif
 
             // Format the mobile number
             var formattedNumber = formatMobileNumber(rawMobileNumber);
             // Update the content of the span element
-            $('.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]').text(formattedNumber);
+            @if (isset($influencer->id))
+                $('.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]').text(formattedNumber);
 
-            function formatMobileNumber(number) {
-                // Assuming the mobile number is 10 digits
-                var formattedNumber = number.substr(0, 0) + '********' + number.substr(0, 0);
-                return formattedNumber;
-            }
-            $('#chatBtn').click(function() {
-                // Toggle between original and formatted numbers
-                var $formattedMobileNumber = $(
-                    '.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]');
-                var currentText = $formattedMobileNumber.text();
-
-                var id = $("#authId").val();
-                var influencerId = $("#influencerId").val();
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-
-                if (currentText === formattedNumber) {
-                    Swal.fire({
-                        title: "Do you really want to Contact this influencer?",
-                        text: "It might be spent some points from your package for this.",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonText: "Yes",
-                        confirmButtonColor: "#00c9e4",
-                        cancelButtonText: "No",
-                        cancelButtonColor: "#d33",
-                    }).then(function(confirm) {
-                        if (confirm.isConfirmed) {
-                            // $formattedMobileNumber.text(rawMobileNumber);
-                            console.log('id:', id);
-                            // Add an AJAX request here
-                            $.ajax({
-                                url: "{{ route('brand.influencerContactPoint') }}",
-                                method: "POST",
-                                headers: {
-                                    'X-CSRF-TOKEN': csrfToken
-                                },
-                                data: {
-                                    id: id,
-                                    influencerId: influencerId,
-                                },
-                                success: function(response) {
-                                    // console.log("AJAX response:", response);
-                                    alert(response.message);
-                                    if (response.message == "Success") {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'You spent points for contacting this influencer',
-                                            text: response.message
-                                        }).then(function() {
-                                            $formattedMobileNumber.text(
-                                                rawMobileNumber);
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            // text: response.message
-                                            text: "you don't have enough points for contacting this influencer"
-                                        }).then(function() {
-
-                                            // console.warn(response);
-                                            window.location.href =
-                                                '{{ route('brand.pricing') }}';
-                                        });
-                                    }
-
-                                },
-                                error: function(xhr, status, error) {
-                                    // Handle the AJAX error here
-                                    console.log("AJAX error:", xhr);
-                                }
-                            });
-                        }
-                    });
+                function formatMobileNumber(number) {
+                    // Assuming the mobile number is 10 digits
+                    var formattedNumber = number.substr(0, 0) + '********' + number.substr(0, 0);
+                    return formattedNumber;
                 }
+                $('#chatBtn').click(function() {
+                        // Toggle between original and formatted numbers
+                        var $formattedMobileNumber = $(
+                            '.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]');
+                        var currentText = $formattedMobileNumber.text();
 
-            });
+                        var id = $("#authId").val();
+                        var influencerId = $("#influencerId").val();
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    @endif
+
+
+                    if (currentText === formattedNumber) {
+                        Swal.fire({
+                            title: "Do you really want to Contact this influencer?",
+                            text: "It might be spent some points from your package for this.",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Yes",
+                            confirmButtonColor: "#00c9e4",
+                            cancelButtonText: "No",
+                            cancelButtonColor: "#d33",
+                        }).then(function(confirm) {
+                            if (confirm.isConfirmed) {
+                                // $formattedMobileNumber.text(rawMobileNumber);
+                                console.log('id:', id);
+                                // Add an AJAX request here
+                                $.ajax({
+                                    url: "{{ route('brand.influencerContactPoint') }}",
+                                    method: "POST",
+                                    headers: {
+                                        'X-CSRF-TOKEN': csrfToken
+                                    },
+                                    data: {
+                                        id: id,
+                                        influencerId: influencerId,
+                                    },
+                                    success: function(response) {
+                                        // console.log("AJAX response:", response);
+                                        alert(response.message);
+                                        if (response.message == "Success") {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'You spent points for contacting this influencer',
+                                                text: response.message
+                                            }).then(function() {
+                                                $formattedMobileNumber.text(
+                                                    rawMobileNumber);
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                // text: response.message
+                                                text: "you don't have enough points for contacting this influencer"
+                                            }).then(function() {
+
+                                                // console.warn(response);
+                                                window.location.href =
+                                                    '{{ route('brand.pricing') }}';
+                                            });
+                                        }
+
+                                    },
+                                    error: function(xhr, status, error) {
+                                        // Handle the AJAX error here
+                                        console.log("AJAX error:", xhr);
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                });
         });
     </script>
     <script>
