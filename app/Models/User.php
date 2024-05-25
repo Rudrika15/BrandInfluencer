@@ -127,4 +127,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chat::class, 'receiverId', 'id');
     }
+
+    public function influencerCategory()
+    {
+        return $this->hasMany(CategoryInfluencer::class, 'userId', 'id');
+    }
 }

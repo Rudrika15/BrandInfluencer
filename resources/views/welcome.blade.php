@@ -46,15 +46,16 @@
             <div class="nav-item">
                 <nav class="d-none d-lg-block">
                     <ul>
-                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="/" class="active">Home</a></li>
                         <li><a href="#">Influencer</a></li>
                     </ul>
                 </nav>
                 <ul>
-                    <li><a href="{{route('login')}}" class="custombtn">Login</a></li>
-                    <li><a href="#" class="custombtn highlighbtn">Register</a></li>
+                    <li><a href="{{ route('login') }}" class="custombtn">Login</a></li>
+                    <li><a href="{{ route('register') }}" class="custombtn highlighbtn">Register</a></li>
                 </ul>
-                <div class="side-menu-close d-flex d-lg-none flex-wrap flex-column align-items-center justify-content-center ml-auto">
+                <div
+                    class="side-menu-close d-flex d-lg-none flex-wrap flex-column align-items-center justify-content-center ml-auto">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -72,7 +73,7 @@
         </nav>
         <ul class="login_btn">
             <li><a href="{{ route('login') }}" class="custombtn">Login</a></li>
-            <li><a href="#" class="custombtn highlighbtn">Register</a></li>
+            <li><a href="{{ route('register') }}" class="custombtn highlighbtn">Register</a></li>
         </ul>
         <div class="side-menu-close d-flex flex-wrap flex-column align-items-center justify-content-center">
             <span></span>
@@ -100,9 +101,14 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 banner_content">
                                 <div class="carousel-caption">
-                                    <h1 class="wow fadeInUp" data-wow-duration="1s">Find The Right <span>Influencer</span> For <span>Your Business</span></h1>
-                                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your business identifying involves individuals whose values align with identifying your brand.</p>
-                                    <a class="wow fadeInUp custombtn" data-wow-duration="2s" href="#">Find Influencer</a>
+                                    <h1 class="wow fadeInUp" data-wow-duration="1s">Find The Right
+                                        <span>Influencer</span> For <span>Your Business</span>
+                                    </h1>
+                                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer
+                                        for your business identifying involves individuals whose values align with
+                                        identifying your brand.</p>
+                                    <a class="wow fadeInUp custombtn" data-wow-duration="2s" href="#">Find
+                                        Influencer</a>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 banner_img">
@@ -117,9 +123,14 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 banner_content">
                                 <div class="carousel-caption">
-                                    <h1 class="wow fadeInUp" data-wow-duration="1s">Find The Right <span>Influencer</span> For <span>Your Business</span></h1>
-                                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your business identifying involves individuals whose values align with identifying your brand.</p>
-                                    <a class="wow fadeInUp custombtn" data-wow-duration="2s" href="#">Find Influencer</a>
+                                    <h1 class="wow fadeInUp" data-wow-duration="1s">Find The Right
+                                        <span>Influencer</span> For <span>Your Business</span>
+                                    </h1>
+                                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer
+                                        for your business identifying involves individuals whose values align with
+                                        identifying your brand.</p>
+                                    <a class="wow fadeInUp custombtn" data-wow-duration="2s" href="#">Find
+                                        Influencer</a>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 banner_img">
@@ -189,7 +200,8 @@
                 <div class="item featured_item">
                     <div class="featured_slide">
                         <div>
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
+                            <img class="img-responsive"
+                                src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
@@ -200,7 +212,8 @@
                 <div class="item featured_item">
                     <div class="featured_slide">
                         <div>
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
+                            <img class="img-responsive"
+                                src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
@@ -211,7 +224,8 @@
                 <div class="item featured_item">
                     <div class="featured_slide">
                         <div>
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
+                            <img class="img-responsive"
+                                src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
@@ -222,7 +236,8 @@
                 <div class="item featured_item">
                     <div class="featured_slide">
                         <div>
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
+                            <img class="img-responsive"
+                                src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
@@ -239,22 +254,28 @@
             </div>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item active">
-                    <a class="nav-link active" id="food-tab" data-toggle="tab" href="#foodtab" role="tab" aria-controls="foodtab" aria-selected="true">Food</a>
+                    <a class="nav-link active" id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
+                        aria-controls="foodtab" aria-selected="true">Food</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="beauty-tab" data-toggle="tab" href="#beautytab" role="tab" aria-controls="beautytab" aria-selected="false">Beauty</a>
+                    <a class="nav-link" id="beauty-tab" data-toggle="tab" href="#beautytab" role="tab"
+                        aria-controls="beautytab" aria-selected="false">Beauty</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="travel-tab" data-toggle="tab" href="#traveltab" role="tab" aria-controls="traveltab" aria-selected="false">Travel</a>
+                    <a class="nav-link" id="travel-tab" data-toggle="tab" href="#traveltab" role="tab"
+                        aria-controls="traveltab" aria-selected="false">Travel</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="lifestyle-tab" data-toggle="tab" href="#lifestyletab" role="tab" aria-controls="lifestyletab" aria-selected="false">Lifesyle</a>
+                    <a class="nav-link" id="lifestyle-tab" data-toggle="tab" href="#lifestyletab" role="tab"
+                        aria-controls="lifestyletab" aria-selected="false">Lifesyle</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="fitness-tab" data-toggle="tab" href="#fitnesstab" role="tab" aria-controls="fitnesstab" aria-selected="false">Fitness</a>
+                    <a class="nav-link" id="fitness-tab" data-toggle="tab" href="#fitnesstab" role="tab"
+                        aria-controls="fitnesstab" aria-selected="false">Fitness</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="fashion-tab" data-toggle="tab" href="#fashiontab" role="tab" aria-controls="fashiontab" aria-selected="false">Fashion</a>
+                    <a class="nav-link" id="fashion-tab" data-toggle="tab" href="#fashiontab" role="tab"
+                        aria-controls="fashiontab" aria-selected="false">Fashion</a>
                 </li>
             </ul>
         </div>
@@ -776,7 +797,8 @@
                     <div class="heading wow fadeInUp" data-wow-duration="1s">
                         <h1>Promote your business through <span>Our Influencer</span></h1>
                     </div>
-                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your business involves identifying individuals whose values align with your brand.</p>
+                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your
+                        business involves identifying individuals whose values align with your brand.</p>
                     <button class="wow fadeInUp custombtn" data-wow-duration="2s">Fill the Form</button>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -790,7 +812,7 @@
     <!-- Influencer Explore End -->
 
 
-    <!-- Festival Post Section -->
+    {{-- <!-- Festival Post Section -->
     <div class="container-fluid festival_post_section">
         <div class="container">
             <div class="festival_post_inner">
@@ -802,7 +824,8 @@
                         <div class="heading wow fadeInUp" data-wow-duration="1s">
                             <h1>Create Your Personalized <span>Festival Post</span></h1>
                         </div>
-                        <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your business involves identifying individuals whose values align with your brand.</p>
+                        <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your
+                            business involves identifying individuals whose values align with your brand.</p>
                         <div class="wow fadeInUp" data-wow-duration="2s">
                             <button class="custombtn">Readymade</button>
                             <button class="custombtn highlighbtn">Customize Now</button>
@@ -812,10 +835,10 @@
             </div>
         </div>
     </div>
-    <!-- Festival Post Section End -->
+    <!-- Festival Post Section End --> --}}
 
 
-    <!-- Brand Story Section -->
+    {{-- <!-- Brand Story Section -->
     <div class="container">
         <div class="brand_story_section">
             <div class="row">
@@ -823,7 +846,8 @@
                     <div class="heading wow fadeInUp" data-wow-duration="1s">
                         <h1>Post Your <span>Brand Story</span></h1>
                     </div>
-                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your business involves identifying individuals whose values align with your brand.</p>
+                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your
+                        business involves identifying individuals whose values align with your brand.</p>
                     <div class="wow fadeInUp" data-wow-duration="2s">
                         <button class="custombtn">Post Story</button>
                     </div>
@@ -835,55 +859,70 @@
                                 <div class="swiper-slide">
                                     <div class="brand_story_div">
                                         <div class="brand_story_img">
-                                            <img class="img-responsive" src="{{ asset('assetshtml/images/brand_story_img1.jpg') }}" />
+                                            <img class="img-responsive"
+                                                src="{{ asset('assetshtml/images/brand_story_img1.jpg') }}" />
                                         </div>
                                         <div class="brand_story_content">
                                             <h4>Influencer Is a Real Job.</h4>
-                                            <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the table win-win survival strategies to ensure proactive domination ensure proactive domination.</p>
+                                            <p>Bring to the table win-win survival strategies to ensure proactive
+                                                domination. At the end of the table win-win survival strategies to
+                                                ensure proactive domination ensure proactive domination.</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="brand_story_div">
                                         <div class="brand_story_img">
-                                            <img class="img-responsive" src="{{ asset('assetshtml/images/brand_story_img2.jpg') }}" />
+                                            <img class="img-responsive"
+                                                src="{{ asset('assetshtml/images/brand_story_img2.jpg') }}" />
                                         </div>
                                         <div class="brand_story_content">
                                             <h4>Influencer Is a Real Job.</h4>
-                                            <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the table win-win survival strategies to ensure proactive domination ensure proactive domination.</p>
+                                            <p>Bring to the table win-win survival strategies to ensure proactive
+                                                domination. At the end of the table win-win survival strategies to
+                                                ensure proactive domination ensure proactive domination.</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="brand_story_div">
                                         <div class="brand_story_img">
-                                            <img class="img-responsive" src="{{ asset('assetshtml/images/brand_story_img3.jpg') }}" />
+                                            <img class="img-responsive"
+                                                src="{{ asset('assetshtml/images/brand_story_img3.jpg') }}" />
                                         </div>
                                         <div class="brand_story_content">
                                             <h4>Influencer Is a Real Job.</h4>
-                                            <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the table win-win survival strategies to ensure proactive domination ensure proactive domination.</p>
+                                            <p>Bring to the table win-win survival strategies to ensure proactive
+                                                domination. At the end of the table win-win survival strategies to
+                                                ensure proactive domination ensure proactive domination.</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="brand_story_div">
                                         <div class="brand_story_img">
-                                            <img class="img-responsive" src="{{ asset('assetshtml/images/brand_story_img1.jpg') }}" />
+                                            <img class="img-responsive"
+                                                src="{{ asset('assetshtml/images/brand_story_img1.jpg') }}" />
                                         </div>
                                         <div class="brand_story_content">
                                             <h4>Influencer Is a Real Job.</h4>
-                                            <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the table win-win survival strategies to ensure proactive domination ensure proactive domination.</p>
+                                            <p>Bring to the table win-win survival strategies to ensure proactive
+                                                domination. At the end of the table win-win survival strategies to
+                                                ensure proactive domination ensure proactive domination.</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="brand_story_div">
                                         <div class="brand_story_img">
-                                            <img class="img-responsive" src="{{ asset('assetshtml/images/brand_story_img2.jpg') }}" />
+                                            <img class="img-responsive"
+                                                src="{{ asset('assetshtml/images/brand_story_img2.jpg') }}" />
                                         </div>
                                         <div class="brand_story_content">
                                             <h4>Influencer Is a Real Job.</h4>
-                                            <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the table win-win survival strategies to ensure proactive domination ensure proactive domination.</p>
+                                            <p>Bring to the table win-win survival strategies to ensure proactive
+                                                domination. At the end of the table win-win survival strategies to
+                                                ensure proactive domination ensure proactive domination.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -894,10 +933,10 @@
             </div>
         </div>
     </div>
-    <!-- Brand Story Section End -->
+    <!-- Brand Story Section End --> --}}
 
 
-    <!-- Digital Business Card Section -->
+    {{-- <!-- Digital Business Card Section -->
     <div class="container">
         <div class="business_card_section">
             <div class="row">
@@ -911,7 +950,8 @@
                         <div class="heading wow fadeInUp" data-wow-duration="1s">
                             <h1>Create Your <br><span>Digital Business Card</span></h1>
                         </div>
-                        <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your business involves identifying individuals whose values align with your brand.</p>
+                        <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your
+                            business involves identifying individuals whose values align with your brand.</p>
                         <div class="wow fadeInUp" data-wow-duration="2s">
                             <button class="custombtn">Create Your Card</button>
                         </div>
@@ -920,7 +960,7 @@
             </div>
         </div>
     </div>
-    <!-- Digital Business Card Section End -->
+    <!-- Digital Business Card Section End --> --}}
 
 
     <!-- Footer -->
@@ -929,8 +969,11 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <h4>About Brandbeans</h4>
-                    <p>Brand Beans is a leading one-stop window to explore and shop unique lifestyle and utility products. We have been showcasing the best and out-of-the-box range of products that will level up your living style.</p>
-                    <a href="#" class="explore_btn">Explore More <span><i class='bx bx-right-arrow-alt'></i></span></a>
+                    <p>Brand Beans is a leading one-stop window to explore and shop unique lifestyle and utility
+                        products. We have been showcasing the best and out-of-the-box range of products that will level
+                        up your living style.</p>
+                    <a href="#" class="explore_btn">Explore More <span><i
+                                class='bx bx-right-arrow-alt'></i></span></a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 quick_links">
                     <h4>Quick Links</h4>
@@ -957,10 +1000,12 @@
                     <h4>Download App</h4>
                     <ul>
                         <li>
-                            <a href="#"><img src="{{ asset('assetshtml/images/appstore_icon.png') }}" height="50" /></a>
+                            <a href="#"><img src="{{ asset('assetshtml/images/appstore_icon.png') }}"
+                                    height="50" /></a>
                         </li>
                         <li>
-                            <a href="#"><img src="{{ asset('assetshtml/images/playstore_icon.png') }}" height="50" /></a>
+                            <a href="#"><img src="{{ asset('assetshtml/images/playstore_icon.png') }}"
+                                    height="50" /></a>
                         </li>
                     </ul>
                 </div>
