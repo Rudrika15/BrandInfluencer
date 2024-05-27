@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('admin.layouts.app')
 @section('title', 'Brand beans | Brand Activity')
 @section('content')
     <div class='container'>
@@ -24,7 +24,8 @@
                             <input type="hidden" name="activityId" value="{{ $activity->id }}">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" name="title" id="title" value="{{ $activity->title }}" class="form-control" required>
+                                <input type="text" name="title" id="title" value="{{ $activity->title }}"
+                                    class="form-control" required>
                             </div>
                             <br>
                             <button type="submit" class="btn btn-success btn-sm">Submit</button>

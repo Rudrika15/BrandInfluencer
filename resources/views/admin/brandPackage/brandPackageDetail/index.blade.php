@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('admin.layouts.app')
 @section('title', 'Brand beans | Brand Packages Details ')
 @section('content')
     <div class='container'>
@@ -18,7 +18,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin.brand.package.detail.store') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
+                        <form action="{{ route('admin.brand.package.detail.store') }}" enctype="multipart/form-data"
+                            method="post" style="margin-top: 15px;">
                             @csrf
                             <input type="hidden" name="brandPackageId" value="{{ request('id') }}">
                             <div class="mb-3">
@@ -35,7 +36,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="points" class="form-label">points</label>
-                                <input type="number" class="form-control" value="{{ old('points') }}" id="points" name="points" required>
+                                <input type="number" class="form-control" value="{{ old('points') }}" id="points"
+                                    name="points" required>
                                 @if ($errors->has('points'))
                                     <span class="error text-danger fs-6">{{ $errors->first('points') }}</span>
                                 @endif
@@ -56,9 +58,9 @@
 
                     <div class="table-responsive">
 
-                        <div class="table-responsive" style="margin-top: 15px;">
+                        <div class="table-responsive p-3" style="margin-top: 15px;">
 
-                            <table class="table table-bordered table-responsive">
+                            <table class="table table-bordered ">
                                 <thead>
                                     <tr>
                                         <th> Activity</th>
@@ -77,7 +79,8 @@
                                             <td>{!! $data->details !!}</td>
                                             <td>
                                                 {{-- <a class="btn btn-primary btn-sm" href="{{ route('admin.brand.package.edit') }}/{{ $data->id }}">Edit</a> --}}
-                                                <a class="btn btn-danger btn-sm" href="{{ route('admin.brand.package.detail.delete') }}/{{ $data->id }}">Delete</a>
+                                                <a class="btn btn-danger btn-sm"
+                                                    href="{{ route('admin.brand.package.detail.delete') }}/{{ $data->id }}">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach

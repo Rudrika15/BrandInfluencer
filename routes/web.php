@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\BrandCategoryController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\CategoryInfluencerController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\ManualPaymentController;
 use App\Http\Controllers\admin\MediaController;
 use App\Http\Controllers\admin\PricingController;
 use App\Http\Controllers\admin\RoleController;
@@ -14,8 +15,10 @@ use App\Http\Controllers\Admin\user\SubscriptionpackageController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\WriterDesignerController;
 use App\Http\Controllers\Auth\OtpController;
+use App\Http\Controllers\brand\BrandPackageController;
 use App\Http\Controllers\brand\BrandPackageDetailController;
 use App\Http\Controllers\brand\CampaignController;
+use App\Http\Controllers\brand\InstaMojoPaymentController;
 use App\Http\Controllers\BrandInfluencerNotificationController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomepageController;
@@ -293,3 +296,32 @@ Route::post('admin/brand/package/activity/store', [ActivityController::class, 's
 Route::get('admin/brand/package/activity/edit/{id?}', [ActivityController::class, 'edit'])->name('admin.brand.activity.edit');
 Route::post('admin/brand/package/activity/update', [ActivityController::class, 'update'])->name('admin.brand.activity.update');
 Route::get('admin/brand/package/activity/delete/{id?}', [ActivityController::class, 'delete'])->name('admin.brand.activity.delete');
+
+
+// Payment REPORT
+
+Route::get('/paymentReport/index', [ManualPaymentController::class, 'index'])->name('paymentReport.index');
+Route::post('/changeStatus', [ManualPaymentController::class, 'changeStatus'])->name('paymentReport.changeStatus');
+Route::post('/updateUserPackage', [ManualPaymentController::class, 'updateUserPackage'])->name('updateUserPackage');
+
+
+// brand Packages
+Route::get('admin/package/index', [BrandPackageController::class, 'index'])->name('admin.brand.package.index');
+Route::get('admin/package/create', [BrandPackageController::class, 'create'])->name('admin.brand.package.create');
+Route::post('admin/package/store', [BrandPackageController::class, 'store'])->name('admin.brand.package.store');
+Route::get('admin/package/edit/{id?}', [BrandPackageController::class, 'edit'])->name('admin.brand.package.edit');
+Route::post('admin/package/update', [BrandPackageController::class, 'update'])->name('admin.brand.package.update');
+Route::get('admin/package/delete/{id?}', [BrandPackageController::class, 'destroy'])->name('admin.brand.package.delete');
+
+// brand package details
+Route::get('admin/package/detail/index/{id?}', [BrandPackageDetailController::class, 'index'])->name('admin.brand.package.detail.index');
+Route::post('admin/package/detail/store', [BrandPackageDetailController::class, 'store'])->name('admin.brand.package.detail.store');
+Route::get('admin/package/detail/delete/{id?}', [BrandPackageDetailController::class, 'delete'])->name('admin.brand.package.detail.delete');
+
+Route::get('brand/pricing', [BrandPackageDetailController::class, 'pricingView'])->name('brand.pricing');
+
+// brand payment
+// Route::group(['prefix' => 'instamojopayments'], function () {
+//     Route::post('/pay', [InstaMojoPaymentController::class, 'pay'])->name('pay');
+//     Route::any('/success', [InstaMojoPaymentController::class, 'success']);
+// });

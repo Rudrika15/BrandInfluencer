@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('admin.layouts.app')
 @section('title', 'Brand beans | Brand Category')
 @section('content')
     <div class='container'>
@@ -18,28 +18,34 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-
-                        <table id="example" class="table table-bordered table-responsive">
-                            <thead>
-                                <tr>
-                                    <th> Name</th>
-                                    <th> Icons</th>
-                                    <th> Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($brandCategory as $data)
+                        <div class="table-responsive">
+                            <table id="example" class="table table-bordered ">
+                                <thead>
                                     <tr>
-                                        <td>{{ $data->categoryName }}</td>
-                                        <td><img src="{{ asset('brandCategoryIcon') }}/{{ $data->icon }}" alt="{{ __('main image') }}" style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'></td>
-                                        <td>
-                                            <a class="btn btn-primary btn-sm" href="{{ route('brand.category.edit') }}/{{ $data->id }}">Edit</a>
-                                            <a class="btn btn-danger btn-sm" href="{{ route('brand.category.delete') }}/{{ $data->id }}">Delete</a>
-                                        </td>
+                                        <th> Name</th>
+                                        <th> Icons</th>
+                                        <th> Action</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($brandCategory as $data)
+                                        <tr>
+                                            <td>{{ $data->categoryName }}</td>
+                                            <td><img src="{{ asset('brandCategoryIcon') }}/{{ $data->icon }}"
+                                                    alt="{{ __('main image') }}"
+                                                    style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm"
+                                                    href="{{ route('brand.category.edit') }}/{{ $data->id }}">Edit</a>
+                                                <a class="btn btn-danger btn-sm"
+                                                    href="{{ route('brand.category.delete') }}/{{ $data->id }}">Delete</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

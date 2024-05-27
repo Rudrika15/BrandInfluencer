@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('admin.layouts.app')
 @section('title', 'Brand beans | Edit Brand Category')
 @section('content')
     <div class='container'>
@@ -24,7 +24,8 @@
                             <input type="hidden" name="brandCategoryId" value="{{ $brandCategory->id }}">
                             <div class="mb-3">
                                 <label for="" class="form-label">Name</label><span class="text-danger">*</span>
-                                <input type="text" class="form-control" value="{{ $brandCategory->categoryName }}" name="categoryName" id="categoryName" aria-describedby="helpId" placeholder="" />
+                                <input type="text" class="form-control" value="{{ $brandCategory->categoryName }}"
+                                    name="categoryName" id="categoryName" aria-describedby="helpId" placeholder="" />
                                 @if ($errors->has('categoryName'))
                                     <span class="text-danger">{{ $errors->first('categoryName') }}</span>
                                 @endif
@@ -34,11 +35,14 @@
                                 <label for="exampleInputPassword1" class="form-label">Icon</label>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <input type="file" accept='image/*' onchange="readURL(this,'#img1')" class="form-control" id="image" name="icon">
+                                        <input type="file" accept='image/*' onchange="readURL(this,'#img1')"
+                                            class="form-control" id="image" name="icon">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="image"></label>
-                                        <img src="{{ asset('brandCategoryIcon') }}/{{ $brandCategory->icon }}" alt="{{ __('main image') }}" id="img1" style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
+                                        <img src="{{ asset('brandCategoryIcon') }}/{{ $brandCategory->icon }}"
+                                            alt="{{ __('main image') }}" id="img1"
+                                            style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
                                     </div>
                                 </div>
                             </div>
@@ -47,11 +51,14 @@
                                 <label for="exampleInputPassword1" class="form-label">Poster</label>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <input type="file" accept='image/*' onchange="readURL(this,'#img1')" class="form-control" id="image" name="poster">
+                                        <input type="file" accept='image/*' onchange="readURL(this,'#img1')"
+                                            class="form-control" id="image" name="poster">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="image"></label>
-                                        <img src="{{ asset('brandCategoryPoster') }}/{{ $brandCategory->poster }}" alt="{{ __('main image') }}" id="img1" style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
+                                        <img src="{{ asset('brandCategoryPoster') }}/{{ $brandCategory->poster }}"
+                                            alt="{{ __('main image') }}" id="img1"
+                                            style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
 
                                     </div>
                                 </div>

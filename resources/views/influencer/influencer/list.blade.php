@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('admin.layouts.app')
 @section('title', 'Brand beans | Influencer List')
 @section('content')
     <div class='container'>
@@ -43,14 +43,14 @@
                                         <td>{{ $influencer->email }}</td>
                                         <td>{{ $influencer->mobileno }}</td>
                                         <td>
-                                            @if ($influencer->influencer->is_featured == 'yes')
+                                            @if ($influencer->influencer->is_featured == 'on')
                                                 <i class="bi bi-check text-success h2"></i>
                                             @else
                                                 <i class="bi bi-x text-danger h2"></i>
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($influencer->influencer->is_trending == 'yes')
+                                            @if ($influencer->influencer->is_trending == 'on')
                                                 <i class="bi bi-check text-success h2"></i>
                                             @else
                                                 <i class="bi bi-x text-danger h2"></i>
@@ -58,15 +58,17 @@
                                         </td>
 
                                         <td>
-                                            @if ($influencer->influencer->is_brandBeansVerified == 'yes')
+                                            @if ($influencer->influencer->is_brandBeansVerified == 'on')
                                                 <i class="bi bi-check text-success h2"></i>
                                             @else
                                                 <i class="bi bi-x text-danger h2"></i>
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('influencer.singleView') }}/{{ $influencer->id }}" class="btn btn-primary btn-sm">View Details</a>
-                                            <a href="{{ route('influencer.statusEdit') }}/{{ $influencer->id }}" class="btn btn-info btn-sm">Edit</a>
+                                            <a href="{{ route('influencer.singleView') }}/{{ $influencer->id }}"
+                                                class="btn btn-primary btn-sm">View Details</a>
+                                            <a href="{{ route('influencer.statusEdit') }}/{{ $influencer->id }}"
+                                                class="btn btn-info btn-sm">Edit</a>
 
                                         </td>
                                     </tr>

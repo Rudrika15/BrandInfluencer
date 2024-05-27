@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('admin.layouts.app')
 @section('title', 'Brand beans | Create Influencer Category')
 @section('content')
     <div class='container'>
@@ -19,7 +19,8 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="{{ route('influencer.store') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
+                        <form action="{{ route('influencer.store') }}" enctype="multipart/form-data" method="post"
+                            style="margin-top: 15px;">
                             @csrf
 
                             <div class="mb-3">
@@ -36,11 +37,14 @@
                                         <label for="exampleInputPassword1" class="form-label">Category Icon</label>
                                         <div class="row">
                                             <div class="col-md-7">
-                                                <input type="file" onchange="readURL(this,'#img1')" class="form-control" id="image" name="categoryIcon" require>
+                                                <input type="file" onchange="readURL(this,'#img1')" class="form-control"
+                                                    id="image" name="categoryIcon" require>
                                             </div>
                                             <div class="col-md-5">
                                                 <label for="image"></label>
-                                                <img src="{{ url('images/default.jpg') }}" alt="{{ __('main image') }}" id="img1" style='min-height:100px;min-width:150px;max-height:100px;max-width:150px'>
+                                                <img src="{{ url('images/default.jpg') }}" alt="{{ __('main image') }}"
+                                                    id="img1"
+                                                    style='min-height:100px;min-width:150px;max-height:100px;max-width:150px'>
                                             </div>
                                         </div>
                                         <div id="warn" style="display: none;">
