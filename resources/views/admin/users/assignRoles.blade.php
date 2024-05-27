@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('admin.layouts.app')
 @section('title', 'Brand beans | Assign Roles')
 @section('content')
     <div class='container'>

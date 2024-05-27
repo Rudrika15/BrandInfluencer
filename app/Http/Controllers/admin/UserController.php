@@ -61,21 +61,7 @@ class UserController extends Controller
                     return $query->where('name', '=', 'Influencer');
                 })->orderBy('id', 'DESC')->paginate(50);
             }
-            if ($search == "Reseller") {
-                $data = User::whereHas('roles', function ($query) {
-                    return $query->where('name', '=', 'Reseller');
-                })->orderBy('id', 'DESC')->paginate(50);
-            }
-            if ($search == "Designer") {
-                $data = User::whereHas('roles', function ($query) {
-                    return $query->where('name', '=', 'Designer');
-                })->orderBy('id', 'DESC')->paginate(50);
-            }
-            if ($search == "Writer") {
-                $data = User::whereHas('roles', function ($query) {
-                    return $query->where('name', '=', 'Writer');
-                })->orderBy('id', 'DESC')->paginate(50);
-            }
+
 
             return view('admin.users.index', compact('data', 'userRoles'))
                 ->with('i', ($request->input('page', 1) - 1) * 5);

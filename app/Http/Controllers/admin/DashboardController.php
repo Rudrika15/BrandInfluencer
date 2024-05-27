@@ -44,25 +44,8 @@ class DashboardController extends Controller
                 $q->where('name', 'Brand');
             }
         )->count();
-        $reseller = User::whereHas(
-            'roles',
-            function ($q) {
-                $q->where('name', 'Reseller');
-            }
-        )->count();
-        $writer = User::whereHas(
-            'roles',
-            function ($q) {
-                $q->where('name', 'Writer');
-            }
-        )->count();
-        $designer = User::whereHas(
-            'roles',
-            function ($q) {
-                $q->where('name', 'Designer');
-            }
-        )->count();
-        return view('admin.dashboard.index', compact('user', 'designer', 'writer', 'reseller', 'brand', 'influencer'));
+
+        return view('admin.dashboard.index', compact('user', 'brand', 'influencer'));
     }
     // public function edit(Request $req)
     // {
