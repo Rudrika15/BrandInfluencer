@@ -81,6 +81,17 @@ class ApiController extends Controller
     //login Api
     function login(Request $request)
     {
+        $rules = array(
+            'email' => 'required',
+            'password' => 'required',
+            'userType' => 'required|in:Influencer,Brand,influencer,brand',
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
         $user = User::where('email', $request->email)
             ->first();
         // $card = CardsModels::where('user_id', '=', $user->id)->get();
@@ -92,8 +103,10 @@ class ApiController extends Controller
             $role = $user->getRoleNames();
             $response = [
                 'User Data' => $user,
+                'userType' => $request->userType,
                 // 'CardData' => $card,
                 'token' => $token,
+                'flag' => false
             ];
 
             return response($response, 201);
@@ -211,6 +224,7 @@ class ApiController extends Controller
         $rules = array(
             'mobile'  => "required",
             'otp'  => "required",
+            'userType' => 'required|in:Influencer,Brand',
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -232,17 +246,21 @@ class ApiController extends Controller
 
                 $response = [
                     'User Data' => $user,
+                    'userType' => $request->userType,
+                    'flag' => false,
                     // 'token' => $token,
                 ];
 
                 return response($response, 200);
             } else {
                 return response([
+                    'flag' => true,
                     'message' => ['User Data does not exist']
                 ], 404);
             }
         } else {
             return response([
+                'flag' => true,
                 'message' => ['User or Otp does not exist']
             ], 404);
         }
@@ -257,21 +275,18 @@ class ApiController extends Controller
             'name' => "required",
             'email' => "required|required|email|unique:users,email",
             'password' => ['required', 'string', 'min:6'],
-            'username' => "required|required|unique:users,username",
-            "category" => "required",
+            'username' => "unique:users,username",
+            "userType" => "required",
             "mobileno" => "required",
         );
 
-        if ($request->category == 0) {
-            $rules = array(
-                "categorytext" => "required"
-            );
-        }
+
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return $validator->errors();
         }
+
 
         $user = new User();
         $user->name = $request->name;
@@ -280,36 +295,14 @@ class ApiController extends Controller
         $user->password = Hash::make($request->password);
         $user->package = 'FREE';
         $user->mobileno = $request->mobileno;
-        $user->assignRole('User');
+        if ($user->userType == "influencer" || $user->userType == "Influencer") {
+            $user->assignRole('Influencer');
+        }
+        if ($user->userType == "brand" || $user->userType == "Brand") {
+            $user->assignRole('Brand');
+        }
         $user->save();
 
-        if ($request->category == 0) {
-            $category = new Category();
-            $category->name = $request->categoryname;
-            $category->iconPath = "default.jpg";
-            $category->isBusiness = "yes";
-            $category->save();
-
-            $card = new CardsModels();
-            $card->user_id = $user->id;
-            $card->name = $user->name;
-            $card->category = $category->id;
-            $card->save();
-        } else {
-            $card = new CardsModels();
-            $card->user_id = $user->id;
-            $card->name = $user->name;
-            $card->category = $request->category;
-            $card->save();
-        }
-
-        $payment = new Payment();
-        $payment->card_id = $card->id;
-        $payment->save();
-
-        $links = new Link();
-        $links->card_id = $card->id;
-        $links->save();
 
 
         if ($user) {
@@ -318,7 +311,6 @@ class ApiController extends Controller
             $role = $user->getRoleNames();
             $response = [
                 'User Data' => $user,
-                'CardData' => $card,
                 'token' => $token,
             ];
 

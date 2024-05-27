@@ -225,11 +225,11 @@
                         </div>
 
                     </li>
-                    <a class="" href="{{ route('admin.dashboard') }}">
-                        <li class="menu-li ms-3" style="  pointer-events: none;">Admin</li>
-                    </a>
-                    <hr>
                     @role('Admin')
+                        <a class="" href="{{ route('admin.dashboard') }}">
+                            <li class="menu-li ms-3" style="  pointer-events: none;">Admin</li>
+                        </a>
+                        <hr>
                     @endrole
                     <a class="" href="{{ route('profile') }}">
                         <li class="menu-li ms-3" style="  pointer-events: none;">Profile</li>

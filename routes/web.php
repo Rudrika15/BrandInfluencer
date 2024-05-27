@@ -242,86 +242,88 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/chats/messages/{receiverId}', 'ChatController@fetchMessages')->name('chats.messages');
 
 
+
+    // admin side
+
+    Route::get('/admin/home', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+    Route::get('/assign/roles', [UserController::class, 'assignRoles'])->name('users.assignRole');
+    Route::get('/assign/roles/create/{id?}', [UserController::class, 'assignRoleCreate'])->name('users.assignRoleCreate');
+    Route::post('/assign/roles/code', [UserController::class, 'assignRoleCreateCode'])->name('users.assignRoleCreateCode');
+
+
+    // brand side
+    Route::get('/admin/brand/index', [UserController::class, 'brandList'])->name('admin.brand.list');
+    Route::get('/admin/brand/offer/create/{id?}', [UserController::class, 'brandOfferAdd'])->name('admin.brand.offer.create');
+    Route::get('/admin/brand/create', [UserController::class, 'addBrand'])->name('admin.brand.create');
+    Route::post('/admin/brand/store', [UserController::class, 'addBrandCode'])->name('admin.brand.store');
+
+
+
+
+    // influencer category
+    Route::get('influencer/category/index', [CategoryInfluencerController::class, 'index'])->name('influencer.index');
+    Route::get('influencer/list', [CategoryInfluencerController::class, 'list'])->name('influencer.list');
+    Route::get('influencer/singleView/{id?}', [CategoryInfluencerController::class, 'singleView'])->name('influencer.singleView');
+    Route::get('influencer/statusEdit/{id?}', [CategoryInfluencerController::class, 'statusEdit'])->name('influencer.statusEdit');
+    Route::post('influencer/statusEditCode', [CategoryInfluencerController::class, 'statusEditCode'])->name('influencer.statusEditCode');
+    Route::get('influencer/category/create', [CategoryInfluencerController::class, 'create'])->name('influencer.create');
+    Route::post('influencer/category/store', [CategoryInfluencerController::class, 'store'])->name('influencer.store');
+    Route::get('influencer/category/edit/{id?}', [CategoryInfluencerController::class, 'edit'])->name('influencer.edit');
+    Route::post('influencer/category/update', [CategoryInfluencerController::class, 'update'])->name('influencer.update');
+    Route::get('influencer/category/delete/{id?}', [CategoryInfluencerController::class, 'destroy'])->name('influencer.delete');
+
+
+
+    // Brand Category
+    Route::get('brand/category/index', [BrandCategoryController::class, 'index'])->name('brand.category.index');
+    Route::get('brand/category/create', [BrandCategoryController::class, 'create'])->name('brand.category.create');
+    Route::post('brand/category/store', [BrandCategoryController::class, 'store'])->name('brand.category.store');
+    Route::get('brand/category/edit/{id?}', [BrandCategoryController::class, 'edit'])->name('brand.category.edit');
+    Route::post('brand/category/update', [BrandCategoryController::class, 'update'])->name('brand.category.update');
+    Route::get('brand/category/delete/{id?}', [BrandCategoryController::class, 'delete'])->name('brand.category.delete');
+
+
+    // brand Packages activity
+    Route::get('admin/brand/package/activity/index', [ActivityController::class, 'index'])->name('admin.brand.activity.index');
+    Route::get('admin/brand/package/activity/create', [ActivityController::class, 'create'])->name('admin.brand.activity.create');
+    Route::post('admin/brand/package/activity/store', [ActivityController::class, 'store'])->name('admin.brand.activity.store');
+    Route::get('admin/brand/package/activity/edit/{id?}', [ActivityController::class, 'edit'])->name('admin.brand.activity.edit');
+    Route::post('admin/brand/package/activity/update', [ActivityController::class, 'update'])->name('admin.brand.activity.update');
+    Route::get('admin/brand/package/activity/delete/{id?}', [ActivityController::class, 'delete'])->name('admin.brand.activity.delete');
+
+
+    // Payment REPORT
+
+    Route::get('/paymentReport/index', [ManualPaymentController::class, 'index'])->name('paymentReport.index');
+    Route::post('/changeStatus', [ManualPaymentController::class, 'changeStatus'])->name('paymentReport.changeStatus');
+    Route::post('/updateUserPackage', [ManualPaymentController::class, 'updateUserPackage'])->name('updateUserPackage');
+
+
+    // brand Packages
+    Route::get('admin/package/index', [BrandPackageController::class, 'index'])->name('admin.brand.package.index');
+    Route::get('admin/package/create', [BrandPackageController::class, 'create'])->name('admin.brand.package.create');
+    Route::post('admin/package/store', [BrandPackageController::class, 'store'])->name('admin.brand.package.store');
+    Route::get('admin/package/edit/{id?}', [BrandPackageController::class, 'edit'])->name('admin.brand.package.edit');
+    Route::post('admin/package/update', [BrandPackageController::class, 'update'])->name('admin.brand.package.update');
+    Route::get('admin/package/delete/{id?}', [BrandPackageController::class, 'destroy'])->name('admin.brand.package.delete');
+
+    // brand package details
+    Route::get('admin/package/detail/index/{id?}', [BrandPackageDetailController::class, 'index'])->name('admin.brand.package.detail.index');
+    Route::post('admin/package/detail/store', [BrandPackageDetailController::class, 'store'])->name('admin.brand.package.detail.store');
+    Route::get('admin/package/detail/delete/{id?}', [BrandPackageDetailController::class, 'delete'])->name('admin.brand.package.detail.delete');
+
+    Route::get('brand/pricing', [BrandPackageDetailController::class, 'pricingView'])->name('brand.pricing');
+
+    // brand payment
+    // Route::group(['prefix' => 'instamojopayments'], function () {
+    //     Route::post('/pay', [InstaMojoPaymentController::class, 'pay'])->name('pay');
+    //     Route::any('/success', [InstaMojoPaymentController::class, 'success']);
+    // });
+
+
+
 });
-
-
-// admin side
-
-Route::get('/admin/home', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
-
-
-Route::resource('roles', RoleController::class);
-Route::resource('users', UserController::class);
-Route::get('/assign/roles', [UserController::class, 'assignRoles'])->name('users.assignRole');
-Route::get('/assign/roles/create/{id?}', [UserController::class, 'assignRoleCreate'])->name('users.assignRoleCreate');
-Route::post('/assign/roles/code', [UserController::class, 'assignRoleCreateCode'])->name('users.assignRoleCreateCode');
-
-
-// brand side
-Route::get('/admin/brand/index', [UserController::class, 'brandList'])->name('admin.brand.list');
-Route::get('/admin/brand/offer/create/{id?}', [UserController::class, 'brandOfferAdd'])->name('admin.brand.offer.create');
-Route::get('/admin/brand/create', [UserController::class, 'addBrand'])->name('admin.brand.create');
-Route::post('/admin/brand/store', [UserController::class, 'addBrandCode'])->name('admin.brand.store');
-
-
-
-
-// influencer category
-Route::get('influencer/category/index', [CategoryInfluencerController::class, 'index'])->name('influencer.index');
-Route::get('influencer/list', [CategoryInfluencerController::class, 'list'])->name('influencer.list');
-Route::get('influencer/singleView/{id?}', [CategoryInfluencerController::class, 'singleView'])->name('influencer.singleView');
-Route::get('influencer/statusEdit/{id?}', [CategoryInfluencerController::class, 'statusEdit'])->name('influencer.statusEdit');
-Route::post('influencer/statusEditCode', [CategoryInfluencerController::class, 'statusEditCode'])->name('influencer.statusEditCode');
-Route::get('influencer/category/create', [CategoryInfluencerController::class, 'create'])->name('influencer.create');
-Route::post('influencer/category/store', [CategoryInfluencerController::class, 'store'])->name('influencer.store');
-Route::get('influencer/category/edit/{id?}', [CategoryInfluencerController::class, 'edit'])->name('influencer.edit');
-Route::post('influencer/category/update', [CategoryInfluencerController::class, 'update'])->name('influencer.update');
-Route::get('influencer/category/delete/{id?}', [CategoryInfluencerController::class, 'destroy'])->name('influencer.delete');
-
-
-
-// Brand Category
-Route::get('brand/category/index', [BrandCategoryController::class, 'index'])->name('brand.category.index');
-Route::get('brand/category/create', [BrandCategoryController::class, 'create'])->name('brand.category.create');
-Route::post('brand/category/store', [BrandCategoryController::class, 'store'])->name('brand.category.store');
-Route::get('brand/category/edit/{id?}', [BrandCategoryController::class, 'edit'])->name('brand.category.edit');
-Route::post('brand/category/update', [BrandCategoryController::class, 'update'])->name('brand.category.update');
-Route::get('brand/category/delete/{id?}', [BrandCategoryController::class, 'delete'])->name('brand.category.delete');
-
-
-// brand Packages activity
-Route::get('admin/brand/package/activity/index', [ActivityController::class, 'index'])->name('admin.brand.activity.index');
-Route::get('admin/brand/package/activity/create', [ActivityController::class, 'create'])->name('admin.brand.activity.create');
-Route::post('admin/brand/package/activity/store', [ActivityController::class, 'store'])->name('admin.brand.activity.store');
-Route::get('admin/brand/package/activity/edit/{id?}', [ActivityController::class, 'edit'])->name('admin.brand.activity.edit');
-Route::post('admin/brand/package/activity/update', [ActivityController::class, 'update'])->name('admin.brand.activity.update');
-Route::get('admin/brand/package/activity/delete/{id?}', [ActivityController::class, 'delete'])->name('admin.brand.activity.delete');
-
-
-// Payment REPORT
-
-Route::get('/paymentReport/index', [ManualPaymentController::class, 'index'])->name('paymentReport.index');
-Route::post('/changeStatus', [ManualPaymentController::class, 'changeStatus'])->name('paymentReport.changeStatus');
-Route::post('/updateUserPackage', [ManualPaymentController::class, 'updateUserPackage'])->name('updateUserPackage');
-
-
-// brand Packages
-Route::get('admin/package/index', [BrandPackageController::class, 'index'])->name('admin.brand.package.index');
-Route::get('admin/package/create', [BrandPackageController::class, 'create'])->name('admin.brand.package.create');
-Route::post('admin/package/store', [BrandPackageController::class, 'store'])->name('admin.brand.package.store');
-Route::get('admin/package/edit/{id?}', [BrandPackageController::class, 'edit'])->name('admin.brand.package.edit');
-Route::post('admin/package/update', [BrandPackageController::class, 'update'])->name('admin.brand.package.update');
-Route::get('admin/package/delete/{id?}', [BrandPackageController::class, 'destroy'])->name('admin.brand.package.delete');
-
-// brand package details
-Route::get('admin/package/detail/index/{id?}', [BrandPackageDetailController::class, 'index'])->name('admin.brand.package.detail.index');
-Route::post('admin/package/detail/store', [BrandPackageDetailController::class, 'store'])->name('admin.brand.package.detail.store');
-Route::get('admin/package/detail/delete/{id?}', [BrandPackageDetailController::class, 'delete'])->name('admin.brand.package.detail.delete');
-
-Route::get('brand/pricing', [BrandPackageDetailController::class, 'pricingView'])->name('brand.pricing');
-
-// brand payment
-// Route::group(['prefix' => 'instamojopayments'], function () {
-//     Route::post('/pay', [InstaMojoPaymentController::class, 'pay'])->name('pay');
-//     Route::any('/success', [InstaMojoPaymentController::class, 'success']);
-// });
