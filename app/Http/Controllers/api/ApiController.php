@@ -120,6 +120,7 @@ class ApiController extends Controller
     {
         $rules = array(
             'mobile' => 'required',
+            'userType' => 'optional|in:Influencer,Brand,influencer,brand',
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -157,13 +158,36 @@ class ApiController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
 
-        $time = Carbon::now()->toTimeString();
-        $otps = new Otp();
-        $otps->otp = $otp;
-        $otps->mobileno = $request->mobile;
-        $otps->time = $time;
-        $otps->save();
 
+        $time = Carbon::now()->toTimeString();
+
+        $userFind = User::where('mobileno', $request->mobile)->first();
+        if ($userFind) {
+            $otps = new Otp();
+            $otps->otp = $otp;
+            $otps->mobileno = $request->mobile;
+            $otps->time = $time;
+            $otps->save();
+        } else {
+
+            $user = new User();
+            $user->mobileno = $request->mobile;
+            $user->save();
+            if ($request->userType == 'Influencer' || $request->userType == 'influencer') {
+
+                $user->assignRole('Influencer');
+            }
+            if ($request->userType == 'Brand' || $request->userType == 'brand') {
+
+                $user->assignRole('Brand');
+            }
+
+            $otps = new Otp();
+            $otps->otp = $otp;
+            $otps->mobileno = $user->mobileno;
+            $otps->time = $time;
+            $otps->save();
+        }
         // Process your response here
         // return $response;
         if ($response) {
@@ -224,7 +248,7 @@ class ApiController extends Controller
         $rules = array(
             'mobile'  => "required",
             'otp'  => "required",
-            'userType' => 'required|in:Influencer,Brand',
+
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -246,7 +270,7 @@ class ApiController extends Controller
 
                 $response = [
                     'User Data' => $user,
-                    'userType' => $request->userType,
+
                     'flag' => false,
                     // 'token' => $token,
                 ];
@@ -734,11 +758,25 @@ class ApiController extends Controller
 
     function updateProfile(Request $request)
     {
+
+        $rules = array(
+            'userId' => 'required',
+            'name' => 'required',
+            'profilePhoto' => 'required',
+            'username' => 'required',
+        );
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
         $userId = $request->userId;
 
         $user = User::find($userId);
         if ($request->name) {
             $user->name = $request->name;
+        }
+        if ($request->username) {
+            $user->username = $request->username;
         }
         if ($request->mobileno) {
             $user->mobileno = $request->mobileno;
@@ -753,6 +791,7 @@ class ApiController extends Controller
         if ($user) {
             $response = [
                 'User Data' => $user,
+                'imagePath' => 'profile/' . $user->profilePhoto
             ];
             return response($response, 201);
         } else {
@@ -4214,7 +4253,7 @@ class ApiController extends Controller
     function offerCategoryList()
     {
 
-        $offerList = BrandCategory::with('brand.user')->get();;
+        $offerList = BrandCategory::all();;
         $response = [
             'status' => 200,
             'imagePath' => 'brandCategoryIcon',
