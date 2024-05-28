@@ -12,7 +12,9 @@
 
                             <div class="card-body">
                                 <h5 class="card-title">{{ $data->title }}</h5>
-                                <p class="card-text">{{ $data->detail }}</p>
+                                <p class="card-text"
+                                    style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
+                                    {{ $data->detail }} </p>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <p class="card-text"><strong>Price:</strong> {{ $data->price }}</p>

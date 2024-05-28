@@ -69,7 +69,9 @@
                                     style="height: 250px" alt="...">
 
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $brand->campaign->title }}</h5>
+                                    <h5 class="card-title"
+                                        style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1;  -webkit-box-orient: vertical;">
+                                        {{ $brand->campaign->title }} </h5>
                                     <p class="card-text"
                                         style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
                                         {{ $brand->campaign->detail }}

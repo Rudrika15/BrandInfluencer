@@ -88,6 +88,7 @@ class InfluencerController extends Controller
 
     public function campaignApply(Request $request)
     {
+
         try {
             $userId = Auth::user()->id;
             $apply = new Apply();

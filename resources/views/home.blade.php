@@ -2,6 +2,7 @@
 @section('title', 'Brand beans | Brands')
 @section('content')
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 
     <div class='container'>
@@ -41,19 +42,23 @@
                             <form id="categoryForm" action="{{ route('home') }}" method="get">
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-md-12 d-flex gap-3">
-                                        <select name="category" class="form-select"
-                                            onchange="document.getElementById('categoryForm').submit();">
-                                            <option selected disabled>Select Category</option>
+                                        <select name="category[]" class="form-select" id="categorySelect" multiple>
+                                            <option disabled>Select Categories</option>
 
                                             @foreach ($category as $cat)
                                                 <option value="{{ $cat->name }}"
-                                                    @if ($cat->name == request('category')) selected @endif>
+                                                    @if (is_array(request('category')) && in_array($cat->name, request('category'))) selected @endif>
                                                     {{ $cat->name }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        <button class="btn btn-primary"
+                                            onchange="document.getElementById('categoryForm').submit();" id="categoryForm">
+                                            Search </button>
+                                        {{-- <i class="bi bi-bootstrap-arrow"></i> --}}
 
-                                        <a href="{{ route('home') }}" class="mt-2">
+
+                                        <a href="{{ route('home') }}" class="mt-1">
                                             <b>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
@@ -111,6 +116,14 @@
         @endrole
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#categorySelect').select2({
+                placeholder: 'Select Categories',
+                allowClear: true
+            });
+        });
+    </script>
 
 @endsection
