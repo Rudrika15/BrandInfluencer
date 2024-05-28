@@ -32,7 +32,6 @@ class ChatController extends Controller
         if (Auth::user()->hasRole(['Brand'])) {
             $chats = $chats->where('brandId', Auth::user()->id)->get();
         }
-
         return view('chats.influencer.index', compact('chats'));
     }
 

@@ -118,13 +118,10 @@
                                     <b class="ps-2">
                                         @if (Auth::user()->hasRole('Influencer'))
                                             {{ $chat->brand->name }}
-
-                                            Influencer
                                         @endif
 
                                         @if (Auth::user()->hasRole('Brand'))
                                             {{ $chat->influencer->name }}
-                                            brand
                                         @endif
                                         @if ($chat->messages && $chat->messages->isNotEmpty())
                                             <small class="text-muted">{{ $chat->messages->last()->content }}</small>
