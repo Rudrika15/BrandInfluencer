@@ -130,7 +130,7 @@
                             <span class="text nav-text text-blue">Appliers</span>
                         </a>
                     </li> --}}
-                        <li class="nav-linkm {{ request()->routeIs('') ? 'active' : '' }}">
+                        <li class="nav-linkm {{ request()->routeIs('influencer.notifications') ? 'active' : '' }}">
                             <a href="{{ route('influencer.notifications') }}">
                                 <i class="bx bx-bell icons"></i>
                                 <span class="text nav-text text-blue">Notifications</span>

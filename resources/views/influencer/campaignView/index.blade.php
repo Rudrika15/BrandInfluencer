@@ -47,11 +47,11 @@
                                         <button class="btn btn-info">Message</button>
                                     </div> --}}
 
-                                    <form action="{{ route('influencer.campaignApply') }}" method="post" name="apply">
 
                                     <div class="row p-3 gap-3">
-                                        <button type="button" form="" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                            class="col rounded-pill" style="border: solid 1px black">
+                                        <button type="button" form="" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" class="col rounded-pill"
+                                            style="border: solid 1px black">
                                             <div class="p-3 text-center">
                                                 <span>Message</span>
                                             </div>
@@ -72,9 +72,11 @@
                                                     <b><span>Apply</span></b>
                                                 </div>
                                             </a> --}}
+                                            <form class="col"  action="{{ route('influencer.campaignApply') }}" method="post"
+                                                name="apply">
                                                 @csrf
                                                 <input type="hidden" name="campaignId" value="{{ $data->id }}">
-                                                <button type="submit" class="col rounded-pill btn-primary shadow-none"
+                                                <button type="submit" class="rounded-pill w-100 btn-primary shadow-none"
                                                     style="border: none">
                                                     <div class="text-white p-3 text-center">
                                                         <b><span>Apply</span></b>
@@ -97,7 +99,8 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('new.influencer.chat.index') }}" method="post">
+                                        <form action="{{ route('new.influencer.chat.index') }}" name="msg"
+                                            method="post">
                                             @csrf
                                             <input type="hidden" name="receiverId" value="{{ $data->user->id }}">
                                             <div class="input-group mb-3">
