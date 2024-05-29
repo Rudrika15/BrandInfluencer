@@ -7,6 +7,8 @@
     <title>Edit Profle</title>
     <link rel="stylesheet" href="{{ asset('influencerbrand/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
     <style>
         .nav-pills .nav-link {
@@ -50,7 +52,13 @@
         </div>
 
     </header>
+
+
+
     <div class="container-fluid p-5 bg-light">
+        <span class="justify-content-end d-flex">
+            <a href="{{ route('profile') }}" class="btn btn-primary me-4">Back</a>
+        </span>
         <div class="row">
 
             <div class="col-3">
@@ -84,8 +92,8 @@
                                             <div class="row">
                                                 <div class="col-md-4"><label>Your Full Name:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id="name"
-                                                        name="name" value="{{ $users->name }}">
+                                                    <input type="text" class="form-control shadow-none "
+                                                        id="name" name="name" value="{{ $users->name }}">
 
                                                 </div>
                                             </div>
@@ -95,8 +103,8 @@
                                             <div class="row">
                                                 <div class="col-md-4"><label>Username:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class=" form-control" id="username"
-                                                        name="username" value="{{ $users->username }}">
+                                                    <input type="text" class=" form-control shadow-none"
+                                                        id="username" name="username" value="{{ $users->username }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -105,18 +113,19 @@
                                                 <div class="row">
                                                     <div class="col-md-4"><label>State:</label></div>
                                                     <div class="col-md-7">
-                                                        <input type="text" class=" form-control" id="state"
-                                                            name="state" value="{{ $users->state }}">
+                                                        <input type="text" class=" form-control shadow-none"
+                                                            id="state" name="state" value="{{ $users->state }}">
                                                     </div>
                                                 </div>
                                             </div>
                                         @endif
+
                                         <div class="col-md-6 pb-1">
                                             <div class="row">
                                                 <div class="col-md-4"><label>City:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id="location"
-                                                        name="city" value="{{ $users->city }}">
+                                                    <input type="text" class="form-control shadow-none "
+                                                        id="location" name="city" value="{{ $users->city }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -125,7 +134,7 @@
                                                 <div class="row">
                                                     <div class="col-md-4"><label>Address:</label></div>
                                                     <div class="col-md-7">
-                                                        <textarea type="text" class="form-control " id="address" name="address">{{ $users->address }}</textarea>
+                                                        <textarea type="text" class="form-control shadow-none " id="address" name="address">{{ $users->address }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,8 +143,9 @@
                                             <div class="row">
                                                 <div class="col-md-4"><label>Profile Photo:</label></div>
                                                 <div class="col-md-5">
-                                                    <input type="file" accept="image/*" class="form-control "
-                                                        id="profilePhoto" name="profilePhoto"
+                                                    <input type="file" accept="image/*"
+                                                        class="form-control shadow-none " id="profilePhoto"
+                                                        name="profilePhoto"
                                                         value="{{ url('profile') }}/{{ $users->profilePhoto }}">
                                                     @if ($errors->has('profilePhoto'))
                                                         <span
@@ -158,7 +168,8 @@
 
                                                     <div class="col-md-4"><label>Date of Birth:</label></div>
                                                     <div class="col-md-7">
-                                                        <input type="date" class=" form-control" name="dob">
+                                                        <input type="date" class=" form-control shadow-none"
+                                                            name="dob">
                                                         {{-- value="{{ $influencer->dob }}" id="dob"> --}}
 
                                                     </div>
@@ -173,8 +184,9 @@
                                                 <div class="col-md-7 pb-1">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <select class="form-control select2_1 " style="width:95%"
-                                                                name="categoryId[]" multiple="multiple">
+                                                            <select class="form-control shadow-none select2_1 "
+                                                                style="width:95%" name="categoryId[]"
+                                                                multiple="multiple">
                                                                 <option disabled>-- Select Influencer Category --</option>
                                                                 {{-- @foreach ($influencerCategory as $category)
                                                             <option value="{{ $category->name }}"
@@ -220,8 +232,8 @@
                                             <div class="row">
                                                 <div class="col-md-2"><label>About:</label></div>
                                                 <div class="col-md-10">
-                                                    <textarea style="width:95%" class="about form-control" rows="5" placeholder="Enter About" type="text"
-                                                        id="about" name="about" value="">{{ $users->about }}</textarea>
+                                                    <textarea style="width:95%" class="about form-control shadow-none" rows="5" placeholder="Enter About"
+                                                        type="text" id="about" name="about" value="">{{ $users->about }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -236,7 +248,7 @@
                                                 <div class="row">
 
                                                     <div class="col-md-12">
-                                                        <select class="form-control " name="brandCategoryId">
+                                                        <select class="form-control shadow-none " name="brandCategoryId">
                                                             <option disabled selected>-- Select Brand Category --</option>
                                                             @foreach ($brandCategory as $bcategory)
                                                                 @if (isset($brand_category->brandCategoryId))
@@ -257,7 +269,7 @@
                                         </div>
                                     @endrole
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-success btn-sm">Update</button><br>
+                                        <button type="submit" class="btn btn-primary mt-5">Update</button><br>
                                     </div>
                                 </form>
                             </div>
@@ -277,8 +289,8 @@
                                                         Phone
                                                         Number:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control " id="phone1"
-                                                        name="phone1">
+                                                    <input type="number" class="form-control shadow-none "
+                                                        id="phone1" name="phone1">
                                                     {{-- value="{{ $links->phone1 }}"> --}}
                                                     @if ($errors->has('phone1'))
                                                         <span
@@ -290,11 +302,11 @@
                                         <div class="col-md-6 pb-1">
                                             <div class="row">
                                                 <div class="col-md-4"><label> <i
-                                                            class="fa fa-whatsapp ico text-success"></i>
+                                                            class="fab fa-whatsapp ico text-success"></i>
                                                         Whatsapp Number:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control " id="whatsappnumber"
-                                                        name="whatsappnumber">
+                                                    <input type="number" class="form-control shadow-none "
+                                                        id="whatsappnumber" name="whatsappnumber">
                                                     {{-- value="{{ $links->phone2 }}"> --}}
                                                     @if ($errors->has('whatsappnumber'))
                                                         <span
@@ -309,8 +321,8 @@
                                                         Email:</label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="email" class="form-control " id="email"
-                                                        name="email">
+                                                    <input type="email" class="form-control shadow-none "
+                                                        id="email" name="email">
                                                     {{-- value="{{ $links->email }}"> --}}
                                                     @if ($errors->has('email'))
                                                         <span class="text-danger">{{ $errors->first('email') }}</span>
@@ -321,11 +333,11 @@
                                         <div class="col-md-6 pb-1">
                                             <div class="row">
                                                 <div class="col-md-4"><label> <i
-                                                            class="fa fa-skype ico text-info"></i>
+                                                            class="fab fa-skype ico text-info"></i>
                                                         Skype:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id="skype"
-                                                        name="skype">
+                                                    <input type="text" class="form-control shadow-none "
+                                                        id="skype" name="skype">
                                                     {{-- value="{{ $links->skype }}"> --}}
                                                 </div>
                                             </div>
@@ -333,22 +345,22 @@
                                         <div class="col-md-6 pb-1">
                                             <div class="row">
                                                 <div class="col-md-4"><label> <i
-                                                            class="fa fa-facebook ico text-primary"></i>
+                                                            class="fab fa-facebook ico text-primary"></i>
                                                         FaceBook:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id="facebook"
-                                                        name="facebook">
+                                                    <input type="text" class="form-control shadow-none "
+                                                        id="facebook" name="facebook">
                                                     {{-- value="{{ $links->facebook }}"> --}}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 pb-1">
                                             <div class="row">
-                                                <div class="col-md-4"><label> <i class="fa fa-instagram ico"
+                                                <div class="col-md-4"><label> <i class="fab fa-instagram icon"
                                                             style="color: #E1306C;"></i> Instagram:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id="instagram"
-                                                        name="instagram">
+                                                    <input type="text" class="form-control shadow-none "
+                                                        id="instagram" name="instagram">
                                                     {{-- value="{{ $links->instagram }}"> --}}
                                                 </div>
                                             </div>
@@ -356,33 +368,33 @@
                                         <div class="col-md-6 pb-1">
                                             <div class="row">
                                                 <div class="col-md-4"><label> <i
-                                                            class="fa fa-twitter ico text-info"></i>
+                                                            class="fab fa-twitter ico text-info"></i>
                                                         Twitter:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id=""
-                                                        name="twitter" {{-- value="{{ $links->twitter }}"> --}}>
+                                                    <input type="text" class="form-control shadow-none "
+                                                        id="" name="twitter" {{-- value="{{ $links->twitter }}"> --}}>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 pb-1">
                                             <div class="row">
                                                 <div class="col-md-4"><label> <i
-                                                            class="fa fa-youtube ico text-danger"></i>
+                                                            class="fab fa-youtube ico text-danger"></i>
                                                         Youtube:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id=""
-                                                        name="youtube" {{-- value="{{ $links->youtube }}"> --}}>
+                                                    <input type="text" class="form-control shadow-none "
+                                                        id="" name="youtube" {{-- value="{{ $links->youtube }}"> --}}>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 pb-1">
                                             <div class="row">
                                                 <div class="col-md-4"><label> <i
-                                                            class="fa fa-linkedin ico text-primary"></i>
+                                                            class="fab fa-linkedin-in ico text-primary"></i>
                                                         Linkedin:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id=""
-                                                        name="linkedin" {{-- value="{{ $links->linkedin }}"> --}}>
+                                                    <input type="text" class="form-control shadow-none "
+                                                        id="" name="linkedin" {{-- value="{{ $links->linkedin }}"> --}}>
                                                 </div>
                                             </div>
                                         </div>
@@ -393,8 +405,8 @@
                                                         Web
                                                         Site:</label></div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control " id=""
-                                                        name="website" {{-- value="{{ $links->website }}"> --}}>
+                                                    <input type="text" class="form-control shadow-none"
+                                                        id="" name="website" {{-- value="{{ $links->website }}"> --}}>
                                                 </div>
                                             </div>
                                         </div>
@@ -404,11 +416,15 @@
                                             <div class="col-md-6 pb-1">
                                                 <div class="row">
 
-                                                    <div class="col-md-4"><label>Instagram Username or Link:</label></div>
+                                                    <div class="col-md-4">
+                                                        {{-- <i class="fa fa-link"></i> --}}
+                                                        <label>Instagram
+                                                            Username or Link:</label>
+                                                    </div>
                                                     <div class="col-md-7">
-                                                        <input type="text" class=" form-control" name="instagramUrl"
-                                                            {{-- value="{{ $influencer->instagramUrl }}" --}} placeholder="username or @your_username"
-                                                            id="instagramUrl">
+                                                        <input type="text" class=" form-control shadow-none "
+                                                            name="instagramUrl" {{-- value="{{ $influencer->instagramUrl }}" --}}
+                                                            placeholder="username or @your_username" id="instagramUrl">
                                                         @if ($errors->has('instagramUrl'))
                                                             <span
                                                                 class="text-danger">{{ $errors->first('instagramUrl') }}</span>
@@ -421,7 +437,7 @@
 
                                                     <div class="col-md-4"><label>Instagram Followers:</label></div>
                                                     <div class="col-md-7">
-                                                        <input type="text" class=" form-control"
+                                                        <input type="text" class=" form-control shadow-none"
                                                             name="instagramFollowers" {{-- value="{{ $influencer->instagramFollowers }}" --}}
                                                             placeholder="Enter your instagram followers"
                                                             id="instagramUrl">
@@ -435,7 +451,7 @@
 
                                                     <div class="col-md-4"><label>Youtube Channel Url:</label></div>
                                                     <div class="col-md-7">
-                                                        <input type="text" class=" form-control"
+                                                        <input type="text" class=" form-control shadow-none"
                                                             name="youtubeChannelUrl" {{-- value="{{ $influencer->youtubeChannelUrl }}" --}}
                                                             placeholder="Enter your youtube channel"
                                                             id="youtubeChannelUrl">
@@ -447,7 +463,7 @@
 
                                                     <div class="col-md-4"><label>Youtube Subscriber:</label></div>
                                                     <div class="col-md-7">
-                                                        <input type="text" class=" form-control"
+                                                        <input type="text" class=" form-control shadow-none"
                                                             name="youtubeSubscriber" {{-- value="{{ $influencer->youtubeSubscriber }}" --}}
                                                             placeholder="Enter your youtube subscriber"
                                                             id="youtubeSubscriber">
@@ -456,8 +472,8 @@
                                             </div>
                                         </div>
                                     @endrole
-                                    <div class="text-center pt-2">
-                                        <button type="submit" class="btn btn-success ">Submit</button>
+                                    <div class="text-center pt-5 ">
+                                        <button type="submit" class="btn btn-primary ">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -467,12 +483,14 @@
                         aria-labelledby="v-pills-categories-tab">
                         <div class="card w-100 " style="height: 500px !important;">
                             <div class="card-body">
-                                <select name="" class="form-select" id="">
-                                    <option value="">Select Categories</option>
-                                    <option value="">cat 1</option>
-                                    <option value="">cat 2</option>
-                                    <option value="">cat 3</option>
-                                    <option value="">cat 4</option>
+                                <select name="" class="form-select shadow-none" id="">
+                                    @foreach ($category as $item)
+                                        <option value="">Select Categories</option>
+                                        <option value="">cat 1</option>
+                                        <option value="">cat 2</option>
+                                        <option value="">cat 3</option>
+                                        <option value="">cat 4</option>
+                                    @endforeach
                                 </select>
                                 <div class="justify-content-center d-flex mt-4">
                                     <button class="btn btn-primary text-center">Select</button>
