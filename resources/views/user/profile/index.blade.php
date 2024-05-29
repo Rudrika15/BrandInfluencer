@@ -427,7 +427,8 @@
                 <div class="notification">
                     {{-- <i class="bi bi-bell"></i>
                     <span class="alert-message">3</span> --}}
-                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-light shadow-none">Edit Profile</a>
+                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-light shadow-none"
+                        style="color: white;">Edit Profile</a>
                 </div>
             </div>
         </div>
