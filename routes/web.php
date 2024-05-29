@@ -35,6 +35,7 @@ use App\Http\Controllers\user\QrcodeController;
 use App\Http\Controllers\user\ServiceController;
 use App\Http\Controllers\user\SliderController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,6 +80,7 @@ Route::get('/term', [HomepageController::class, 'term'])->name('term');
 
 
 Route::group(['middleware' => ['auth']], function () {
+
     Route::get('/home', [App\Http\Controllers\HomepageController::class, 'index'])->name('home');
     Route::post('/update-session', [HomepageController::class, 'updateSession'])->name('update.session');
 
