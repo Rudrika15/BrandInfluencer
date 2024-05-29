@@ -263,12 +263,11 @@
                         response.forEach(function(chatGroup) {
                             console.log("chatGroup", chatGroup);
                             var messageHtml = '<div class="message">';
-                            var role =
-                                '{{ Auth::check() && Auth::user()->hasRole('Influencer') ? 'Influencer' : (Auth::check() && Auth::user()->hasRole('Brand') ? 'Brand' : '') }}';
-                            // console.log("role", role);
-                            // Check if the session is not equal to the session role
-                            if (chatGroup.session !== sessionRole) {
-                                // if (roles.includes('Influencer')) {
+                            var authCheck = '{{ Auth::id() }}';
+
+                            console.log("authCheck", authCheck);
+                            // if (chatGroup.session !== sessionRole) {
+                            if (!authCheck) {
                                 messageHtml +=
                                     '<div style="background-color: #156b9f;" class="badge text-white rounded-pill fs-6 text p-3 mb-2">' +
                                     chatGroup.message + '</div>';
