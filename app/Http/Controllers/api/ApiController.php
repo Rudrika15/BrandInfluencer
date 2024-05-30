@@ -786,12 +786,19 @@ class ApiController extends Controller
             $user->mobileno = $request->mobileno;
         }
 
+        if ($request->profilePhoto) {
+            $image = $request->profilePhoto;
+            $user->profilePhoto = time() . '.' . $request->profilePhoto->extension();
+            $request->profilePhoto->move(public_path('profile'), $user->profilePhoto);
+        }
+
         if ($request->category) {
             $roleCollection = $user->getRoleNames();
             $roles = $roleCollection->toArray();
             if (in_array('Influencer', $roles)) {
 
                 $influencerCategory = InfluencerProfile::where('userId', '=', $request->userId)->first();
+                $influencerCategory->contactNo = $request->mobileno;
                 $influencerCategory->address = $request->address;
                 $influencerCategory->about = $request->about;
                 $influencerCategory->city = $request->city;
@@ -799,35 +806,51 @@ class ApiController extends Controller
                 $influencerCategory->gender = $request->gender;
                 $influencerCategory->dob = $request->dob;
                 $influencerCategory->instagramUrl = $request->instagramUrl;
+                $influencerCategory->publicLocation = $request->publicLocation;
+                $influencerCategory->pinCode = $request->pinCode;
                 $influencerCategory->instagramFollowers = $request->instagramFollowers;
                 $influencerCategory->youtubeChannelUrl = $request->youtubeChannelUrl;
                 $influencerCategory->youtubeSubscriber = $request->youtubeChannelUrl;
-                $influencerCategory->categoryId = json_encode($request['category']);
+                $influencerCategory->categoryId = $request['category'];
                 $influencerCategory->save();
+
+                $response = [
+                    'User Data' => $user->where('id', $userId)->with('influencer')->get(),
+                    'imagePath' => 'profile/' . $user->profilePhoto
+                ];
+                return response($response, 201);
             }
             if (in_array('Brand', $roles)) {
-                // 
+                $findBrand = BrandWithCategory::where('brandId', '=', $request->userId)->get();
+                if ($findBrand) {
+                    // Get existing categories as an array
+                    $existingCategories = $findBrand->pluck('brandCategoryId')->toArray();
+
+                    // Ensure the request 'category' is treated as an array
+                    $newCategories = $request->input('category', []);
+
+                    // Decode JSON if it's a string
+                    if (is_string($newCategories)) {
+                        $newCategories = json_decode($newCategories, true);
+                    }
+
+                    // Filter out the categories that already exist
+                    $categoriesToAdd = array_diff($newCategories, $existingCategories);
+
+                    foreach ($categoriesToAdd as $categoryId) {
+                        // Store the new categories
+                        $data = new BrandWithCategory();
+                        $data->brandId = $request->userId;
+                        $data->brandCategoryId = $categoryId;
+                        $data->save();
+                    }
+                }
             }
-        }
-        if ($request->profilePhoto) {
-            $image = $request->profilePhoto;
-            $user->profilePhoto = time() . '.' . $request->profilePhoto->extension();
-            $request->profilePhoto->move(public_path('profile'), $user->profilePhoto);
         }
         $user->save();
 
-        if ($user && in_array('Influencer', $roles)) {
-            $response = [
-                'User Data' => $user->where('id', $userId)->with('influencer')->get(),
-                'imagePath' => 'profile/' . $user->profilePhoto
-            ];
-            return response($response, 201);
-        } else {
-            return response([
-                'message' => ['No Data Found']
-            ], 404);
-        }
-        if ($user && in_array('Brand', $roles)) {
+
+        if ($user) {
             $response = [
                 'User Data' => $user,
                 'imagePath' => 'profile/' . $user->profilePhoto
