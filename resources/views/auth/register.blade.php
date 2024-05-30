@@ -170,6 +170,29 @@
                         class="" id="password_confirmation" name="confirm-password"></div>
 
                 <br>
+                <div class="mb-3">
+                    <div id="influencerCategory">
+                        <select name="influencerCategory[]" multiple class="form-control">
+                            <option disabled>Select Your Category</option>
+                            @foreach ($influencerCategories as $influencer)
+                                <option value="{{ $influencer->id }}">{{ $influencer->name }}</option>
+                            @endforeach
+                        </select>
+                        <small class="text-muted "> You can select multiple categories with ctrl + click</small>
+                    </div>
+                    <div id="brandCategory">
+
+                        <select name="brandCategory[]" multiple class="form-control">
+                            <option disabled>Select Your Category</option>
+                            @foreach ($brandCategories as $brand)
+                                <option value="{{ $brand->id }}">{{ $brand->categoryName }}</option>
+                            @endforeach
+                        </select>
+                        <small class="text-muted "> You can select multiple categories with ctrl + click</small>
+                    </div>
+                </div>
+
+                <br>
 
 
                 {{-- <div class="mb-3">
@@ -214,12 +237,18 @@
 
             // Save the selected option to local storage
             localStorage.setItem('selectedOption', option);
-            console.log(localStorage);
-            // document.getElementById('selectedRole').value = option;
+
+            // Show/hide category based on selection
+            if (option === 'brand') {
+                document.getElementById('brandCategory').classList.remove('hidden');
+                document.getElementById('influencerCategory').classList.add('hidden');
+            } else if (option === 'influencer') {
+                document.getElementById('influencerCategory').classList.remove('hidden');
+                document.getElementById('brandCategory').classList.add('hidden');
+            }
+
             document.getElementById('session').value = option;
-
         }
-
 
         // Function to load the selected option from local storage
         function loadSelectedOption() {
@@ -227,6 +256,18 @@
             if (selectedOption) {
                 document.getElementById(selectedOption).classList.add('selected');
                 document.getElementById('session').value = selectedOption;
+                // Show the appropriate category div
+                if (selectedOption === 'brand') {
+                    document.getElementById('brandCategory').classList.remove('hidden');
+                    document.getElementById('influencerCategory').classList.add('hidden');
+                } else if (selectedOption === 'influencer') {
+                    document.getElementById('influencerCategory').classList.remove('hidden');
+                    document.getElementById('brandCategory').classList.add('hidden');
+                }
+            } else {
+                // Hide both categories if no selection is made
+                document.getElementById('brandCategory').classList.add('hidden');
+                document.getElementById('influencerCategory').classList.add('hidden');
             }
         }
 

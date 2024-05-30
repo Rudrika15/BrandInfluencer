@@ -315,7 +315,10 @@ class ApiController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->username = $request->username;
+        if ($request->username)
+            $user->username = $request->username;
+        else
+            $user->username = $request->name;
         $user->password = Hash::make($request->password);
         $user->package = 'FREE';
         $user->mobileno = $request->mobileno;
@@ -761,9 +764,9 @@ class ApiController extends Controller
 
         $rules = array(
             'userId' => 'required',
-            'name' => 'required',
-            'profilePhoto' => 'required',
-            'username' => 'required',
+            // 'name' => 'required',
+            // 'profilePhoto' => 'required',
+            'category' => 'required',
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -772,6 +775,7 @@ class ApiController extends Controller
         $userId = $request->userId;
 
         $user = User::find($userId);
+
         if ($request->name) {
             $user->name = $request->name;
         }
@@ -781,6 +785,30 @@ class ApiController extends Controller
         if ($request->mobileno) {
             $user->mobileno = $request->mobileno;
         }
+
+        if ($request->category) {
+            $roleCollection = $user->getRoleNames();
+            $roles = $roleCollection->toArray();
+            if (in_array('Influencer', $roles)) {
+
+                $influencerCategory = InfluencerProfile::where('userId', '=', $request->userId)->first();
+                $influencerCategory->address = $request->address;
+                $influencerCategory->about = $request->about;
+                $influencerCategory->city = $request->city;
+                $influencerCategory->state = $request->state;
+                $influencerCategory->gender = $request->gender;
+                $influencerCategory->dob = $request->dob;
+                $influencerCategory->instagramUrl = $request->instagramUrl;
+                $influencerCategory->instagramFollowers = $request->instagramFollowers;
+                $influencerCategory->youtubeChannelUrl = $request->youtubeChannelUrl;
+                $influencerCategory->youtubeSubscriber = $request->youtubeChannelUrl;
+                $influencerCategory->categoryId = json_encode($request['category']);
+                $influencerCategory->save();
+            }
+            if (in_array('Brand', $roles)) {
+                // 
+            }
+        }
         if ($request->profilePhoto) {
             $image = $request->profilePhoto;
             $user->profilePhoto = time() . '.' . $request->profilePhoto->extension();
@@ -788,7 +816,18 @@ class ApiController extends Controller
         }
         $user->save();
 
-        if ($user) {
+        if ($user && in_array('Influencer', $roles)) {
+            $response = [
+                'User Data' => $user->where('id', $userId)->with('influencer')->get(),
+                'imagePath' => 'profile/' . $user->profilePhoto
+            ];
+            return response($response, 201);
+        } else {
+            return response([
+                'message' => ['No Data Found']
+            ], 404);
+        }
+        if ($user && in_array('Brand', $roles)) {
             $response = [
                 'User Data' => $user,
                 'imagePath' => 'profile/' . $user->profilePhoto

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\admin\BrandCategoryController;
 use App\Http\Controllers\Controller;
+use App\Models\BrandWithCategory;
 use App\Models\Brochure;
 use App\Models\Cardportfoilo;
 use App\Models\CardsModels;
 use App\Models\Category;
+use App\Models\InfluencerProfile;
 use App\Models\Link;
 use App\Models\Payment;
 use App\Models\Point;
@@ -63,7 +66,6 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255',],
             'email' => ['required', 'string', 'email', 'max:255'],
-            
             'password' => 'required|same:confirm-password',
         ]);
     }
@@ -92,11 +94,28 @@ class RegisterController extends Controller
             // $email = User::where('email', '=', $data['email'])->get();
             // return $email;
 
-            if ($data['session'] == 'brand')
+            if ($data['session'] == 'brand') {
                 $user->assignRole(['Brand']);
-            else
+                if (!empty($data['brandCategory'])) {
+                    foreach ($data['brandCategory'] as $brandCategoryId) {
+                        $brandCategory = new BrandWithCategory();
+                        $brandCategory->brandCategoryId = $brandCategoryId;
+                        $brandCategory->brandId = $user->id;
+                        $brandCategory->save();
+                    }
+                }
+            } else {
                 $user->assignRole(['Influencer']);
+                $influencer = new InfluencerProfile();
+                $influencer->userId = $user->id;
+                $influencer->contactNo = $user->mobileno;
 
+                if (!empty($data['influencerCategory'])) {
+                    // Serialize the array of category IDs to a JSON string
+                    $influencer->categoryId = json_encode($data['influencerCategory']);
+                }
+                $influencer->save();
+            }
 
             $id = $user->id;
             $mycode = $new_str . $id;

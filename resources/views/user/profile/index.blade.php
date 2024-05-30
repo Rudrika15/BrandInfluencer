@@ -436,20 +436,17 @@
         <div class="main-bd">
             <div class="left-side">
                 <div class="profile-side">
-                    <span class="mobile-no"><i class="bi bi-telephone-plus-fill"></i></span>
 
-                    <span class="mobile-no formattedMobileNumber" data-influencer-id="{{ $influencer->id ?? '-' }}">
-                        {{ $influencer->profile->mobileno ?? '-' }} </span>
+
                     <div class="user-bio">
                         <h3>About</h3>
                         <p class="bio">
                             {{ $influencer->about ?? '-' }}
                         </p>
                     </div>
-                    <div class="profile-btn">
+                    {{-- <div class="profile-btn">
                         <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Contact</button>
-                        {{-- <button class="createbtn" id="Create-post"><i class="fa fa-plus"></i> Create</button> --}}
-                    </div>
+                    </div> --}}
 
                 </div>
 
@@ -467,32 +464,34 @@
                         <div class="row">
 
                             @if (isset($influencer->profile))
+                                @if (isset($influencer->profile->card))
 
-                                @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
-                                    <div class="col-md-4">
-                                        <div class="card text-start" style="width: 15rem;">
+                                    @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                                        <div class="col-md-4">
+                                            <div class="card text-start" style="width: 15rem;">
 
-                                            <style>
-                                                .card-img-top {
-                                                    aspect-ratio: 2/2;
-                                                }
+                                                <style>
+                                                    .card-img-top {
+                                                        aspect-ratio: 2/2;
+                                                    }
 
-                                                .card-img-top:hover {
-                                                    transform: scale(1.1);
-                                                    transition: 0.1s ease-in-out;
-                                                    margin-top: -10px;
-                                                }
-                                            </style>
-                                            <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                target="_blank">
-                                                <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                    height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                                    alt="">
-                                            </a>
+                                                    .card-img-top:hover {
+                                                        transform: scale(1.1);
+                                                        transition: 0.1s ease-in-out;
+                                                        margin-top: -10px;
+                                                    }
+                                                </style>
+                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                    target="_blank">
+                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                                        alt="">
+                                                </a>
 
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                @endif
                             @endif
 
                         </div>

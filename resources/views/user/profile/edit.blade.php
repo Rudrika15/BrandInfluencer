@@ -55,10 +55,12 @@
 
 
 
-    <div class="container-fluid p-5 bg-light">
-        <span class="justify-content-end d-flex">
-            <a href="{{ route('profile') }}" class="btn btn-primary me-4">Back</a>
-        </span>
+    <div class="container-fluid p-5 " style=" background: #e9e9e9;">
+
+        <div class="pb-2">
+            <a href="{{ route('profile') }}" class="btn btn-light">
+                < Back</a>
+        </div>
         <div class="row">
 
             <div class="col-3">
@@ -176,31 +178,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6 pb-1">
 
-                                                <div class="col-md-4 pb-1">
-                                                    <label>Influencer Category:</label>
-                                                </div>
-                                                <div class="col-md-7 pb-1">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <select class="form-control shadow-none select2_1 "
-                                                                style="width:95%" name="categoryId[]"
-                                                                multiple="multiple">
-                                                                <option disabled>-- Select Influencer Category --</option>
-                                                                {{-- @foreach ($influencerCategory as $category)
-                                                            <option value="{{ $category->name }}"
-                                                                {{ old('categoryId', $influencer->categoryId) == $category->id ? 'selected' : '' }}>
-                                                                {{ $category->name }}
-                                                            </option>
-                                                        @endforeach --}}
-                                                            </select>
-                                                            <b id="influencerCategory"></b>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
 
                                             <div class="col-md-6 pb-1">
                                                 <div class="row">
@@ -484,7 +462,7 @@
                         <div class="card w-100 " style="height: 500px !important;">
                             <div class="card-body">
                                 <select name="" class="form-select shadow-none" id="">
-                                    @foreach ($category as $item)
+                                    @foreach ($influencerCategory as $item)
                                         <option value="">Select Categories</option>
                                         <option value="">cat 1</option>
                                         <option value="">cat 2</option>
@@ -496,6 +474,7 @@
                                     <button class="btn btn-primary text-center">Select</button>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
