@@ -397,6 +397,7 @@
             margin: 20px auto;
         }
     </style>
+
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id ?? '-' }}">
@@ -407,15 +408,17 @@
         <div class="profile-header">
             <div class="profile-img">
 
-                @if (isset($influencer->profile->profilePhoto))
-                    <img src="{{ asset('profile/' . $influencer->profile->profilePhoto) }}"
+                @if (isset($users->profilePhoto))
+                    <img src="{{ asset('profile/' . $users->profilePhoto) }}"
                         style="max-width: 300px; max-height: 500px; object-fit: contain;" alt="Profile Image">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
             </div>
+
             <div class="profile-nav-info">
-                <h3 class="user-name">{{ $influencer->profile->name ?? '-' }}</h3>
+                <h3 class="user-name">{{ $users->name ?? '-' }}</h3>
+
                 <div class="address">
                     <p id="state" class="state">{{ $influencer->city ?? '-' }},</p>
                     <span id="country" class="country">{{ $influencer->state ?? '-' }}.</span>
@@ -423,15 +426,18 @@
 
 
             </div>
+
             <div class="profile-option">
                 <div class="notification">
                     {{-- <i class="bi bi-bell"></i>
                     <span class="alert-message">3</span> --}}
                     <a href="{{ route('profile.edit', $authid) }}" class="btn btn-light shadow-none"
-                        style="color: white;">Edit Profile</a>
+                        style="color: white;">Edit Profile </a>
                 </div>
             </div>
         </div>
+
+        {{ $influencer }}
 
         <div class="main-bd">
             <div class="left-side">
