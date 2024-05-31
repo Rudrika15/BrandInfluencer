@@ -3,22 +3,22 @@
 @section('content')
 
     <div class='container'>
-        <div class='row'>
+        {{-- <div class='row'>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{ $message }}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            {{-- <div class='col-md-12'> --}}
-            {{-- <div class="d-flex justify-content-between mb-3">
+            <div class='col-md-12'>
+                <div class="d-flex justify-content-between mb-3">
                     <div class="p-2">
                         <h3>Brand Campaigns</h3>
                     </div>
 
-                </div> --}}
-            {{-- </div> --}}
-        </div>
+                </div>
+            </div>
+        </div> --}}
 
         <div class="row ps-5">
             <div class="col-md-12">
@@ -29,9 +29,8 @@
                                 {{-- {{ $data->user }} --}}
                                 <div class="col-md-12">
                                     {{-- <h4 class="card-title"> {{ $data->title }}</h4> --}}
-                                    <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" alt="image"
-                                        class=" w-100" style="height: 40rem"
-                                        onerror="this.src='{{ asset('images/default.jpg') }}'">
+                                    <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" alt="image" class=" w-100"
+                                        style="height: 40rem" onerror="this.src='{{ asset('images/default.jpg') }}'">
                                     {{-- <img src="{{ asset('campaignPhoto') }}/1698906013.jpg" class="rounded" alt="image"> --}}
                                     <div class="p-3">
                                         <h4 class="card-title text-uppercase mb-3"> {{ $data->title }}</h4>
@@ -72,8 +71,8 @@
                                                     <b><span>Apply</span></b>
                                                 </div>
                                             </a> --}}
-                                            <form class="col"  action="{{ route('influencer.campaignApply') }}" method="post"
-                                                name="apply">
+                                            <form class="col" action="{{ route('influencer.campaignApply') }}"
+                                                method="post" name="apply">
                                                 @csrf
                                                 <input type="hidden" name="campaignId" value="{{ $data->id }}">
                                                 <button type="submit" class="rounded-pill w-100 btn-primary shadow-none"

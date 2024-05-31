@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\BrandInfluencerNotification;
+use App\Models\BrandPackage;
+use App\Models\BrandPackageDetail;
+use App\Models\BrandPoints;
 use App\Models\Chat;
 use App\Models\ChatGroup;
 use App\Models\User;
@@ -38,6 +42,7 @@ class ChatController extends Controller
     public function newInfluencerChatIndex(Request $request)
     {
         $id = Auth::user()->id;
+        $email = Auth::user()->email;
         $receiverId = $request->receiverId;
         $newChat = new ChatGroup();
         $newChat->brandId = $id;
@@ -49,8 +54,39 @@ class ChatController extends Controller
         $chat->groupId = $newChat->id;
         $chat->session = "brand";
         $chat->message = $request->message;
-        $chat->save();
 
+
+        $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
+        $brandPackage = BrandPoints::where('userId', '=', $id)->first();
+
+
+        if ($brandPackageSum > 0) {
+            $package = BrandPackage::where('points', $brandPackage->points)->first();
+
+
+            if ($package) {
+                $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'Like', '%per message%')->first();
+                // return $packageDetailData;
+                $activity = Activity::where('id', $packageDetailData->activityId)->first();
+                $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
+                    ->where('activityId', $activity->id)
+                    ->first();
+
+                if ($packageDetail && $packageDetail->points < $brandPackageSum) {
+                    // Assuming $campaign is defined somewhere in your code
+                    $chat->save();
+
+                    $point = new BrandPoints();
+                    $point->userId = $id;
+                    $point->email = $email;
+                    $point->points = '-' . $packageDetail->points;
+                    $point->remark = 'Sent Message';
+                    $point->save();
+                }
+            }
+        } else {
+            return \redirect()->back()->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
+        }
         return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
     }
 

@@ -8,13 +8,31 @@
     <link rel="stylesheet" href="{{ asset('influencerbrand/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" /> --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
 
     <style>
+        .select2-container {
+            width: 100% !important;
+            /* Adjust width as needed */
+        }
+
+
+
+        .select2-dropdown {
+            width: auto !important;
+            /* Ensure dropdown width is auto-adjusting */
+            min-width: 65%;
+            /* Ensure dropdown does not overflow container */
+            margin-left: 0.8%;
+            box-sizing: border-box;
+            /* Include padding and border in element's total width and height */
+        }
+
         .nav-pills .nav-link {
             border-radius: 0px;
-
-
         }
 
         .tab-content>.tab-pane {
@@ -55,7 +73,7 @@
 
 
 
-    <div class="container-fluid p-5 " style=" background: #e9e9e9;">
+    <div class="container-fluid p-5" style=" background: #e9e9e9;">
 
         <div class="pb-2">
             <a href="{{ route('profile') }}" class="btn btn-light">
@@ -64,26 +82,27 @@
         <div class="row">
 
             <div class="col-3">
-                <div class="card h-100 w-100">
-                    <div class="nav flex-column nav-pills mt-2" id="v-pills-tab" role="tablist"
-                        aria-orientation="vertical">
-                        <a class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill"
-                            href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
-                            aria-selected="true">Profile</a>
-                        <a class="nav-link mt-2" id="v-pills-links-tab" data-bs-toggle="pill" href="#v-pills-links"
-                            role="tab" aria-controls="v-pills-links" aria-selected="false"> Social Links</a>
-                        <a class="nav-link mt-2" id="v-pills-categories-tab" data-bs-toggle="pill"
-                            href="#v-pills-categories" role="tab" aria-controls="v-pills-categories"
-                            aria-selected="false"> Categories</a>
-
+                <div class="card h-100 w-100 ">
+                    <div class="card-body">
+                        <div class="nav flex-column nav-pills mt-2" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <a class="nav-link active " id="v-pills-profile-tab" data-bs-toggle="pill"
+                                href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
+                                aria-selected="true">Profile</a>
+                            <a class="nav-link mt-2" id="v-pills-links-tab" data-bs-toggle="pill" href="#v-pills-links"
+                                role="tab" aria-controls="v-pills-links" aria-selected="false"> Social Links</a>
+                            <a class="nav-link mt-2" id="v-pills-categories-tab" data-bs-toggle="pill"
+                                href="#v-pills-categories" role="tab" aria-controls="v-pills-categories"
+                                aria-selected="false"> Categories</a>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-9 ">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+                    <div class="tab-pane fade show active " id="v-pills-profile" role="tabpanel"
                         aria-labelledby="v-pills-profile-tab">
-                        <div class="card w-100">
+                        <div class="card w-100" style="height: 500px !important;">
                             <div class="card-body">
                                 <form action="{{ route('card.store') }}" enctype="multipart/form-data" method="post">
                                     @csrf
@@ -225,6 +244,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="tab-pane fade" id="v-pills-links" role="tabpanel"
                         aria-labelledby="v-pills-links-tab">
                         <div class="card w-100 " style="height: 500px !important;">
@@ -434,41 +454,40 @@
                         <div class="card w-100 " style="height: 500px !important;">
                             <div class="card-body">
                                 @role('Influencer')
-                                    <select name="" class="form-select shadow-none" id="">
-                                        <option disabled>Select Categories</option>
-                                        @foreach ($influencerCategory as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="row ">
+                                        <select name="categories[]" class="form-select shadow-none" id="categories"
+                                            multiple>
+                                            <option disabled> --Select Categories-- </option>
+                                            @foreach ($influencerCategory as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 @endrole
                                 @role('Brand')
                                     <div class="row">
                                         <div class="col-md-2 pb-1">
                                             <label>Brand Category:</label>
                                         </div>
-                                        <div class="col-md-10 pb-1">
-                                            <div class="row">
+                                        <select class="form-control shadow-none" name="brandCategoryId" id="categories"
+                                            multiple>
+                                            <option disabled>-- Select Brand Category --</option>
+                                            @foreach ($brandCategory as $bcategory)
+                                                @if (isset($brand_category->brandCategoryId))
+                                                    <option value="{{ $bcategory->id }}"
+                                                        {{ old('brandCategoryId', $brand_category->brandCategoryId) == $bcategory->id ? 'selected' : '' }}>
+                                                        {{ $bcategory->categoryName }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $bcategory->id }}">
+                                                        {{ $bcategory->categoryName }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
+                                        </select>
 
-                                                <div class="col-md-12">
-                                                    <select class="form-control shadow-none " name="brandCategoryId">
-                                                        <option disabled selected>-- Select Brand Category --</option>
-                                                        @foreach ($brandCategory as $bcategory)
-                                                            @if (isset($brand_category->brandCategoryId))
-                                                                <option value="{{ $bcategory->id }}"
-                                                                    {{ old('brandCategoryId', $brand_category->brandCategoryId) == $bcategory->id ? 'selected' : '' }}>
-                                                                    {{ $bcategory->categoryName }}
-                                                                </option>
-                                                            @else
-                                                                <option value="{{ $bcategory->id }}">
-                                                                    {{ $bcategory->categoryName }}
-                                                                </option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
+
                                 @endrole
                                 <div class="justify-content-center d-flex mt-4">
                                     <button class="btn btn-primary text-center">Select</button>
@@ -484,9 +503,23 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#categories').select2({
+                placeholder: '-- Select Category --',
+                allowClear: true,
+                width: '100%'
+            });
+
+        });
+    </script>
+
 </body>
 
 
