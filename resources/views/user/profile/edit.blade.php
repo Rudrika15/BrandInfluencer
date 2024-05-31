@@ -217,35 +217,7 @@
                                         </div>
                                     </div>
 
-                                    @role('Brand')
-                                        <div class="row">
-                                            <div class="col-md-2 pb-1">
-                                                <label>Brand Category:</label>
-                                            </div>
-                                            <div class="col-md-10 pb-1">
-                                                <div class="row">
 
-                                                    <div class="col-md-12">
-                                                        <select class="form-control shadow-none " name="brandCategoryId">
-                                                            <option disabled selected>-- Select Brand Category --</option>
-                                                            @foreach ($brandCategory as $bcategory)
-                                                                @if (isset($brand_category->brandCategoryId))
-                                                                    <option value="{{ $bcategory->id }}"
-                                                                        {{ old('brandCategoryId', $brand_category->brandCategoryId) == $bcategory->id ? 'selected' : '' }}>
-                                                                        {{ $bcategory->categoryName }}
-                                                                    </option>
-                                                                @else
-                                                                    <option value="{{ $bcategory->id }}">
-                                                                        {{ $bcategory->categoryName }}
-                                                                    </option>
-                                                                @endif
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endrole
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary mt-5">Update</button><br>
                                     </div>
@@ -461,21 +433,50 @@
                         aria-labelledby="v-pills-categories-tab">
                         <div class="card w-100 " style="height: 500px !important;">
                             <div class="card-body">
-                                <select name="" class="form-select shadow-none" id="">
-                                    @foreach ($influencerCategory as $item)
-                                        <option value="">Select Categories</option>
-                                        <option value="">cat 1</option>
-                                        <option value="">cat 2</option>
-                                        <option value="">cat 3</option>
-                                        <option value="">cat 4</option>
-                                    @endforeach
-                                </select>
+                                @role('Influencer')
+                                    <select name="" class="form-select shadow-none" id="">
+                                        <option disabled>Select Categories</option>
+                                        @foreach ($influencerCategory as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                @endrole
+                                @role('Brand')
+                                    <div class="row">
+                                        <div class="col-md-2 pb-1">
+                                            <label>Brand Category:</label>
+                                        </div>
+                                        <div class="col-md-10 pb-1">
+                                            <div class="row">
+
+                                                <div class="col-md-12">
+                                                    <select class="form-control shadow-none " name="brandCategoryId">
+                                                        <option disabled selected>-- Select Brand Category --</option>
+                                                        @foreach ($brandCategory as $bcategory)
+                                                            @if (isset($brand_category->brandCategoryId))
+                                                                <option value="{{ $bcategory->id }}"
+                                                                    {{ old('brandCategoryId', $brand_category->brandCategoryId) == $bcategory->id ? 'selected' : '' }}>
+                                                                    {{ $bcategory->categoryName }}
+                                                                </option>
+                                                            @else
+                                                                <option value="{{ $bcategory->id }}">
+                                                                    {{ $bcategory->categoryName }}
+                                                                </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endrole
                                 <div class="justify-content-center d-flex mt-4">
                                     <button class="btn btn-primary text-center">Select</button>
                                 </div>
                             </div>
 
                         </div>
+
                     </div>
 
                 </div>
