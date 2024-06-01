@@ -203,9 +203,226 @@
 
     </nav>
     <nav class="nav menu-links text-white justify-content-end  py-4 pe-4" style="z-index: -1">
-
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <ul class="nav">
-            <li class="nav-item pe-3" style="color: #156b9f;"> </li>
+            {{-- <li class="nav-item pe-3" style="color: #156b9f;"> --}}
+            <style>
+                .dropdown-menu {
+                    position: relative;
+                    display: flex !important;
+                }
+
+                .dropdown-menu>button {
+                    position: relative;
+                    z-index: 2;
+                    transition: 0.3s;
+                }
+
+                .dropdown-menu>button:hover {
+                    background: #080808;
+                }
+
+                .dropdown-menu.open>button {
+                    /*   background: #000080; */
+                    background: -webkit-linear-gradient(to bottom, #0072ff, #00c6ff);
+                    background: linear-gradient(to bottom, #0072ff, #00c6ff);
+                }
+
+                .dropdown-menu button {
+                    display: flex !important;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 0 15px;
+                    width: 230px;
+                    height: 50px;
+                    border-radius: 12px;
+                    color: #fdfefe;
+                    background: #17202a;
+                    border: 0;
+                    cursor: pointer;
+                    font-size: 18px;
+                    font-family: "Cambria";
+                }
+
+                .dropdown-menu button .chevron {
+                    margin-left: auto;
+                }
+
+                .dropdown-menu__labels {
+                    position: absolute;
+                    overflow: hidden;
+                    z-index: 1;
+                    top: 60px;
+                    left: 0;
+                    width: 100%;
+                    height: 168px;
+                    opacity: 0;
+                    visibility: hidden;
+                    background-color: #17202a;
+                    border-radius: 12px;
+                    border-top: 0;
+                    translate: 0 -20px;
+                    transition: 0.4s;
+                }
+
+                .primary-menu__labels {
+                    width: 230px;
+                }
+
+                .primary-menu {
+                    position: absolute;
+                    width: 460px;
+                    display: flex;
+                    transition: 0.3s;
+                }
+
+                .primary-menu.open {
+                    translate: -50%;
+                }
+
+                .dropdown-menu__labels button {
+                    border: 0;
+                    width: 100%;
+                    height: 56px;
+                    border-radius: 0;
+                }
+
+                .dropdown-menu__labels button:hover {
+                    background: #080808;
+                }
+
+                .dropdown-menu.open .dropdown-menu__labels {
+                    opacity: 1;
+                    translate: 0;
+                    visibility: visible;
+                }
+
+                .secondary-menu__labels {
+                    display: none;
+                    width: 230px;
+                }
+
+                .secondary-menu__labels.open {
+                    display: block;
+                }
+            </style>
+            <section class="dropdown-menu" id="dropdown-menu">
+                <button onclick="handleDropdownClicked(event)">
+                    <span class="material-symbols-outlined"> account_circle </span>
+                    {{ Auth::user()->name }}
+                    <span id="dropdown-icon" class="chevron material-symbols-outlined"> expand_more </span>
+                </button>
+                <section class="dropdown-menu__labels">
+                    <div id="primary-menu" class="primary-menu">
+                        <div class="primary-menu__labels">
+                            <a href="{{ route('profile') }}">
+                                <button onclick="handleMenuLabelClicked('store')">
+                                    <span class="material-symbols-outlined"> store </span>
+                                    Store
+                                    <span class="chevron material-symbols-outlined"> chevron_right </span>
+                                </button>
+                            </a>
+                            <a href="{{ route('profile') }}">
+                                <button onclick="handleMenuLabelClicked('manage-settings')">
+                                    <span class="material-symbols-outlined"> manage_accounts </span>
+                                    Account
+                                    <span class="chevron material-symbols-outlined"> chevron_right </span>
+                                </button>
+                            </a>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <button>
+                                    <span class="material-symbols-outlined"> logout </span>
+                                    Sign Out
+                                </button>
+                            </a>
+                        </div>
+
+                        <section id="store" class="secondary-menu__labels" onclick="handleMenuLabelClicked()">
+                            <a href="{{ route('profile') }}">
+                                <button>
+                                    <span class="material-symbols-outlined"> shopping_cart </span>
+                                    Cart
+                                </button>
+                            </a>
+                            <a href="{{ route('profile') }}">
+                                <button>
+                                    <span class="material-symbols-outlined"> payment </span>
+                                    Manage Payment
+                                </button>
+                            </a>
+                            <a href="{{ route('profile') }}">
+                                <button>
+                                    <span class="material-symbols-outlined"> local_shipping </span>
+                                    Track Shipping
+                                </button>
+                            </a>
+                        </section>
+
+                        <section id="manage-settings" class="secondary-menu__labels"
+                            onclick="handleMenuLabelClicked()">
+                            <a href="{{ route('profile') }}">
+                                <button>
+                                    <span class="material-symbols-outlined"> shield_lock </span>
+                                    Change Password
+                                </button>
+                            </a>
+                            <a href="{{ route('profile') }}">
+                                <button>
+                                    <span class="material-symbols-outlined"> notifications </span>
+                                    Notifications
+                                </button>
+                            </a>
+                            <a href="{{ route('profile') }}">
+                                <button>
+                                    <span class="material-symbols-outlined"> contact_support </span>
+                                    Contact Support
+                                </button>
+                            </a>
+                        </section>
+                    </div>
+                </section>
+            </section>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+
+
+            <script>
+                const dropdownMenu = document.getElementById("dropdown-menu");
+                const handleDropdownClicked = (event) => {
+                    event.stopPropagation();
+                    toggleDropdownMenu(!dropdownMenu?.classList?.contains("open"));
+                };
+
+                const handleMenuLabelClicked = (label) => {
+                    if (label) {
+                        const menuLabels = document.getElementsByClassName(
+                            "secondary-menu__labels"
+                        );
+                        for (let m of menuLabels) {
+                            m.classList.remove("open");
+                        }
+                        const dropdownMenuLabels = document.getElementById(label);
+                        dropdownMenuLabels.classList.add("open");
+                    }
+                    const primaryMenu = document.getElementById("primary-menu");
+                    primaryMenu.classList.toggle("open");
+                };
+
+                const toggleDropdownMenu = () => {
+                    const dropdownMenu = document.getElementById("dropdown-menu");
+                    dropdownMenu.classList.toggle("open");
+                    const dropdownIcon = document.getElementById("dropdown-icon");
+                    dropdownIcon.innerText = dropdownMenu.classList.contains("open") ?
+                        "close" :
+                        "expand_more";
+                };
+            </script>
+
+            {{-- </li> --}}
             <li class="nav-item dropdown">
                 <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink"
                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
