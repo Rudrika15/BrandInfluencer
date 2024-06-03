@@ -19,7 +19,115 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
 
+    <style>
+        .dropdown-menu {
+            position: relative;
+            background-color: transparent !important;
+            display: flex !important;
+            border: none;
+        }
 
+        .dropdown-menu>button {
+            position: relative;
+            z-index: 2;
+            transition: 0.3s;
+        }
+
+        .dropdown-menu>button:hover {
+            background: #15c6eb;
+        }
+
+        .dropdown-menu.open>button {
+            /*   background: #000080; */
+            background: -webkit-linear-gradient(to bottom, #1d4880, #15c6eb);
+            background: linear-gradient(to bottom, #1d4880, #15c6eb);
+        }
+
+        .dropdown-menu button {
+            display: flex !important;
+            align-items: center;
+            gap: 10px;
+            padding: 0 15px;
+            width: 230px;
+            height: 50px;
+            border-radius: 12px;
+            color: #fdfefe;
+            background: #1d4880;
+            border: 0;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: "Cambria";
+        }
+
+        .dropdown-menu button .chevron {
+            margin-left: auto;
+        }
+
+        .dropdown-menu__labels {
+            position: absolute;
+            overflow: hidden;
+            z-index: 1;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 110px;
+            opacity: 0;
+            visibility: hidden;
+            background-color: #fff;
+            border-radius: 12px;
+            border-top: 0;
+            translate: 0 -20px;
+            transition: 0.4s;
+        }
+
+        .primary-menu__labels {
+            width: 230px;
+        }
+
+        .primary-menu {
+            position: absolute;
+            width: 460px;
+            display: flex;
+            transition: 0.3s;
+        }
+
+        .primary-menu.open {
+            translate: -50%;
+        }
+
+        .dropdown-menu__labels button {
+            border: 0;
+            width: 100%;
+            height: 56px;
+            border-radius: 0;
+        }
+
+        .dropdown-menu__labels button:hover {
+            background: #15c6eb;
+        }
+
+        .dropdown-menu.open .dropdown-menu__labels {
+            opacity: 1;
+            translate: 0;
+            visibility: visible;
+        }
+
+        .secondary-menu__labels {
+            display: none;
+            width: 230px;
+        }
+
+        .secondary-menu__labels.open {
+            display: block;
+        }
+    </style>
+    @role('Admin')
+        <style>
+            .dropdown-menu__labels {
+                height: 170px !important;
+            }
+        </style>
+    @endrole
 </head>
 
 
@@ -207,106 +315,7 @@
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <ul class="nav">
             {{-- <li class="nav-item pe-3" style="color: #156b9f;"> --}}
-            <style>
-                .dropdown-menu {
-                    position: relative;
-                    display: flex !important;
-                }
 
-                .dropdown-menu>button {
-                    position: relative;
-                    z-index: 2;
-                    transition: 0.3s;
-                }
-
-                .dropdown-menu>button:hover {
-                    background: #080808;
-                }
-
-                .dropdown-menu.open>button {
-                    /*   background: #000080; */
-                    background: -webkit-linear-gradient(to bottom, #0072ff, #00c6ff);
-                    background: linear-gradient(to bottom, #0072ff, #00c6ff);
-                }
-
-                .dropdown-menu button {
-                    display: flex !important;
-                    align-items: center;
-                    gap: 10px;
-                    padding: 0 15px;
-                    width: 230px;
-                    height: 50px;
-                    border-radius: 12px;
-                    color: #fdfefe;
-                    background: #17202a;
-                    border: 0;
-                    cursor: pointer;
-                    font-size: 18px;
-                    font-family: "Cambria";
-                }
-
-                .dropdown-menu button .chevron {
-                    margin-left: auto;
-                }
-
-                .dropdown-menu__labels {
-                    position: absolute;
-                    overflow: hidden;
-                    z-index: 1;
-                    top: 60px;
-                    left: 0;
-                    width: 100%;
-                    height: 168px;
-                    opacity: 0;
-                    visibility: hidden;
-                    background-color: #17202a;
-                    border-radius: 12px;
-                    border-top: 0;
-                    translate: 0 -20px;
-                    transition: 0.4s;
-                }
-
-                .primary-menu__labels {
-                    width: 230px;
-                }
-
-                .primary-menu {
-                    position: absolute;
-                    width: 460px;
-                    display: flex;
-                    transition: 0.3s;
-                }
-
-                .primary-menu.open {
-                    translate: -50%;
-                }
-
-                .dropdown-menu__labels button {
-                    border: 0;
-                    width: 100%;
-                    height: 56px;
-                    border-radius: 0;
-                }
-
-                .dropdown-menu__labels button:hover {
-                    background: #080808;
-                }
-
-                .dropdown-menu.open .dropdown-menu__labels {
-                    opacity: 1;
-                    translate: 0;
-                    visibility: visible;
-                }
-
-                .secondary-menu__labels {
-                    display: none;
-                    width: 230px;
-                }
-
-                .secondary-menu__labels.open {
-                    display: block;
-                }
-            </style>
             <section class="dropdown-menu" id="dropdown-menu">
                 <button onclick="handleDropdownClicked(event)">
                     <span class="material-symbols-outlined"> account_circle </span>
@@ -316,20 +325,21 @@
                 <section class="dropdown-menu__labels">
                     <div id="primary-menu" class="primary-menu">
                         <div class="primary-menu__labels">
+                            @role('Admin')
+                                <a href="{{ route('admin.dashboard') }}">
+                                    <button>
+                                        <span class="material-symbols-outlined"> admin_panel_settings </span>
+                                        Admin
+                                    </button>
+                                </a>
+                            @endrole
                             <a href="{{ route('profile') }}">
-                                <button onclick="handleMenuLabelClicked('store')">
+                                <button>
                                     <span class="material-symbols-outlined"> store </span>
-                                    Store
-                                    <span class="chevron material-symbols-outlined"> chevron_right </span>
+                                    Profile
                                 </button>
                             </a>
-                            <a href="{{ route('profile') }}">
-                                <button onclick="handleMenuLabelClicked('manage-settings')">
-                                    <span class="material-symbols-outlined"> manage_accounts </span>
-                                    Account
-                                    <span class="chevron material-symbols-outlined"> chevron_right </span>
-                                </button>
-                            </a>
+
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <button>
@@ -338,49 +348,6 @@
                                 </button>
                             </a>
                         </div>
-
-                        <section id="store" class="secondary-menu__labels" onclick="handleMenuLabelClicked()">
-                            <a href="{{ route('profile') }}">
-                                <button>
-                                    <span class="material-symbols-outlined"> shopping_cart </span>
-                                    Cart
-                                </button>
-                            </a>
-                            <a href="{{ route('profile') }}">
-                                <button>
-                                    <span class="material-symbols-outlined"> payment </span>
-                                    Manage Payment
-                                </button>
-                            </a>
-                            <a href="{{ route('profile') }}">
-                                <button>
-                                    <span class="material-symbols-outlined"> local_shipping </span>
-                                    Track Shipping
-                                </button>
-                            </a>
-                        </section>
-
-                        <section id="manage-settings" class="secondary-menu__labels"
-                            onclick="handleMenuLabelClicked()">
-                            <a href="{{ route('profile') }}">
-                                <button>
-                                    <span class="material-symbols-outlined"> shield_lock </span>
-                                    Change Password
-                                </button>
-                            </a>
-                            <a href="{{ route('profile') }}">
-                                <button>
-                                    <span class="material-symbols-outlined"> notifications </span>
-                                    Notifications
-                                </button>
-                            </a>
-                            <a href="{{ route('profile') }}">
-                                <button>
-                                    <span class="material-symbols-outlined"> contact_support </span>
-                                    Contact Support
-                                </button>
-                            </a>
-                        </section>
                     </div>
                 </section>
             </section>
@@ -390,40 +357,10 @@
             </form>
 
 
-            <script>
-                const dropdownMenu = document.getElementById("dropdown-menu");
-                const handleDropdownClicked = (event) => {
-                    event.stopPropagation();
-                    toggleDropdownMenu(!dropdownMenu?.classList?.contains("open"));
-                };
 
-                const handleMenuLabelClicked = (label) => {
-                    if (label) {
-                        const menuLabels = document.getElementsByClassName(
-                            "secondary-menu__labels"
-                        );
-                        for (let m of menuLabels) {
-                            m.classList.remove("open");
-                        }
-                        const dropdownMenuLabels = document.getElementById(label);
-                        dropdownMenuLabels.classList.add("open");
-                    }
-                    const primaryMenu = document.getElementById("primary-menu");
-                    primaryMenu.classList.toggle("open");
-                };
-
-                const toggleDropdownMenu = () => {
-                    const dropdownMenu = document.getElementById("dropdown-menu");
-                    dropdownMenu.classList.toggle("open");
-                    const dropdownIcon = document.getElementById("dropdown-icon");
-                    dropdownIcon.innerText = dropdownMenu.classList.contains("open") ?
-                        "close" :
-                        "expand_more";
-                };
-            </script>
 
             {{-- </li> --}}
-            <li class="nav-item dropdown">
+            {{-- <li class="nav-item dropdown">
                 <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink"
                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }}
@@ -442,12 +379,7 @@
                         </div>
 
                     </li>
-                    @role('Admin')
-                        <a class="" href="{{ route('admin.dashboard') }}">
-                            <li class="menu-li ms-3" style="  pointer-events: none;">Admin</li>
-                        </a>
-                        <hr>
-                    @endrole
+
                     <a class="" href="{{ route('profile') }}">
                         <li class="menu-li ms-3" style="  pointer-events: none;">Profile</li>
                     </a>
@@ -463,7 +395,7 @@
                         </li>
                     </a>
                 </ul>
-            </li>
+            </li> --}}
 
         </ul>
 
@@ -590,61 +522,38 @@
         });
     </script>
 
+    <script>
+        const dropdownMenu = document.getElementById("dropdown-menu");
+        const handleDropdownClicked = (event) => {
+            event.stopPropagation();
+            toggleDropdownMenu(!dropdownMenu?.classList?.contains("open"));
+        };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {{-- <script>
-        // JavaScript code to handle the toggle buttons and AJAX request
-        $(document).ready(function() {
-            const toggleOn = $('#toggle-on');
-            const toggleOff = $('#toggle-off');
-            const roleName = $('#role-name');
-
-            console.log(toggleOn, toggleOff, roleName);
-            toggleOn.on('click', function() {
-                roleName.text('I am an Influencer');
-                updateSession('influencer');
-                console.log('influencer');
-            });
-
-            toggleOff.on('click', function() {
-                roleName.text('I am a Brand');
-                updateSession('brand');
-                console.log('brand');
-            });
-
-            function updateSession(role) {
-                $.ajax({
-                    url: "{{ route('update.session') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        role: role
-                    },
-                    success: function(response) {
-                        console.log('Session updated successfully.');
-                        window.location.href = "{{ route('home') }}";
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error updating session:', error);
-                    }
-                });
+        const handleMenuLabelClicked = (label) => {
+            if (label) {
+                const menuLabels = document.getElementsByClassName(
+                    "secondary-menu__labels"
+                );
+                for (let m of menuLabels) {
+                    m.classList.remove("open");
+                }
+                const dropdownMenuLabels = document.getElementById(label);
+                dropdownMenuLabels.classList.add("open");
             }
-        });
-    </script> --}}
+            const primaryMenu = document.getElementById("primary-menu");
+            primaryMenu.classList.toggle("open");
+        };
+
+        const toggleDropdownMenu = () => {
+            const dropdownMenu = document.getElementById("dropdown-menu");
+            dropdownMenu.classList.toggle("open");
+            const dropdownIcon = document.getElementById("dropdown-icon");
+            dropdownIcon.innerText = dropdownMenu.classList.contains("open") ?
+                "close" :
+                "expand_more";
+        };
+    </script>
+
 
 </body>
 
