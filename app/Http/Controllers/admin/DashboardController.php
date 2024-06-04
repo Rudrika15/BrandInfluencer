@@ -207,7 +207,9 @@ class DashboardController extends Controller
         $roleCollection = $user->getRoleNames();
         $roles = $roleCollection->toArray();
         if (in_array('Influencer', $roles)) {
-            return "Influencer";
+            $findInfluencer = InfluencerProfile::where('userId', '=', $id)->first();
+            $findInfluencer->categoryId = $request['categories'];
+            $findInfluencer->save();
         }
         if (in_array('Brand', $roles)) {
 

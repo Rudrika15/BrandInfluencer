@@ -49,11 +49,18 @@
 
         .nav-link.active:hover {
             color: white !important;
+            background-color: #00c9e4;
         }
 
         .nav-link {
             color: #1d4880;
+            border: none !important;
+            border-radius: 30px !important;
+        }
 
+        .btn-primary {
+            background-color: #1d4880 !important;
+            border: none !important;
         }
 
         /* file upload*/
@@ -76,7 +83,7 @@
             box-shadow: 0 10px 60px rgb(218, 229, 255);
             border: 2px solid var(--clr-light-blue);
             border-radius: 24px;
-            padding: 2rem 1.875rem 5rem 1.875rem;
+            padding: 2rem 1.875rem 2rem 1.875rem;
             margin: 0.625rem;
             margin-left: 300px;
             text-align: center;
@@ -398,8 +405,11 @@
                             <a class="nav-link mt-2" id="v-pills-categories-tab" data-bs-toggle="pill"
                                 href="#v-pills-categories" role="tab" aria-controls="v-pills-categories"
                                 aria-selected="false"> Categories</a>
-                            <a class="nav-link mt-2" id="v-pills-links-tab" data-bs-toggle="pill" href="#v-pills-links"
-                                role="tab" aria-controls="v-pills-links" aria-selected="false"> Portfolio</a>
+
+                            @role('Influencer')
+                                <a class="nav-link mt-2" id="v-pills-links-tab" data-bs-toggle="pill" href="#v-pills-links"
+                                    role="tab" aria-controls="v-pills-links" aria-selected="false"> Portfolio</a>
+                            @endrole
                         </div>
                     </div>
                 </div>
@@ -553,9 +563,9 @@
 
                     <div class="tab-pane fade" id="v-pills-links" role="tabpanel"
                         aria-labelledby="v-pills-links-tab">
-                        <div class="card w-100 " style="height: 500px !important;">
+                        <div class="card w-100 " style="height: 580px !important;">
                             <div class="card-body">
-                                <form action="{{ route('link.update') }}" method="post">
+                                <form action="{{ route('influencer.portfolio.store') }}" method="post">
                                     @csrf
 
                                     <div id="uploadArea" class="upload-area">
@@ -616,29 +626,38 @@
                     </div>
                     <div class="tab-pane fade" id="v-pills-categories" role="tabpanel"
                         aria-labelledby="v-pills-categories-tab">
-                        <div class="card w-100 " style="height: 500px !important;">
-                            <div class="card-body">
+                        <div class="card w-100" style="height: 500px !important;">
+                            <div class="card-body mt-5">
                                 <form action="{{ route('category.update') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
                                     @role('Influencer')
-                                        <div class="row ">
-                                            <select name="categories[]" class="form-select shadow-none" id="categories"
-                                                multiple>
-                                                <option disabled> --Select Categories-- </option>
-                                                @foreach ($influencerCategory as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    @endrole
-                                    @role('Brand')
-                                        {{-- {{ $brandCategory }} --}}
                                         <div class="row">
-                                            <div class="col-md-2 pb-1">
+                                            <div class="col-md-12 pb-1">
+                                                <label>Influencer Category:</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select name="categories[]" class="form-select shadow-none"
+                                                    id="categories" multiple>
+                                                    <option disabled>--Select Categories--</option>
+                                                    @foreach ($influencerCategory as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            @if (in_array($item->id, json_decode($influencer->categoryId, true))) selected @endif>
+                                                            {{ $item->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    @endrole
+                                    {{-- {{ $brandCategory }} --}}
+                                    @role('Brand')
+                                        <div class="row">
+                                            <div class="col-md-12 pb-1">
                                                 <label>Brand Category:</label>
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-12">
                                                 <select class="form-control shadow-none" name="brandCategoryId[]"
                                                     id="categories" multiple>
                                                     <option disabled>-- Select Brand Category --</option>
@@ -651,9 +670,6 @@
                                                 </select>
                                             </div>
                                         </div>
-
-
-
 
                                     @endrole
                                     <div class="justify-content-center d-flex mt-4">
