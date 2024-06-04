@@ -96,6 +96,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('user/profile/edit/{id}', [DashboardController::class, 'editProfile'])->name('profile.edit');
     Route::get('mycard/{name?}', [DashboardController::class, 'index'])->name('user.card');
     Route::post('card/store', [DashboardController::class, 'store'])->name('card.store');
+    Route::post('category/update', [DashboardController::class, 'categoryUpdate'])->name('category.update');
+
     Route::get('photo-delete/{id?}', [DashboardController::class, 'photodestroy'])->name('photo.delete');
 
 

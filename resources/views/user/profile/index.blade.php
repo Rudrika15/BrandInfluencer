@@ -420,8 +420,24 @@
                 <h3 class="user-name">{{ $users->name ?? '-' }}</h3>
 
                 <div class="address">
-                    <p id="state" class="state">{{ $influencer->city ?? '-' }},</p>
-                    <span id="country" class="country">{{ $influencer->state ?? '-' }}.</span>
+                    <p id="state" class="state">
+                        @role('Brand')
+                            {{ $users->city ?? '-' }}
+                        @endrole
+                        @role('Influencer')
+                            {{ $influencer->city ?? '-' }}
+                        @endrole
+                        ,
+                    </p>
+                    <span id="country" class="country">
+                        @role('Brand')
+                            {{ $users->state ?? '-' }}
+                        @endrole
+                        @role('Influencer')
+                            {{ $influencer->state ?? '-' }}
+                        @endrole
+
+                        .</span>
                 </div>
 
 
@@ -437,7 +453,6 @@
             </div>
         </div>
 
-        {{ $influencer }}
 
         <div class="main-bd">
             <div class="left-side">
@@ -447,7 +462,13 @@
                     <div class="user-bio">
                         <h3>About</h3>
                         <p class="bio">
-                            {{ $influencer->about ?? '-' }}
+                            @role('Brand')
+                                {{ $users->about ?? '-' }}
+                            @endrole
+                            @role('Influencer')
+                                {{ $influencer->about ?? '-' }}
+                            @endrole
+
                         </p>
                     </div>
                     {{-- <div class="profile-btn">

@@ -161,146 +161,77 @@ class DashboardController extends Controller
     {
 
         $influencer = InfluencerProfile::where('userId', '=', $id)->first();
-        $brand_category = BrandWithCategory::where('brandId', '=', $id)->first();
         $category = Categories::all();
         $influencerCategory = CategoryInfluencer::all();
         $brandCategory = BrandCategory::all();
+        $brand_category = BrandWithCategory::where('brandId', '=', $id)->get();
         // $category = Admin::all();
         // $data = User::where('id', '=', $id)->get();
         $users = User::find($id);
 
 
         return view('user.profile.edit', compact('influencer', 'influencerCategory', 'brand_category', 'brandCategory',   'category',  'users'));
-        // }
-
     }
 
     /* card new store */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'year' => 'regex:/^[a-zA-Z0-9\s]+$/',
-            'logo' => 'mimetypes:image/jpeg,image/png,image/jpg,image/gif,image/svg+xml',
-            'profilePhoto' => 'mimetypes:image/jpeg,image/png,image/jpg,image/gif,image/svg+xml',
-            'category' => 'required',
 
-
-        ], [
-            'year.regex' => 'The year field must contain only letters and characters.',
-            'logo.max' => 'The logo may not be greater than 2 MB.',
-            'profilePhoto.max' => 'The profile photo may not be greater than 2 MB.',
-            'logo.mimetypes' => 'The logo must be a valid image (jpeg, png, jpg, gif, svg).',
-            'profilePhoto.mimetypes' => 'The profile photo must be a valid image (jpeg, png, jpg, gif, svg).',
-        ]);
         try {
+            // return $request;
             $id = Auth::user()->id;
-            //dd($id);
-            $cards = CardsModels::where('user_id', '=', $id)->get();
-            // return $cards;
-            $card_id = $cards[0]->id;
-            // return $card_id;
-            $details =  CardsModels::find($card_id);
+            $userData = User::find($id);
+            $userData->username = $request->username;
+            $userData->state = $request->state;
+            $userData->city = $request->city;
+            $userData->about = $request->about;
 
+            if ($request->hasFile('profilePhoto')) {
 
-            // return $details;
-
-            $details->name = $request->name;
-            $details->heading = $request->heading;
-            $details->companyname = $request->companyname;
-            $details->city = $request->city;
-            $details->state = $request->state;
-            $category1 = $request->category;
-            if ($category1 == 'other') {
-                $categorystore = new Category();
-
-                $categorystore->name = $request->categoryname;
-                $categorystore->iconPath = "default.jpg";
-                $categorystore->isBusiness = "yes";
-                $categorystore->save();
-
-                $details->category = $categorystore->id;
-            } else {
-                $details->category = $category1;
-            }
-            $details->about = $request->about;
-            $details->address = $request->address;
-            $details->year = $request->year;
-            if ($request->logo) {
-                $image = $request->logo;
-                $details->logo = time() . '.' . $request->logo->extension();
-                $request->logo->move(public_path('cardlogo'), $details->logo);
-            }
-            $details->save();
-
-            $user = User::find($id);
-            $user->name = $request->name;
-            $user->username = $request->username;
-            $image = $request->profilePhoto;
-            if ($request->profilePhoto) {
-                // Get the original file name
-                $originalFileName = time() . '.' . $request->profilePhoto->extension();
-
-                // Optimize the image in place
-                $optimizerChain = OptimizerChainFactory::create();
-                $optimizerChain->optimize($request->file('profilePhoto')->getPathname());
-
-                // Move the optimized image to the desired directory
-                $request->profilePhoto->move(public_path('profile'), $originalFileName);
-
-                // Save the optimized image filename to the user's profilePhoto attribute
-                $user->profilePhoto = $originalFileName;
-            }
-            $user->save();
-
-
-            if (Auth::user()->hasRole('Influencer')) {
-                $influencerCategory = $request->categoryId;
-                // $categoryData = implode(",", $influencerCategory);
-                $this->validate($request, [
-                    'pinCode' => 'numeric|digits:6',
-                    'instagramUrl' => 'regex:/^(?!.*[@#])(?!.*https:\/\/instagram)/',
-                ], [
-                    'instagramUrl.regex' => 'Do not enter @,# or https://instagram in the url.',
-                ]);
-                $influencer = InfluencerProfile::where('userId', '=', $id)->first();
-                if ($influencerCategory) {
-                    $influencer->categoryId = $influencerCategory;
-                }
-
-                $influencer->address = $request->influaddress;
-                $influencer->contactNo = $user->mobileno;
-                $influencer->publicLocation = $request->publicLocation;
-                $influencer->city = $details->city;
-                $influencer->state = $details->state;
-                $influencer->gender = $request->gender;
-                $influencer->pinCode = $request->pinCode;
-                $influencer->instagramUrl = $request->instagramUrl;
-                $influencer->instagramFollowers = $request->instagramFollowers;
-                $influencer->youtubeChannelUrl = $request->youtubeChannelUrl;
-                $influencer->youtubeSubscriber = $request->youtubeSubscriber;
-                $influencer->dob = $request->dob;
-                $influencer->save();
+                $userData->profilePhoto = time() . '.' . $request->profilePhoto->extension();
+                $request->profilePhoto->move(public_path('profile'), $userData->profilePhoto);
             }
 
-            if (Auth::user()->hasRole('Brand')) {
-                $brandId = Auth::user()->id;
-                $brandCategory = BrandWithCategory::where('brandId', '=', $brandId)->first();
-                if ($brandCategory) {
-                    $brandCategory = BrandWithCategory::find($brandCategory->id);
-                    $brandCategory->brandId = $brandId;
-                    $brandCategory->brandCategoryId = $request->brandCategoryId;
-                    $brandCategory->save();
-                } else {
-                    $brandCategory = new BrandWithCategory();
-                    $brandCategory->brandId = $brandId;
-                    $brandCategory->brandCategoryId = $request->brandCategoryId;
-                    $brandCategory->save();
-                }
-            }
+            $userData->save();
+
             return redirect()->back()->with('success', 'Details Updated successfully');
         } catch (\Throwable $th) {
             throw $th;
-            // 
         }
+    }
+
+    public function categoryUpdate(Request $request)
+    {
+        $id = $request->userId;
+        $user = User::find($id);
+        $roleCollection = $user->getRoleNames();
+        $roles = $roleCollection->toArray();
+        if (in_array('Influencer', $roles)) {
+            return "Influencer";
+        }
+        if (in_array('Brand', $roles)) {
+
+            $newCategories = $request->input('brandCategoryId', []);
+
+            // Ensure the request 'category' is treated as an array
+            if (is_string($newCategories)) {
+                $newCategories = json_decode($newCategories, true);
+            }
+
+            // Remove all existing categories for the brand
+            BrandWithCategory::where('brandId', '=', $id)->delete();
+
+            // Add the new categories
+            foreach ($newCategories as $categoryId) {
+                $data = new BrandWithCategory();
+                $data->brandId = $request->userId;
+                $data->brandCategoryId = $categoryId;
+                $data->save();
+            }
+        }
+
+
+
+        return redirect()->back()->with('success', 'Details Updated successfully');
     }
 }
