@@ -430,7 +430,7 @@
                                                 <div class="col-md-4"><label>Your Full Name:</label></div>
                                                 <div class="col-md-7">
                                                     <input type="text" class="form-control shadow-none "
-                                                        id="name" name="name" value="{{ $users->name }}">
+                                                        id="name" name="name" value="{{ $users->name ?? '-' }}">
 
                                                 </div>
                                             </div>
@@ -441,7 +441,8 @@
                                                 <div class="col-md-4"><label>Username:</label></div>
                                                 <div class="col-md-7">
                                                     <input type="text" class=" form-control shadow-none"
-                                                        id="username" name="username" value="{{ $users->username }}">
+                                                        id="username" name="username"
+                                                        value="{{ $users->username ?? '-' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -451,7 +452,8 @@
                                                     <div class="col-md-4"><label>State:</label></div>
                                                     <div class="col-md-7">
                                                         <input type="text" class=" form-control shadow-none"
-                                                            id="state" name="state" value="{{ $users->state }}">
+                                                            id="state" name="state"
+                                                            value="{{ $users->state ?? '-' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -462,7 +464,8 @@
                                                 <div class="col-md-4"><label>City:</label></div>
                                                 <div class="col-md-7">
                                                     <input type="text" class="form-control shadow-none "
-                                                        id="location" name="city" value="{{ $users->city }}">
+                                                        id="location" name="city"
+                                                        value="{{ $users->city ?? '-' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -483,14 +486,14 @@
                                                     <input type="file" accept="image/*"
                                                         class="form-control shadow-none " id="profilePhoto"
                                                         name="profilePhoto"
-                                                        value="{{ url('profile') }}/{{ $users->profilePhoto }}">
+                                                        value="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}">
                                                     @if ($errors->has('profilePhoto'))
                                                         <span
                                                             class="text-danger">{{ $errors->first('profilePhoto') }}</span>
                                                     @endif
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto }}"
+                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}"
                                                         class="img-fluid" alt="Responsive image">
                                                 </div>
                                             </div>
@@ -506,8 +509,8 @@
                                                     <div class="col-md-4"><label>Date of Birth:</label></div>
                                                     <div class="col-md-7">
                                                         <input type="date" class=" form-control shadow-none"
-                                                            name="dob">
-                                                        {{-- value="{{ $influencer->dob }}" id="dob"> --}}
+                                                            name="dob" value="{{ $influencer->dob }}"
+                                                            id="dob">
 
                                                     </div>
                                                 </div>
@@ -522,15 +525,15 @@
                                                     <div class="col-md-7">
                                                         <label>
                                                             <input type="radio" name="gender" value="Male"
-                                                                id="gender">
-                                                            {{-- {{ old('gender') == 'Male' || $influencer->gender == 'Male' ? 'checked' : '' }}> --}}
+                                                                id="gender"
+                                                                {{ old('gender') == 'Male' || $influencer->gender == 'Male' ? 'checked' : '' }}>
                                                             Male
                                                         </label>
 
                                                         <label>
                                                             <input type="radio" name="gender" value="Female"
-                                                                id="gender">
-                                                            {{-- {{ old('gender') == 'Female' || $influencer->gender == 'Female' ? 'checked' : '' }}> --}}
+                                                                id="gender"
+                                                                {{ old('gender') == 'Female' || $influencer->gender == 'Female' ? 'checked' : '' }}>
                                                             Female
                                                         </label>
 
@@ -546,7 +549,7 @@
                                                 <div class="col-md-2"><label>About:</label></div>
                                                 <div class="col-md-10">
                                                     <textarea style="width:95%" class="about form-control shadow-none" rows="5" placeholder="Enter About"
-                                                        type="text" id="about" name="about" value="">{{ $users->about }}</textarea>
+                                                        type="text" id="about" name="about" value="">{{ $users->about ?? '-' }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -640,16 +643,15 @@
                                                 <select name="categories[]" class="form-select shadow-none"
                                                     id="categories" multiple>
                                                     <option disabled>--Select Categories--</option>
-                                                    @foreach ($influencerCategory as $item)
+                                                    {{-- @foreach ($influencerCategory as $item)
                                                         <option value="{{ $item->id }}"
                                                             @if (in_array($item->id, json_decode($influencer->categoryId, true))) selected @endif>
                                                             {{ $item->name }}
                                                         </option>
-                                                    @endforeach
+                                                    @endforeach --}}
                                                 </select>
                                             </div>
                                         </div>
-
                                     @endrole
                                     {{-- {{ $brandCategory }} --}}
                                     @role('Brand')
