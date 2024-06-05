@@ -47,81 +47,7 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.index', compact('user', 'brand', 'influencer'));
     }
-    // public function edit(Request $req)
-    // {
-    //     try {
-    //         $authid = Auth::User()->id;
-    //         $userurl = Auth::user()->mobileno;
 
-    //         // user refer code generation start
-    //         $referUserId = Auth::user()->id;
-    //         $username = Auth::user()->username;
-    //         $newStr = str_replace(' ', '', $username);
-    //         $referCode = $newStr . $referUserId;
-    //         $user = User::find($referUserId);
-    //         $user->myrefer = $referCode;
-    //         $user->save();
-    //         // end
-
-    //         // $details = CardsModels::where('user_id', '=', $authid)->first();
-    //         // $id = $details->id;
-    //         // #for service details
-    //         // $servicedetail = Servicedetail::where('card_id', '=', $id)->get();
-    //         // #for payment data
-    //         // $payment = Payment::where('card_id', '=', $id)->first();
-
-    //         // $data1 = Cardservices::join('cards', 'cards.id', '=', 'cardservices.card_id')->where('cards.user_id', '=', $authid)
-    //         //     ->where('cardservices.card_id', '=', $id)
-    //         //     ->get(['cardservices.*']);
-
-    //         $influencer = InfluencerProfile::where('userId', '=', $authid)->first();
-    //         $brand_category = BrandWithCategory::where('brandId', '=', $authid)->first();
-    //         $category = Categories::all();
-    //         $influencerCategory = CategoryInfluencer::all();
-    //         $brandCategory = BrandCategory::all();
-    //         // $category = Admin::all();
-    //         $data = User::where('id', '=', $authid)->get();
-    //         // $link = Link::join('cards', 'cards.id', '=', 'cardlinkes.card_id')
-    //         //     ->where('cards.user_id', '=', $authid)
-    //         //     ->where('cardlinkes.card_id', '=', $id)
-    //         //     ->get(['cardlinkes.*']);
-
-    //         // $links = Link::where('card_id', '=', $id)->first();
-    //         // $qr = Qrcode::where('card_id', '=', $id)->get();
-    //         $users = User::find($authid);
-
-
-    //         // $feed = Feedback::where('card_id', '=', $id)->get();
-    //         // $inq = Inquiry::where('card_id', '=', $id)->get();
-
-    //         // $admincategory = Category::all();
-    //         // $cardimage = Cardportfoilo::where('cardportfoilos.card_id', '=', $id)
-    //         //     ->where('type', '=', 'Photo')
-    //         //     // ->orWhere('type', '=', 'Image')
-    //         //     ->get('cardportfoilos.*');
-    //         // $cardvideo = Cardportfoilo::where('cardportfoilos.card_id', '=', $id)
-    //         //     ->where('type', '=', 'Video')
-    //         //     ->get('cardportfoilos.*');
-
-
-    //         // $bro = Brochure::where('card_id', '=', $id)->get();
-    //         // $slider = Slider::where('card_id', '=', $id)->get();
-
-    //         // $linkcount = Link::where('card_id', '=', $id)->count();
-
-    //         // $category = Category::all();
-    //         // if ($linkcount > 0) {
-    //         //     return view('demo', compact('linkcount', 'inq', 'cardvideo', 'feed', 'id', 'details', 'qr', 'links', 'data1', 'category', 'cardimage', 'servicedetail', 'payment', 'admincategory', 'users'));
-    //         // } else {
-    //         // return view('user.profile.index', compact('authid', 'userurl', 'influencer', 'influencerCategory', 'brand_category', 'brandCategory', 'category', 'slider', 'bro', 'linkcount', 'inq', 'cardvideo', 'feed', 'id', 'details', 'qr', 'links', 'data1', 'category', 'cardimage', 'servicedetail', 'payment', 'admincategory', 'users'));
-    //         return view('user.profile.index', compact('authid', 'userurl', 'influencer', 'influencerCategory', 'brand_category', 'brandCategory',   'category',  'users', 'data'));
-    //         // }
-    //     } catch (\Throwable $th) {
-    //         throw $th;
-    //         // 
-
-    //     }
-    // }
     public function edit(Request $req)
     {
         try {
@@ -193,6 +119,29 @@ class DashboardController extends Controller
             }
 
             $userData->save();
+
+            $roleCollection = $userData->getRoleNames();
+            $roles = $roleCollection->toArray();
+            if (in_array('Influencer', $roles)) {
+                $influencer = InfluencerProfile::where('userId', '=', $id)->first();
+                $influencer->city = $userData->city;
+                $influencer->state = $userData->state;
+                $influencer->gender = $request->gender;
+                $influencer->dob = $request->dob;
+                $influencer->instagramUrl = $request->instagramUrl;
+                $influencer->instagramFollowers = $request->instagramFollowers;
+                $influencer->youtubeChannelUrl = $request->youtubeChannelUrl;
+                $influencer->youtubeSubscriber = $request->youtubeSubscriber;
+                // $influencer->pinCode = $request->pinCode;
+                $influencer->address = $request->address;
+                $influencer->save();
+            }
+
+            // if (in_array('Brand', $roles)) {
+
+            //     return "brand";
+            // }
+
 
             return redirect()->back()->with('success', 'Details Updated successfully');
         } catch (\Throwable $th) {
