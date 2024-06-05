@@ -506,8 +506,8 @@
                                                     <div class="col-md-4"><label>Date of Birth:</label></div>
                                                     <div class="col-md-7">
                                                         <input type="date" class=" form-control shadow-none"
-                                                            name="dob">
-                                                        {{-- value="{{ $influencer->dob }}" id="dob"> --}}
+                                                            name="dob" value="{{ $influencer->dob }}"
+                                                            id="dob">
 
                                                     </div>
                                                 </div>
@@ -522,15 +522,15 @@
                                                     <div class="col-md-7">
                                                         <label>
                                                             <input type="radio" name="gender" value="Male"
-                                                                id="gender">
-                                                            {{-- {{ old('gender') == 'Male' || $influencer->gender == 'Male' ? 'checked' : '' }}> --}}
+                                                                id="gender"
+                                                                {{ old('gender') == 'Male' || $influencer->gender == 'Male' ? 'checked' : '' }}>
                                                             Male
                                                         </label>
 
                                                         <label>
                                                             <input type="radio" name="gender" value="Female"
-                                                                id="gender">
-                                                            {{-- {{ old('gender') == 'Female' || $influencer->gender == 'Female' ? 'checked' : '' }}> --}}
+                                                                id="gender"
+                                                                {{ old('gender') == 'Female' || $influencer->gender == 'Female' ? 'checked' : '' }}>
                                                             Female
                                                         </label>
 
