@@ -387,11 +387,65 @@
 
 
     <div class="container-fluid p-5" style=" background: #e9e9e9;">
+        <div class="row">
 
-        <div class="pb-2">
-            <a href="{{ route('profile') }}" class="btn btn-light">
-                < Back</a>
+            <div class="col pb-2">
+                <a href="{{ route('profile') }}" class="btn btn-light">
+                    < Back</a>
+            </div>
+            <div class="col d-flex justify-content-end">
+
+                @if (session()->has('success'))
+                    <div class="toast align-items-center text-white show bg-success" role="alert"
+                        aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ session('success') }}
+                            </div>
+                            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="progress" style="height: 3px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
+                                role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                @endif
+                @if (session()->has('error'))
+                    <div class="toast align-items-center text-white show bg-danger" role="alert" aria-live="assertive"
+                        aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ session('error') }}
+                            </div>
+                            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="progress" style="height: 3px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
+                                role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                @endif
+                @if (session()->has('warning'))
+                    <div class="toast align-items-center text-white show bg-warning" role="alert"
+                        aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ session('warning') }}
+                            </div>
+                            {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button> --}}
+                        </div>
+                        <div class="progress" style="height: 3px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
+                                role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
+
         <div class="row">
 
             <div class="col-3">
@@ -407,8 +461,9 @@
                                 aria-selected="false"> Categories</a>
 
                             @role('Influencer')
-                                <a class="nav-link mt-2" id="v-pills-links-tab" data-bs-toggle="pill" href="#v-pills-links"
-                                    role="tab" aria-controls="v-pills-links" aria-selected="false"> Portfolio</a>
+                                <a class="nav-link mt-2" id="v-pills-links-tab" data-bs-toggle="pill"
+                                    href="#v-pills-links" role="tab" aria-controls="v-pills-links"
+                                    aria-selected="false"> Portfolio</a>
                             @endrole
                         </div>
                     </div>
@@ -418,25 +473,27 @@
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active " id="v-pills-profile" role="tabpanel"
                         aria-labelledby="v-pills-profile-tab">
-                        <div class="card w-100" style="height: 500px !important;">
+                        <div class="card w-100">
                             <div class="card-body">
-                                <form action="{{ route('card.store') }}" enctype="multipart/form-data" method="post">
+                                <form action="{{ route('card.store') }}" enctype="multipart/form-data"
+                                    method="post">
                                     @csrf
                                     <div class="row">
-                                        <div class="col-md-6 pb-1">
+                                        <div class="col-md-6 pb-2">
                                             {{-- <input type="hidden" name="cardid" value="{{ $users->id }}"> --}}
 
                                             <div class="row">
                                                 <div class="col-md-4"><label>Your Full Name:</label></div>
                                                 <div class="col-md-7">
                                                     <input type="text" class="form-control shadow-none "
-                                                        id="name" name="name" value="{{ $users->name ?? '-' }}">
+                                                        id="name" name="name"
+                                                        value="{{ $users->name ?? '-' }}">
 
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 pb-1">
+                                        <div class="col-md-6 pb-2">
                                             <div class="row">
                                                 <div class="col-md-4"><label>Username:</label></div>
                                                 <div class="col-md-7">
@@ -446,21 +503,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (!Auth::user()->hasRole('Influencer'))
-                                            <div class="col-md-6 pb-1">
-                                                <div class="row">
-                                                    <div class="col-md-4"><label>State:</label></div>
-                                                    <div class="col-md-7">
-                                                        <input type="text" class=" form-control shadow-none"
-                                                            id="state" name="state"
-                                                            value="{{ $users->state ?? '-' }}">
-                                                    </div>
+                                        {{-- @if (Auth::user()->hasRole('Influencer')) --}}
+                                        <div class="col-md-6 pb-2">
+                                            <div class="row">
+                                                <div class="col-md-4"><label>State:</label></div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class=" form-control shadow-none"
+                                                        id="state" name="state"
+                                                        value="{{ $users->state ?? '-' }}">
                                                 </div>
                                             </div>
-                                        @endif
+                                        </div>
+                                        {{-- @endif --}}
 
-                                        <div class="col-md-6 pb-1">
-                                            <div class="row">
+                                        <div class="col-md-6 pb-2 ">
+                                            <div class="row ">
                                                 <div class="col-md-4"><label>City:</label></div>
                                                 <div class="col-md-7">
                                                     <input type="text" class="form-control shadow-none "
@@ -470,7 +527,7 @@
                                             </div>
                                         </div>
                                         {{-- @if (!Auth::user()->hasRole('Influencer'))
-                                            <div class="col-md-6 pb-1">
+                                            <div class="col-md-6 pb-2">
                                                 <div class="row">
                                                     <div class="col-md-4"><label>Address:</label></div>
                                                     <div class="col-md-7">
@@ -479,31 +536,8 @@
                                                 </div>
                                             </div>
                                         @endif --}}
-                                        <div class="col-md-6 pb-1">
-                                            <div class="row">
-                                                <div class="col-md-4"><label>Profile Photo:</label></div>
-                                                <div class="col-md-5">
-                                                    <input type="file" accept="image/*"
-                                                        class="form-control shadow-none " id="profilePhoto"
-                                                        name="profilePhoto"
-                                                        value="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}">
-                                                    @if ($errors->has('profilePhoto'))
-                                                        <span
-                                                            class="text-danger">{{ $errors->first('profilePhoto') }}</span>
-                                                    @endif
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}"
-                                                        class="img-fluid" alt="Responsive image">
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-
                                         @role('Influencer')
-                                            <div class="col-md-6 pb-1">
+                                            <div class="col-md-6 pb-2">
                                                 <div class="row">
 
                                                     <div class="col-md-4"><label>Date of Birth:</label></div>
@@ -518,7 +552,7 @@
 
 
 
-                                            <div class="col-md-6 pb-1">
+                                            <div class="col-md-6 pb-2">
                                                 <div class="row">
 
                                                     <div class="col-md-4"><label>Gender:</label></div>
@@ -542,9 +576,83 @@
                                             </div>
                                         @endrole
 
+                                        <div class="col-md-6 pb-2">
+                                            <div class="row">
+
+                                                <div class="col-md-4"><label>Instagram Url:</label></div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class=" form-control shadow-none"
+                                                        name="instagramUrl" value="{{ $influencer->instagramUrl }}"
+                                                        id="instagramUrl">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 pb-2">
+                                            <div class="row">
+
+                                                <div class="col-md-4"><label>Instagram Followers:</label></div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class=" form-control shadow-none"
+                                                        name="instagramFollowers"
+                                                        value="{{ $influencer->instagramFollowers }}"
+                                                        id="instagramFollowers">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 pb-2">
+                                            <div class="row">
+
+                                                <div class="col-md-4"><label>Youteube Channel Url:</label></div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class=" form-control shadow-none"
+                                                        name="youtubeChannelUrl"
+                                                        value="{{ $influencer->youtubeChannelUrl }}"
+                                                        id="youtubeChannelUrl">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 pb-2">
+                                            <div class="row">
+
+                                                <div class="col-md-4"><label>Youteube Subscribers:</label></div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class=" form-control shadow-none"
+                                                        name="youtubeSubscriber"
+                                                        value="{{ $influencer->youtubeSubscriber }}"
+                                                        id="youtubeSubscriber">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 pb-2">
+                                            <div class="row">
+                                                <div class="col-md-4"><label>Profile Photo:</label></div>
+                                                <div class="col-md-5">
+                                                    <input type="file" accept="image/*"
+                                                        class="form-control shadow-none " id="profilePhoto"
+                                                        name="profilePhoto"
+                                                        value="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}">
+                                                    @if ($errors->has('profilePhoto'))
+                                                        <span
+                                                            class="text-danger">{{ $errors->first('profilePhoto') }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}"
+                                                        class="img-fluid" alt="Responsive image">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
                                     </div>
+
                                     <div class="row">
-                                        <div class="col-md-12 pb-1">
+                                        <div class="col-md-12 pb-2 mt-1">
                                             <div class="row">
                                                 <div class="col-md-2"><label>About:</label></div>
                                                 <div class="col-md-10">
@@ -557,7 +665,7 @@
 
 
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary mt-5">Update</button><br>
+                                        <button type="submit" class="btn btn-primary mt-3">Update</button><br>
                                     </div>
                                 </form>
                             </div>
@@ -636,19 +744,19 @@
                                     <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
                                     @role('Influencer')
                                         <div class="row">
-                                            <div class="col-md-12 pb-1">
+                                            <div class="col-md-12 pb-2">
                                                 <label>Influencer Category:</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <select name="categories[]" class="form-select shadow-none"
                                                     id="categories" multiple>
                                                     <option disabled>--Select Categories--</option>
-                                                    {{-- @foreach ($influencerCategory as $item)
+                                                    @foreach ($influencerCategory as $item)
                                                         <option value="{{ $item->id }}"
                                                             @if (in_array($item->id, json_decode($influencer->categoryId, true))) selected @endif>
                                                             {{ $item->name }}
                                                         </option>
-                                                    @endforeach --}}
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -656,7 +764,7 @@
                                     {{-- {{ $brandCategory }} --}}
                                     @role('Brand')
                                         <div class="row">
-                                            <div class="col-md-12 pb-1">
+                                            <div class="col-md-12 pb-2">
                                                 <label>Brand Category:</label>
                                             </div>
                                             <div class="col-md-12">
@@ -696,6 +804,54 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.toast');
+
+            function startProgressBar(toast) {
+                const progressBar = toast.querySelector('.progress-bar');
+                if (progressBar) {
+                    if (!toast.classList.contains('progress-in-progress')) {
+                        const delay = parseInt(toast.getAttribute('data-bs-delay'));
+                        progressBar.style.transition = `width ${delay}ms linear`;
+                        progressBar.style.width = '100%';
+                        toast.classList.add('progress-in-progress');
+
+                        // Check when progress bar reaches 100% width
+                        progressBar.addEventListener('transitionend', function() {
+                            if (progressBar.style.width === '100%' && !toast.classList.contains(
+                                    'hovered')) {
+                                toast.remove();
+                            }
+                        });
+                    }
+                }
+            }
+
+            function resetProgressBar(toast) {
+                const progressBar = toast.querySelector('.progress-bar');
+                if (progressBar) {
+                    progressBar.style.width = '0%';
+                    toast.classList.remove('progress-in-progress');
+                }
+            }
+
+            toasts.forEach(toast => {
+                toast.addEventListener('mouseenter', function() {
+                    toast.classList.add('hovered');
+                    resetProgressBar(toast);
+                });
+
+                toast.addEventListener('mouseleave', function() {
+                    toast.classList.remove('hovered');
+                    startProgressBar(toast);
+                });
+
+                startProgressBar(toast);
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             $('#categories').select2({
@@ -929,7 +1085,7 @@
 
 {{-- @role('Influencer')
     <div class="row mt-2">
-        <div class="col-md-6 pb-1">
+        <div class="col-md-6 pb-2">
             <div class="row">
 
                 <div class="col-md-4"> --}}
@@ -946,7 +1102,7 @@
 </div>
 </div>
 </div>
-<div class="col-md-6 pb-1">
+<div class="col-md-6 pb-2">
     <div class="row">
 
         <div class="col-md-4"><label>Instagram Followers:</label></div>
@@ -958,7 +1114,7 @@
 </div>
 </div>
 <div class="row">
-    <div class="col-md-6 pb-1">
+    <div class="col-md-6 pb-2">
         <div class="row">
 
             <div class="col-md-4"><label>Youtube Channel Url:</label></div>
@@ -969,7 +1125,7 @@
 {{-- </div>
 </div>
 </div>
-<div class="col-md-6 pb-1">
+<div class="col-md-6 pb-2">
     <div class="row">
 
         <div class="col-md-4"><label>Youtube Subscriber:</label></div>
