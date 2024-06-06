@@ -97,6 +97,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('mycard/{name?}', [DashboardController::class, 'index'])->name('user.card');
     Route::post('card/store', [DashboardController::class, 'store'])->name('card.store');
     Route::post('category/update', [DashboardController::class, 'categoryUpdate'])->name('category.update');
+    Route::post('portfolio/update', [DashboardController::class, 'addPortfolio'])->name('influencer.portfolio.storeOrupdate');
+
 
     Route::get('photo-delete/{id?}', [DashboardController::class, 'photodestroy'])->name('photo.delete');
 
