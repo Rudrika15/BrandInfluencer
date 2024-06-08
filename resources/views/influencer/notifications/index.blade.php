@@ -43,6 +43,8 @@
 
             {{-- <div class="row">
                 <div class="col-md-12"> --}}
+            {{-- <div class="overflow-y-scroll"> --}}
+
             @foreach ($notificationsAll as $notification)
                 <div class="row w-75">
                     <div class="col-md-1">
@@ -67,6 +69,8 @@
                     <hr class="mt-2">
                 </div>
             @endforeach
+
+            {{-- </div> --}}
             {{-- </div>
     </div> --}}
 

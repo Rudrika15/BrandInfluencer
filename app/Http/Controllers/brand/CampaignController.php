@@ -500,7 +500,9 @@ class CampaignController extends Controller
         $seenStatus = ContactInfluencer::where('userId', $id)
             ->where('influencerId', $id)
             ->count();
-        return view('brand.influencerProfileView', compact('influencer', 'seenStatus'));
+
+        $portfolio = InfluencerPortfolio::where('userId', '=', $id)->get();
+        return view('brand.influencerProfileView', compact('influencer', 'seenStatus', 'portfolio'));
     }
 
     public function influencerContactPoint(Request $request)

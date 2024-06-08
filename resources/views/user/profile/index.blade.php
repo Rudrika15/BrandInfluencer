@@ -9,8 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="">
     <title>Influencer Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 </head>
@@ -27,7 +26,7 @@
         }
 
         body {
-            background: #e9e9e9;
+            background: #f8f9fa;
             overflow-x: hidden;
             padding-top: 20px;
             font-family: "Poppins", sans-serif;
@@ -402,15 +401,14 @@
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id ?? '-' }}">
         <div class="pb-2">
-            <a href="{{ route('home') }}" class="btn btn-light">
+            <a href="{{ route('home') }}" class="btn" style="background: #e9e9e9;">
                 < Back</a>
         </div>
         <div class="profile-header">
             <div class="profile-img">
 
                 @if (isset($users->profilePhoto))
-                    <img src="{{ asset('profile/' . $users->profilePhoto) }}"
-                        style="max-width: 300px; max-height: 500px; object-fit: contain;" alt="Profile Image">
+                    <img src="{{ asset('profile/' . $users->profilePhoto) }}" style="max-width: 300px; max-height: 500px; object-fit: contain;" alt="Profile Image">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
@@ -439,6 +437,27 @@
 
                         .</span>
                 </div>
+                <div class="">
+                    <style>
+                        .category-span {
+                            display: inline-block;
+                            width: 100px;
+                            /* Set the desired fixed width */
+                            text-align: center;
+                            /* Center the text horizontally */
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            /* Add ellipsis if text overflows */
+                            white-space: nowrap;
+                            /* Prevent text from wrapping */
+                        }
+                    </style>
+                    @role('Brand')
+                        @foreach ($brand_category as $category)
+                            <span class="p-1 text-white bg-secondary fs-6 m-1 rounded-pill">{{ $category->brandCategory->categoryName }}</span>
+                        @endforeach
+                    @endrole
+                </div>
 
 
             </div>
@@ -447,8 +466,7 @@
                 <div class="notification">
                     {{-- <i class="bi bi-bell"></i>
                     <span class="alert-message">3</span> --}}
-                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-light shadow-none"
-                        style="color: white;">Edit Profile </a>
+                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-light shadow-none" style="color: white;">Edit Profile </a>
                 </div>
             </div>
         </div>
@@ -479,106 +497,154 @@
 
             </div>
             <div class="right-side">
+                @role('Brand')
 
-                <div class="nav">
-                    <ul>
-                        <li onclick="tabs(0)" class="user-post active">Gallery</li>
-                        <li onclick="tabs(1)" class="user-review">Packages</li>
-                    </ul>
-                </div>
-                <div class="profile-body">
-                    <div class="profile-Gallery tab">
+
+                    <div class="container m-5">
                         <div class="row">
-                            {{-- add influencer portfolio --}}
-                            <style>
-                                .card-img-top {
-                                    aspect-ratio: 2/2;
-                                }
+                            <h5 class="card-title">My Campaigns</h5>
+                            @if (count($campaignWithApply) > 0)
+                                @foreach ($campaignWithApply as $data)
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card" style="width: 18rem;">
 
-                                .card-img-top:hover {
-                                    transform: scale(1.1);
-                                    transition: 0.1s ease-in-out;
-                                    margin-top: -10px;
-                                }
-                            </style>
-                            @if (count($portfolio) > 0)
-                                @foreach ($portfolio as $port)
-                                    <div class="col-md-4">
-                                        <div class="card text-start" style="width: 15rem;">
+                                            <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top" alt="Campaign Image" height="260px">
 
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $data->title }}</h5>
 
-                                            <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
-                                                target="_blank">
-                                                <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
-                                                    height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                                    alt="">
-                                            </a>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p class="card-text"><strong>Price:</strong> {{ $data->price }}</p>
+                                                    </div>
 
+                                                </div>
+                                                <div class="text-end mb-3 ">
+                                                    <a href="{{ route('brand.campaign.appliers', $data->id) }}" class="btn btn-info btn-sm">Appliers</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
                             @else
-                                <h4 class="text-center ps-5 text-muted fw-italic">No Portfolio Found</h4>
+                                <div class="col-md-12 mb-4  d-flex justify-content-end">
+
+
+                                    <div class="card mt-5  rounded-3" style="width: 18rem;">
+                                        <div class="card-body ">
+
+                                            <div class=" text-center" style="background-color: #e9e9e9">
+                                                <a href="{{ route('brand.campaign.create') }}" class="text-decoration-none">
+                                                    <div class="">
+
+                                                        <i class="bi bi-plus-circle fs-1 text-muted"></i>
+                                                    </div>
+                                                    <div class="">
+
+                                                        <span class="text-muted"> Create Campaign</span>
+                                                        <br>
+                                                        <small class="text-muted">No Campaign Added</small>
+                                                    </div>
+                                                </a>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
 
 
+                        </div>
+                    </div>
 
-                            {{-- @if (isset($influencer->profile))
-                                @if (isset($influencer->profile->card))
+                @endrole
+                @role('Influencer')
+                    <div class="nav">
+                        <ul>
+                            <li onclick="tabs(0)" class="user-post active">Gallery</li>
+                            <li onclick="tabs(1)" class="user-review">Packages</li>
+                        </ul>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-Gallery tab">
+                            <div class="row">
+                                {{-- add influencer portfolio --}}
+                                <style>
+                                    .card-img-top {
+                                        aspect-ratio: 2/2;
+                                    }
 
-                                    @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                                    .card-img-top:hover {
+                                        transform: scale(1.1);
+                                        transition: 0.1s ease-in-out;
+                                        margin-top: -10px;
+                                    }
+                                </style>
+                                @if (count($portfolio) > 0)
+                                    @foreach ($portfolio as $port)
                                         <div class="col-md-4">
                                             <div class="card text-start" style="width: 15rem;">
 
 
-                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                    target="_blank">
-                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                                        alt="">
+                                                <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" target="_blank">
+                                                    <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
                                                 </a>
 
                                             </div>
                                         </div>
                                     @endforeach
+                                @else
+                                    <h4 class="text-center ps-5 text-muted fw-italic">No Portfolio Found</h4>
                                 @endif
-                            @endif --}}
-
+                                {{-- @if (isset($influencer->profile))
+                @if (isset($influencer->profile->card))
+                    @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                        <div class="col-md-4">
+                            <div class="card text-start" style="width: 15rem;">
+                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                    target="_blank">
+                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                        alt="">
+                                </a>
+                            </div>
                         </div>
-
-
-                    </div>
-                    @if (isset($influencer->profile))
-                        <div class="profile-Packages tab">
-                            <div class="row ">
-                                @foreach ($influencer->profile->influencerPackage as $package)
-                                    <div class="col-md-4 p-2">
-                                        <div class="card" style="width: 15rem;">
-                                            <div class="card-header">
-                                                {{ $package->title }}
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="card-text">{!! $package->description !!}</p>
-                                                {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                    @endforeach
+                @endif
+            @endif --}}
+                            </div>
+                        </div>
+                        @if (isset($influencer->profile))
+                            <div class="profile-Packages tab">
+                                <div class="row ">
+                                    @foreach ($influencer->profile->influencerPackage as $package)
+                                        <div class="col-md-4 p-2">
+                                            <div class="card" style="width: 15rem;">
+                                                <div class="card-header">
+                                                    {{ $package->title }}
+                                                </div>
+                                                <div class="card-body">
+                                                    <p class="card-text">{!! $package->description !!}</p>
+                                                    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
 
+                                </div>
                             </div>
+                        @endif
 
+                    </div>
+                @endrole
 
-                        </div>
-                    @endif
-
-                </div>
             </div>
         </div>
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
