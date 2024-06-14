@@ -515,7 +515,9 @@
                     <div class="profile-Gallery tab">
                         <div class="row">
 
-
+@if ()
+    
+@endif
                             @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
                                 <div class="col-md-4">
                                     <div class="card text-start" style="width: 15rem;">
