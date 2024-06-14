@@ -480,12 +480,8 @@
                     <div class="user-bio">
                         <h3>About</h3>
                         <p class="bio">
-                            @role('Brand')
-                                {{ $users->about ?? '-' }}
-                            @endrole
-                            @role('Influencer')
-                                {{ $influencer->about ?? '-' }}
-                            @endrole
+
+                            {{ $users->about ?? '-' }}
 
                         </p>
                     </div>

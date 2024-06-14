@@ -696,15 +696,19 @@
                                                 <label>Influencer Category:</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <select name="categories[]" class="form-select shadow-none" id="categories" multiple>
-                                                    <option disabled>--Select Categories--</option>
-                                                    @foreach ($influencerCategory as $item)
-                                                        <option value="{{ $item->id }}" @if (in_array($item->id, json_decode($influencer->categoryId, true))) selected @endif>
-                                                            {{ $item->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+    <select name="categories[]" class="form-select shadow-none" id="categories" multiple>
+        <option disabled>--Select Categories--</option>
+        @foreach ($influencerCategory as $item)
+            <option value="{{ $item->id }}" 
+                @if ($influencer->categoryId !== null && in_array($item->id, json_decode($influencer->categoryId, true))) 
+                    selected 
+                @endif>
+                {{ $item->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
                                         </div>
                                     @endrole
                                     {{-- {{ $brandCategory }} --}}
