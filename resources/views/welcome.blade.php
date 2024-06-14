@@ -47,7 +47,7 @@
                 <nav class="d-none d-lg-block">
                     <ul>
                         <li><a href="/" class="active">Home</a></li>
-                        <li><a href="#">Influencer</a></li>
+                        <li><a href="">Influencer</a></li>
                     </ul>
                 </nav>
                 <ul>

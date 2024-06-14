@@ -44,50 +44,87 @@ class ChatController extends Controller
         $id = Auth::user()->id;
         $email = Auth::user()->email;
         $receiverId = $request->receiverId;
-        $newChat = new ChatGroup();
-        $newChat->brandId = $id;
-        $newChat->influencerId = $receiverId;
-        $newChat->session = "brand";
-        $newChat->save();
-
-        $chat  = new Chat();
-        $chat->groupId = $newChat->id;
-        $chat->session = "brand";
-        $chat->message = $request->message;
-
-
-        $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
-        $brandPackage = BrandPoints::where('userId', '=', $id)->first();
-
-
-        if ($brandPackageSum > 0) {
-            $package = BrandPackage::where('points', $brandPackage->points)->first();
-
-
-            if ($package) {
-                $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'Like', '%per message%')->first();
-                // return $packageDetailData;
-                $activity = Activity::where('id', $packageDetailData->activityId)->first();
-                $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
-                    ->where('activityId', $activity->id)
-                    ->first();
-
-                if ($packageDetail && $packageDetail->points < $brandPackageSum) {
-                    // Assuming $campaign is defined somewhere in your code
-                    $chat->save();
-
-                    $point = new BrandPoints();
-                    $point->userId = $id;
-                    $point->email = $email;
-                    $point->points = '-' . $packageDetail->points;
-                    $point->remark = 'Sent Message';
-                    $point->save();
-                }
-            }
-        } else {
-            return \redirect()->back()->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
+        $sessionUser = Session()->get('role');
+        if ($sessionUser == 'brand') {
+            $findChatGroup = ChatGroup::where('influencerId', $receiverId)
+                ->where('brandId', $id)
+                ->first();
         }
-        return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
+        if ($sessionUser == 'influencer') {
+            $findChatGroup = ChatGroup::where('influencerId', $id)
+                ->where('brandId', $receiverId)
+                ->first();
+        }
+        if (!$findChatGroup) {
+            $roles = Auth::user()->roles->pluck('name');
+
+            $newChat = new ChatGroup();
+            $newChat->brandId = $id;
+            $newChat->influencerId = $receiverId;
+            if ($roles->contains('Brand')) {
+                $newChat->session = "brand";
+            }
+            if ($roles->contains('Influencer')) {
+                $newChat->session = "influencer";
+            }
+            $newChat->save();
+
+            $chat  = new Chat();
+            $chat->groupId = $newChat->id;
+            if ($roles->contains('Brand')) {
+                $chat->session = "brand";
+            }
+            if ($roles->contains('Influencer')) {
+                $chat->session = "influencer";
+            }
+            $chat->message = $request->message;
+
+
+            $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
+            $brandPackage = BrandPoints::where('userId', '=', $id)->first();
+
+
+            if ($brandPackageSum > 0) {
+                $package = BrandPackage::where('points', $brandPackage->points)->first();
+
+
+                if ($package) {
+                    $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'Like', '%per message%')->first();
+
+                    if ($packageDetailData) {
+                        $activity = Activity::where('id', $packageDetailData->activityId)->first();
+                        $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
+                            ->where('activityId', $activity->id)
+                            ->first();
+
+                        if ($packageDetail && $packageDetail->points < $brandPackageSum) {
+                            // Assuming $campaign is defined somewhere in your code
+
+                            $chat->save();
+
+                            $point = new BrandPoints();
+                            $point->userId = $id;
+                            $point->email = $email;
+                            $point->points = '-' . $packageDetail->points;
+                            $point->remark = 'Sent Message';
+                            $point->save();
+                        }
+                    } else {
+                        return \redirect()->back()->with('warning', "some issue in package");
+                    }
+                }
+            } else {
+                return \redirect()->back()->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
+            }
+            return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
+        } else {
+            $chat  = new Chat();
+            $chat->groupId = $findChatGroup->id;
+            $chat->session = "brand";
+            $chat->message = $request->message;
+            $chat->save();
+            return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
+        }
     }
 
     public function newBrandChatIndex(Request $request)
