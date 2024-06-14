@@ -474,7 +474,7 @@
                     <div class="tab-pane fade show active " id="v-pills-profile" role="tabpanel"
                         aria-labelledby="v-pills-profile-tab">
                         <div class="card w-100">
-                            <div class="card-body">
+                            <div class="card-body ">
                                 <form action="{{ route('card.store') }}" enctype="multipart/form-data"
                                     method="post">
                                     @csrf

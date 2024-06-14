@@ -14,6 +14,9 @@
                     <div class="p-2">
                         <h3>Influencer List</h3>
                     </div>
+                    <div class="p-2">
+                        <a href="{{ route('influencer.export') }}" class="btn btn-success">Export</a>
+                    </div>
 
                 </div>
             </div>

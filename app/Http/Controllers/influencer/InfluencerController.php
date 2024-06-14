@@ -18,6 +18,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use League\Csv\Writer;
 
 class InfluencerController extends Controller
 {
@@ -84,6 +85,27 @@ class InfluencerController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+    public function export()
+    {
+        $users = User::whereHas('roles', function ($q) {
+            $q->where('name', 'Influencer');
+        })->with('influencer')->whereHas('influencer')->get(); // Assuming User is your model for users
+
+        // You can format the data as CSV, JSON, or any other format here
+        // For example, to export as CSV:
+        $csv = Writer::createFromString('');
+        $csv->insertOne(['Name', 'Email', 'MobileNumber', 'isFeatured', 'isTrending', 'isBrandBeansVerified']);
+
+        foreach ($users as $user) {
+            $csv->insertOne([$user->name, $user->email, $user->mobileno, $user->influencer->is_featured, $user->influencer->is_trending, $user->influencer->is_brandBeansVerified]);
+        }
+        $filename = 'Influencer.csv';
+
+        return response($csv, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ]);
     }
 
     public function campaignApply(Request $request)
