@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Apply;
 use App\Models\BrandCategory;
 use App\Models\BrandWithCategory;
 use App\Models\Brochure;
+use App\Models\Campaign;
 use App\Models\Cardportfoilo;
 use App\Models\Cardservices;
 use App\Models\CardsModels;
@@ -13,6 +15,7 @@ use App\Models\Categories;
 use App\Models\Category;
 use App\Models\CategoryInfluencer;
 use App\Models\Feedback;
+use App\Models\InfluencerPortfolio;
 use App\Models\InfluencerProfile;
 use App\Models\Inquiry;
 use App\Models\Link;
@@ -66,7 +69,7 @@ class DashboardController extends Controller
 
 
             $influencer = InfluencerProfile::where('userId', '=', $authid)->first();
-            $brand_category = BrandWithCategory::where('brandId', '=', $authid)->first();
+            $brand_category = BrandWithCategory::where('brandId', '=', $authid)->get();
             $category = Categories::all();
             $influencerCategory = CategoryInfluencer::all();
             $brandCategory = BrandCategory::all();
@@ -74,8 +77,11 @@ class DashboardController extends Controller
             $data = User::where('id', '=', $authid)->get();
             $users = User::find($authid);
 
+            $campaignWithApply = Campaign::whereHas('AppliedInfluencer')->with('AppliedInfluencer')->where('userId', $authid)->get();
 
-            return view('user.profile.index', compact('authid', 'userurl', 'influencer', 'influencerCategory', 'brand_category', 'brandCategory',   'category',  'users', 'data'));
+            $portfolio = InfluencerPortfolio::where('userId', '=', $authid)->get();
+
+            return view('user.profile.index', compact('authid', 'userurl', 'influencer', 'campaignWithApply', 'influencerCategory', 'brand_category', 'brandCategory',   'category',  'users', 'data', 'portfolio'));
             // }
         } catch (\Throwable $th) {
             throw $th;
@@ -184,5 +190,27 @@ class DashboardController extends Controller
 
 
         return redirect()->back()->with('success', 'Details Updated successfully');
+    }
+
+    public function addPortfolio(Request $request)
+    {
+        $this->validate($request, [
+            'photo' => 'required',
+        ]);
+        try {
+            $userId = Auth::user()->id;
+            $portfolio = new InfluencerPortfolio();
+            $portfolio->title = "-";
+            $portfolio->userId = $userId;
+            $portfolio->photo = time() . '.' . $request->photo->extension();
+            $request->photo->move(public_path('portfolioPhoto'), $portfolio->photo);
+            $portfolio->type = "Image";
+            $portfolio->details = "-";
+            $portfolio->save();
+
+            return redirect()->back()->with('success', 'Added Successfully..');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

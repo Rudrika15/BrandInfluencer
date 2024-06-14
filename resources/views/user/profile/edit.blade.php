@@ -574,59 +574,61 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+
+
+                                            <div class="col-md-6 pb-2">
+                                                <div class="row">
+
+                                                    <div class="col-md-4"><label>Instagram Url:</label></div>
+                                                    <div class="col-md-7">
+                                                        <input type="text" class=" form-control shadow-none"
+                                                            name="instagramUrl"
+                                                            value=" {{ $influencer->instagramUrl ?? '-' }}  "
+                                                            id="instagramUrl">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 pb-2">
+                                                <div class="row">
+
+                                                    <div class="col-md-4"><label>Instagram Followers:</label></div>
+                                                    <div class="col-md-7">
+                                                        <input type="text" class=" form-control shadow-none"
+                                                            name="instagramFollowers"
+                                                            value="{{ $influencer->instagramFollowers ?? '-' }}"
+                                                            id="instagramFollowers">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 pb-2">
+                                                <div class="row">
+
+                                                    <div class="col-md-4"><label>Youteube Channel Url:</label></div>
+                                                    <div class="col-md-7">
+                                                        <input type="text" class=" form-control shadow-none"
+                                                            name="youtubeChannelUrl"
+                                                            value="{{ $influencer->youtubeChannelUrl }}"
+                                                            id="youtubeChannelUrl">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 pb-2">
+                                                <div class="row">
+
+                                                    <div class="col-md-4"><label>Youteube Subscribers:</label></div>
+                                                    <div class="col-md-7">
+                                                        <input type="text" class=" form-control shadow-none"
+                                                            name="youtubeSubscriber"
+                                                            value="{{ $influencer->youtubeSubscriber }}"
+                                                            id="youtubeSubscriber">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endrole
-
-                                        <div class="col-md-6 pb-2">
-                                            <div class="row">
-
-                                                <div class="col-md-4"><label>Instagram Url:</label></div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class=" form-control shadow-none"
-                                                        name="instagramUrl" value="{{ $influencer->instagramUrl }}"
-                                                        id="instagramUrl">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 pb-2">
-                                            <div class="row">
-
-                                                <div class="col-md-4"><label>Instagram Followers:</label></div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class=" form-control shadow-none"
-                                                        name="instagramFollowers"
-                                                        value="{{ $influencer->instagramFollowers }}"
-                                                        id="instagramFollowers">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 pb-2">
-                                            <div class="row">
-
-                                                <div class="col-md-4"><label>Youteube Channel Url:</label></div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class=" form-control shadow-none"
-                                                        name="youtubeChannelUrl"
-                                                        value="{{ $influencer->youtubeChannelUrl }}"
-                                                        id="youtubeChannelUrl">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 pb-2">
-                                            <div class="row">
-
-                                                <div class="col-md-4"><label>Youteube Subscribers:</label></div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class=" form-control shadow-none"
-                                                        name="youtubeSubscriber"
-                                                        value="{{ $influencer->youtubeSubscriber }}"
-                                                        id="youtubeSubscriber">
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <div class="col-md-6 pb-2">
                                             <div class="row">
                                                 <div class="col-md-4"><label>Profile Photo:</label></div>
@@ -676,7 +678,8 @@
                         aria-labelledby="v-pills-links-tab">
                         <div class="card w-100 " style="height: 580px !important;">
                             <div class="card-body">
-                                <form action="{{ route('influencer.portfolio.store') }}" method="post">
+                                <form action="{{ route('influencer.portfolio.storeOrupdate') }}"
+                                    enctype="multipart/form-data" method="post">
                                     @csrf
 
                                     <div id="uploadArea" class="upload-area">
@@ -703,8 +706,8 @@
                                             <span id="loadingText" class="drop-zoon__loading-text">Please Wait</span>
                                             <img src="" alt="Preview Image" id="previewImage"
                                                 class="drop-zoon__preview-image" draggable="false">
-                                            <input type="file" id="fileInput" class="drop-zoon__file-input"
-                                                accept="image/*">
+                                            <input type="file" id="fileInput" name="photo"
+                                                class="drop-zoon__file-input" accept="image/*">
                                         </div>
                                         <!-- End Drop Zoon -->
 
@@ -1063,7 +1066,7 @@
             // If The Uploaded File Is An Image
             if (isImage.length !== 0) {
                 // Check, If File Size Is 2MB or Less
-                if (fileSize <= 2000000) { // 2MB :)
+                if (fileSize <= 20971520) { // 20MB :)
                     return true;
                 } else { // Else File Size
                     return alert('Please Your File Should be 2 Megabytes or Less');

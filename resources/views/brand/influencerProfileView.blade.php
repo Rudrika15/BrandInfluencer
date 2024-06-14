@@ -514,35 +514,53 @@
                 <div class="profile-body">
                     <div class="profile-Gallery tab">
                         <div class="row">
+                            {{-- add influencer portfolio --}}
+                            <style>
+                                .card-img-top {
+                                    aspect-ratio: 2/2;
+                                }
 
-@if ()
-    
-@endif
-                            @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
-                                <div class="col-md-4">
-                                    <div class="card text-start" style="width: 15rem;">
+                                .card-img-top:hover {
+                                    transform: scale(1.1);
+                                    transition: 0.1s ease-in-out;
+                                    margin-top: -10px;
+                                }
+                            </style>
+                            @if (count($portfolio) > 0)
+                                @foreach ($portfolio as $port)
+                                    <div class="col-md-4">
+                                        <div class="card text-start" style="width: 15rem;">
 
-                                        <style>
-                                            .card-img-top {
-                                                aspect-ratio: 2/2;
-                                            }
 
-                                            .card-img-top:hover {
-                                                transform: scale(1.1);
-                                                transition: 0.1s ease-in-out;
-                                                margin-top: -10px;
-                                            }
-                                        </style>
-                                        <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
-                                            <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                                alt="">
-                                        </a>
+                                            <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
+                                                target="_blank">
+                                                <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
+                                                    height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                                    alt="">
+                                            </a>
 
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
-
+                                @endforeach
+                            @else
+                                <h4 class="text-center ps-5 text-muted fw-italic">No Portfolio Found</h4>
+                            @endif
+                            {{-- @if (isset($influencer->profile))
+            @if (isset($influencer->profile->card))
+                @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                    <div class="col-md-4">
+                        <div class="card text-start" style="width: 15rem;">
+                            <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                target="_blank">
+                                <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                    height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                    alt="">
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+        @endif --}}
                         </div>
 
 
