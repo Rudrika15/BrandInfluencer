@@ -80,13 +80,13 @@ class CampaignController extends Controller
                         ->first('points');
                     return view('brand.campaign.create', \compact('point'));
                 } else {
-                    return redirect()->back()->with('warning', 'You dont have a enough points to create a campaign please renew your package <a href="' . route('pricing.index') . '">');
+                    return redirect('pricing')->with('warning', 'You dont have a enough points to create a campaign please renew your package ');
                 }
             } catch (\Throwable $th) {
                 throw $th;
             }
         } else {
-            return redirect()->back()->with('warning', 'You are not a BrandBeans Premium User. Unlock premium benefits for your campaign success 🚀 Please  to Purchase Premium Package..');
+            return redirect('pricing')->with('warning', 'You are not a BrandBeans Premium User. Unlock premium benefits for your campaign success 🚀 Please  to Purchase Premium Package..');
         }
     }
 
@@ -167,14 +167,14 @@ class CampaignController extends Controller
 
                         return redirect('brand/campaign/index')->with('success', 'Campaign Added Successfully..');
                     } else {
-                        return redirect('brand/pricing')->with('warning', "You don't have enough points to create a campaign. Please purchase or renew your package.");
+                        return redirect('pricing')->with('warning', "You don't have enough points to create a campaign. Please purchase or renew your package.");
                     }
                 }
             }
 
 
 
-            return redirect('brand/pricing')->with('warning', "You don't have enough points to create a campaign. Please purchase or renew your package.");
+            return redirect('pricing')->with('warning', "You don't have enough points to create a campaign. Please purchase or renew your package.");
         } catch (\Throwable $th) {
             // throw $th;
 

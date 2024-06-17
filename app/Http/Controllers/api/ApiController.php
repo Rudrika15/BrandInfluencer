@@ -187,6 +187,19 @@ class ApiController extends Controller
             $otps->mobileno = $user->mobileno;
             $otps->time = $time;
             $otps->save();
+            if ($response) {
+                $response = [
+                    'user' => $user,
+                    'token' => $user->createToken('my-app-token')->plainTextToken,
+                    'message' => "OTP Send Successfully",
+                ];
+
+                return response($response, 201);
+            } else {
+                return response([
+                    'message' => ['No Data Found']
+                ], 404);
+            }
         }
         // Process your response here
         // return $response;
@@ -853,8 +866,10 @@ class ApiController extends Controller
         if ($user) {
             $response = [
                 'User Data' => $user,
+                'flag' => true,
                 'imagePath' => 'profile/' . $user->profilePhoto
             ];
+
             return response($response, 201);
         } else {
             return response([

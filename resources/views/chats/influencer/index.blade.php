@@ -102,6 +102,10 @@
                     @if (count($chats) > 0)
                         @foreach ($chats as $chat)
                             <input type="hidden" name="groupId" id="group-id" value="{{ $chat->id }}">
+
+                            <input type="hidden" name="influencerId" id="influencerIdForGetChat" value="{{ $chat->influencerId }}">
+                            <input type="hidden" name="brandId" id="brandIdForGetChat" value="{{ $chat->brandId }}">
+
                             <div class="bg-light pt-3 chat-item" style="cursor: pointer;" data-brand-id="{{ $chat->brandId }}" data-influencer-id="{{ $chat->influencerId }}">
                                 <span class="ps-3">
                                     @if ($chat->brand->profile)
@@ -301,7 +305,14 @@
                         // Clear the message input
                         $('#sendMessageForm input[name="message"]').val('');
                         // Refresh chat messages
-                        fetchChatMessages($('#selectedReceiverId').val());
+
+                        // window.location.reload();
+
+                        var receiverId = $('#brandIdForGetChat').val();
+                        // console.log('receiverId:', receiverId);
+                        var influencerId = $('#influencerIdForGetChat').val();
+                        // console.log('influencerId:', influencerId);
+                        fetchChatMessages(receiverId, influencerId);
                     },
                     error: function(xhr, status, error) {
                         // Handle error response
