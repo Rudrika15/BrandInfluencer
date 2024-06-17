@@ -107,6 +107,7 @@ class ChatController extends Controller
                             $point->points = '-' . $packageDetail->points;
                             $point->remark = 'Sent Message';
                             $point->save();
+                            return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
                         }
                     } else {
                         return \redirect()->back()->with('warning', "some issue in package");
@@ -115,7 +116,6 @@ class ChatController extends Controller
             } else {
                 return \redirect('pricing')->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
             }
-            return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
         } else {
             $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
             $brandPackage = BrandPoints::where('userId', '=', $id)->first();
@@ -151,11 +151,12 @@ class ChatController extends Controller
                     } else {
                         return \redirect('pricing')->with('warning', "some issue in package");
                     }
+                } else {
+                    return \redirect('pricing')->with('warning', "package not found");
                 }
             } else {
                 return \redirect('pricing')->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
             }
-            return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
         }
     }
 

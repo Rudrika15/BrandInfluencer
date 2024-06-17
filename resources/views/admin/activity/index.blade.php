@@ -18,28 +18,29 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-
-                        <table id="" class="table table-bordered table-responsive">
-                            <thead>
-                                <tr>
-                                    <th> title</th>
-                                    <th> Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($activities as $data)
+                        <div class="table-responsive">
+                            <table id="" class="table table-bordered">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            {{ $data->title }}
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.brand.activity.edit') }}/{{ $data->id }}" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="{{ route('admin.brand.activity.delete') }}/{{ $data->id }}" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
+                                        <th> title</th>
+                                        <th> Action</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($activities as $data)
+                                        <tr>
+                                            <td>
+                                                {{ $data->title }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.brand.activity.edit') }}/{{ $data->id }}" class="btn btn-primary btn-sm">Edit</a>
+                                                <a href="{{ route('admin.brand.activity.delete') }}/{{ $data->id }}" class="btn btn-danger btn-sm">Delete</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
