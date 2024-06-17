@@ -213,4 +213,14 @@ class DashboardController extends Controller
             throw $th;
         }
     }
+
+    public function CampaignList()
+    {
+        $campaigns = Campaign::orderBy('id', 'DESC')->with('user')
+            ->whereHas('user')
+            ->whereHas('AppliedInfluencer.user')
+            ->with('AppliedInfluencer.user')
+            ->paginate(10);
+        return view('admin.campaignList.index', \compact('campaigns'));
+    }
 }

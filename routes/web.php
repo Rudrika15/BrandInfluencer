@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\brand\BrandPackageController;
 use App\Http\Controllers\brand\BrandPackageDetailController;
 use App\Http\Controllers\brand\CampaignController;
+use App\Http\Controllers\brand\DashboardController as BrandDashboardController;
 use App\Http\Controllers\brand\InstaMojoPaymentController;
 use App\Http\Controllers\BrandInfluencerNotificationController;
 use App\Http\Controllers\ChatController;
@@ -253,6 +254,11 @@ Route::group(['middleware' => ['auth']], function () {
     // admin side
 
     Route::get('/admin/home', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+
+    // campaign list at admin side 
+
+    Route::get('admin/campaign/list', [DashboardController::class, 'campaignList'])->name('admin.campaign.list');
 
 
     Route::resource('roles', RoleController::class);
