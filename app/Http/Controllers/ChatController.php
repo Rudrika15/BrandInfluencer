@@ -22,7 +22,7 @@ class ChatController extends Controller
         //     $q->where('name', 'brand');
         // })->get();
         // return "influencer";
-        return $userId = Auth::user()->id;
+        $userId = Auth::user()->id;
 
         $chats = ChatGroup::with('chat')
             ->whereHas('chat')
@@ -32,10 +32,10 @@ class ChatController extends Controller
         // return $chats;
 
         if (Auth::user()->hasRole(['Influencer'])) {
-            return $chats = $chats->where('influencerId', $userId)->get();
+            $chats = $chats->where('influencerId', $userId)->get();
         }
         if (Auth::user()->hasRole(['Brand'])) {
-            return $chats = $chats->where('brandId', $userId)->get();
+            $chats = $chats->where('brandId', $userId)->get();
         }
         return view('chats.influencer.index', compact('chats'));
     }
@@ -46,7 +46,7 @@ class ChatController extends Controller
         $email = Auth::user()->email;
         $receiverId = $request->receiverId;
 
-       return $sessionUser = Session()->get('role');
+        $sessionUser = Session()->get('role');
 
         if ($sessionUser == 'brand') {
             $findChatGroup = ChatGroup::where('influencerId', $receiverId)
@@ -122,6 +122,7 @@ class ChatController extends Controller
         } else {
             $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
             $brandPackage = BrandPoints::where('userId', '=', $id)->first();
+            $roles = Auth::user()->roles->pluck('name');
 
             if ($brandPackageSum > 0) {
                 $package = BrandPackage::where('points', $brandPackage->points)->first();
@@ -139,7 +140,13 @@ class ChatController extends Controller
                         if ($packageDetail && $packageDetail->points < $brandPackageSum) {
                             $chat  = new Chat();
                             $chat->groupId = $findChatGroup->id;
-                            $chat->session = "brand";
+
+                            if ($roles->contains('Brand')) {
+                                $chat->session = "brand";
+                            }
+                            if ($roles->contains('Influencer')) {
+                                $chat->session = "influencer";
+                            }
                             $chat->message = $request->message;
                             $chat->save();
 
