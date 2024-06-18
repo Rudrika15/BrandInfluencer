@@ -22,6 +22,7 @@ class ChatController extends Controller
         //     $q->where('name', 'brand');
         // })->get();
         // return "influencer";
+        return $userId = Auth::user()->id;
 
         $chats = ChatGroup::with('chat')
             ->whereHas('chat')
@@ -31,10 +32,10 @@ class ChatController extends Controller
         // return $chats;
 
         if (Auth::user()->hasRole(['Influencer'])) {
-            $chats = $chats->where('influencerId', Auth::user()->id)->get();
+            return $chats = $chats->where('influencerId', $userId)->get();
         }
         if (Auth::user()->hasRole(['Brand'])) {
-            $chats = $chats->where('brandId', Auth::user()->id)->get();
+            return $chats = $chats->where('brandId', $userId)->get();
         }
         return view('chats.influencer.index', compact('chats'));
     }
@@ -44,7 +45,9 @@ class ChatController extends Controller
         $id = Auth::user()->id;
         $email = Auth::user()->email;
         $receiverId = $request->receiverId;
-        $sessionUser = Session()->get('role');
+
+       return $sessionUser = Session()->get('role');
+
         if ($sessionUser == 'brand') {
             $findChatGroup = ChatGroup::where('influencerId', $receiverId)
                 ->where('brandId', $id)

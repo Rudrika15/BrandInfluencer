@@ -40,15 +40,15 @@
     <div class="custom-overlay"></div>
     <header>
         <div class="container navbar">
-            <a href="index.html" title="Perfect Property" class="header-logo d-block">
+            <a href="{{ url('/') }}" title="Perfect Property" class="header-logo d-block">
                 <img src="{{ asset('assetshtml/images/logo.png') }}" title="Brandbeans" height="50" />
             </a>
             <div class="nav-item">
                 <nav class="d-none d-lg-block">
-                    <ul>
-                        <li><a href="/" class="active">Home</a></li>
+                    {{-- <ul>
+                        <li><a href="{{route()}}" class="active">Home</a></li>
                         <li><a href="">Influencer</a></li>
-                    </ul>
+                    </ul> --}}
                 </nav>
                 <ul>
                     <li><a href="{{ route('login') }}" class="custombtn">Login</a></li>
@@ -107,7 +107,8 @@
                                     <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer
                                         for your business identifying involves individuals whose values align with
                                         identifying your brand.</p>
-                                    <a class="wow fadeInUp custombtn" data-wow-duration="2s" href="#">Find
+                                    <a class="wow fadeInUp custombtn" href="#featured_creators" data-wow-duration="2s"
+                                        href="#">Find
                                         Influencer</a>
                                 </div>
                             </div>
@@ -129,7 +130,8 @@
                                     <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer
                                         for your business identifying involves individuals whose values align with
                                         identifying your brand.</p>
-                                    <a class="wow fadeInUp custombtn" data-wow-duration="2s" href="#">Find
+                                    <a class="wow fadeInUp custombtn" href="#featured_creators" data-wow-duration="2s"
+                                        href="#">Find
                                         Influencer</a>
                                 </div>
                             </div>
@@ -205,7 +207,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <button class="custombtn">Find Influencer</button>
+                            <a href="#featured_creators" class="custombtn">Find Influencer</a>
                         </div>
                     </div>
                 </div>
@@ -217,7 +219,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <button class="custombtn">Find Influencer</button>
+                            <button class="custombtn" href="#featured_creators">Find Influencer</button>
                         </div>
                     </div>
                 </div>
@@ -229,7 +231,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <button class="custombtn">Find Influencer</button>
+                            <button class="custombtn" href="#featured_creators">Find Influencer</button>
                         </div>
                     </div>
                 </div>
@@ -241,14 +243,14 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <button class="custombtn">Find Influencer</button>
+                            <button class="custombtn" href="#featured_creators">Find Influencer</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="featured_influencer">
+        <div class="featured_influencer" id="featured_creators">
             <div class="heading wow fadeInUp" data-wow-duration="1s">
                 <h1>Featured <span>Creators</span></h1>
             </div>
@@ -257,7 +259,7 @@
                     <a class="nav-link active" id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
                         aria-controls="foodtab" aria-selected="true">Food</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" id="beauty-tab" data-toggle="tab" href="#beautytab" role="tab"
                         aria-controls="beautytab" aria-selected="false">Beauty</a>
                 </li>
@@ -276,7 +278,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="fashion-tab" data-toggle="tab" href="#fashiontab" role="tab"
                         aria-controls="fashiontab" aria-selected="false">Fashion</a>
-                </li>
+                </li> --}}
             </ul>
         </div>
 
