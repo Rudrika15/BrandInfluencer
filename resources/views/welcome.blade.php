@@ -219,7 +219,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <button class="custombtn" href="#featured_creators">Find Influencer</button>
+                            <a class="custombtn" href="#featured_creators">Find Influencer</a>
                         </div>
                     </div>
                 </div>
@@ -231,7 +231,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <button class="custombtn" href="#featured_creators">Find Influencer</button>
+                            <a class="custombtn" href="#featured_creators">Find Influencer</a>
                         </div>
                     </div>
                 </div>
@@ -243,7 +243,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <button class="custombtn" href="#featured_creators">Find Influencer</button>
+                            <a class="custombtn" href="#featured_creators">Find Influencer</a>
                         </div>
                     </div>
                 </div>
@@ -255,30 +255,14 @@
                 <h1>Featured <span>Creators</span></h1>
             </div>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item active">
-                    <a class="nav-link active" id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
-                        aria-controls="foodtab" aria-selected="true">Food</a>
-                </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" id="beauty-tab" data-toggle="tab" href="#beautytab" role="tab"
-                        aria-controls="beautytab" aria-selected="false">Beauty</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="travel-tab" data-toggle="tab" href="#traveltab" role="tab"
-                        aria-controls="traveltab" aria-selected="false">Travel</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="lifestyle-tab" data-toggle="tab" href="#lifestyletab" role="tab"
-                        aria-controls="lifestyletab" aria-selected="false">Lifesyle</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="fitness-tab" data-toggle="tab" href="#fitnesstab" role="tab"
-                        aria-controls="fitnesstab" aria-selected="false">Fitness</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="fashion-tab" data-toggle="tab" href="#fashiontab" role="tab"
-                        aria-controls="fashiontab" aria-selected="false">Fashion</a>
-                </li> --}}
+                @foreach ($categories as $item)
+                    <li class="nav-item">
+                        <a class="nav-link " id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
+                            aria-controls="foodtab" aria-selected="true">
+                            {{ $item->name }}
+                        </a>
+                    </li>
+                @endforeach
             </ul>
         </div>
 
@@ -289,503 +273,24 @@
 
             <div class="tab-pane show active" id="foodtab" role="tabpanel" aria-labelledby="food-tab">
                 <div class="influencer_inner">
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer1.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Khushi</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
+                    @foreach ($influencers as $item)
+                        <div class="influencer_item">
+                            <div class="influencer_img">
+                                <img class="img-responsive"
+                                    src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
+                                    onerror="this.src='{{ asset('images/default.jpg') }}'" />
+                            </div>
+                            <div class="content">
+                                <p>{{ $item->profile->name }}</p>
+                                <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                <div class="explore_btn">
+                                    <button class="custombtn highlighbtn">Book Now</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag">Trending</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer2.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Razina Bolim</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer3.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Nidhi Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer4.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Shalini Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag featured">Featured</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer5.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Jenny Jeshwani</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer6.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Aditi Singh</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag">Trending</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer7.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Dr. Charmy Mehta</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer8.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Vaibhav Manwani</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer9.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Saloni Singh</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag featured">Featured</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer10.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Savita Tolreja</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-
-            <div class="tab-pane" id="beautytab" role="tabpanel" aria-labelledby="beauty-tab">
-                <div class="influencer_inner">
-                    <div class="influencer_item">
-                        <span class="influencer_tag">Trending</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer2.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Khushi</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer3.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Nidhi Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer4.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Shalini Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag featured">Featured</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer5.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Jenny Jeshwani</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer6.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Aditi Singh</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane" id="traveltab" role="tabpanel" aria-labelledby="travel-tab">
-                <div class="influencer_inner">
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer6.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Aditi Singh</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <span class="influencer_tag">Trending</span>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer2.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Khushi</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer3.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Nidhi Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer4.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Shalini Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag featured">Featured</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer5.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Jenny Jeshwani</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane" id="lifestyletab" role="tabpanel" aria-labelledby="lifestyle-tab">
-                <div class="influencer_inner">
-                    <div class="influencer_item">
-                        <span class="influencer_tag">Trending</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer2.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Khushi</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer3.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Nidhi Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer4.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Shalini Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag featured">Featured</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer5.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Jenny Jeshwani</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer6.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Aditi Singh</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane" id="fitnesstab" role="tabpanel" aria-labelledby="fitness-tab">
-                <div class="influencer_inner">
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer6.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Aditi Singh</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <span class="influencer_tag">Trending</span>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer2.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Khushi</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer3.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Nidhi Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer4.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Shalini Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag featured">Featured</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer5.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Jenny Jeshwani</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane" id="fashiontab" role="tabpanel" aria-labelledby="fashion-tab">
-                <div class="influencer_inner">
-                    <div class="influencer_item">
-                        <span class="influencer_tag">Trending</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer2.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Khushi</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer3.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Nidhi Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer4.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Shalini Patel</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <span class="influencer_tag featured">Featured</span>
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer5.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Jenny Jeshwani</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="influencer_item">
-                        <a href="#" class="heart_icon"><i class='bx bx-heart'></i></a>
-                        <div class="influencer_img">
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/influencer6.jpg') }}" />
-                        </div>
-                        <div class="content">
-                            <p>Aditi Singh</p>
-                            <span>15k followers</span>
-                            <div class="explore_btn">
-                                <button class="custombtn highlighbtn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
     <!-- Featured Section End -->
@@ -799,14 +304,57 @@
                     <div class="heading wow fadeInUp" data-wow-duration="1s">
                         <h1>Promote your business through <span>Our Influencer</span></h1>
                     </div>
+
+
                     <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your
                         business involves identifying individuals whose values align with your brand.</p>
-                    <button class="wow fadeInUp custombtn" data-wow-duration="2s">Fill the Form</button>
+                    <button class="wow fadeInUp custombtn" data-wow-duration="2s" data-toggle="modal"
+                        data-target="#modelId">Fill the Form</button>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="influencer_img">
                         <img class="img-responsive" src="{{ asset('assetshtml/images/explore_influencer.png') }}" />
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Give Your Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <form action="" class="p-5">
+
+                            <label for="brandName">Enter Your BrandName</label>
+                            <input type="text" class="form-control" name="brandName">
+
+                            <label for="name">Enter Your Name</label>
+                            <input type="text" class="form-control" name="name">
+
+                            <label for="email">Enter Your Email</label>
+                            <input type="text" class="form-control" name="email">
+
+                            <label for="mobile">Enter Your Mobile</label>
+                            <input type="text" class="form-control" name="mobile">
+
+                            <label for="address">Enter Your Address</label>
+                            <input type="text" class="form-control" name="address">
+
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
@@ -974,7 +522,7 @@
                     <p>Brand Beans is a leading one-stop window to explore and shop unique lifestyle and utility
                         products. We have been showcasing the best and out-of-the-box range of products that will level
                         up your living style.</p>
-                    <a href="#" class="explore_btn">Explore More <span><i
+                    <a href="{{ route('about') }}" class="explore_btn">Explore More <span><i
                                 class='bx bx-right-arrow-alt'></i></span></a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 quick_links">
@@ -982,18 +530,18 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Login</a></li>
-                                <li><a href="#">Register</a></li>
-                                <li><a href="#">Contact</a></li>
+                                <li><a href="{{ url('/') }}">Home</a></li>
+                                <li><a href="{{ route('login') }}">Login</a></li>
+                                <li><a href="{{ route('register') }}">Register</a></li>
+                                <li><a href="{{ route('contact') }}">Contact</a></li>
                             </ul>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <ul>
-                                <li><a href="#">Terms</a></li>
-                                <li><a href="#">Privacy</a></li>
-                                <li><a href="#">Refund</a></li>
-                                <li><a href="#">Showcase</a></li>
+                                <li><a href="{{ route('term') }}">Terms</a></li>
+                                <li><a href="{{ route('privacy') }}">Privacy</a></li>
+                                <li><a href="{{ route('refund') }}">Refund</a></li>
+                                {{-- <li><a href="{{ route('showcase') }}">Showcase</a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -1200,6 +748,14 @@
     <script src="{{ asset('assetshtml/js/wow.min.js') }}"></script>
     <script>
         new WOW().init();
+    </script>
+    <script>
+        $('#exampleModal').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            // Use above variables to manipulate the DOM
+
+        });
     </script>
 
 </body>

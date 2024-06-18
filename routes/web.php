@@ -35,6 +35,9 @@ use App\Http\Controllers\user\PaymentController;
 use App\Http\Controllers\user\QrcodeController;
 use App\Http\Controllers\user\ServiceController;
 use App\Http\Controllers\user\SliderController;
+use App\Models\Categories;
+use App\Models\CategoryInfluencer;
+use App\Models\InfluencerProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -53,7 +56,9 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', function () {
-    return view('welcome');
+    $influencers = InfluencerProfile::all();
+    $categories = CategoryInfluencer::all();
+    return view('welcome', compact('influencers', 'categories'));
 });
 
 
