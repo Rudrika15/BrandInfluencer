@@ -110,6 +110,15 @@ class ChatController extends Controller
                             $point->points = '-' . $packageDetail->points;
                             $point->remark = 'Sent Message';
                             $point->save();
+
+                            $notification = new BrandInfluencerNotification();
+                            $notification->userId = $receiverId;   // receiver id
+                            $notification->title = "New Message from " . Auth::user()->name;
+                            $notification->type = "General";
+                            $notification->visible = "I";
+                            $notification->dateTime = Carbon::now();
+                            $notification->save();
+
                             return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
                         }
                     } else {
@@ -156,6 +165,14 @@ class ChatController extends Controller
                             $point->points = '-' . $packageDetail->points;
                             $point->remark = 'Sent Message';
                             $point->save();
+
+                            $notification = new BrandInfluencerNotification();
+                            $notification->userId = $receiverId;   // receiver id
+                            $notification->title = "New Message from " . Auth::user()->name;
+                            $notification->type = "General";
+                            $notification->visible = "I";
+                            $notification->dateTime = Carbon::now();
+                            $notification->save();
                             return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
                         }
                     } else {
@@ -212,6 +229,14 @@ class ChatController extends Controller
                         $point->points = '-' . $packageDetail->points;
                         $point->remark = 'Sent Message';
                         $point->save();
+
+                        $notification = new BrandInfluencerNotification();
+                        $notification->userId = $receiverId;   // receiver id
+                        $notification->title = "New Message from " . Auth::user()->name;
+                        $notification->type = "General";
+                        $notification->visible = "I";
+                        $notification->dateTime = Carbon::now();
+                        $notification->save();
 
                         return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
                     } else {

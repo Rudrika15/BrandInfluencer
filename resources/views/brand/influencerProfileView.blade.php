@@ -54,7 +54,7 @@
             float: left;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             padding-top: 60px;
         }
 
@@ -113,16 +113,10 @@
         }
 
         .profile-option .notification .alert-message {
-            position: absolute;
             top: -5px;
             right: -5px;
-            background: #fff;
-            color: #00c9e4;
-            border: 1px solid #00c9e4;
-            padding: 5px;
-            border-radius: 50%;
             height: 20px;
-            width: 20px;
+            width: 80px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -173,7 +167,7 @@
         button.createbtn {
 
             border: 0;
-            padding: 10px;
+            padding: 10px 80px 10px 80px;
             width: 100%;
             border-radius: 3px;
             background: #00c9e4;
@@ -191,6 +185,7 @@
         button.chatbtn:hover,
         button.createbtn:hover {
             background: rgba(2, 214, 241, 0.9);
+            color: #fff;
 
         }
 
@@ -202,13 +197,13 @@
 
 
         /* .rate {
-                                                                                                                                                                                                                                            padding-top: 6px;
-                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding-top: 6px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
         /* .rate i {
-                                                                                                                                                                                                                                        font-size: 0.9rem;
-                                                                                                                                                                                                                                        color: rgba(2, 214, 241, 0.9);
-                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-size: 0.9rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: rgba(2, 214, 241, 0.9);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .nav-b {
             width: 100%;
@@ -408,26 +403,51 @@
             <div class="profile-img">
 
                 @if (isset($influencer->profile->profilePhoto))
-                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
-                        alt="Profile Image">
+                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200" alt="Profile Image">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
             </div>
-            <div class="profile-nav-info">
-                <h3 class="user-name">{{ $influencer->profile->name }}</h3>
-                <div class="address">
-                    <p id="state" class="state">{{ $influencer->city }},</p>
-                    <span id="country" class="country">{{ $influencer->state }}.</span>
+            <div class="profile-nav-info d-flex justify-content-between">
+                <div class="w-100">
+                    <h3 class="user-name">{{ $influencer->profile->name }}</h3>
+                    <div class="address">
+                        <p id="state" class="state">{{ $influencer->city }},</p>
+                        <span id="country" class="country">{{ $influencer->state }}.</span>
+                        <br>
+
+
+                    </div>
+                    <div class="address">
+                        <p id="state" class="state">
+                            <a href="">
+                                <i class="bi bi-instagram text-danger"></i>
+                                {{ $influencer->instagramFollowers }}
+                            </a>
+                        </p>
+                        &nbsp; &nbsp;
+                        <span id="country" class="country">
+                            <i class="bi bi-facebook text-primary"></i>
+                            {{ $influencer->youtubeSubscriber }}</span>
+                        <br>
+
+
+                    </div>
                 </div>
 
+
+
             </div>
-            {{-- <div class="profile-option">
-                <div class="notification">
-                    <i class="bi bi-bell"></i>
-                    <span class="alert-message">3</span>
+            <div class="profile-option">
+                <div class="">
+                    @if (Auth::user()->hasRole('Brand'))
+                        <div class="me-5">
+                            <button type="button" class="btn btn-info text-white px-5 py-2 me-5" data-bs-toggle="modal" data-bs-target="#exampleModal"> Message </button>
+
+                        </div>
+                    @endif
                 </div>
-            </div> --}}
+            </div>
         </div>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -442,8 +462,7 @@
                             @csrf
                             <input type="hidden" name="receiverId" value="{{ $influencer->profile->id }}">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="message" placeholder="Write a message"
-                                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <input type="text" class="form-control" name="message" placeholder="Write a message" aria-label="Recipient's username" aria-describedby="button-addon2">
                                 <button class="btn btn-outline-info" type="submit" id="button-addon2">
                                     <i class="bi bi-send"></i> </button>
                             </div>
@@ -460,33 +479,15 @@
         <div class="main-bd">
             <div class="left-side">
                 <div class="profile-side">
-                    <span class="mobile-no"><i class="bi bi-telephone-plus-fill"></i></span>
-                    @if ($seenStatus > 0)
-                        <span class="mobile-no"> {{ $influencer->profile->mobileno }} </span>
-                        <br>
-                        <span class="user-mail formattedEmail" data-influencer-id="{{ $influencer->id }}"><i
-                                class="bi bi-envelope-fill"></i> {{ $influencer->profile->email }}</span>
-                    @else
-                        <span class="mobile-no formattedMobileNumber" data-influencer-id="{{ $influencer->id }}">
-                            {{ $influencer->profile->mobileno }} </span>
-                    @endif
+
                     <div class="">
                         <h3>About</h3>
-                        <p class="" id="about-text">
-                            {{ $influencer->about }} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod alias
-                            nisi distinctio delectus, fugiat perspiciatis aliquam laborum corrupti, sint sit, ea excepturi.
-                            Repudiandae reprehenderit possimus nobis maiores repellat. Facere, consequuntur.
+                        <p class="" id="">
+                            {{ $influencer->about ?? '-' }}
                         </p>
-                        <a href="javascript:void(0);" id="see-more-link">See more</a>
+                        {{-- <a href="javascript:void(0);" id="see-more-link">See more</a> --}}
                     </div>
-                    @if (Auth::user()->hasRole('Influencer'))
-                        <div class="profile-btn">
-                            <button type="button" class="chatbtn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                    class="fa fa-comment"></i> Message </button>
 
-
-                        </div>
-                    @endif
 
 
                 </div>
@@ -521,8 +522,7 @@
                                                 }
                                             </style>
                                             <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
-                                                <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200"
-                                                    class="card-img-top p-3 img-thumbnail portImage" alt="">
+                                                <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
                                             </a>
 
                                         </div>
@@ -561,8 +561,7 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
@@ -698,9 +697,9 @@
                 isFullTextVisible = true;
             }
         }
-        if (document.querySelector(".alert-message").innerText > 9) {
-            document.querySelector(".alert-message").style.fontSize = ".7rem";
-        }
+        // if (document.querySelector(".alert-message").innerText > 9) {
+        //     document.querySelector(".alert-message").style.fontSize = ".7rem";
+        // }
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
