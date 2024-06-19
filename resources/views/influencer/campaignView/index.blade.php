@@ -29,8 +29,7 @@
                                 {{-- {{ $data->user }} --}}
                                 <div class="col-md-12">
                                     {{-- <h4 class="card-title"> {{ $data->title }}</h4> --}}
-                                    <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" alt="image" class=" w-100"
-                                        style="height: 40rem" onerror="this.src='{{ asset('images/default.jpg') }}'">
+                                    <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" alt="image" class=" w-100" style="height: 40rem" onerror="this.src='{{ asset('images/default.jpg') }}'">
                                     {{-- <img src="{{ asset('campaignPhoto') }}/1698906013.jpg" class="rounded" alt="image"> --}}
                                     <div class="p-3">
                                         <h4 class="card-title text-uppercase mb-3"> {{ $data->title }}</h4>
@@ -48,9 +47,7 @@
 
 
                                     <div class="row p-3 gap-3">
-                                        <button type="button" form="" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal" class="col rounded-pill"
-                                            style="border: solid 1px black">
+                                        <button type="button" form="" data-bs-toggle="modal" data-bs-target="#exampleModal" class="col rounded-pill" style="border: solid 1px black">
                                             <div class="p-3 text-center">
                                                 <span>Message</span>
                                             </div>
@@ -71,12 +68,10 @@
                                                     <b><span>Apply</span></b>
                                                 </div>
                                             </a> --}}
-                                            <form class="col" action="{{ route('influencer.campaignApply') }}"
-                                                method="post" name="apply">
+                                            <form class="col" action="{{ route('influencer.campaignApply') }}" method="post" name="apply">
                                                 @csrf
                                                 <input type="hidden" name="campaignId" value="{{ $data->id }}">
-                                                <button type="submit" class="rounded-pill w-100 btn-primary shadow-none"
-                                                    style="border: none">
+                                                <button type="submit" class="rounded-pill w-100 btn-primary shadow-none" style="border: none">
                                                     <div class="text-white p-3 text-center">
                                                         <b><span>Apply</span></b>
                                                     </div>
@@ -87,25 +82,20 @@
 
                         </div>
 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Send Message to
                                             {{ $data->title }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('new.influencer.chat.index') }}" name="msg"
-                                            method="post">
+                                        <form action="{{ route('new.influencer.chat.index') }}" name="msg" method="post">
                                             @csrf
-                                            <input type="hidden" name="receiverId" value="{{ $data->user->id }}">
+                                            <input type="hiddenn" name="receiverId" value="{{ $data->user->id }}">
                                             <div class="input-group mb-3">
-                                                <input type="text" class="form-control" name="message"
-                                                    placeholder="Write a message" aria-label="Recipient's username"
-                                                    aria-describedby="button-addon2">
+                                                <input type="text" class="form-control" name="message" placeholder="Write a message" aria-label="Recipient's username" aria-describedby="button-addon2">
                                                 <button class="btn btn-outline-info" type="submit" id="button-addon2">
                                                     <i class="bi bi-send"></i> </button>
                                             </div>
