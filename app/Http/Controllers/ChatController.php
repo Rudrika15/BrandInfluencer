@@ -82,8 +82,8 @@ class ChatController extends Controller
                             // Assuming $campaign is defined somewhere in your code
                             $roles = Auth::user()->roles->pluck('name');
                             $newChat = new ChatGroup();
-                            $newChat->brandId = $id;
-                            $newChat->influencerId = $receiverId;
+                            $newChat->brandId = $receiverId;
+                            $newChat->influencerId = $id;
                             if ($roles->contains('Brand')) {
                                 $newChat->session = "brand";
                             }
