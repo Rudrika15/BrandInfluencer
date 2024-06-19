@@ -416,14 +416,12 @@
                 </div> --}}
 
                @if (session()->has('success'))
-                   <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive"
-                       aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                   <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
                        <div class="d-flex">
                            <div class="toast-body">
                                {{ session('success') }}
                            </div>
-                           <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                               aria-label="Close"></button>
+                           <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                        </div>
                    </div>
                @endif
@@ -434,8 +432,7 @@
                    <div class="profile-img me-3">
 
                        @if (isset($influencer->profile->profilePhoto))
-                           <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
-                               alt="Profile Image" style="object-fit: contain;">
+                           <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200" alt="Profile Image" style="object-fit: contain;">
                        @else
                            <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                        @endif
@@ -464,35 +461,30 @@
 
                        <div class="user-bio">
                            <h3>About</h3>
-                           <p class="bio">
-                               {{ $influencer->about }}
+                           <p class="">
+                               {{ $influencer->about ?? '-' }}
                            </p>
                        </div>
                        <div class="profile-btn">
-                           <button type="button" class="btn btn-info " data-bs-toggle="modal"
-                               data-bs-target="#exampleModal"><i class="fa fa-comment"></i> Message </button>
+                           <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-comment"></i> Message </button>
 
 
                        </div>
 
-                       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                           aria-hidden="true">
+                       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                            <div class="modal-dialog modal-dialog-centered">
                                <div class="modal-content">
                                    <div class="modal-header">
                                        <h5 class="modal-title" id="exampleModalLabel">Send Message to
                                            {{ $influencer->profile->name }}</h5>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                           aria-label="Close"></button>
+                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                    </div>
                                    <div class="modal-body">
                                        <form action="{{ route('new.influencer.chat.index') }}" method="post">
                                            @csrf
                                            <input type="hidden" name="receiverId" value="{{ $influencer->profile->id }}">
                                            <div class="input-group mb-3">
-                                               <input type="text" class="form-control" name="message"
-                                                   placeholder="Write a message" aria-label="Recipient's username"
-                                                   aria-describedby="button-addon2">
+                                               <input type="text" class="form-control" name="message" placeholder="Write a message" aria-label="Recipient's username" aria-describedby="button-addon2">
                                                <button class="btn btn-outline-info" type="submit" id="button-addon2">
                                                    <i class="bi bi-send"></i> </button>
                                            </div>
@@ -528,11 +520,8 @@
                                                <div class="card text-start" style="width: 15rem;">
 
 
-                                                   <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
-                                                       target="_blank">
-                                                       <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
-                                                           height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                                           alt="">
+                                                   <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" target="_blank">
+                                                       <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
                                                    </a>
 
                                                </div>

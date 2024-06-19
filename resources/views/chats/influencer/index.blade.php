@@ -3,8 +3,7 @@
 @section('content')
 
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,0,0" />
 
     <style>
         @font-face {
@@ -95,11 +94,9 @@
                 <div class="col-md-5 bg-white" style="height: 600px; overflow-y: auto;">
                     <div class="pt-2 mt-1 bg-light rounded-pill">
                         <button style="background: none; border: none; padding: 0;">
-                            <span style="font-size: 20px; vertical-align: -1px; color: #9B9B9B"
-                                class="material-symbols-outlined">search</span>
+                            <span style="font-size: 20px; vertical-align: -1px; color: #9B9B9B" class="material-symbols-outlined">search</span>
                         </button>
-                        <input style="vertical-align: 4px; width: 255px;" type="search" name="focus" placeholder="Search"
-                            id="search" value="">
+                        <input style="vertical-align: 4px; width: 255px;" type="search" name="focus" placeholder="Search" id="search" value="">
                     </div>
                     <hr>
                     {{-- {{ Auth::user()->session }} <br> --}}
@@ -110,19 +107,17 @@
                         @foreach ($chats as $chat)
                             <input type="hidden" name="groupId" id="group-id" value="{{ $chat->id }}">
 
-                            <input type="hidden" name="influencerId" id="influencerIdForGetChat"
-                                value="{{ $chat->influencerId }}">
+                            <input type="hidden" name="influencerId" id="influencerIdForGetChat" value="{{ $chat->influencerId }}">
                             <input type="hidden" name="brandId" id="brandIdForGetChat" value="{{ $chat->brandId }}">
 
-                            <div class="bg-light pt-3 chat-item" style="cursor: pointer;"
-                                data-brand-id="{{ $chat->brandId }}" data-influencer-id="{{ $chat->influencerId }}">
+                            <div class="bg-light pt-3 chat-item" style="cursor: pointer;" data-brand-id="{{ $chat->brandId }}" data-influencer-id="{{ $chat->influencerId }}">
                                 <span class="ps-3">
-                                    @if ($chat->brand->profile)
-                                        <img src="{{ asset('profile') }}/@if (Auth::user()->hasRole('Influencer')) {{ $chat->influencer->profilePhoto }} @endif/@if (Auth::user()->hasRole('Brand')) {{ $chat->brand->profilePhoto }} @endif"
-                                            class="rounded-circle" width="40px" alt="">
-                                    @else
-                                        <img src="{{ asset('images/default.jpg') }}" class="rounded-circle" width="40px"
-                                            alt="">
+
+                                    @if (Auth::user()->hasRole('Influencer'))
+                                        <img src="{{ asset('profile') }}/{{ $chat->brand->profilePhoto }} " onerror="this.src='{{ asset('images/default.jpg') }}'" class="rounded-circle" width="40px" alt="">
+                                    @endif
+                                    @if (Auth::user()->hasRole('Brand'))
+                                        <img src="{{ asset('profile') }}/{{ $chat->influencer->profilePhoto }} " onerror="this.src='{{ asset('images/default.jpg') }}'" class="rounded-circle" width="40px" alt="">
                                     @endif
                                     <b class="ps-2">
                                         @if (Auth::user()->hasRole('Influencer'))
@@ -157,8 +152,7 @@
                         <div id="chatHeader" class="p-3 border-bottom">
                             <h5 id="receiverName">Selected Chat Receiver Name</h5>
                         </div>
-                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100"
-                            style="display: flex; flex-direction: column-reverse;">
+                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100" style="display: flex; flex-direction: column-reverse;">
                             {{-- <div class="bg-danger text-end">influencer message </div>
                             <div class="bg-warning">brand message </div> --}}
                             <div style="height: 600px; align-self: center; padding-top: 100px" id="defaultMessage">
