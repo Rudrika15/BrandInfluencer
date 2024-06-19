@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Apply;
 use App\Models\Cardportfoilo;
 use App\Models\CategoryInfluencer;
 use App\Models\InfluencerProfile;
@@ -21,12 +22,17 @@ class HomepageController extends Controller
 
         // influencer
 
+        // $applied = Apply::where('userId', Auth::user()->id)->get();
+        // foreach ($applied as $apply) {
+        // }
         $brands = User::whereHas(
             'roles',
             function ($q) {
                 $q->where('name', 'Brand');
             }
-        )->whereHas('brand')->with('brand')->get();
+        )->whereHas('brand')->with('brand')
+            // ->where('id', '!=', $apply)
+            ->get();
 
 
 
