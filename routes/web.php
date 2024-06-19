@@ -97,6 +97,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('influencer/dashboard', [DashboardController::class, 'dashboard'])->name('influencer.dashboard');
 
+    Route::get('influencer/profile/{id?}', [DashboardController::class, 'influencerProfile'])->name('general.influencerProfile');
+
     // user Profile
     Route::get('user/profile', [DashboardController::class, 'edit'])->name('profile');
     Route::get('user/profile/edit/{id}', [DashboardController::class, 'editProfile'])->name('profile.edit');

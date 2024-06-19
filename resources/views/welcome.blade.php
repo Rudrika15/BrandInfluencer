@@ -257,7 +257,7 @@
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 @foreach ($categories as $item)
                     <li class="nav-item">
-                        <a class="nav-link " id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
+                        <a class="nav-link" id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
                             aria-controls="foodtab" aria-selected="true">
                             {{ $item->name }}
                         </a>
@@ -284,7 +284,8 @@
                                 <p>{{ $item->profile->name }}</p>
                                 <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
                                 <div class="explore_btn">
-                                    <button class="custombtn highlighbtn">Book Now</button>
+                                    <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                        class="custombtn highlighbtn">Book Now</a>
                                 </div>
                             </div>
                         </div>
@@ -346,8 +347,8 @@
                             <label for="mobile">Enter Your Mobile</label>
                             <input type="text" class="form-control" name="mobile">
 
-                            <label for="address">Enter Your Address</label>
-                            <input type="text" class="form-control" name="address">
+                            <label for="message">Enter Your Message</label>
+                            <textarea class="form-control" name="message"> </textarea>
 
                         </form>
                     </div>

@@ -14,6 +14,7 @@ use App\Models\CardsModels;
 use App\Models\Categories;
 use App\Models\Category;
 use App\Models\CategoryInfluencer;
+use App\Models\ContactInfluencer;
 use App\Models\Feedback;
 use App\Models\InfluencerPortfolio;
 use App\Models\InfluencerProfile;
@@ -222,5 +223,17 @@ class DashboardController extends Controller
             ->with('AppliedInfluencer.user')
             ->paginate(10);
         return view('admin.campaignList.index', \compact('campaigns'));
+    }
+    public function influencerProfile($id)
+    {
+        // for Influencer
+        $influencer = InfluencerProfile::where('userId', $id)->whereHas('profile')->first();
+
+        $seenStatus = ContactInfluencer::where('userId', $id)
+            ->where('influencerId', $id)
+            ->count();
+
+        $portfolio = InfluencerPortfolio::where('userId', '=', $id)->get();
+        return view('brand.influencerProfileView', compact('influencer', 'seenStatus', 'portfolio'));
     }
 }
