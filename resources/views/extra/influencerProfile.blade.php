@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- Icon  -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
@@ -155,11 +156,16 @@
                         <div class="col-md-3 pt-4">
                             @if ($profile->profile->profilePhoto)
                                 <div class="image-container">
-                                    <img class="img-thumbnail" style="border-radius: 150px; height: 300px; width: 300px;" src="{{ asset('profile') }}/{{ $profile->profile->profilePhoto }}" alt="image">
+                                    <img class="img-thumbnail"
+                                        style="border-radius: 150px; height: 300px; width: 300px;"
+                                        src="{{ asset('profile') }}/{{ $profile->profile->profilePhoto }}"
+                                        alt="image">
                                 </div>
                             @else
                                 <div class="image-container">
-                                    <img class="img-thumbnail" style="border-radius: 150px; height: 300px; width: 300px;" src="{{ url('asset/img/defaultPerson.jpg') }}" alt="image">
+                                    <img class="img-thumbnail"
+                                        style="border-radius: 150px; height: 300px; width: 300px;"
+                                        src="{{ url('asset/img/defaultPerson.jpg') }}" alt="image">
                                 </div>
                             @endif
 
@@ -170,7 +176,8 @@
                                 <b>{{ $profile->profile->name }}</b>
 
                                 @if ($profile->is_brandBeansVerified == 'yes')
-                                    <i class="menu-icon bi bi-patch-check-fill text-info" title="BrandBeans Verified" style="margin-left: 5px;"></i>
+                                    <i class="menu-icon bi bi-patch-check-fill text-info" title="BrandBeans Verified"
+                                        style="margin-left: 5px;"></i>
                                 @endif
                             </h4>
                             <h5><a href="#">{{ $influencer->card->about }}</a></h5>
@@ -181,12 +188,14 @@
                                 <div class="">
 
                                     @if ($profile->youtubeChannelUrl)
-                                        <a class="" href=""> <i class="bi bi-instagram fa-2x" style="color: #C13584; liner-gradient: #C13584  #FF0000;"></i>
+                                        <a class="" href=""> <i class="bi bi-instagram fa-2x"
+                                                style="color: #C13584; liner-gradient: #C13584  #FF0000;"></i>
 
                                             {{ $profile->instagramFollowers }}</a>
                                     @endif
                                     @if ($profile->youtubeChannelUrl)
-                                        <a class="" href=""> <i class="bi bi-youtube fa-2x" style="color: #FF0000;"></i>
+                                        <a class="" href=""> <i class="bi bi-youtube fa-2x"
+                                                style="color: #FF0000;"></i>
 
                                             {{ $profile->youtubeSubscriber }}</a>
                                     @endif
@@ -228,14 +237,17 @@
                                     @foreach ($profile->profile->card->cardPortfolio->take(4) as $image)
                                         @if ($image->image)
                                             <div class="col-md-3">
-                                                <img src="{{ asset('cardimage') }}/{{ $image->image }}" data-aos="zoom-in" alt="" class="img-thumbnail custom-thumbnail cardImage">
+                                                <img src="{{ asset('cardimage') }}/{{ $image->image }}"
+                                                    data-aos="zoom-in" alt=""
+                                                    class="img-thumbnail custom-thumbnail cardImage">
 
                                                 <br>
                                             </div>
                                         @endif
                                     @endforeach
                                     <div class="text-center pt-3" id="view-all">
-                                        <a href="#" id="view-all-link"><span class="border-bottom border-info border-4">view all</span></a>
+                                        <a href="#" id="view-all-link"><span
+                                                class="border-bottom border-info border-4">view all</span></a>
                                     </div>
                                 @else
                                     <div class="text-center">
@@ -250,7 +262,8 @@
                             <div class="row hidden-images" style="display: none">
                                 @foreach ($profile->profile->card->cardPortfolio->slice(4) as $image)
                                     <div class="col-md-3">
-                                        <img src="{{ asset('cardimage') }}/{{ $image->image }}" alt="" data-aos="zoom-in" class="img-thumbnail custom-thumbnail cardImage">
+                                        <img src="{{ asset('cardimage') }}/{{ $image->image }}" alt=""
+                                            data-aos="zoom-in" class="img-thumbnail custom-thumbnail cardImage">
                                     </div>
                                 @endforeach
 
@@ -277,20 +290,32 @@
                                                     <ul class="nav " id="myTab" role="tablist">
                                                         @foreach ($profile->profile->influencerPackage as $data)
                                                             <li class="nav-item" role="presentation">
-                                                                <button class=" nav-link{{ $loop->first ? ' active fw-bold' : ' fw-bold' }}" id="{{ Str::slug($data->title) }}-tab" data-bs-toggle="tab" data-bs-target="#{{ Str::slug($data->title) }}" type="button" role="tab" aria-controls="{{ Str::slug($data->title) }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $data->title }}</button>
+                                                                <button
+                                                                    class=" nav-link{{ $loop->first ? ' active fw-bold' : ' fw-bold' }}"
+                                                                    id="{{ Str::slug($data->title) }}-tab"
+                                                                    data-bs-toggle="tab"
+                                                                    data-bs-target="#{{ Str::slug($data->title) }}"
+                                                                    type="button" role="tab"
+                                                                    aria-controls="{{ Str::slug($data->title) }}"
+                                                                    aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $data->title }}</button>
                                                             </li>
                                                         @endforeach
                                                         <div class="tab-content mt-3" id="myTabContent">
 
                                                             @foreach ($profile->profile->influencerPackage as $data)
-                                                                <div class="tab-pane fade{{ $loop->first ? ' show active' : '' }}" id="{{ Str::slug($data->title) }}" role="tabpanel" aria-labelledby="{{ Str::slug($data->title) }}-tab">
+                                                                <div class="tab-pane fade{{ $loop->first ? ' show active' : '' }}"
+                                                                    id="{{ Str::slug($data->title) }}"
+                                                                    role="tabpanel"
+                                                                    aria-labelledby="{{ Str::slug($data->title) }}-tab">
                                                                     <div class="">
                                                                         <div class="text-center">
-                                                                            <span class="text-info  fs-4 fw-bold">₹{{ $data->price }}.00</span><br>
+                                                                            <span
+                                                                                class="text-info  fs-4 fw-bold">₹{{ $data->price }}.00</span><br>
                                                                             <hr style="color: #15C6EB; height: 2px">
                                                                         </div>
                                                                         <div class="text-center">
-                                                                            <i class="text-center fw-bold text-info">Details</i><br>
+                                                                            <i
+                                                                                class="text-center fw-bold text-info">Details</i><br>
                                                                             <span>{!! $data->description !!}</span>
                                                                         </div>
                                                                     </div>
@@ -327,12 +352,18 @@
 
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('js/influencer.js') }}"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
     <script>
         const category = {!! $profile->categoryId !!};
         console.log(category);
