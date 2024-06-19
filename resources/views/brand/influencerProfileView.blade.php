@@ -1,22 +1,9 @@
 @extends('layouts.app')
+@section('title', 'BrandBeans | Profile')
 @section('content')
     <style>
         @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
         @import url("https://fonts.googleapis.com/css?family=Bree+Serif&display=swap");
-
-        /* * {
-                                                                                                                        padding: 0;
-                                                                                                                        margin: 0;
-                                                                                                                        box-sizing: border-box;
-                                                                                                                    } */
-
-        /* body {
-                                                                                                                    background: #e9e9e9;
-                                                                                                                    overflow-x: hidden;
-                                                                                                                    padding-top: 20px;
-                                                                                                                    font-family: "Poppins", sans-serif;
-                                                                                                                    margin: 0 100px;
-                                                                                                                } */
 
         .profile-header {
             background: #fff;
@@ -145,6 +132,7 @@
 
         .main-bd {
             width: 100%;
+
             display: flex;
             padding-right: 15px;
         }
@@ -179,8 +167,11 @@
             display: flex;
         }
 
+
+
         button.chatbtn,
         button.createbtn {
+
             border: 0;
             padding: 10px;
             width: 100%;
@@ -211,13 +202,13 @@
 
 
         /* .rate {
-                                                                                                            padding-top: 6px;
-                                                                                                        } */
+                                                                                                                                                                                                                                            padding-top: 6px;
+                                                                                                                                                                                                                                        } */
 
         /* .rate i {
-                                                                                                        font-size: 0.9rem;
-                                                                                                        color: rgba(2, 214, 241, 0.9);
-                                                                                                    } */
+                                                                                                                                                                                                                                        font-size: 0.9rem;
+                                                                                                                                                                                                                                        color: rgba(2, 214, 241, 0.9);
+                                                                                                                                                                                                                                    } */
 
         .nav-b {
             width: 100%;
@@ -263,6 +254,30 @@
             padding: 20px;
             width: 100%;
             text-align: center;
+        }
+
+        #about-text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-height: 3.6em;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+
+
+        #about-text.expanded {
+            overflow: visible;
+            white-space: normal;
+            text-overflow: initial;
+        }
+
+        #see-more-link {
+            display: none;
+            color: blue;
+            cursor: pointer;
         }
 
         @media (max-width: 1100px) {
@@ -414,7 +429,34 @@
                 </div>
             </div> --}}
         </div>
-
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Send Message to
+                            {{ $influencer->profile->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('new.influencer.chat.index') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="receiverId" value="{{ $influencer->profile->id }}">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="message" placeholder="Write a message"
+                                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <button class="btn btn-outline-info" type="submit" id="button-addon2">
+                                    <i class="bi bi-send"></i> </button>
+                            </div>
+                        </form>
+                    </div>
+                    {{-- <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div> --}}
+                </div>
+            </div>
+        </div>
         <div class="main-bd">
             <div class="left-side">
                 <div class="profile-side">
@@ -428,16 +470,21 @@
                         <span class="mobile-no formattedMobileNumber" data-influencer-id="{{ $influencer->id }}">
                             {{ $influencer->profile->mobileno }} </span>
                     @endif
-                    <div class="user-bio">
+                    <div class="">
                         <h3>About</h3>
-                        <p class="bio">
-                            {{ $influencer->about }}
+                        <p class="" id="about-text">
+                            {{ $influencer->about }} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod alias
+                            nisi distinctio delectus, fugiat perspiciatis aliquam laborum corrupti, sint sit, ea excepturi.
+                            Repudiandae reprehenderit possimus nobis maiores repellat. Facere, consequuntur.
                         </p>
+                        <a href="javascript:void(0);" id="see-more-link">See more</a>
                     </div>
-                    @if (!Auth::user()->hasRole('Influencer'))
+                    @if (Auth::user()->hasRole('Influencer'))
                         <div class="profile-btn">
-                            <button class="chatbtn" id="chatBtn"><i class="fa fa-sms"></i> Message</button>
-                            {{-- <button class="createbtn" id="Create-post"><i class="fa fa-plus"></i> Create</button> --}}
+                            <button type="button" class="chatbtn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                    class="fa fa-comment"></i> Message </button>
+
+
                         </div>
                     @endif
 
@@ -607,14 +654,14 @@
         });
     </script>
     <script>
-        $(".nav-b ul li").click(function() {
+        $(".nav ul li").click(function() {
             $(this)
                 .addClass("active")
                 .siblings()
                 .removeClass("active");
         });
 
-        const tabBtn = document.querySelectorAll(".nav-b ul li");
+        const tabBtn = document.querySelectorAll(".nav ul li");
         const tab = document.querySelectorAll(".tab");
 
         function tabs(panelIndex) {
@@ -655,4 +702,29 @@
             document.querySelector(".alert-message").style.fontSize = ".7rem";
         }
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const aboutText = document.getElementById('about-text');
+            const seeMoreLink = document.getElementById('see-more-link');
+
+            const fullText = aboutText.textContent.trim();
+            const words = fullText.split(' ');
+
+            console.log("Full text:", fullText);
+            console.log("Number of words:", words.length);
+
+            if (words.length > 50) {
+                const truncatedText = words.slice(0, 50).join(' ') + '...';
+                aboutText.textContent = truncatedText;
+                seeMoreLink.style.display = 'inline'; // Show "See more" link
+            }
+
+            seeMoreLink.addEventListener('click', function() {
+                aboutText.textContent = fullText;
+                aboutText.classList.toggle('expanded'); // Toggle the expanded class
+                seeMoreLink.style.display = 'none'; // Hide "See more" link after click
+            });
+        });
+    </script>
+
 @endsection
