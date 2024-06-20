@@ -54,49 +54,43 @@ class HomepageController extends Controller
             $q->where('name', 'Influencer');
         })->with('card')->whereHas('influencer');
 
-        $categoryNames = $request->input('category');
+        $categoryId = $request->input('category');
         $type = $request->input('type');
 
         // Initialize the query to get users with the 'Influencer' role
         $influencer = User::whereHas('roles', function ($q) {
-
             $q->where('name', 'Influencer');
         })->with('card');
 
         // Apply category filter if specified
-        if (!empty($categoryNames)) {
-            $influencer->whereHas('influencer', function ($q) use ($categoryNames) {
-                foreach ($categoryNames as $categoryName) {
-                    $q->orWhereJsonContains('categoryId', $categoryName);
-                }
+        if (!empty($categoryId)) {
+            $influencer->whereHas('influencer', function ($q) use ($categoryId) {
+                $q->where(function ($q) use ($categoryId) {
+                    foreach ($categoryId as $category) {
+                        $q->orWhereJsonContains('categoryId', $category);
+                    }
+                });
             });
         }
 
+        // Apply type filters
         if ($type == "isTrending") {
-            $influencer = User::whereHas('roles', function ($q) {
-                $q->where('name', 'Influencer');
-            })->with('card')->whereHas('influencer', function ($q) use ($type) {
+            $influencer->whereHas('influencer', function ($q) {
                 $q->where('isTrending', 'on');
             });
-        }
-        if ($type == "is_featured") {
-            $influencer = User::whereHas('roles', function ($q) {
-                $q->where('name', 'Influencer');
-            })->with('card')->whereHas('influencer', function ($q) use ($type) {
+        } elseif ($type == "is_featured") {
+            $influencer->whereHas('influencer', function ($q) {
                 $q->where('is_featured', 'on');
             });
-        }
-        if ($type == "is_brandBeansVerified") {
-            $influencer = User::whereHas('roles', function ($q) {
-                $q->where('name', 'Influencer');
-            })->with('card')->whereHas('influencer', function ($q) use ($type) {
+        } elseif ($type == "is_brandBeansVerified") {
+            $influencer->whereHas('influencer', function ($q) {
                 $q->where('is_brandBeansVerified', 'on');
             });
         }
 
-
-
+        // Get the results
         $influencer = $influencer->get();
+
 
         if ($roles->contains('Brand')) {
             session(['role' => 'brand']);

@@ -82,20 +82,19 @@
             right: 50px;
             top: 50%;
             transform: translateY(-50%);
-            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: all 0.5s ease-in-out;
             outline: none;
-            background: #00c9e4;
+
 
         }
 
         .profile-option:hover {
             background: #fff;
-            border: 1px solid #00c9e4;
+
         }
 
         .profile-option:hover .notification i {
@@ -193,19 +192,9 @@
         button.createbtn i {
             margin-right: 5px;
         }
+        }
 
-
-
-        /* .rate {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-top: 6px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
-
-        /* .rate i {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                font-size: 0.9rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                color: rgba(2, 214, 241, 0.9);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
-
-        .nav-b {
+        */ .nav-b {
             width: 100%;
             z-index: -1;
         }
@@ -403,8 +392,7 @@
             <div class="profile-img">
 
                 @if (isset($influencer->profile->profilePhoto))
-                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
-                        alt="Profile Image">
+                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200" alt="Profile Image">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
@@ -435,9 +423,17 @@
 
                     </div>
                 </div>
+            </div>
 
+            <div class="profile-option">
+                <div class="">
 
+                    <div class="me-5">
+                        <a type="button" href="{{ route('profile.edit', $influencer->userId) }}" class="btn btn-info text-white px-5 py-2 me-5"> Edit </a>
 
+                    </div>
+
+                </div>
             </div>
 
         </div>
@@ -488,11 +484,8 @@
                                                         margin-top: -10px;
                                                     }
                                                 </style>
-                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                    target="_blank">
-                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                                        alt="">
+                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
+                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
                                                 </a>
 
                                             </div>
@@ -535,8 +528,7 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
