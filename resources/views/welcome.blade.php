@@ -254,12 +254,24 @@
             <div class="heading wow fadeInUp" data-wow-duration="1s">
                 <h1>Featured <span>Creators</span></h1>
             </div>
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
                 @foreach ($categories as $item)
                     <li class="nav-item">
                         <a class="nav-link" id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
                             aria-controls="foodtab" aria-selected="true">
                             {{ $item->name }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul> --}}
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                @foreach ($categories as $category)
+                    <li class="nav-item">
+                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ $category->name }}-tab"
+                            data-toggle="tab" href="#{{ $category->name }}tab" role="tab"
+                            aria-controls="{{ $category->name }}tab"
+                            aria-selected="{{ $loop->first ? 'true' : 'false' }}">
+                            {{ $category->name }}
                         </a>
                     </li>
                 @endforeach
@@ -271,7 +283,7 @@
     <div class="container-fluid influencer_section">
         <div class="tab-content" id="myTabContent">
 
-            <div class="tab-pane show active" id="foodtab" role="tabpanel" aria-labelledby="food-tab">
+            {{-- <div class="tab-pane show active" id="foodtab" role="tabpanel" aria-labelledby="food-tab">
                 <div class="influencer_inner">
                     @foreach ($influencers as $item)
                         <div class="influencer_item">
@@ -291,9 +303,36 @@
                         </div>
                     @endforeach
                 </div>
-            </div>
+            </div> --}}
+            @foreach ($categories as $category)
+                <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{ $category->name }}tab"
+                    role="tabpanel" aria-labelledby="{{ $category->name }}-tab">
+                    <div class="influencer_inner">
+                        @foreach ($category->Influencer->pluck('id') as $influencerId)
+                            @foreach ($influencers->where('id', $influencerId) as $item)
+                                <div class="influencer_item">
+                                    <div class="influencer_img">
+                                        <img class="img-responsive"
+                                            src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
+                                            onerror="this.src='{{ asset('images/default.jpg') }}'" />
+                                    </div>
+                                    <div class="content">
+                                        <p>{{ $item->profile->name }}</p>
+                                        <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                        <div class="explore_btn">
+                                            <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                                class="custombtn highlighbtn">Book Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
+
     <!-- Featured Section End -->
 
 
@@ -521,7 +560,8 @@
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <h4>About Brandbeans</h4>
                     <p>Brand Beans is a leading one-stop window to explore and shop unique lifestyle and utility
-                        products. We have been showcasing the best and out-of-the-box range of products that will level
+                        products. We have been showcasing the best and out-of-the-box range of products that will
+                        level
                         up your living style.</p>
                     <a href="{{ route('about') }}" class="explore_btn">Explore More <span><i
                                 class='bx bx-right-arrow-alt'></i></span></a>
