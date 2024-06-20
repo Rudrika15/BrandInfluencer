@@ -311,10 +311,26 @@
                         @foreach ($category->Influencer->pluck('id') as $influencerId)
                             @foreach ($influencers->where('id', $influencerId) as $item)
                                 <div class="influencer_item">
+                                    @if ($item->is_trending == 'on')
+                                        <div
+                                            style="z-index: inherit; width: 100px; height:30px; color:white; background-color: rgb(255, 162, 0); border-radius: 5%;">
+                                            <h4> Trending</h4>
+                                        </div>
+                                    @endif
+                                    @if ($item->is_featured == 'on')
+                                        <div
+                                            style="z-index: inherit; width: 100px; height:30px; color:white; background-color: rgb(255, 162, 0); border-radius: 5%;">
+                                            <h4> Featured</h4>
+                                        </div>
+                                    @endif
+
                                     <div class="influencer_img">
+
+
                                         <img class="img-responsive"
                                             src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
                                             onerror="this.src='{{ asset('images/default.jpg') }}'" />
+
                                     </div>
                                     <div class="content">
                                         <p>{{ $item->profile->name }}</p>
