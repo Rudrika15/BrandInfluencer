@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Apply;
+use App\Models\branddetails;
+use App\Models\Campaign;
 use App\Models\Cardportfoilo;
 use App\Models\CategoryInfluencer;
 use App\Models\InfluencerProfile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class HomepageController extends Controller
 {
@@ -22,17 +25,26 @@ class HomepageController extends Controller
 
         // influencer
 
-        // $applied = Apply::where('userId', Auth::user()->id)->get();
+        // return $applied = Apply::where('userId', Auth::user()->id)->get(["campaignId"])->toArray();
+        $applied = Apply::where('userId', Auth::user()->id)->get();
+
         // foreach ($applied as $apply) {
         // }
-        $brands = User::whereHas(
-            'roles',
-            function ($q) {
-                $q->where('name', 'Brand');
-            }
-        )->whereHas('brand')->with('brand')
-            // ->where('id', '!=', $apply)
-            ->get();
+
+        // $brands = User::whereHas(
+        //     'roles',
+        //     function ($q) {
+        //         $q->where('name', 'Brand');
+        //     }
+        // )->whereHas('campaign',)->with('campaign')
+        //     ->whereNotIn('id', $applied)
+        //     ->get();
+
+        $appliedIds = Arr::pluck($applied, 'campaignId');
+
+        $campaigns = Campaign::whereNotIn('id', $appliedIds)->get();
+
+
 
 
 
@@ -42,6 +54,8 @@ class HomepageController extends Controller
         $influencer = User::whereHas('roles', function ($q) {
             $q->where('name', 'Influencer');
         })->with('card')->whereHas('influencer');
+
+
 
         $categoryName = $request->category;
         // return dd($categoryName);
@@ -63,7 +77,7 @@ class HomepageController extends Controller
             session(['role' => 'influencer']);
         }
 
-        return view('home', compact('brands', 'influencer', 'category'));
+        return view('home', compact('campaigns', 'influencer', 'category'));
     }
 
     public function updateSession(Request $request)
@@ -141,5 +155,17 @@ class HomepageController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function brandDetails(Request $request)
+    {
+        $brandDetails = new branddetails();
+        $brandDetails->brandname = $request->brandname;
+        $brandDetails->name = $request->name;
+        $brandDetails->email = $request->email;
+        $brandDetails->mobile = $request->mobile;
+        $brandDetails->message = $request->message;
+        $brandDetails->save();
+        return back()->with('success', 'Your Data Recorded Successfully , we will connect to you soon ');
     }
 }

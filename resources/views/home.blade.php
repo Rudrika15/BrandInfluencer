@@ -11,17 +11,22 @@
         @role('Influencer')
             <div class="row">
 
-                @foreach ($brands as $brand)
+                @foreach ($campaigns as $campaign)
                     <div class="col-md-4">
                         <div class="card" style="width: 18rem; height: 22rem">
-                            <a href="{{ route('influencer.campaignView') }}/{{ $brand->brand->id }}">
+                            <a href="{{ route('influencer.campaignView') }}/{{ $campaign->id }}">
 
-                                <img src="{{ asset('campaignPhoto') }}/{{ $brand->brand->photo }}" onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top" style="height: 250px" alt="...">
+                                <img src="{{ asset('campaignPhoto') }}/{{ $campaign->photo }}"
+                                    onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top"
+                                    style="height: 250px" alt="...">
 
                                 <div class="card-body">
-                                    <h5 class="card-title" style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1;  -webkit-box-orient: vertical;">{{ $brand->brand->title }}</h5>
-                                    <p class="card-text" style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
-                                        {{ $brand->brand->detail }} </p>
+                                    <h5 class="card-title"
+                                        style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1;  -webkit-box-orient: vertical;">
+                                        {{ $campaign->title }}</h5>
+                                    <p class="card-text"
+                                        style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
+                                        {{ $campaign->detail }} </p>
                                 </div>
                             </a>
                         </div>
@@ -44,21 +49,28 @@
                                             <option disabled>Select Categories</option>
 
                                             @foreach ($category as $cat)
-                                                <option value="{{ $cat->name }}" @if (is_array(request('category')) && in_array($cat->name, request('category'))) selected @endif>
+                                                <option value="{{ $cat->name }}"
+                                                    @if (is_array(request('category')) && in_array($cat->name, request('category'))) selected @endif>
                                                     {{ $cat->name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <button class="btn btn-primary" onchange="document.getElementById('categoryForm').submit();" id="categoryForm">
+                                        <button class="btn btn-primary"
+                                            onchange="document.getElementById('categoryForm').submit();" id="categoryForm">
                                             Search </button>
                                         {{-- <i class="bi bi-bootstrap-arrow"></i> --}}
 
 
                                         <a href="{{ route('home') }}" class="mt-1">
                                             <b>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" stroke="currentColor" stroke-width="1" />
-                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" stroke="currentColor" stroke-width="1" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+                                                        stroke="currentColor" stroke-width="1" />
+                                                    <path
+                                                        d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"
+                                                        stroke="currentColor" stroke-width="1" />
                                                 </svg>
                                             </b>
                                         </a>
@@ -81,9 +93,12 @@
                     @if ($influencers->profilePhoto != null)
                         <div class="col-md-4">
                             <div class="card" style="width: 18rem;">
-                                <a href="{{ route('brand.influencerProfile') }}/{{ $influencers->id }}/{{ $influencers->userId }}">
+                                <a
+                                    href="{{ route('brand.influencerProfile') }}/{{ $influencers->id }}/{{ $influencers->userId }}">
 
-                                    <img src="{{ asset('profile') }}/{{ $influencers->profilePhoto }}" class="card-img-top" style="weight: 150px; height: 300px; object-fit: contain;" onerror="this.src='{{ asset('images/defaultPerson.jpg') }}'" alt="...">
+                                    <img src="{{ asset('profile') }}/{{ $influencers->profilePhoto }}" class="card-img-top"
+                                        style="weight: 150px; height: 300px; object-fit: contain;"
+                                        onerror="this.src='{{ asset('images/defaultPerson.jpg') }}'" alt="...">
 
                                     <hr>
                                     <div class="card-body">

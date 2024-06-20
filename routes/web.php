@@ -60,6 +60,7 @@ Route::get('/', function () {
     $categories = CategoryInfluencer::all();
     return view('welcome', compact('influencers', 'categories'));
 });
+Route::post('brandDetails', [HomepageController::class, 'brandDetails'])->name('brandDetails');
 
 
 

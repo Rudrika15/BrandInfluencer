@@ -372,30 +372,33 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <form action="" class="p-5">
+                        <form action="{{ route('brandDetails') }}" class="p-5" method="POST">
+                            @csrf
 
                             <label for="brandName">Enter Your BrandName</label>
-                            <input type="text" class="form-control" name="brandName">
+                            <input type="text" name="brandname" class="form-control" name="brandName">
 
                             <label for="name">Enter Your Name</label>
-                            <input type="text" class="form-control" name="name">
+                            <input type="text" name="name" class="form-control" name="name">
 
                             <label for="email">Enter Your Email</label>
-                            <input type="text" class="form-control" name="email">
+                            <input type="text" name="email" class="form-control" name="email">
 
                             <label for="mobile">Enter Your Mobile</label>
-                            <input type="text" class="form-control" name="mobile">
+                            <input type="text" name="mobile" class="form-control" name="mobile">
 
                             <label for="message">Enter Your Message</label>
                             <textarea class="form-control" name="message"> </textarea>
 
-                        </form>
+
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+
                 </div>
+                </form>
             </div>
         </div>
     </div>
