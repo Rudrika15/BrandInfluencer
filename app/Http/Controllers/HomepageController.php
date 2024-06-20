@@ -43,15 +43,46 @@ class HomepageController extends Controller
             $q->where('name', 'Influencer');
         })->with('card')->whereHas('influencer');
 
-        $categoryName = $request->category;
-        // return dd($categoryName);
-        if ($categoryName) {
-            $influencer = User::whereHas('roles', function ($q) {
-                $q->where('name', 'Influencer');
-            })->with('card')->whereHas('influencer', function ($q) use ($categoryName) {
-                $q->whereJsonContains('categoryId', $categoryName);
+        $categoryNames = $request->input('category');
+        $type = $request->input('type');
+
+        // Initialize the query to get users with the 'Influencer' role
+        $influencer = User::whereHas('roles', function ($q) {
+
+            $q->where('name', 'Influencer');
+        })->with('card');
+
+        // Apply category filter if specified
+        if (!empty($categoryNames)) {
+            $influencer->whereHas('influencer', function ($q) use ($categoryNames) {
+                foreach ($categoryNames as $categoryName) {
+                    $q->orWhereJsonContains('categoryId', $categoryName);
+                }
             });
         }
+
+        if ($type == "isTrending") {
+            $influencer = User::whereHas('roles', function ($q) {
+                $q->where('name', 'Influencer');
+            })->with('card')->whereHas('influencer', function ($q) use ($type) {
+                $q->where('isTrending', 'on');
+            });
+        }
+        if ($type == "is_featured") {
+            $influencer = User::whereHas('roles', function ($q) {
+                $q->where('name', 'Influencer');
+            })->with('card')->whereHas('influencer', function ($q) use ($type) {
+                $q->where('is_featured', 'on');
+            });
+        }
+        if ($type == "is_brandBeansVerified") {
+            $influencer = User::whereHas('roles', function ($q) {
+                $q->where('name', 'Influencer');
+            })->with('card')->whereHas('influencer', function ($q) use ($type) {
+                $q->where('is_brandBeansVerified', 'on');
+            });
+        }
+
 
 
         $influencer = $influencer->get();

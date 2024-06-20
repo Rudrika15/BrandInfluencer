@@ -39,6 +39,22 @@
                         <div class='col-md-12'>
                             <form id="categoryForm" action="{{ route('home') }}" method="get">
                                 <div class="row d-flex justify-content-center">
+                                    <div class="col-md-12">
+                                        <label for="trending" class="form-label pe-3">
+                                            <input type="radio" name="type" value="is_trending" @if (request('type') == 'is_trending') checked @endif id="trending">
+                                            <b>Trending</b>
+                                        </label>
+
+                                        <label for="featured" class="form-label pe-3">
+                                            <input type="radio" name="type" value="is_featured" @if (request('type') == 'is_featured') checked @endif id="featured">
+                                            <b>Featured</b>
+                                        </label>
+
+                                        <label for="brandBeansVerified" class="form-label pe-3">
+                                            <input type="radio" name="type" value="is_brandBeansVerified" @if (request('type') == 'is_brandBeansVerified') checked @endif id="brandBeansVerified">
+                                            <b> BrandBeans Verified</b>
+                                        </label>
+                                    </div>
                                     <div class="col-md-12 d-flex gap-3">
                                         <select name="category[]" class="form-select" id="categorySelect" multiple>
                                             <option disabled>Select Categories</option>
@@ -49,10 +65,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <button class="btn btn-primary" onchange="document.getElementById('categoryForm').submit();" id="categoryForm">
-                                            Search </button>
-                                        {{-- <i class="bi bi-bootstrap-arrow"></i> --}}
-
+                                        <button class="btn btn-primary" type="submit">Search</button>
 
                                         <a href="{{ route('home') }}" class="mt-1">
                                             <b>
@@ -62,10 +75,11 @@
                                                 </svg>
                                             </b>
                                         </a>
-
                                     </div>
                                 </div>
                             </form>
+
+
 
                         </div>
                     </div>
