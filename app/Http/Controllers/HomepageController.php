@@ -42,11 +42,10 @@ class HomepageController extends Controller
 
         $appliedIds = Arr::pluck($applied, 'campaignId');
 
-        $campaigns = Campaign::whereNotIn('id', $appliedIds)->get();
-
-
-
-
+        $campaigns = Campaign::whereNotIn('id', $appliedIds)
+            ->where('startDate', '<=', now())
+            ->where('endDate', '>=', now())
+            ->get();
 
         // brand 
         $category = CategoryInfluencer::all();
@@ -58,6 +57,7 @@ class HomepageController extends Controller
 
 
         $categoryName = $request->category;
+
         // return dd($categoryName);
         if ($categoryName) {
             $influencer = User::whereHas('roles', function ($q) {

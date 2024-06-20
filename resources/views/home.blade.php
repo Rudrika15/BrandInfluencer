@@ -44,7 +44,7 @@
                         <div class='col-md-12'>
                             <form id="categoryForm" action="{{ route('home') }}" method="get">
                                 <div class="row d-flex justify-content-center">
-                                    <div class="col-md-12 d-flex gap-3">
+                                    <div class="col-md-6 d-flex gap-3">
                                         <select name="category[]" class="form-select" id="categorySelect" multiple>
                                             <option disabled>Select Categories</option>
 
@@ -55,6 +55,21 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                    <div class="col-md-6 d-flex gap-3 ">
+                                        <div class="mt-1">
+                                            <label for="BBVarified">BB Varified</label>
+                                            <input type="checkbox" class="" name="" value="is_brandBeansVerified"
+                                                id="BBVarified">
+
+                                            <label for="IsTrending">Is Trending</label>
+                                            <input type="checkbox" class="" name="" value="is_trending"
+                                                id="IsTrending">
+
+                                            <label for="IsFeatured">Is Featured</label>
+                                            <input type="checkbox" class="" name="" value="is_featured"
+                                                id="IsFeatured">
+                                        </div>
                                         <button class="btn btn-primary"
                                             onchange="document.getElementById('categoryForm').submit();" id="categoryForm">
                                             Search </button>
@@ -74,8 +89,8 @@
                                                 </svg>
                                             </b>
                                         </a>
-
                                     </div>
+
                                 </div>
                             </form>
 

@@ -1,37 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="description" content="">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="author" content="">
-    <title>Influencer Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-</head>
-
-<body>
+@extends('layouts.app')
+@section('title', 'BrandBeans | Profile')
+@section('content')
     <style>
         @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
         @import url("https://fonts.googleapis.com/css?family=Bree+Serif&display=swap");
-
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #f8f9fa;
-            overflow-x: hidden;
-            padding-top: 20px;
-            font-family: "Poppins", sans-serif;
-            margin: 0 100px;
-        }
 
         .profile-header {
             background: #fff;
@@ -82,7 +54,7 @@
             float: left;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             padding-top: 60px;
         }
 
@@ -104,6 +76,7 @@
         }
 
         .profile-option {
+            width: 40px;
             height: 40px;
             position: absolute;
             right: 50px;
@@ -125,7 +98,7 @@
             border: 1px solid #00c9e4;
         }
 
-        .profile-option:hover .notification a {
+        .profile-option:hover .notification i {
             color: #00c9e4;
         }
 
@@ -133,23 +106,17 @@
             background: #00c9e4;
         }
 
-        .profile-option .notification a {
+        .profile-option .notification i {
             color: #fff;
-            background: #00c9e4;
             font-size: 1.2rem;
-            /* transition: all 0.5s ease-in-out; */
+            transition: all 0.5s ease-in-out;
         }
 
         .profile-option .notification .alert-message {
-            position: absolute;
             top: -5px;
             right: -5px;
-            background: #fff;
-            color: #00c9e4;
-            border: 1px solid #00c9e4;
-            padding: 10px;
-            border-radius: 50%;
             height: 20px;
+            width: 80px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -159,6 +126,7 @@
 
         .main-bd {
             width: 100%;
+
             display: flex;
             padding-right: 15px;
         }
@@ -193,10 +161,13 @@
             display: flex;
         }
 
+
+
         button.chatbtn,
         button.createbtn {
+
             border: 0;
-            padding: 10px;
+            padding: 10px 80px 10px 80px;
             width: 100%;
             border-radius: 3px;
             background: #00c9e4;
@@ -214,6 +185,7 @@
         button.chatbtn:hover,
         button.createbtn:hover {
             background: rgba(2, 214, 241, 0.9);
+            color: #fff;
 
         }
 
@@ -224,21 +196,21 @@
 
 
 
-        .rate {
-            padding-top: 6px;
-        }
+        /* .rate {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-top: 6px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
-        .rate i {
-            font-size: 0.9rem;
-            color: rgba(2, 214, 241, 0.9);
-        }
+        /* .rate i {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                font-size: 0.9rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                color: rgba(2, 214, 241, 0.9);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
-        .nav {
+        .nav-b {
             width: 100%;
             z-index: -1;
         }
 
-        .nav ul {
+        .nav-b ul {
             display: flex;
             justify-content: space-around;
             list-style-type: none;
@@ -247,7 +219,7 @@
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        .nav ul li {
+        .nav-b ul li {
             padding: 10px;
             width: 100%;
             cursor: pointer;
@@ -255,12 +227,12 @@
             transition: all 0.2s ease-in-out;
         }
 
-        .nav ul li:hover {
+        .nav-b ul li:hover {
             transition: box-shadow 0.5s ease-in-out;
             box-shadow: 0px -3px 0px rgba(100, 100, 100, 0.9) inset;
         }
 
-        .nav ul li.active {
+        .nav-b ul li.active {
             box-shadow: 0px -3px 0px rgba(0, 201, 228, 0.9) inset;
         }
 
@@ -277,6 +249,30 @@
             padding: 20px;
             width: 100%;
             text-align: center;
+        }
+
+        #about-text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-height: 3.6em;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+
+
+        #about-text.expanded {
+            overflow: visible;
+            white-space: normal;
+            text-overflow: initial;
+        }
+
+        #see-more-link {
+            display: none;
+            color: blue;
+            cursor: pointer;
         }
 
         @media (max-width: 1100px) {
@@ -396,345 +392,239 @@
             margin: 20px auto;
         }
     </style>
-
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id ?? '-' }}">
         <div class="pb-2">
-            <a href="{{ route('home') }}" class="btn" style="background: #e9e9e9;">
-                < Back</a>
+            {{-- <a href="{{ route('brand.influencerList') }}" class="btn btn-light">
+                < Back</a> --}}
         </div>
         <div class="profile-header">
             <div class="profile-img">
 
-                @if (isset($users->profilePhoto))
-                    <img src="{{ asset('profile/' . $users->profilePhoto) }}" style="max-width: 300px; max-height: 500px; object-fit: contain;" alt="Profile Image">
+                @if (isset($influencer->profile->profilePhoto))
+                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
+                        alt="Profile Image">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
             </div>
+            <div class="profile-nav-info d-flex justify-content-between">
+                <div class="w-100">
+                    <h3 class="user-name">{{ $influencer->profile->name ?? '-' }}</h3>
+                    <div class="address">
+                        <p id="state" class="state">{{ $influencer->city ?? '-' }},</p>
+                        <span id="country" class="country">{{ $influencer->state ?? '-' }}.</span>
+                        <br>
 
-            <div class="profile-nav-info">
-                <h3 class="user-name">{{ $users->name ?? '-' }}</h3>
 
-                <div class="address">
-                    <p id="state" class="state">
-                        @role('Brand')
-                            {{ $users->city ?? '-' }}
-                        @endrole
-                        @role('Influencer')
-                            {{ $influencer->city ?? '-' }}
-                        @endrole
-                        ,
-                    </p>
-                    <span id="country" class="country">
-                        @role('Brand')
-                            {{ $users->state ?? '-' }}
-                        @endrole
-                        @role('Influencer')
-                            {{ $influencer->state ?? '-' }}
-                        @endrole
+                    </div>
+                    <div class="address">
+                        <p id="state" class="state">
+                            <a href="">
+                                <i class="bi bi-instagram text-danger"></i>
+                                {{ $influencer->instagramFollowers ?? '-' }}
+                            </a>
+                        </p>
+                        &nbsp; &nbsp;
+                        <span id="country" class="country">
+                            <i class="bi bi-facebook text-primary"></i>
+                            {{ $influencer->youtubeSubscriber ?? '-' }}</span>
+                        <br>
 
-                        .</span>
+
+                    </div>
                 </div>
-                <div class="">
-                    <style>
-                        .category-span {
-                            display: inline-block;
-                            width: 100px;
-                            /* Set the desired fixed width */
-                            text-align: center;
-                            /* Center the text horizontally */
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            /* Add ellipsis if text overflows */
-                            white-space: nowrap;
-                            /* Prevent text from wrapping */
-                        }
-                    </style>
-                    @role('Brand')
-                        @foreach ($brand_category as $category)
-                            <span class="p-1 text-white bg-secondary fs-6 m-1 rounded-pill">{{ $category->brandCategory->categoryName }}</span>
-                        @endforeach
-                    @endrole
-                </div>
+
 
 
             </div>
 
-            <div class="profile-option">
-                <div class="notification">
-                    {{-- <i class="bi bi-bell"></i>
-                    <span class="alert-message">3</span> --}}
-                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-light shadow-none" style="color: white;">Edit Profile </a>
-                </div>
-            </div>
         </div>
-
 
         <div class="main-bd">
             <div class="left-side">
                 <div class="profile-side">
 
-
-                    <div class="user-bio">
+                    <div class="">
                         <h3>About</h3>
-                        <p class="bio">
-
-                            {{ $users->about ?? '-' }}
-
+                        <p class="" id="">
+                            {{ $influencer->about ?? '-' }}
                         </p>
+                        {{-- <a href="javascript:void(0);" id="see-more-link">See more</a> --}}
                     </div>
-                    {{-- <div class="profile-btn">
-                        <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Contact</button>
-                    </div> --}}
+
+
 
                 </div>
 
             </div>
             <div class="right-side">
-                @role('Brand')
 
-
-                    <div class="container m-5">
+                <div class="nav-b">
+                    <ul>
+                        <li onclick="tabs(0)" class="user-post active">Gallery</li>
+                        <li onclick="tabs(1)" class="user-review">Packages</li>
+                    </ul>
+                </div>
+                <div class="profile-body">
+                    <div class="profile-Gallery tab">
                         <div class="row">
-                            <h5 class="card-title">My Campaigns</h5>
-                            @if (count($campaignWithApply) > 0)
-                                @foreach ($campaignWithApply as $data)
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card" style="width: 18rem;">
+                            @if ($influencer)
 
-                                            <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top" alt="Campaign Image" height="260px">
+                                @if ($influencer->profile->card)
+                                    @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                                        <div class="col-md-4">
+                                            <div class="card text-start" style="width: 15rem;">
 
+                                                <style>
+                                                    .card-img-top {
+                                                        aspect-ratio: 2/2;
+                                                    }
+
+                                                    .card-img-top:hover {
+                                                        transform: scale(1.1);
+                                                        transition: 0.1s ease-in-out;
+                                                        margin-top: -10px;
+                                                    }
+                                                </style>
+                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                    target="_blank">
+                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                                        alt="">
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            @endif
+
+                        </div>
+
+
+                    </div>
+                    <div class="profile-Packages tab">
+                        <div class="row ">
+                            @if ($influencer)
+
+                                @foreach ($influencer->profile->influencerPackage as $package)
+                                    <div class="col-md-4 p-2">
+                                        <div class="card" style="width: 15rem;">
+                                            <div class="card-header">
+                                                {{ $package->title }}
+                                            </div>
                                             <div class="card-body">
-                                                <h5 class="card-title">{{ $data->title }}</h5>
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <p class="card-text"><strong>Price:</strong> {{ $data->price }}</p>
-                                                    </div>
-
-                                                </div>
-                                                <div class="text-end mb-3 ">
-                                                    <a href="{{ route('brand.campaign.appliers', $data->id) }}" class="btn btn-info btn-sm">Appliers</a>
-                                                </div>
+                                                <p class="card-text">{!! $package->description !!}</p>
+                                                {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
-                            @else
-                                <div class="col-md-12 mb-4  d-flex justify-content-end">
-
-
-                                    <div class="card mt-5  rounded-3" style="width: 18rem;">
-                                        <div class="card-body ">
-
-                                            <div class=" text-center" style="background-color: #e9e9e9">
-                                                <a href="{{ route('brand.campaign.create') }}" class="text-decoration-none">
-                                                    <div class="">
-
-                                                        <i class="bi bi-plus-circle fs-1 text-muted"></i>
-                                                    </div>
-                                                    <div class="">
-
-                                                        <span class="text-muted"> Create Campaign</span>
-                                                        <br>
-                                                        <small class="text-muted">No Campaign Added</small>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
                             @endif
 
-
                         </div>
+
+
                     </div>
 
-                @endrole
-                @role('Influencer')
-                    <div class="nav">
-                        <ul>
-                            <li onclick="tabs(0)" class="user-post active">Gallery</li>
-                            <li onclick="tabs(1)" class="user-review">Packages</li>
-                        </ul>
-                    </div>
-                    <div class="profile-body">
-                        <div class="profile-Gallery tab">
-                            <div class="row">
-                                {{-- add influencer portfolio --}}
-                                <style>
-                                    .card-img-top {
-                                        aspect-ratio: 2/2;
-                                    }
-
-                                    .card-img-top:hover {
-                                        transform: scale(1.1);
-                                        transition: 0.1s ease-in-out;
-                                        margin-top: -10px;
-                                    }
-                                </style>
-                                @if (count($portfolio) > 0)
-                                    @foreach ($portfolio as $port)
-                                        <div class="col-md-4">
-                                            <div class="card text-start" style="width: 15rem;">
-
-
-                                                <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" target="_blank">
-                                                    <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
-                                                </a>
-
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <h4 class="text-center ps-5 text-muted fw-italic">No Portfolio Found</h4>
-                                @endif
-                                {{-- @if (isset($influencer->profile))
-                @if (isset($influencer->profile->card))
-                    @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
-                        <div class="col-md-4">
-                            <div class="card text-start" style="width: 15rem;">
-                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                    target="_blank">
-                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                        alt="">
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
-            @endif --}}
-                            </div>
-                        </div>
-                        @if (isset($influencer->profile))
-                            <div class="profile-Packages tab">
-                                <div class="row ">
-                                    @foreach ($influencer->profile->influencerPackage as $package)
-                                        <div class="col-md-4 p-2">
-                                            <div class="card" style="width: 15rem;">
-                                                <div class="card-header">
-                                                    {{ $package->title }}
-                                                </div>
-                                                <div class="card-body">
-                                                    <p class="card-text">{!! $package->description !!}</p>
-                                                    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                            </div>
-                        @endif
-
-                    </div>
-                @endrole
-
+                </div>
             </div>
         </div>
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             // Get the raw mobile number
-            @if (isset($influencer->profile))
-                var rawMobileNumber = '{{ $influencer->profile->mobileno }}';
-            @else
-                var rawMobileNumber = 'N/A';
-            @endif
+            var rawMobileNumber = '{{ $influencer->profile->mobileno ?? '-' }}';
 
             // Format the mobile number
             var formattedNumber = formatMobileNumber(rawMobileNumber);
             // Update the content of the span element
-            @if (isset($influencer->id))
-                $('.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]').text(formattedNumber);
+            $('.formattedMobileNumber[data-influencer-id="{{ $influencer->id ?? '-' }}"]').text(formattedNumber);
 
-                function formatMobileNumber(number) {
-                    // Assuming the mobile number is 10 digits
-                    var formattedNumber = number.substr(0, 0) + '********' + number.substr(0, 0);
-                    return formattedNumber;
-                }
-                $('#chatBtn').click(function() {
-                        // Toggle between original and formatted numbers
-                        var $formattedMobileNumber = $(
-                            '.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]');
-                        var currentText = $formattedMobileNumber.text();
+            function formatMobileNumber(number) {
+                // Assuming the mobile number is 10 digits
+                var formattedNumber = number.substr(0, 0) + '********' + number.substr(0, 0);
+                return formattedNumber;
+            }
+            $('#chatBtn').click(function() {
+                // Toggle between original and formatted numbers
+                var $formattedMobileNumber = $(
+                    '.formattedMobileNumber[data-influencer-id="{{ $influencer->id ?? '-' }}"]');
+                var currentText = $formattedMobileNumber.text();
 
-                        var id = $("#authId").val();
-                        var influencerId = $("#influencerId").val();
-                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                    @endif
+                var id = $("#authId").val();
+                var influencerId = $("#influencerId").val();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 
-                    if (currentText === formattedNumber) {
-                        Swal.fire({
-                            title: "Do you really want to Contact this influencer?",
-                            text: "It might be spent some points from your package for this.",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: "Yes",
-                            confirmButtonColor: "#00c9e4",
-                            cancelButtonText: "No",
-                            cancelButtonColor: "#d33",
-                        }).then(function(confirm) {
-                            if (confirm.isConfirmed) {
-                                // $formattedMobileNumber.text(rawMobileNumber);
-                                console.log('id:', id);
-                                // Add an AJAX request here
-                                $.ajax({
-                                    url: "{{ route('brand.influencerContactPoint') }}",
-                                    method: "POST",
-                                    headers: {
-                                        'X-CSRF-TOKEN': csrfToken
-                                    },
-                                    data: {
-                                        id: id,
-                                        influencerId: influencerId,
-                                    },
-                                    success: function(response) {
-                                        // console.log("AJAX response:", response);
-                                        alert(response.message);
-                                        if (response.message == "Success") {
-                                            Swal.fire({
-                                                icon: 'success',
-                                                title: 'You spent points for contacting this influencer',
-                                                text: response.message
-                                            }).then(function() {
-                                                $formattedMobileNumber.text(
-                                                    rawMobileNumber);
-                                            });
-                                        } else {
-                                            Swal.fire({
-                                                icon: 'error',
-                                                // text: response.message
-                                                text: "you don't have enough points for contacting this influencer"
-                                            }).then(function() {
+                if (currentText === formattedNumber) {
+                    Swal.fire({
+                        title: "Do you really want to Contact this influencer?",
+                        text: "It might be spent some points from your package for this.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Yes",
+                        confirmButtonColor: "#00c9e4",
+                        cancelButtonText: "No",
+                        cancelButtonColor: "#d33",
+                    }).then(function(confirm) {
+                        if (confirm.isConfirmed) {
+                            // $formattedMobileNumber.text(rawMobileNumber);
+                            console.log('id:', id);
+                            // Add an AJAX request here
+                            $.ajax({
+                                url: "{{ route('brand.influencerContactPoint') }}",
+                                method: "POST",
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken
+                                },
+                                data: {
+                                    id: id,
+                                    influencerId: influencerId,
+                                },
+                                success: function(response) {
+                                    // console.log("AJAX response:", response);
+                                    alert(response.message);
+                                    if (response.message == "Success") {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'You spent points for contacting this influencer',
+                                            text: response.message
+                                        }).then(function() {
+                                            $formattedMobileNumber.text(
+                                                rawMobileNumber);
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            // text: response.message
+                                            text: "you don't have enough points for contacting this influencer"
+                                        }).then(function() {
 
-                                                // console.warn(response);
-                                                window.location.href =
-                                                    '{{ route('brand.pricing') }}';
-                                            });
-                                        }
-
-                                    },
-                                    error: function(xhr, status, error) {
-                                        // Handle the AJAX error here
-                                        console.log("AJAX error:", xhr);
+                                            // console.warn(response);
+                                            window.location.href =
+                                                '{{ route('brand.pricing') }}';
+                                        });
                                     }
-                                });
-                            }
-                        });
-                    }
 
-                });
+                                },
+                                error: function(xhr, status, error) {
+                                    // Handle the AJAX error here
+                                    console.log("AJAX error:", xhr);
+                                }
+                            });
+                        }
+                    });
+                }
+
+            });
         });
     </script>
     <script>
@@ -782,10 +672,33 @@
                 isFullTextVisible = true;
             }
         }
-        if (document.querySelector(".alert-message").innerText > 9) {
-            document.querySelector(".alert-message").style.fontSize = ".7rem";
-        }
+        // if (document.querySelector(".alert-message").innerText > 9) {
+        //     document.querySelector(".alert-message").style.fontSize = ".7rem";
+        // }
     </script>
-</body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const aboutText = document.getElementById('about-text');
+            const seeMoreLink = document.getElementById('see-more-link');
 
-</html>
+            const fullText = aboutText.textContent.trim();
+            const words = fullText.split(' ');
+
+            console.log("Full text:", fullText);
+            console.log("Number of words:", words.length);
+
+            if (words.length > 50) {
+                const truncatedText = words.slice(0, 50).join(' ') + '...';
+                aboutText.textContent = truncatedText;
+                seeMoreLink.style.display = 'inline'; // Show "See more" link
+            }
+
+            seeMoreLink.addEventListener('click', function() {
+                aboutText.textContent = fullText;
+                aboutText.classList.toggle('expanded'); // Toggle the expanded class
+                seeMoreLink.style.display = 'none'; // Hide "See more" link after click
+            });
+        });
+    </script>
+
+@endsection
