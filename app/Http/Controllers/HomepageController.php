@@ -53,7 +53,7 @@ class HomepageController extends Controller
 
         $influencer = User::whereHas('roles', function ($q) {
             $q->where('name', 'Influencer');
-        })->with('card')->whereHas('influencer');
+        })->with('card')->whereHas('card');
 
         $categoryId = $request->input('category');
         $type = $request->input('type');
@@ -86,10 +86,6 @@ class HomepageController extends Controller
         } elseif ($type == "is_brandBeansVerified") {
             $influencer->whereHas('influencer', function ($q) {
                 $q->where('is_brandBeansVerified', 'on');
-            });
-        } else {
-            $influencer->whereHas('influencer', function ($q) {
-                $q->where('is_trending', 'on');
             });
         }
 
