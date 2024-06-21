@@ -75,9 +75,9 @@ class HomepageController extends Controller
         }
 
         // Apply type filters
-        if ($type == "isTrending") {
+        if ($type == "is_trending") {
             $influencer->whereHas('influencer', function ($q) {
-                $q->where('isTrending', 'on');
+                $q->where('is_trending', 'on');
             });
         } elseif ($type == "is_featured") {
             $influencer->whereHas('influencer', function ($q) {
