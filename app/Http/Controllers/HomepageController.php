@@ -89,6 +89,9 @@ class HomepageController extends Controller
             });
         }
 
+        $influencer->whereHas('influencer', function ($q) {
+            $q->where('is_trending', 'on');
+        });
         // Get the results
         $influencer = $influencer->get();
 

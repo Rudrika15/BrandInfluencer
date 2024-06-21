@@ -254,7 +254,7 @@
             <div class="heading wow fadeInUp" data-wow-duration="1s">
                 <h1>Featured <span>Creators</span></h1>
             </div>
-            {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
                 @foreach ($categories as $item)
                     <li class="nav-item">
                         <a class="nav-link" id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
@@ -263,8 +263,8 @@
                         </a>
                     </li>
                 @endforeach
-            </ul> --}}
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            </ul>
+            {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
                 @foreach ($categories as $category)
                     <li class="nav-item">
                         <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ $category->name }}-tab"
@@ -275,7 +275,7 @@
                         </a>
                     </li>
                 @endforeach
-            </ul>
+            </ul> --}}
         </div>
 
     </div>
@@ -283,10 +283,15 @@
     <div class="container-fluid influencer_section">
         <div class="tab-content" id="myTabContent">
 
-            {{-- <div class="tab-pane show active" id="foodtab" role="tabpanel" aria-labelledby="food-tab">
+            <div class="tab-pane show active" id="foodtab" role="tabpanel" aria-labelledby="food-tab">
                 <div class="influencer_inner">
                     @foreach ($influencers as $item)
                         <div class="influencer_item">
+                            @if ($item->is_trending == 'on')
+                                <span class="influencer_tag">Trending</span>
+                            @elseif ($item->is_featured == 'on')
+                                <span class="influencer_tag featured">Featured</span>
+                            @endif
                             <div class="influencer_img">
                                 <img class="img-responsive"
                                     src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
@@ -303,8 +308,8 @@
                         </div>
                     @endforeach
                 </div>
-            </div> --}}
-            @foreach ($categories as $category)
+            </div>
+            {{-- @foreach ($categories as $category)
                 <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{ $category->name }}tab"
                     role="tabpanel" aria-labelledby="{{ $category->name }}-tab">
                     <div class="influencer_inner">
@@ -338,7 +343,7 @@
                         @endforeach
                     </div>
                 </div>
-            @endforeach
+            @endforeach --}}
         </div>
     </div>
 
