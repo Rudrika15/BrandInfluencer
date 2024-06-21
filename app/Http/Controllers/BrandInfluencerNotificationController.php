@@ -22,11 +22,9 @@ class BrandInfluencerNotificationController extends Controller
 
 
             foreach ($notificationsAll as $notification) {
-                if ($notification->type == 'General') {
 
-                    $notification->is_read = 'No';
-                    $notification->save();
-                }
+                $notification->is_read = 'No';
+                $notification->save();
             }
 
             $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
@@ -39,13 +37,6 @@ class BrandInfluencerNotificationController extends Controller
                 ->where('visible', 'I')
                 // ->orWhere('userId', Auth::user()->id)
                 ->get();
-
-
-            foreach ($notificationsCampaign as $notificationc) {
-
-                $notificationc->is_read = 'No';
-                $notificationc->save();
-            }
         }
 
         if ($roles->contains('Brand')) {
