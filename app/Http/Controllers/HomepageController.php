@@ -87,10 +87,6 @@ class HomepageController extends Controller
             $influencer->whereHas('influencer', function ($q) {
                 $q->where('is_brandBeansVerified', 'on');
             });
-        } else {
-            $influencer->whereHas('influencer', function ($q) {
-                $q->where('is_trending', 'on');
-            });
         }
 
 

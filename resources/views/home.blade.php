@@ -55,7 +55,7 @@
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-md-12">
                                         <label for="trending" class="form-label pe-3">
-                                            <input type="radio" name="type" value="is_trending" checked
+                                            <input type="radio" name="type" value="is_trending"
                                                 @if (request('type') == 'is_trending') checked @endif id="trending">
                                             <b>Trending</b>
                                         </label>
