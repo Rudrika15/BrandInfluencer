@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profle</title>
-    <link rel="stylesheet" href="{{ asset('influencerbrand/style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" /> --}}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-
-
+@extends('layouts.app')
+@section('title', 'BrandBeans | Profile')
+@section('content')
     <style>
         .select2-container {
             width: 100% !important;
@@ -85,7 +71,8 @@
             border-radius: 24px;
             padding: 2rem 1.875rem 2rem 1.875rem;
             margin: 0.625rem;
-            margin-left: 300px;
+            margin-left: 170px;
+            /* margin-top: 30px; */
             text-align: center;
         }
 
@@ -367,10 +354,8 @@
             color: var(--clr-light-gray);
         }
     </style>
-</head>
 
-<body>
-    <header class="site-header ">
+    {{-- <header class="site-header ">
         <div class="image-text d-flex">
             <span class="image">
                 <a href="{{ route('home') }}"><img src="{{ asset('images/Logo2.png') }}" alt="logo" height="40px"
@@ -382,22 +367,17 @@
             </div>
         </div>
 
-    </header>
+    </header> --}}
 
 
 
-    <div class="container-fluid p-5" style=" background: #e9e9e9;">
-        <div class="row">
-
-            <div class="col pb-2">
-                <a href="{{ route('profile') }}" class="btn btn-light">
-                    < Back</a>
-            </div>
+    <div class="container-fluid">
+        {{-- <div class="row">
             <div class="col d-flex justify-content-end">
 
                 @if (session()->has('success'))
-                    <div class="toast align-items-center text-white show bg-success" role="alert"
-                        aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                    <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive"
+                        aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
                         <div class="d-flex">
                             <div class="toast-body">
                                 {{ session('success') }}
@@ -406,8 +386,8 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="progress" style="height: 3px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
-                                role="progressbar" style="width: 0%"></div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
+                                style="width: 0%"></div>
                         </div>
                     </div>
                 @endif
@@ -422,111 +402,115 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="progress" style="height: 3px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
-                                role="progressbar" style="width: 0%"></div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
+                                style="width: 0%"></div>
                         </div>
                     </div>
                 @endif
                 @if (session()->has('warning'))
-                    <div class="toast align-items-center text-white show bg-warning" role="alert"
-                        aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                    <div class="toast align-items-center text-white show bg-warning" role="alert" aria-live="assertive"
+                        aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
                         <div class="d-flex">
                             <div class="toast-body">
                                 {{ session('warning') }}
                             </div>
-                            {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Close"></button> --}}
+
                         </div>
                         <div class="progress" style="height: 3px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
-                                role="progressbar" style="width: 0%"></div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar"
+                                style="width: 0%"></div>
                         </div>
                     </div>
                 @endif
             </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-3">
-                <div class="card h-100 w-100 ">
+        </div> --}}
+        <a href="{{ route('profile') }}" class="btn btn-light mb-3">
+            < Back</a>
+                <div class="card w-100">
                     <div class="card-body">
-                        <div class="nav flex-column nav-pills mt-2" id="v-pills-tab" role="tablist"
-                            aria-orientation="vertical">
-                            <a class="nav-link active " id="v-pills-profile-tab" data-bs-toggle="pill"
-                                href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
-                                aria-selected="true">Profile</a>
-                            <a class="nav-link mt-2" id="v-pills-categories-tab" data-bs-toggle="pill"
-                                href="#v-pills-categories" role="tab" aria-controls="v-pills-categories"
-                                aria-selected="false"> Categories</a>
+                        <h1 class="text-center">My Profile</h1>
+                        <hr>
+                        <div class="row">
 
-                            @role('Influencer')
-                                <a class="nav-link mt-2" id="v-pills-links-tab" data-bs-toggle="pill"
-                                    href="#v-pills-links" role="tab" aria-controls="v-pills-links"
-                                    aria-selected="false"> Portfolio</a>
-                            @endrole
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-9 ">
-                <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active " id="v-pills-profile" role="tabpanel"
-                        aria-labelledby="v-pills-profile-tab">
-                        <div class="card w-100">
-                            <div class="card-body ">
-                                <form action="{{ route('card.store') }}" enctype="multipart/form-data"
-                                    method="post">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-md-6 pb-2">
-                                            {{-- <input type="hidden" name="cardid" value="{{ $users->id }}"> --}}
+                            <div class="col-3">
+                                <div class="card h-100 w-100 ">
+                                    <div class="card-body">
+                                        <div class="nav flex-column nav-pills mt-2" id="v-pills-tab" role="tablist"
+                                            aria-orientation="vertical">
+                                            <a class="nav-link active " id="v-pills-profile-tab" data-bs-toggle="pill"
+                                                href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
+                                                aria-selected="true">Profile</a>
+                                            <a class="nav-link mt-2" id="v-pills-categories-tab" data-bs-toggle="pill"
+                                                href="#v-pills-categories" role="tab" aria-controls="v-pills-categories"
+                                                aria-selected="false"> Categories</a>
 
-                                            <div class="row">
-                                                <div class="col-md-4"><label>Your Full Name:</label></div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class="form-control shadow-none "
-                                                        id="name" name="name"
-                                                        value="{{ $users->name ?? '-' }}">
-
-                                                </div>
-                                            </div>
+                                            @role('Influencer')
+                                                <a class="nav-link mt-2" id="v-pills-links-tab" data-bs-toggle="pill"
+                                                    href="#v-pills-links" role="tab" aria-controls="v-pills-links"
+                                                    aria-selected="false"> Portfolio</a>
+                                            @endrole
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-9 ">
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade show active " id="v-pills-profile" role="tabpanel"
+                                        aria-labelledby="v-pills-profile-tab">
+                                        <div class="card w-100">
+                                            <div class="card-body ">
+                                                <form action="{{ route('card.store') }}" enctype="multipart/form-data"
+                                                    method="post">
+                                                    @csrf
+                                                    <div class="row">
+                                                        <div class="col-md-6 pb-2">
+                                                            {{-- <input type="hidden" name="cardid" value="{{ $users->id }}"> --}}
 
-                                        <div class="col-md-6 pb-2">
-                                            <div class="row">
-                                                <div class="col-md-4"><label>Username:</label></div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class=" form-control shadow-none"
-                                                        id="username" name="username"
-                                                        value="{{ $users->username ?? '-' }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{-- @if (Auth::user()->hasRole('Influencer')) --}}
-                                        <div class="col-md-6 pb-2">
-                                            <div class="row">
-                                                <div class="col-md-4"><label>State:</label></div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class=" form-control shadow-none"
-                                                        id="state" name="state"
-                                                        value="{{ $users->state ?? '-' }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{-- @endif --}}
+                                                            <div class="row">
+                                                                <div class="col-md-4"><label>Your Full Name:</label></div>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" class="form-control shadow-none "
+                                                                        id="name" name="name"
+                                                                        value="{{ $users->name ?? '-' }}">
 
-                                        <div class="col-md-6 pb-2 ">
-                                            <div class="row ">
-                                                <div class="col-md-4"><label>City:</label></div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class="form-control shadow-none "
-                                                        id="location" name="city"
-                                                        value="{{ $users->city ?? '-' }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{-- @if (!Auth::user()->hasRole('Influencer'))
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 pb-2">
+                                                            <div class="row">
+                                                                <div class="col-md-4"><label>Username:</label></div>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" class=" form-control shadow-none"
+                                                                        id="username" name="username"
+                                                                        value="{{ $users->username ?? '-' }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {{-- @if (Auth::user()->hasRole('Influencer')) --}}
+                                                        <div class="col-md-6 pb-2">
+                                                            <div class="row">
+                                                                <div class="col-md-4"><label>State:</label></div>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" class=" form-control shadow-none"
+                                                                        id="state" name="state"
+                                                                        value="{{ $users->state ?? '-' }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {{-- @endif --}}
+
+                                                        <div class="col-md-6 pb-2 ">
+                                                            <div class="row ">
+                                                                <div class="col-md-4"><label>City:</label></div>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" class="form-control shadow-none "
+                                                                        id="location" name="city"
+                                                                        value="{{ $users->city ?? '-' }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {{-- @if (!Auth::user()->hasRole('Influencer'))
                                             <div class="col-md-6 pb-2">
                                                 <div class="row">
                                                     <div class="col-md-4"><label>Address:</label></div>
@@ -536,279 +520,294 @@
                                                 </div>
                                             </div>
                                         @endif --}}
-                                        @role('Influencer')
-                                            <div class="col-md-6 pb-2">
-                                                <div class="row">
+                                                        @role('Influencer')
+                                                            <div class="col-md-6 pb-2">
+                                                                <div class="row">
 
-                                                    <div class="col-md-4"><label>Date of Birth:</label></div>
-                                                    <div class="col-md-7">
-                                                        <input type="date" class=" form-control shadow-none"
-                                                            name="dob" value="{{ $influencer->dob }}"
-                                                            id="dob">
+                                                                    <div class="col-md-4"><label>Date of Birth:</label></div>
+                                                                    <div class="col-md-7">
+                                                                        <input type="date" class=" form-control shadow-none"
+                                                                            name="dob" value="{{ $influencer->dob }}"
+                                                                            id="dob">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div class="col-md-6 pb-2">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-4"><label>Gender:</label></div>
+                                                                    <div class="col-md-7">
+                                                                        <label>
+                                                                            <input type="radio" name="gender" value="Male"
+                                                                                id="gender"
+                                                                                {{ old('gender') == 'Male' || $influencer->gender == 'Male' ? 'checked' : '' }}>
+                                                                            Male
+                                                                        </label>
+
+                                                                        <label>
+                                                                            <input type="radio" name="gender"
+                                                                                value="Female" id="gender"
+                                                                                {{ old('gender') == 'Female' || $influencer->gender == 'Female' ? 'checked' : '' }}>
+                                                                            Female
+                                                                        </label>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div class="col-md-6 pb-2">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-4"><label>Instagram Url:</label></div>
+                                                                    <div class="col-md-7">
+                                                                        <input type="text"
+                                                                            class=" form-control shadow-none"
+                                                                            name="instagramUrl"
+                                                                            value=" {{ $influencer->instagramUrl ?? '-' }}  "
+                                                                            id="instagramUrl">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6 pb-2">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-4"><label>Instagram Followers:</label>
+                                                                    </div>
+                                                                    <div class="col-md-7">
+                                                                        <input type="text"
+                                                                            class=" form-control shadow-none"
+                                                                            name="instagramFollowers"
+                                                                            value="{{ $influencer->instagramFollowers ?? '-' }}"
+                                                                            id="instagramFollowers">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6 pb-2">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-4"><label>Youteube Channel Url:</label>
+                                                                    </div>
+                                                                    <div class="col-md-7">
+                                                                        <input type="text"
+                                                                            class=" form-control shadow-none"
+                                                                            name="youtubeChannelUrl"
+                                                                            value="{{ $influencer->youtubeChannelUrl }}"
+                                                                            id="youtubeChannelUrl">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6 pb-2">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-4"><label>Youteube Subscribers:</label>
+                                                                    </div>
+                                                                    <div class="col-md-7">
+                                                                        <input type="text"
+                                                                            class=" form-control shadow-none"
+                                                                            name="youtubeSubscriber"
+                                                                            value="{{ $influencer->youtubeSubscriber }}"
+                                                                            id="youtubeSubscriber">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endrole
+                                                        <div class="col-md-6 pb-2">
+                                                            <div class="row">
+                                                                <div class="col-md-4"><label>Profile Photo:</label></div>
+                                                                <div class="col-md-6">
+                                                                    <input type="file" accept="image/*"
+                                                                        class="form-control shadow-none "
+                                                                        id="profilePhoto" name="profilePhoto"
+                                                                        value="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}">
+                                                                    @if ($errors->has('profilePhoto'))
+                                                                        <span
+                                                                            class="text-danger">{{ $errors->first('profilePhoto') }}</span>
+                                                                    @endif
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}"
+                                                                        class="img-fluid" alt="Responsive image">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
 
                                                     </div>
-                                                </div>
-                                            </div>
 
-
-
-                                            <div class="col-md-6 pb-2">
-                                                <div class="row">
-
-                                                    <div class="col-md-4"><label>Gender:</label></div>
-                                                    <div class="col-md-7">
-                                                        <label>
-                                                            <input type="radio" name="gender" value="Male"
-                                                                id="gender"
-                                                                {{ old('gender') == 'Male' || $influencer->gender == 'Male' ? 'checked' : '' }}>
-                                                            Male
-                                                        </label>
-
-                                                        <label>
-                                                            <input type="radio" name="gender" value="Female"
-                                                                id="gender"
-                                                                {{ old('gender') == 'Female' || $influencer->gender == 'Female' ? 'checked' : '' }}>
-                                                            Female
-                                                        </label>
-
+                                                    <div class="row">
+                                                        <div class="col-md-12 pb-2 mt-1">
+                                                            <div class="row">
+                                                                <div class="col-md-2"><label>About:</label></div>
+                                                                <div class="col-md-10">
+                                                                    <textarea style="width:95%" class="about form-control shadow-none" rows="5" placeholder="Enter About"
+                                                                        type="text" id="about" name="about" value="">{{ $users->about ?? '-' }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
 
 
-
-                                            <div class="col-md-6 pb-2">
-                                                <div class="row">
-
-                                                    <div class="col-md-4"><label>Instagram Url:</label></div>
-                                                    <div class="col-md-7">
-                                                        <input type="text" class=" form-control shadow-none"
-                                                            name="instagramUrl"
-                                                            value=" {{ $influencer->instagramUrl ?? '-' }}  "
-                                                            id="instagramUrl">
+                                                    <div class="text-center">
+                                                        <button type="submit"
+                                                            class="btn btn-primary mt-3">Update</button><br>
                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 pb-2">
-                                                <div class="row">
-
-                                                    <div class="col-md-4"><label>Instagram Followers:</label></div>
-                                                    <div class="col-md-7">
-                                                        <input type="text" class=" form-control shadow-none"
-                                                            name="instagramFollowers"
-                                                            value="{{ $influencer->instagramFollowers ?? '-' }}"
-                                                            id="instagramFollowers">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 pb-2">
-                                                <div class="row">
-
-                                                    <div class="col-md-4"><label>Youteube Channel Url:</label></div>
-                                                    <div class="col-md-7">
-                                                        <input type="text" class=" form-control shadow-none"
-                                                            name="youtubeChannelUrl"
-                                                            value="{{ $influencer->youtubeChannelUrl }}"
-                                                            id="youtubeChannelUrl">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 pb-2">
-                                                <div class="row">
-
-                                                    <div class="col-md-4"><label>Youteube Subscribers:</label></div>
-                                                    <div class="col-md-7">
-                                                        <input type="text" class=" form-control shadow-none"
-                                                            name="youtubeSubscriber"
-                                                            value="{{ $influencer->youtubeSubscriber }}"
-                                                            id="youtubeSubscriber">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endrole
-                                        <div class="col-md-6 pb-2">
-                                            <div class="row">
-                                                <div class="col-md-4"><label>Profile Photo:</label></div>
-                                                <div class="col-md-5">
-                                                    <input type="file" accept="image/*"
-                                                        class="form-control shadow-none " id="profilePhoto"
-                                                        name="profilePhoto"
-                                                        value="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}">
-                                                    @if ($errors->has('profilePhoto'))
-                                                        <span
-                                                            class="text-danger">{{ $errors->first('profilePhoto') }}</span>
-                                                    @endif
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}"
-                                                        class="img-fluid" alt="Responsive image">
-                                                </div>
+                                                </form>
                                             </div>
                                         </div>
-
-
-
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-12 pb-2 mt-1">
-                                            <div class="row">
-                                                <div class="col-md-2"><label>About:</label></div>
-                                                <div class="col-md-10">
-                                                    <textarea style="width:95%" class="about form-control shadow-none" rows="5" placeholder="Enter About"
-                                                        type="text" id="about" name="about" value="">{{ $users->about ?? '-' }}</textarea>
-                                                </div>
+                                    <div class="tab-pane fade" id="v-pills-links" role="tabpanel"
+                                        aria-labelledby="v-pills-links-tab">
+                                        <div class="card w-100 " style="height: 580px !important;">
+                                            <div class="card-body">
+                                                <form action="{{ route('influencer.portfolio.storeOrupdate') }}"
+                                                    enctype="multipart/form-data" method="post">
+                                                    @csrf
+
+                                                    <div id="uploadArea" class="upload-area">
+                                                        <!-- Header -->
+                                                        <div class="upload-area__header">
+                                                            <h1 class="upload-area__title">Upload your file</h1>
+                                                            <p class="upload-area__paragraph">
+                                                                File should be an image
+                                                                <strong class="upload-area__tooltip">
+                                                                    Like
+                                                                    <span class="upload-area__tooltip-data"></span>
+                                                                    <!-- Data Will be Comes From Js -->
+                                                                </strong>
+                                                            </p>
+                                                        </div>
+                                                        <!-- End Header -->
+
+                                                        <!-- Drop Zoon -->
+                                                        <div id="dropZoon" class="upload-area__drop-zoon drop-zoon">
+                                                            <span class="drop-zoon__icon">
+                                                                <i class='bx bxs-file-image'></i>
+                                                            </span>
+                                                            <p class="drop-zoon__paragraph">Drop your file here or Click to
+                                                                browse
+                                                            </p>
+                                                            <span id="loadingText" class="drop-zoon__loading-text">Please
+                                                                Wait</span>
+                                                            <img src="" alt="Preview Image" id="previewImage"
+                                                                class="drop-zoon__preview-image" draggable="false">
+                                                            <input type="file" id="fileInput" name="photo"
+                                                                class="drop-zoon__file-input" accept="image/*">
+                                                        </div>
+                                                        <!-- End Drop Zoon -->
+
+                                                        <!-- File Details -->
+                                                        <div id="fileDetails"
+                                                            class="upload-area__file-details file-details">
+                                                            <h3 class="file-details__title">Uploaded File</h3>
+
+                                                            <div id="uploadedFile" class="uploaded-file">
+                                                                <div class="uploaded-file__icon-container">
+                                                                    <i
+                                                                        class='bi bi-file-earmark-image uploaded-file__icon'></i>
+                                                                    <span class="uploaded-file__icon-text"></span>
+                                                                    <!-- Data Will be Comes From Js -->
+                                                                </div>
+
+                                                                <div id="uploadedFileInfo" class="uploaded-file__info">
+                                                                    <span class="uploaded-file__name">Proejct 1</span>
+                                                                    <span class="uploaded-file__counter">0%</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- End File Details -->
+                                                    </div>
+
+                                                    <div class="text-center pt-2 ">
+                                                        <button type="submit" class="btn btn-primary ">Submit</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="v-pills-categories" role="tabpanel"
+                                        aria-labelledby="v-pills-categories-tab">
+                                        <div class="card w-100" style="height: 500px !important;">
+                                            <div class="card-body mt-5">
+                                                <form action="{{ route('category.update') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
+                                                    @role('Influencer')
+                                                        <div class="row">
+                                                            <div class="col-md-12 pb-2">
+                                                                <label>Influencer Category:</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="categories[]" class="form-select shadow-none"
+                                                                    id="categories" multiple>
+                                                                    <option disabled>--Select Categories--</option>
+                                                                    @foreach ($influencerCategory as $item)
+                                                                        <option value="{{ $item->id }}"
+                                                                            @if ($influencer->categoryId !== null && in_array($item->id, json_decode($influencer->categoryId, true))) selected @endif>
+                                                                            {{ $item->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
 
+                                                        </div>
+                                                    @endrole
+                                                    {{-- {{ $brandCategory }} --}}
+                                                    @role('Brand')
+                                                        <div class="row">
+                                                            <div class="col-md-12 pb-2">
+                                                                <label>Brand Category:</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select class="form-control shadow-none"
+                                                                    name="brandCategoryId[]" id="categories" multiple>
+                                                                    <option disabled>-- Select Brand Category --</option>
+                                                                    @foreach ($brandCategory as $bcategory)
+                                                                        <option value="{{ $bcategory->id }}"
+                                                                            @if ($brand_category->contains('brandCategoryId', $bcategory->id)) selected @endif>
+                                                                            {{ $bcategory->categoryName }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
 
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary mt-3">Update</button><br>
+                                                    @endrole
+                                                    <div class="justify-content-center d-flex mt-4">
+                                                        <button type="submit"
+                                                            class="btn btn-primary text-center">Update</button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+
+                                        </div>
+
                                     </div>
-                                </form>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="tab-pane fade" id="v-pills-links" role="tabpanel"
-                        aria-labelledby="v-pills-links-tab">
-                        <div class="card w-100 " style="height: 580px !important;">
-                            <div class="card-body">
-                                <form action="{{ route('influencer.portfolio.storeOrupdate') }}"
-                                    enctype="multipart/form-data" method="post">
-                                    @csrf
-
-                                    <div id="uploadArea" class="upload-area">
-                                        <!-- Header -->
-                                        <div class="upload-area__header">
-                                            <h1 class="upload-area__title">Upload your file</h1>
-                                            <p class="upload-area__paragraph">
-                                                File should be an image
-                                                <strong class="upload-area__tooltip">
-                                                    Like
-                                                    <span class="upload-area__tooltip-data"></span>
-                                                    <!-- Data Will be Comes From Js -->
-                                                </strong>
-                                            </p>
-                                        </div>
-                                        <!-- End Header -->
-
-                                        <!-- Drop Zoon -->
-                                        <div id="dropZoon" class="upload-area__drop-zoon drop-zoon">
-                                            <span class="drop-zoon__icon">
-                                                <i class='bx bxs-file-image'></i>
-                                            </span>
-                                            <p class="drop-zoon__paragraph">Drop your file here or Click to browse</p>
-                                            <span id="loadingText" class="drop-zoon__loading-text">Please Wait</span>
-                                            <img src="" alt="Preview Image" id="previewImage"
-                                                class="drop-zoon__preview-image" draggable="false">
-                                            <input type="file" id="fileInput" name="photo"
-                                                class="drop-zoon__file-input" accept="image/*">
-                                        </div>
-                                        <!-- End Drop Zoon -->
-
-                                        <!-- File Details -->
-                                        <div id="fileDetails" class="upload-area__file-details file-details">
-                                            <h3 class="file-details__title">Uploaded File</h3>
-
-                                            <div id="uploadedFile" class="uploaded-file">
-                                                <div class="uploaded-file__icon-container">
-                                                    <i class='bi bi-file-earmark-image uploaded-file__icon'></i>
-                                                    <span class="uploaded-file__icon-text"></span>
-                                                    <!-- Data Will be Comes From Js -->
-                                                </div>
-
-                                                <div id="uploadedFileInfo" class="uploaded-file__info">
-                                                    <span class="uploaded-file__name">Proejct 1</span>
-                                                    <span class="uploaded-file__counter">0%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End File Details -->
-                                    </div>
-
-                                    <div class="text-center pt-2 ">
-                                        <button type="submit" class="btn btn-primary ">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-categories" role="tabpanel"
-                        aria-labelledby="v-pills-categories-tab">
-                        <div class="card w-100" style="height: 500px !important;">
-                            <div class="card-body mt-5">
-                                <form action="{{ route('category.update') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
-                                    @role('Influencer')
-                                        <div class="row">
-                                            <div class="col-md-12 pb-2">
-                                                <label>Influencer Category:</label>
-                                            </div>
-                                            <div class="col-md-12">
-    <select name="categories[]" class="form-select shadow-none" id="categories" multiple>
-        <option disabled>--Select Categories--</option>
-        @foreach ($influencerCategory as $item)
-            <option value="{{ $item->id }}" 
-                @if ($influencer->categoryId !== null && in_array($item->id, json_decode($influencer->categoryId, true))) 
-                    selected 
-                @endif>
-                {{ $item->name }}
-            </option>
-        @endforeach
-    </select>
-</div>
-
-                                        </div>
-                                    @endrole
-                                    {{-- {{ $brandCategory }} --}}
-                                    @role('Brand')
-                                        <div class="row">
-                                            <div class="col-md-12 pb-2">
-                                                <label>Brand Category:</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <select class="form-control shadow-none" name="brandCategoryId[]"
-                                                    id="categories" multiple>
-                                                    <option disabled>-- Select Brand Category --</option>
-                                                    @foreach ($brandCategory as $bcategory)
-                                                        <option value="{{ $bcategory->id }}"
-                                                            @if ($brand_category->contains('brandCategoryId', $bcategory->id)) selected @endif>
-                                                            {{ $bcategory->categoryName }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    @endrole
-                                    <div class="justify-content-center d-flex mt-4">
-                                        <button type="submit" class="btn btn-primary text-center">Update</button>
-                                    </div>
-
-                                </form>
-                            </div>
-
-                        </div>
-
-                    </div>
-
                 </div>
-            </div>
-        </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const toasts = document.querySelectorAll('.toast');
@@ -1081,21 +1080,18 @@
         // :)
     </script>
 
-</body>
-
-
-</html>
 
 
 
-{{-- @role('Influencer')
+
+    {{-- @role('Influencer')
     <div class="row mt-2">
         <div class="col-md-6 pb-2">
             <div class="row">
 
                 <div class="col-md-4"> --}}
-{{-- <i class="fa fa-link"></i> --}}
-{{-- <label>Instagram
+    {{-- <i class="fa fa-link"></i> --}}
+    {{-- <label>Instagram
     Username or Link:</label>
 </div>
 <div class="col-md-7">
@@ -1125,9 +1121,9 @@
             <div class="col-md-4"><label>Youtube Channel Url:</label></div>
             <div class="col-md-7">
                 <input type="text" class=" form-control shadow-none" name="youtubeChannelUrl" --}}
-{{-- value="{{ $influencer->youtubeChannelUrl }}" --}}
-{{-- placeholder="Enter your youtube channel" id="youtubeChannelUrl"> --}}
-{{-- </div>
+    {{-- value="{{ $influencer->youtubeChannelUrl }}" --}}
+    {{-- placeholder="Enter your youtube channel" id="youtubeChannelUrl"> --}}
+    {{-- </div>
 </div>
 </div>
 <div class="col-md-6 pb-2">
@@ -1142,3 +1138,4 @@ placeholder="Enter your youtube subscriber" id="youtubeSubscriber">
 </div>
 </div>
 @endrole --}}
+@endsection
