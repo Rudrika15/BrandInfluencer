@@ -495,7 +495,7 @@ class CampaignController extends Controller
     public function influencerProfile($id)
     {
         // for Influencer
-        $influencer = InfluencerProfile::where('userId', $id)->whereHas('profile')->first();
+        $influencer = InfluencerProfile::where('userId', $id)->with('profile')->whereHas('profile')->first();
 
         $seenStatus = ContactInfluencer::where('userId', $id)
             ->where('influencerId', $id)

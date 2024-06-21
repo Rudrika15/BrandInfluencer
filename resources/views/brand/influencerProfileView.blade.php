@@ -197,13 +197,13 @@
 
 
         /* .rate {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding-top: 6px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-top: 6px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
         /* .rate i {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-size: 0.9rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: rgba(2, 214, 241, 0.9);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                font-size: 0.9rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                color: rgba(2, 214, 241, 0.9);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
         .nav-b {
             width: 100%;
@@ -499,6 +499,7 @@
                     <ul>
                         <li onclick="tabs(0)" class="user-post active">Gallery</li>
                         <li onclick="tabs(1)" class="user-review">Packages</li>
+                        <li onclick="tabs(2)" class="user-reels">Reels</li>
                     </ul>
                 </div>
                 <div class="profile-body">
@@ -507,26 +508,31 @@
 
                             @if ($influencer->profile->card)
                                 @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
-                                    <div class="col-md-4">
-                                        <div class="card text-start" style="width: 15rem;">
+                                    @if ($portfolio->type == 'Photo' && $portfolio->image != null && $portfolio->image != '')
+                                        <div class="col-md-4">
+                                            <div class="card text-start" style="width: 15rem;">
 
-                                            <style>
-                                                .card-img-top {
-                                                    aspect-ratio: 2/2;
-                                                }
+                                                <style>
+                                                    .card-img-top {
+                                                        aspect-ratio: 2/2;
+                                                    }
 
-                                                .card-img-top:hover {
-                                                    transform: scale(1.1);
-                                                    transition: 0.1s ease-in-out;
-                                                    margin-top: -10px;
-                                                }
-                                            </style>
-                                            <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
-                                                <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
-                                            </a>
+                                                    .card-img-top:hover {
+                                                        transform: scale(1.1);
+                                                        transition: 0.1s ease-in-out;
+                                                        margin-top: -10px;
+                                                    }
+                                                </style>
 
+
+                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
+                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
+
+                                                </a>
+
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 @endforeach
                             @endif
 
@@ -554,11 +560,58 @@
 
 
                     </div>
+                    <div class="profile-Gallery tab">
+                        <div class="row">
+
+                            @if ($influencer->profile->card)
+                                @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                                    @if ($portfolio->type == 'Video' && $portfolio->image != null && $portfolio->image != '')
+                                        <div class="col-md-6">
+                                            <div class=" text-start" style="width: 15rem;">
+
+                                                <style>
+                                                    .card-img-top {
+                                                        aspect-ratio: 2/2;
+                                                    }
+
+                                                    .card-img-top:hover {
+                                                        transform: scale(1.1);
+                                                        transition: 0.1s ease-in-out;
+                                                        margin-top: -10px;
+                                                    }
+                                                </style>
+
+
+                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
+
+                                                    @php
+                                                        // Extracting the reel ID from the URL stored in the 'image' field
+                                                        $reelUrl = $portfolio->image;
+                                                        $reelId = basename(parse_url($reelUrl, PHP_URL_PATH));
+                                                    @endphp
+                                                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/{{ $reelId }}/" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+                                                        <div style="padding:16px;">
+                                                            <a href="https://www.instagram.com/reel/{{ $reelId }}/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px; text-decoration:none;" target="_blank">View on Instagram</a>
+                                                        </div>
+                                                    </blockquote>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
+
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
         </div>
     </div>
+
+
+    <script async src="//www.instagram.com/embed.js"></script>
 
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
