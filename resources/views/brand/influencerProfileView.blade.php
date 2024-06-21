@@ -197,13 +197,13 @@
 
 
         /* .rate {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-top: 6px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-top: 6px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         /* .rate i {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                font-size: 0.9rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                color: rgba(2, 214, 241, 0.9);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        font-size: 0.9rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        color: rgba(2, 214, 241, 0.9);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
         .nav-b {
             width: 100%;
@@ -396,14 +396,15 @@
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
         <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id }}">
         <div class="pb-2">
-            {{-- <a href="{{ route('brand.influencerList') }}" class="btn btn-light">
-                < Back</a> --}}
+            <a href="{{ route('home') }}" class="btn btn-light">
+                < Back</a>
         </div>
         <div class="profile-header">
             <div class="profile-img">
 
                 @if (isset($influencer->profile->profilePhoto))
-                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200" alt="Profile Image">
+                    <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}" width="200"
+                        alt="Profile Image">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
@@ -412,23 +413,30 @@
                 <div class="w-100">
                     <h3 class="user-name">{{ $influencer->profile->name }}</h3>
                     <div class="address">
-                        <p id="state" class="state">{{ $influencer->city }},</p>
-                        <span id="country" class="country">{{ $influencer->state }}.</span>
+                        <p id="state" class="state">{{ $influencer->city }}</p>
+                        @if ($influencer->state)
+                            <span id="country" class="country">, {{ $influencer->state }}.</span>
+                        @endif
+
                         <br>
 
 
                     </div>
                     <div class="address">
                         <p id="state" class="state">
-                            <a href="">
-                                <i class="bi bi-instagram text-danger"></i>
-                                {{ $influencer->instagramFollowers }}
-                            </a>
+                            @if (isset($influencer->instagramFollowers))
+                                <a href="">
+                                    <i class="bi bi-instagram text-danger"></i>
+                                    {{ $influencer->instagramFollowers }}
+                                </a>
+                            @endif
                         </p>
                         &nbsp; &nbsp;
-                        <span id="country" class="country">
-                            <i class="bi bi-facebook text-primary"></i>
-                            {{ $influencer->youtubeSubscriber }}</span>
+                        @if (isset($influencer->youtubeSubscriber))
+                            <span id="country" class="country">
+                                <i class="bi bi-youtube text-danger"></i>
+                                {{ $influencer->youtubeSubscriber }}</span>
+                        @endif
                         <br>
 
 
@@ -442,7 +450,8 @@
                 <div class="">
                     @if (Auth::user()->hasRole('Brand'))
                         <div class="me-5">
-                            <button type="button" class="btn btn-info text-white px-5 py-2 me-5" data-bs-toggle="modal" data-bs-target="#exampleModal"> Message </button>
+                            <button type="button" class="btn btn-info text-white px-5 py-2 me-5" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"> Message </button>
 
                         </div>
                     @endif
@@ -462,7 +471,8 @@
                             @csrf
                             <input type="hidden" name="receiverId" value="{{ $influencer->profile->id }}">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="message" placeholder="Write a message" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <input type="text" class="form-control" name="message" placeholder="Write a message"
+                                    aria-label="Recipient's username" aria-describedby="button-addon2">
                                 <button class="btn btn-outline-info" type="submit" id="button-addon2">
                                     <i class="bi bi-send"></i> </button>
                             </div>
@@ -483,7 +493,7 @@
                     <div class="">
                         <h3>About</h3>
                         <p class="" id="">
-                            {{ $influencer->about ?? '-' }}
+                            {{ $influencer->about ?? '' }}
                         </p>
                         {{-- <a href="javascript:void(0);" id="see-more-link">See more</a> --}}
                     </div>
@@ -525,8 +535,11 @@
                                                 </style>
 
 
-                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
-                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
+                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                    target="_blank">
+                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                                        alt="">
 
                                                 </a>
 
@@ -582,16 +595,22 @@
                                                 </style>
 
 
-                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
+                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                    target="_blank">
 
                                                     @php
                                                         // Extracting the reel ID from the URL stored in the 'image' field
                                                         $reelUrl = $portfolio->image;
                                                         $reelId = basename(parse_url($reelUrl, PHP_URL_PATH));
                                                     @endphp
-                                                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/{{ $reelId }}/" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+                                                    <blockquote class="instagram-media"
+                                                        data-instgrm-permalink="https://www.instagram.com/reel/{{ $reelId }}/"
+                                                        data-instgrm-version="14"
+                                                        style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
                                                         <div style="padding:16px;">
-                                                            <a href="https://www.instagram.com/reel/{{ $reelId }}/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px; text-decoration:none;" target="_blank">View on Instagram</a>
+                                                            <a href="https://www.instagram.com/reel/{{ $reelId }}/"
+                                                                style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px; text-decoration:none;"
+                                                                target="_blank">View on Instagram</a>
                                                         </div>
                                                     </blockquote>
                                                 </a>
@@ -614,7 +633,8 @@
     <script async src="//www.instagram.com/embed.js"></script>
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
@@ -706,14 +726,14 @@
         });
     </script>
     <script>
-        $(".nav ul li").click(function() {
+        $(".nav-b ul li").click(function() {
             $(this)
                 .addClass("active")
                 .siblings()
                 .removeClass("active");
         });
 
-        const tabBtn = document.querySelectorAll(".nav ul li");
+        const tabBtn = document.querySelectorAll(".nav-b ul li");
         const tab = document.querySelectorAll(".tab");
 
         function tabs(panelIndex) {
