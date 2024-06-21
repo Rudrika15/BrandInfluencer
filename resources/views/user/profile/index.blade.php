@@ -6,18 +6,18 @@
         @import url("https://fonts.googleapis.com/css?family=Bree+Serif&display=swap");
 
         /* * {
-                            padding: 0;
-                            margin: 0;
-                            box-sizing: border-box;
-                        } */
+                                                                                                                            padding: 0;
+                                                                                                                            margin: 0;
+                                                                                                                            box-sizing: border-box;
+                                                                                                                        } */
 
         /* body {
-                        background: #f8f9fa;
-                        overflow-x: hidden;
-                        padding-top: 20px;
-                        font-family: "Poppins", sans-serif;
-                        margin: 0 100px;
-                    } */
+                                                                                                                        background: #f8f9fa;
+                                                                                                                        overflow-x: hidden;
+                                                                                                                        padding-top: 20px;
+                                                                                                                        font-family: "Poppins", sans-serif;
+                                                                                                                        margin: 0 100px;
+                                                                                                                    } */
 
         .profile-header {
             background: #fff;
@@ -100,48 +100,35 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: all 0.5s ease-in-out;
             outline: none;
-            background: #00c9e4;
+
 
         }
 
-        .profile-option:hover {
-            background: #fff;
-            border: 1px solid #00c9e4;
-        }
 
-        .profile-option:hover .notification a {
-            color: #00c9e4;
-        }
 
-        .profile-option:hover span {
-            background: #00c9e4;
-        }
 
-        .profile-option .notification a {
-            color: #fff;
-            background: #00c9e4;
-            font-size: 1.2rem;
-            /* transition: all 0.5s ease-in-out; */
-        }
 
-        .profile-option .notification .alert-message {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #fff;
-            color: #00c9e4;
-            border: 1px solid #00c9e4;
-            padding: 10px;
-            border-radius: 50%;
-            height: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
+
+
+
+
+        /* .profile-option .notification .alert-message {
+                        position: absolute;
+                        top: -5px;
+                        right: -5px;
+                        background: #fff;
+                        color: #00c9e4;
+                        border: 1px solid #00c9e4;
+                        padding: 10px;
+                        border-radius: 50%;
+                        height: 20px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 0.8rem;
+                        font-weight: bold;
+                    } */
 
         .main-bd {
             width: 100%;
@@ -451,10 +438,10 @@
             </div>
 
             <div class="profile-option">
-                <div class="notification">
+                <div class="">
                     {{-- <i class="bi bi-bell"></i>
                     <span class="alert-message">3</span> --}}
-                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-light shadow-none"
+                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-info shadow-none"
                         style="color: white;">Edit Profile </a>
                 </div>
             </div>

@@ -1,10 +1,11 @@
 @extends('layouts.app')
 @section('title', 'BrandBeans | Profile')
 @section('content')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+
     <style>
         .select2-container {
             width: 100% !important;
-            /* Adjust width as needed */
         }
 
 
@@ -12,7 +13,7 @@
         .select2-dropdown {
             width: auto !important;
             /* Ensure dropdown width is auto-adjusting */
-            min-width: 65%;
+            min-width: 45%;
             /* Ensure dropdown does not overflow container */
             margin-left: 0.8%;
             box-sizing: border-box;
@@ -427,9 +428,11 @@
         <a href="{{ route('profile') }}" class="btn btn-light mb-3">
             < Back</a>
                 <div class="card w-100">
+                    <div class="card-header justify-content-center mb-">
+                        <h1> My Profile </h1>
+                    </div>
                     <div class="card-body">
-                        <h1 class="text-center">My Profile</h1>
-                        <hr>
+
                         <div class="row">
 
                             <div class="col-3">
@@ -511,15 +514,15 @@
                                                             </div>
                                                         </div>
                                                         {{-- @if (!Auth::user()->hasRole('Influencer'))
-                                            <div class="col-md-6 pb-2">
-                                                <div class="row">
-                                                    <div class="col-md-4"><label>Address:</label></div>
-                                                    <div class="col-md-7">
-                                                        <textarea type="text" class="form-control shadow-none " id="address" name="address">{{ $users->address }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif --}}
+                                                        <div class="col-md-6 pb-2">
+                                                        <div class="row">
+                                                            <div class="col-md-4"><label>Address:</label></div>
+                                                            <div class="col-md-7">
+                                                                <textarea type="text" class="form-control shadow-none " id="address" name="address">{{ $users->address }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                                    </div>
+                                                                        @endif --}}
                                                         @role('Influencer')
                                                             <div class="col-md-6 pb-2">
                                                                 <div class="row">
@@ -542,8 +545,8 @@
                                                                     <div class="col-md-4"><label>Gender:</label></div>
                                                                     <div class="col-md-7">
                                                                         <label>
-                                                                            <input type="radio" name="gender" value="Male"
-                                                                                id="gender"
+                                                                            <input type="radio" name="gender"
+                                                                                value="Male" id="gender"
                                                                                 {{ old('gender') == 'Male' || $influencer->gender == 'Male' ? 'checked' : '' }}>
                                                                             Male
                                                                         </label>
@@ -799,12 +802,15 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
     </div>
 
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script> --}}
