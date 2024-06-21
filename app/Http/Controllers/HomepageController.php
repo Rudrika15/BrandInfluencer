@@ -51,10 +51,6 @@ class HomepageController extends Controller
         // brand 
         $category = CategoryInfluencer::all();
 
-        $influencer = User::whereHas('roles', function ($q) {
-            $q->where('name', 'Influencer');
-        })->with('card')->whereHas('card');
-
         $categoryId = $request->input('category');
         $type = $request->input('type');
 
