@@ -6,18 +6,18 @@
         @import url("https://fonts.googleapis.com/css?family=Bree+Serif&display=swap");
 
         /* * {
-                                                                                                                                                                                                                    padding: 0;
-                                                                                                                                                                                                                    margin: 0;
-                                                                                                                                                                                                                    box-sizing: border-box;
-                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                            padding: 0;
+                                                                                                                                                                                                                            margin: 0;
+                                                                                                                                                                                                                            box-sizing: border-box;
+                                                                                                                                                                                                                        } */
 
         /* body {
-                                                                                                                                                                                                                background: #f8f9fa;
-                                                                                                                                                                                                                overflow-x: hidden;
-                                                                                                                                                                                                                padding-top: 20px;
-                                                                                                                                                                                                                font-family: "Poppins", sans-serif;
-                                                                                                                                                                                                                margin: 0 100px;
-                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                        background: #f8f9fa;
+                                                                                                                                                                                                                        overflow-x: hidden;
+                                                                                                                                                                                                                        padding-top: 20px;
+                                                                                                                                                                                                                        font-family: "Poppins", sans-serif;
+                                                                                                                                                                                                                        margin: 0 100px;
+                                                                                                                                                                                                                    } */
 
         .profile-header {
             background: #fff;
@@ -114,21 +114,21 @@
 
 
         /* .profile-option .notification .alert-message {
-                                                                                                                position: absolute;
-                                                                                                                top: -5px;
-                                                                                                                right: -5px;
-                                                                                                                background: #fff;
-                                                                                                                color: #00c9e4;
-                                                                                                                border: 1px solid #00c9e4;
-                                                                                                                padding: 10px;
-                                                                                                                border-radius: 50%;
-                                                                                                                height: 20px;
-                                                                                                                display: flex;
-                                                                                                                justify-content: center;
-                                                                                                                align-items: center;
-                                                                                                                font-size: 0.8rem;
-                                                                                                                font-weight: bold;
-                                                                                                            } */
+                                                                                                                        position: absolute;
+                                                                                                                        top: -5px;
+                                                                                                                        right: -5px;
+                                                                                                                        background: #fff;
+                                                                                                                        color: #00c9e4;
+                                                                                                                        border: 1px solid #00c9e4;
+                                                                                                                        padding: 10px;
+                                                                                                                        border-radius: 50%;
+                                                                                                                        height: 20px;
+                                                                                                                        display: flex;
+                                                                                                                        justify-content: center;
+                                                                                                                        align-items: center;
+                                                                                                                        font-size: 0.8rem;
+                                                                                                                        font-weight: bold;
+                                                                                                                    } */
 
         .main-bd {
             width: 100%;
@@ -372,7 +372,7 @@
 
     <div class="container">
         <input type="hidden" id="authId" name="authId" value="{{ Auth::user()->id }}">
-        <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id ?? '-' }}">
+        {{-- <input type="hidden" id="influencerId" name="influencerId" value="{{ $influencer->profile->id ?? '' }}"> --}}
         {{-- <div class="pb-2">
             <a href="{{ route('home') }}" class="btn" style="background: #e9e9e9;">
                 < Back</a>
@@ -405,8 +405,8 @@
                         @role('Brand')
                             @if ($users->state)
                                 ,
+                                {{ $users->state ?? '' }}
                             @endif
-                            {{ $users->state ?? '' }}
                             @if ($users->state)
                                 .
                             @endif

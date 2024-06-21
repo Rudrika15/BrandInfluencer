@@ -60,7 +60,7 @@ class HomepageController extends Controller
         // Initialize the query to get users with the 'Influencer' role
         $influencer = User::whereHas('roles', function ($q) {
             $q->where('name', 'Influencer');
-        })->with('card');
+        })->with('card')->whereHas('card');
 
         // Apply category filter if specified
         if (!empty($categoryId)) {
