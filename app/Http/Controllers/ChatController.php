@@ -117,6 +117,7 @@ class ChatController extends Controller
                             $notification->type = "General";
                             $notification->visible = "I";
                             $notification->dateTime = Carbon::now();
+                            $notification->is_read = "Yes";
                             $notification->save();
 
                             return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
@@ -172,6 +173,7 @@ class ChatController extends Controller
                             $notification->type = "General";
                             $notification->visible = "I";
                             $notification->dateTime = Carbon::now();
+                            $notification->is_read = "Yes";
                             $notification->save();
                             return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
                         }
@@ -236,6 +238,7 @@ class ChatController extends Controller
                         $notification->type = "General";
                         $notification->visible = "I";
                         $notification->dateTime = Carbon::now();
+                        $notification->is_read = "Yes";
                         $notification->save();
 
                         return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
@@ -307,6 +310,7 @@ class ChatController extends Controller
                         $notification->type = "General";
                         $notification->visible = "N";
                         $notification->dateTime = Carbon::now();
+                        $notification->is_read = "Yes";
                         $notification->save();
 
                         $point = new BrandPoints();

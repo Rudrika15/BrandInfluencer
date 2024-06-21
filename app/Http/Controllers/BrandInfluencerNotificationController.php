@@ -45,6 +45,12 @@ class BrandInfluencerNotificationController extends Controller
                 ->orWhere('userId', Auth::user()->id)
                 ->get();
 
+            foreach ($notificationsAll as $notification) {
+
+                $notification->is_read = 'No';
+                $notification->save();
+            }
+
             $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
                 ->where('type', 'General')
                 ->where('visible', 'B')
