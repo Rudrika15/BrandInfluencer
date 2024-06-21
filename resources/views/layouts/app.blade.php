@@ -185,6 +185,10 @@
                             <a href="{{ route('influencer.notifications') }}">
                                 <i class="bx bx-bell icons"></i>
                                 <span class="text nav-text text-blue">Notifications</span>
+
+                                @if (App\Models\BrandInfluencerNotification::where('userId', Auth::user()->id)->where('is_read', 'Yes')->first())
+                                    <i class='bx bxs-circle text-success ms-5 mb-5' title="you have new notification"></i>
+                                @endif
                             </a>
                         </li>
                         <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
@@ -241,9 +245,9 @@
                                 <i class="bx bx-bell icons"></i>
                                 <span class="text nav-text text-blue">Notifications </span>
 
-                                {{-- <i class='bx bxs-circle text-success ms-5 mb-5' title="you have new notification"></i> --}}
-                                {{-- @if (Auth::user()->id == App\Models\BrandInfluencerNotification::where('userId', Auth::user()->id)->get())
-                                @endif --}}
+                                @if (App\Models\BrandInfluencerNotification::where('userId', Auth::user()->id)->where('is_read', 'Yes')->first())
+                                    <i class='bx bxs-circle text-success ms-5 mb-5' title="you have new notification"></i>
+                                @endif
 
                             </a>
                         </li>
