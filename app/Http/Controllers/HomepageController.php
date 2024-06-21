@@ -45,6 +45,7 @@ class HomepageController extends Controller
         $campaigns = Campaign::whereNotIn('id', $appliedIds)
             ->where('startDate', '<=', now())
             ->where('endDate', '>=', now())
+            ->orderBy('created_at', 'desc')
             ->get();
 
         // brand 
