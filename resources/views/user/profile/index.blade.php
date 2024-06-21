@@ -444,7 +444,7 @@
                     </style>
                     @role('Brand')
                         @foreach ($brand_category as $category)
-                            <span class="p-1 text-white bg-secondary fs-6 m-1 rounded-pill">{{ $category->brandCategory->categoryName }}</span>
+                            <span class="p-1 text-white bg-secondary fs-5 m-1 rounded-pill">{{ $category->brandCategory->categoryName }}</span>
                         @endforeach
                     @endrole
                 </div>

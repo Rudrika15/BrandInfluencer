@@ -197,13 +197,13 @@
 
 
         /* .rate {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding-top: 6px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding-top: 6px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
         /* .rate i {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-size: 0.9rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: rgba(2, 214, 241, 0.9);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-size: 0.9rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: rgba(2, 214, 241, 0.9);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .nav-b {
             width: 100%;
@@ -410,11 +410,13 @@
             </div>
             <div class="profile-nav-info d-flex justify-content-between">
                 <div class="w-100">
-                    <h3 class="user-name">{{ $influencer->profile->name }}</h3>
+                    <h3 class="user-name">{{ $influencer->profile->name ?? '' }}</h3>
                     <div class="address">
-                        <p id="state" class="state">{{ $influencer->city }}</p>
-                        @if ($influencer->state)
-                            <span id="country" class="country">, {{ $influencer->state }}.</span>
+                        @if (!empty($influencer->city))
+                            <p id="state" class="state">{{ $influencer->city ?? '' }} ,</p>
+                        @endif
+                        @if (isset($influencer->state))
+                            <span id="country" class="country"> {{ $influencer->state }}.</span>
                         @endif
 
                         <br>
@@ -461,13 +463,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Send Message to
-                            {{ $influencer->profile->name }}</h5>
+                            {{ $influencer->profile->name ?? '' }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('new.influencer.chat.index') }}" method="post">
                             @csrf
-                            <input type="hidden" name="receiverId" value="{{ $influencer->profile->id }}">
+                            <input type="hidden" name="receiverId" value="{{ $influencer->profile->id ?? '' }}">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" name="message" placeholder="Write a message" aria-label="Recipient's username" aria-describedby="button-addon2">
                                 <button class="btn btn-outline-info" type="submit" id="button-addon2">
@@ -513,7 +515,7 @@
                     <div class="profile-Gallery tab">
                         <div class="row">
 
-                            @if ($influencer->profile->card)
+                            @if (isset($influencer->profile->card))
                                 @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
                                     @if ($portfolio->type == 'Photo' && $portfolio->image != null && $portfolio->image != '')
                                         <div class="col-md-4">
@@ -549,65 +551,69 @@
                     </div>
                     <div class="profile-Packages tab">
                         <div class="row ">
-                            @foreach ($influencer->profile->influencerPackage as $package)
-                                <div class="col-md-4 p-2">
-                                    <div class="card" style="width: 15rem;">
-                                        <div class="card-header">
-                                            {{ $package->title }}
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text">{!! $package->description !!}</p>
-                                            {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                            @if (isset($influencer->profile))
+
+                                @foreach ($influencer->profile->influencerPackage as $package)
+                                    <div class="col-md-4 p-2">
+                                        <div class="card" style="width: 15rem;">
+                                            <div class="card-header">
+                                                {{ $package->title }}
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text">{!! $package->description !!}</p>
+                                                {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-
+                                @endforeach
+                            @endif
                         </div>
 
 
                     </div>
                     <div class="profile-Gallery tab">
                         <div class="row">
-
-                            @if ($influencer->profile->card)
-                                @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
-                                    @if ($portfolio->type == 'Video' && $portfolio->image != null && $portfolio->image != '')
-                                        <div class="col-md-6">
-                                            <div class=" text-start" style="width: 15rem;">
-
-                                                <style>
-                                                    .card-img-top {
-                                                        aspect-ratio: 2/2;
-                                                    }
-
-                                                    .card-img-top:hover {
-                                                        transform: scale(1.1);
-                                                        transition: 0.1s ease-in-out;
-                                                        margin-top: -10px;
-                                                    }
-                                                </style>
+                            @if (isset($influencer->profile))
 
 
-                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
+                                @if ($influencer->profile->card)
+                                    @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                                        @if ($portfolio->type == 'Video' && $portfolio->image != null && $portfolio->image != '')
+                                            <div class="col-md-6">
+                                                <div class=" text-start" style="width: 15rem;">
 
-                                                    @php
-                                                        // Extracting the reel ID from the URL stored in the 'image' field
-                                                        $reelUrl = $portfolio->image;
-                                                        $reelId = basename(parse_url($reelUrl, PHP_URL_PATH));
-                                                    @endphp
-                                                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/{{ $reelId }}/" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-                                                        <div style="padding:16px;">
-                                                            <a href="https://www.instagram.com/reel/{{ $reelId }}/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px; text-decoration:none;" target="_blank">View on Instagram</a>
-                                                        </div>
-                                                    </blockquote>
-                                                </a>
+                                                    <style>
+                                                        .card-img-top {
+                                                            aspect-ratio: 2/2;
+                                                        }
+
+                                                        .card-img-top:hover {
+                                                            transform: scale(1.1);
+                                                            transition: 0.1s ease-in-out;
+                                                            margin-top: -10px;
+                                                        }
+                                                    </style>
+
+
+                                                    <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}" target="_blank">
+
+                                                        @php
+                                                            // Extracting the reel ID from the URL stored in the 'image' field
+                                                            $reelUrl = $portfolio->image;
+                                                            $reelId = basename(parse_url($reelUrl, PHP_URL_PATH));
+                                                        @endphp
+                                                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/{{ $reelId }}/" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+                                                            <div style="padding:16px;">
+                                                                <a href="https://www.instagram.com/reel/{{ $reelId }}/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px; text-decoration:none;" target="_blank">View on Instagram</a>
+                                                            </div>
+                                                        </blockquote>
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endif
-                                @endforeach
+                                        @endif
+                                    @endforeach
+                                @endif
                             @endif
-
                         </div>
                     </div>
 
@@ -626,12 +632,12 @@
     <script>
         $(document).ready(function() {
             // Get the raw mobile number
-            var rawMobileNumber = '{{ $influencer->profile->mobileno }}';
+            var rawMobileNumber = '{{ $influencer->profile->mobileno ?? '' }}';
 
             // Format the mobile number
             var formattedNumber = formatMobileNumber(rawMobileNumber);
             // Update the content of the span element
-            $('.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]').text(formattedNumber);
+            $('.formattedMobileNumber[data-influencer-id="{{ $influencer->id ?? '' }}"]').text(formattedNumber);
 
             function formatMobileNumber(number) {
                 // Assuming the mobile number is 10 digits
@@ -641,7 +647,7 @@
             $('#chatBtn').click(function() {
                 // Toggle between original and formatted numbers
                 var $formattedMobileNumber = $(
-                    '.formattedMobileNumber[data-influencer-id="{{ $influencer->id }}"]');
+                    '.formattedMobileNumber[data-influencer-id="{{ $influencer->id ?? '' }}"]');
                 var currentText = $formattedMobileNumber.text();
 
                 var id = $("#authId").val();
