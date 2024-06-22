@@ -289,8 +289,9 @@
                         <div class="influencer_item">
                             @if ($item->is_trending == 'on')
                                 <span class="influencer_tag">Trending</span>
-                            @elseif ($item->is_featured == 'on')
-                                <span class="influencer_tag featured">Featured</span>
+                            @endif
+                            @if ($item->is_featured == 'on')
+                                <span class="influencer_tag featured " style="margin-top: 8%;">Featured</span>
                             @endif
                             <div class="influencer_img">
                                 <img class="img-responsive"

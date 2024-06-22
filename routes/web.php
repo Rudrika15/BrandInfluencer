@@ -56,7 +56,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', function () {
-    $influencers = InfluencerProfile::all();
+    $influencers = InfluencerProfile::where('is_trending', 'on')->get();
     $categories = CategoryInfluencer::all();
     return view('welcome', compact('influencers', 'categories'));
 });
