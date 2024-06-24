@@ -24,16 +24,12 @@
 
                             <a href="{{ route('influencer.campaignView') }}/{{ $campaign->id }}">
 
-                                <img src="{{ asset('campaignPhoto') }}/{{ $campaign->photo }}"
-                                    onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top"
-                                    style="height: 250px" alt="...">
+                                <img src="{{ asset('campaignPhoto') }}/{{ $campaign->photo }}" onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top" style="height: 250px" alt="...">
 
                                 <div class="card-body">
-                                    <h5 class="card-title"
-                                        style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1;  -webkit-box-orient: vertical;">
+                                    <h5 class="card-title" style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1;  -webkit-box-orient: vertical;">
                                         {{ $campaign->title }}</h5>
-                                    <p class="card-text"
-                                        style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
+                                    <p class="card-text" style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
                                         {{ $campaign->detail }} </p>
                                 </div>
                             </a>
@@ -57,20 +53,17 @@
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-md-12">
                                         <label for="trending" class="form-label pe-3">
-                                            <input type="radio" name="type" value="is_trending" checked
-                                                @if (request('type') == 'is_trending') checked @endif id="trending">
+                                            <input type="radio" name="type" value="is_trending" checked @if (request('type') == 'is_trending') checked @endif id="trending">
                                             <b>Trending</b>
                                         </label>
 
                                         <label for="featured" class="form-label pe-3">
-                                            <input type="radio" name="type" value="is_featured"
-                                                @if (request('type') == 'is_featured') checked @endif id="featured">
+                                            <input type="radio" name="type" value="is_featured" @if (request('type') == 'is_featured') checked @endif id="featured">
                                             <b>Featured</b>
                                         </label>
 
                                         <label for="brandBeansVerified" class="form-label pe-3">
-                                            <input type="radio" name="type" value="is_brandBeansVerified"
-                                                @if (request('type') == 'is_brandBeansVerified') checked @endif id="brandBeansVerified">
+                                            <input type="radio" name="type" value="is_brandBeansVerified" @if (request('type') == 'is_brandBeansVerified') checked @endif id="brandBeansVerified">
                                             <b> BrandBeans Verified</b>
                                         </label>
                                     </div>
@@ -79,8 +72,7 @@
                                             <option disabled>Select Categories</option>
 
                                             @foreach ($category as $cat)
-                                                <option value="{{ $cat->id }}"
-                                                    @if (is_array(request('category')) && in_array($cat->id, request('category'))) selected @endif>
+                                                <option value="{{ $cat->id }}" @if (is_array(request('category')) && in_array($cat->id, request('category'))) selected @endif>
                                                     {{ $cat->name }}
                                                 </option>
                                             @endforeach
@@ -89,14 +81,9 @@
 
                                         <a href="{{ route('home') }}" class="mt-1">
                                             <b>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd"
-                                                        d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
-                                                        stroke="currentColor" stroke-width="1" />
-                                                    <path
-                                                        d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"
-                                                        stroke="currentColor" stroke-width="1" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" stroke="currentColor" stroke-width="1" />
+                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" stroke="currentColor" stroke-width="1" />
                                                 </svg>
                                             </b>
                                         </a>
@@ -149,33 +136,30 @@
                 <div class="">
                     <div class="influencer_inner">
                         @foreach ($influencer as $item)
-                            {{-- @if ($item->profilePhoto != null) --}}
-                            <div class="influencer_item ">
-                                @if ($item->influencer->is_trending == 'on')
-                                    <span class="influencer_tag">Trending</span>
-                                @endif
-                                @if ($item->influencer->is_featured == 'on')
-                                    <span class="influencer_tag featured mt-4">Featured</span>
-                                @endif
+                            @if ($item->profilePhoto != null)
+                                <div class="influencer_item ">
+                                    @if ($item->influencer->is_trending == 'on')
+                                        <span class="influencer_tag">Trending</span>
+                                    @endif
+                                    @if ($item->influencer->is_featured == 'on')
+                                        <span class="influencer_tag featured mt-4">Featured</span>
+                                    @endif
 
-                                {{-- <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"> --}}
-                                <div class="influencer_img">
-                                    <img class="bg-light" src="{{ asset('profile') }}/{{ $item->profilePhoto ?? '' }}"
-                                        onerror="this.src='{{ asset('images/default.jpg') }}'"
-                                        style="height: 350px; object-fit: contain;" />
-                                </div>
-                                {{-- </a> --}}
-                                <div class="content">
-                                    <p>{{ $item->name }}</p>
-                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                    <div class="explore_btn ">
-                                        <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"
-                                            class="custombtn highlighbtn">View Profile</a>
+                                    {{-- <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"> --}}
+                                    <div class="influencer_img">
+                                        <img class="bg-light" src="{{ asset('profile') }}/{{ $item->profilePhoto ?? '' }}" onerror="this.src='{{ asset('images/default.jpg') }}'" style="height: 350px; object-fit: contain;" />
                                     </div>
-                                </div>
+                                    {{-- </a> --}}
+                                    <div class="content">
+                                        <p>{{ $item->name }}</p>
+                                        <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                        <div class="explore_btn ">
+                                            <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}" class="custombtn highlighbtn">View Profile</a>
+                                        </div>
+                                    </div>
 
-                            </div>
-                            {{-- @endif --}}
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
