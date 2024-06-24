@@ -4741,4 +4741,24 @@ class ApiController extends Controller
             'data' => $findLoginUser,
         ], 200);
     }
+
+
+    public function campaignList()
+    {
+        $paidCampaigns = Campaign::where('campaignType', 'Paid')->get();
+        $barterCampaigns = Campaign::where('campaignType', 'Barter')->get();
+        $mostApplied  = Apply::with('campaign')->get();
+        $mostApplied = $mostApplied->groupBy('campaignId')->map(function ($item) {
+            return $item->max('campaignId');
+        })->toArray();
+        $mostAppliedd = Campaign::whereIn('id', $mostApplied)->get();
+        $trending = Campaign::whereIn('id', $mostApplied)->orderBy('id', 'desc');
+        return response()->json([
+            'success' => true,
+            'paidCampaigns' => $paidCampaigns,
+            'barterCampaigns' => $barterCampaigns,
+            'mostApplied' => $mostAppliedd,
+            'trending' => $trending
+        ], 200);
+    }
 }

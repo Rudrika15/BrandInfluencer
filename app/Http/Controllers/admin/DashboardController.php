@@ -98,12 +98,14 @@ class DashboardController extends Controller
         $influencerCategory = CategoryInfluencer::all();
         $brandCategory = BrandCategory::all();
         $brand_category = BrandWithCategory::where('brandId', '=', $id)->get();
+        $portfolio = InfluencerPortfolio::where('userId', '=', Auth::user()->id)->get();
+
         // $category = Admin::all();
         // $data = User::where('id', '=', $id)->get();
         $users = User::find($id);
 
 
-        return view('user.profile.edit', compact('influencer', 'influencerCategory', 'brand_category', 'brandCategory',   'category',  'users'));
+        return view('user.profile.edit', compact('influencer', 'influencerCategory', 'brand_category', 'brandCategory',   'category',  'users', 'portfolio'));
     }
 
     /* card new store */
@@ -130,6 +132,12 @@ class DashboardController extends Controller
             $roleCollection = $userData->getRoleNames();
             $roles = $roleCollection->toArray();
             if (in_array('Influencer', $roles)) {
+
+                $request->validate([
+                    'instagramUrl' => 'required | url |regex: [/], [a-z A-Z 0-9] ',
+                    'youtubeChannelUrl' => 'required | regex: [@], [a-z A-Z 0-9]'
+                ]);
+
                 $influencer = InfluencerProfile::where('userId', '=', $id)->first();
                 $influencer->city = $userData->city;
                 $influencer->state = $userData->state;
@@ -235,5 +243,13 @@ class DashboardController extends Controller
 
         $portfolio = InfluencerPortfolio::where('userId', '=', $id)->get();
         return view('brand.influencerProfileView', compact('influencer', 'seenStatus', 'portfolio'));
+    }
+
+    public function deletePortfolio($id)
+    {
+        $portfolio = InfluencerPortfolio::find($id);
+        $portfolio->delete();
+
+        return redirect()->back()->with('success', 'deleted Successfully');
     }
 }

@@ -6,18 +6,18 @@
         @import url("https://fonts.googleapis.com/css?family=Bree+Serif&display=swap");
 
         /* * {
-                                                                                                                                                                                                                                padding: 0;
-                                                                                                                                                                                                                                margin: 0;
-                                                                                                                                                                                                                                box-sizing: border-box;
-                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                        padding: 0;
+                                                                                                                                                                                                                                        margin: 0;
+                                                                                                                                                                                                                                        box-sizing: border-box;
+                                                                                                                                                                                                                                    } */
 
         /* body {
-                                                                                                                                                                                                                            background: #f8f9fa;
-                                                                                                                                                                                                                            overflow-x: hidden;
-                                                                                                                                                                                                                            padding-top: 20px;
-                                                                                                                                                                                                                            font-family: "Poppins", sans-serif;
-                                                                                                                                                                                                                            margin: 0 100px;
-                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                    background: #f8f9fa;
+                                                                                                                                                                                                                                    overflow-x: hidden;
+                                                                                                                                                                                                                                    padding-top: 20px;
+                                                                                                                                                                                                                                    font-family: "Poppins", sans-serif;
+                                                                                                                                                                                                                                    margin: 0 100px;
+                                                                                                                                                                                                                                } */
 
         .profile-header {
             background: #fff;
@@ -114,21 +114,21 @@
 
 
         /* .profile-option .notification .alert-message {
-                                                                                                                            position: absolute;
-                                                                                                                            top: -5px;
-                                                                                                                            right: -5px;
-                                                                                                                            background: #fff;
-                                                                                                                            color: #00c9e4;
-                                                                                                                            border: 1px solid #00c9e4;
-                                                                                                                            padding: 10px;
-                                                                                                                            border-radius: 50%;
-                                                                                                                            height: 20px;
-                                                                                                                            display: flex;
-                                                                                                                            justify-content: center;
-                                                                                                                            align-items: center;
-                                                                                                                            font-size: 0.8rem;
-                                                                                                                            font-weight: bold;
-                                                                                                                        } */
+                                                                                                                                    position: absolute;
+                                                                                                                                    top: -5px;
+                                                                                                                                    right: -5px;
+                                                                                                                                    background: #fff;
+                                                                                                                                    color: #00c9e4;
+                                                                                                                                    border: 1px solid #00c9e4;
+                                                                                                                                    padding: 10px;
+                                                                                                                                    border-radius: 50%;
+                                                                                                                                    height: 20px;
+                                                                                                                                    display: flex;
+                                                                                                                                    justify-content: center;
+                                                                                                                                    align-items: center;
+                                                                                                                                    font-size: 0.8rem;
+                                                                                                                                    font-weight: bold;
+                                                                                                                                } */
 
         .main-bd {
             width: 100%;
@@ -556,6 +556,7 @@
                         <ul>
                             <li onclick="tabs(0)" class="user-post active">Gallery</li>
                             <li onclick="tabs(1)" class="user-review">Packages</li>
+                            <li onclick="tabs(2)" class="user-reels">Reels</li>
                         </ul>
                     </div>
                     <div class="profile-body">
@@ -628,6 +629,58 @@
                                 </div>
                             </div>
                         @endif
+
+                        <div class="profile-reel tab">
+                            <div class="row">
+                                @if (isset($influencer->profile))
+
+
+                                    @if ($influencer->profile->card)
+                                        @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                                            @if ($portfolio->type == 'Video' && $portfolio->image != null && $portfolio->image != '')
+                                                <div class="col-md-6">
+                                                    <div class=" text-start" style="width: 15rem;">
+
+                                                        <style>
+                                                            .card-img-top {
+                                                                aspect-ratio: 2/2;
+                                                            }
+
+                                                            .card-img-top:hover {
+                                                                transform: scale(1.1);
+                                                                transition: 0.1s ease-in-out;
+                                                                margin-top: -10px;
+                                                            }
+                                                        </style>
+
+
+                                                        <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                            target="_blank">
+
+                                                            @php
+                                                                // Extracting the reel ID from the URL stored in the 'image' field
+                                                                $reelUrl = $portfolio->image;
+                                                                $reelId = basename(parse_url($reelUrl, PHP_URL_PATH));
+                                                            @endphp
+                                                            <blockquote class="instagram-media"
+                                                                data-instgrm-permalink="https://www.instagram.com/reel/{{ $reelId }}/"
+                                                                data-instgrm-version="14"
+                                                                style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+                                                                <div style="padding:16px;">
+                                                                    <a href="https://www.instagram.com/reel/{{ $reelId }}/"
+                                                                        style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px; text-decoration:none;"
+                                                                        target="_blank">View on Instagram</a>
+                                                                </div>
+                                                            </blockquote>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endif
+                            </div>
+                        </div>
 
                     </div>
                 @endrole

@@ -254,17 +254,25 @@
             <div class="heading wow fadeInUp" data-wow-duration="1s">
                 <h1>Featured <span>Creators</span></h1>
             </div>
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
                 @foreach ($categories as $item)
                     <li class="nav-item">
-                        <a class="nav-link" id="food-tab" data-toggle="tab" href="#foodtab" role="tab"
-                            aria-controls="foodtab" aria-selected="true">
+                        <a class="nav-link" id="{{ $item->name }}" data-toggle="tab" href="#{{ $item->name }}"
+                            role="tab" aria-controls="foodtab" aria-selected="true">
                             {{ $item->name }}
                         </a>
                     </li>
                 @endforeach
-            </ul>
-            {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+            </ul> --}}
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                <li class="nav-item active">
+                    <a class="nav-link active" id="all-tab" data-toggle="tab" href="#alltab" role="tab"
+                        aria-controls="alltab" aria-selected="true">
+
+                        All
+                    </a>
+                </li>
                 @foreach ($categories as $category)
                     <li class="nav-item">
                         <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ $category->name }}-tab"
@@ -275,15 +283,82 @@
                         </a>
                     </li>
                 @endforeach
-            </ul> --}}
+            </ul>
         </div>
 
     </div>
 
     <div class="container-fluid influencer_section">
         <div class="tab-content" id="myTabContent">
+            {{-- @foreach ($categories as $item)
+                <div class="tab-pane show active" id="{{ $item->name }}" role="tabpanel"
+                    aria-labelledby="food-tab">
+                    <div class="influencer_inner">
+                        @foreach ($influencers as $item)
+                            <div class="influencer_item ">
+                                @if ($item->is_trending == 'on')
+                                    <span class="influencer_tag">Trending</span>
+                                @endif
+                                @if ($item->is_featured == 'on')
+                                    <span class="influencer_tag featured " style="margin-top: 5%;">Featured</span>
+                                @endif
+                                <div class="influencer_img">
+                                    <img class="img-responsive"
+                                        src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
+                                        onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                        style="height: 350px; object-fit: contain;" />
+                                </div>
+                                <div class="content">
+                                    <p>{{ $item->profile->name }}</p>
+                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                    <div class="explore_btn">
+                                        <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                            class="custombtn highlighbtn">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach --}}
+            @foreach ($categories as $category)
+                <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{ $category->name }}tab"
+                    role="tabpanel" aria-labelledby="{{ $category->name }}-tab">
+                    <div class="influencer_inner">
+                        @foreach ($influencers->filter(function ($influencer) use ($category) {
+        return $category->Influencer->contains('id', $influencer->id);
+    }) as $item)
+                            <div class="influencer_item">
 
-            <div class="tab-pane show active" id="foodtab" role="tabpanel" aria-labelledby="food-tab">
+                                @if ($item->is_trending == 'on')
+                                    <span class="influencer_tag">Trending</span>
+                                @elseif ($item->is_featured == 'on')
+                                    <span class="influencer_tag featured">Featured</span>
+                                @endif
+
+                                <div class="influencer_img">
+
+
+                                    <img class="img-responsive"
+                                        src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
+                                        onerror="this.src='{{ asset('images/default.jpg') }}'" />
+
+                                </div>
+                                <div class="content">
+                                    <p>{{ $item->profile->name }}</p>
+                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                    <div class="explore_btn">
+                                        <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                            class="custombtn highlighbtn">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+
+            <div class="tab-pane active" id="alltab" role="tabpanel" aria-labelledby="all-tab">
                 <div class="influencer_inner">
                     @foreach ($influencers as $item)
                         <div class="influencer_item ">
@@ -311,41 +386,6 @@
                     @endforeach
                 </div>
             </div>
-            {{-- @foreach ($categories as $category)
-                <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{ $category->name }}tab"
-                    role="tabpanel" aria-labelledby="{{ $category->name }}-tab">
-                    <div class="influencer_inner">
-                        @foreach ($category->Influencer->pluck('id') as $influencerId)
-                            @foreach ($influencers->where('id', $influencerId) as $item)
-                                <div class="influencer_item">
-                                    @if ($item->is_trending == 'on')
-                                        <span class="influencer_tag">Trending</span>
-                                    @elseif ($item->is_featured == 'on')
-                                        <span class="influencer_tag featured">Featured</span>
-                                    @endif
-
-                                    <div class="influencer_img">
-
-
-                                        <img class="img-responsive"
-                                            src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
-                                            onerror="this.src='{{ asset('images/default.jpg') }}'" />
-
-                                    </div>
-                                    <div class="content">
-                                        <p>{{ $item->profile->name }}</p>
-                                        <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                        <div class="explore_btn">
-                                            <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
-                                                class="custombtn highlighbtn">Book Now</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endforeach
-                    </div>
-                </div>
-            @endforeach --}}
         </div>
     </div>
 

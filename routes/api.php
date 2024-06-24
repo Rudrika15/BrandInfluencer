@@ -403,3 +403,6 @@ Route::post('/redeemQrCode', [ApiController::class, 'redeemQrCode']);
 Route::get('/offerDetail/{offerId?}', [ApiController::class, 'offerDetail']);
 Route::get('/recommendOffers', [ApiController::class, 'recommendOffers']);
 Route::get('/offerBuyerList/{brandId?}', [ApiController::class, 'offerBuyerList']);
+
+// campaign details
+Route::get('/campaignList', [ApiController::class, 'campaignList']);

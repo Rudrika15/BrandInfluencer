@@ -574,6 +574,14 @@
                                                                             name="instagramUrl"
                                                                             value=" {{ $influencer->instagramUrl ?? '' }}  "
                                                                             id="instagramUrl">
+
+
+                                                                        @if ($errors->has('instagramUrl'))
+                                                                            <span class="text-danger">
+                                                                                {{ $errors->first('instagramUrl') }}
+                                                                            </span>
+                                                                        @endif
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -725,7 +733,10 @@
                                                                 <div id="uploadedFileInfo" class="uploaded-file__info">
                                                                     <span class="uploaded-file__name">Proejct 1</span>
                                                                     <span class="uploaded-file__counter">0%</span>
+                                                                    <span class="close_uploaded-file"
+                                                                        id="close_uploaded-file">X</span>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                         <!-- End File Details -->
@@ -735,6 +746,53 @@
                                                         <button type="submit" class="btn btn-primary ">Submit</button>
                                                     </div>
                                                 </form>
+
+                                            </div>
+                                        </div>
+                                        <div class="card w-100">
+                                            <div class="card-header justify-content-center">
+                                                <h3>My Portfolio</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    {{-- <style>
+                                                        .card-img-top {
+                                                            aspect-ratio: 2/2;
+                                                        }
+
+                                                        .card-img-top:hover {
+                                                            transform: scale(1.1);
+                                                            transition: 0.1s ease-in-out;
+                                                            margin-top: -10px;
+                                                        }
+                                                    </style> --}}
+                                                    @if (count($portfolio) > 0)
+                                                        @foreach ($portfolio as $port)
+                                                            <div class="col-md-4">
+                                                                <div class="card text-end"
+                                                                    style="width: 13rem; height: 15rem; ">
+                                                                    <div class="card-body">
+                                                                        <a href="{{ route('portfolio.delete', $port->id) }}"
+                                                                            onclick="return confirm('Do You Want To Delete It')">
+                                                                            <i class="bi bi-x-lg text-danger"></i>
+                                                                        </a>
+                                                                        <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
+                                                                            target="_blank">
+                                                                            <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
+                                                                                height="200"
+                                                                                class="card-img-top  portImage"
+                                                                                alt=""
+                                                                                style="object-fit: contain">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <h4 class="text-center ps-5 text-muted fw-italic">No Portfolio
+                                                            Found</h4>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -901,6 +959,9 @@
         // Uploaded File Info
         const uploadedFileInfo = document.querySelector('#uploadedFileInfo');
 
+        //CLOSE Uploaded File
+        const closeUploadedFile = document.querySelector('.close_uploaded-file');
+
         // Uploaded File  Name
         const uploadedFileName = document.querySelector('.uploaded-file__name');
 
@@ -920,6 +981,7 @@
             "svg",
             "gif"
         ];
+
 
         // Append Images Types Array Inisde Tooltip Data
         toolTipData.innerHTML = [...imagesTypes].join(', .');
@@ -1082,6 +1144,24 @@
                 return alert('Please make sure to upload An Image File Type');
             };
         };
+
+        document.getElementById("close_uploaded-file").style.cursor = "pointer";
+        //Close Uploaded file 
+        closeUploadedFile.addEventListener('click', function(event) {
+            dropZoon.classList.remove('drop-zoon--Uploaded');
+            // Hide Preview Image
+            previewImage.style.display = 'none';
+            uploadArea.classList.remove('upload-area--open');
+            // Add Class (file-details--open) On (fileDetails)
+            fileDetails.classList.remove('file-details--open');
+            // remove Class (uploaded-file--open) On (uploadedFile)
+            uploadedFile.classList.remove('uploaded-file--open');
+            // remove Class (uploaded-file__info--active) On (uploadedFileInfo)
+            uploadedFileInfo.classList.remove('uploaded-file__info--active');
+            //reset file from input
+            $('#fileInput').wrap('<form>').closest('form').get(0).reset();
+            $('#fileInput').unwrap();
+        });
 
         // :)
     </script>
