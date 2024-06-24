@@ -286,17 +286,18 @@
             <div class="tab-pane show active" id="foodtab" role="tabpanel" aria-labelledby="food-tab">
                 <div class="influencer_inner">
                     @foreach ($influencers as $item)
-                        <div class="influencer_item">
+                        <div class="influencer_item ">
                             @if ($item->is_trending == 'on')
                                 <span class="influencer_tag">Trending</span>
                             @endif
                             @if ($item->is_featured == 'on')
-                                <span class="influencer_tag featured " style="margin-top: 8%;">Featured</span>
+                                <span class="influencer_tag featured " style="margin-top: 5%;">Featured</span>
                             @endif
                             <div class="influencer_img">
                                 <img class="img-responsive"
                                     src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
-                                    onerror="this.src='{{ asset('images/default.jpg') }}'" />
+                                    onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                    style="height: 350px; object-fit: contain;" />
                             </div>
                             <div class="content">
                                 <p>{{ $item->profile->name }}</p>

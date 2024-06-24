@@ -6,18 +6,18 @@
         @import url("https://fonts.googleapis.com/css?family=Bree+Serif&display=swap");
 
         /* * {
-                                                                                                                                                                                                                            padding: 0;
-                                                                                                                                                                                                                            margin: 0;
-                                                                                                                                                                                                                            box-sizing: border-box;
-                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                padding: 0;
+                                                                                                                                                                                                                                margin: 0;
+                                                                                                                                                                                                                                box-sizing: border-box;
+                                                                                                                                                                                                                            } */
 
         /* body {
-                                                                                                                                                                                                                        background: #f8f9fa;
-                                                                                                                                                                                                                        overflow-x: hidden;
-                                                                                                                                                                                                                        padding-top: 20px;
-                                                                                                                                                                                                                        font-family: "Poppins", sans-serif;
-                                                                                                                                                                                                                        margin: 0 100px;
-                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                            background: #f8f9fa;
+                                                                                                                                                                                                                            overflow-x: hidden;
+                                                                                                                                                                                                                            padding-top: 20px;
+                                                                                                                                                                                                                            font-family: "Poppins", sans-serif;
+                                                                                                                                                                                                                            margin: 0 100px;
+                                                                                                                                                                                                                        } */
 
         .profile-header {
             background: #fff;
@@ -114,21 +114,21 @@
 
 
         /* .profile-option .notification .alert-message {
-                                                                                                                        position: absolute;
-                                                                                                                        top: -5px;
-                                                                                                                        right: -5px;
-                                                                                                                        background: #fff;
-                                                                                                                        color: #00c9e4;
-                                                                                                                        border: 1px solid #00c9e4;
-                                                                                                                        padding: 10px;
-                                                                                                                        border-radius: 50%;
-                                                                                                                        height: 20px;
-                                                                                                                        display: flex;
-                                                                                                                        justify-content: center;
-                                                                                                                        align-items: center;
-                                                                                                                        font-size: 0.8rem;
-                                                                                                                        font-weight: bold;
-                                                                                                                    } */
+                                                                                                                            position: absolute;
+                                                                                                                            top: -5px;
+                                                                                                                            right: -5px;
+                                                                                                                            background: #fff;
+                                                                                                                            color: #00c9e4;
+                                                                                                                            border: 1px solid #00c9e4;
+                                                                                                                            padding: 10px;
+                                                                                                                            border-radius: 50%;
+                                                                                                                            height: 20px;
+                                                                                                                            display: flex;
+                                                                                                                            justify-content: center;
+                                                                                                                            align-items: center;
+                                                                                                                            font-size: 0.8rem;
+                                                                                                                            font-weight: bold;
+                                                                                                                        } */
 
         .main-bd {
             width: 100%;
@@ -207,7 +207,7 @@
         }
 
         .nav-b {
-            width: 100%;
+            width: 740px;
             z-index: -1;
         }
 
@@ -381,7 +381,8 @@
             <div class="profile-img">
 
                 @if (isset($users->profilePhoto))
-                    <img src="{{ asset('profile/' . $users->profilePhoto) }}" style="max-width: 300px; max-height: 500px; object-fit: contain;" alt="Profile Image">
+                    <img src="{{ asset('profile/' . $users->profilePhoto) }}"
+                        style="max-width: 300px; max-height: 500px; object-fit: contain;" alt="Profile Image">
                 @else
                     <img src="{{ asset('images/defaultPerson.jpg') }}" width="200" alt="Profile Image">
                 @endif
@@ -444,7 +445,8 @@
                     </style>
                     @role('Brand')
                         @foreach ($brand_category as $category)
-                            <span class="p-1 text-white bg-secondary fs-5 m-1 rounded-pill">{{ $category->brandCategory->categoryName }}</span>
+                            <span
+                                class="p-1 text-white bg-secondary fs-5 m-1 rounded-pill">{{ $category->brandCategory->categoryName }}</span>
                         @endforeach
                     @endrole
                 </div>
@@ -456,7 +458,8 @@
                 <div class="">
                     {{-- <i class="bi bi-bell"></i>
                     <span class="alert-message">3</span> --}}
-                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-info shadow-none" style="color: white;">Edit Profile </a>
+                    <a href="{{ route('profile.edit', $authid) }}" class="btn btn-info shadow-none"
+                        style="color: white;">Edit Profile </a>
                 </div>
             </div>
         </div>
@@ -492,7 +495,9 @@
                                     <div class="col-md-6 mb-4">
                                         <div class="card" style="width: 18rem;">
 
-                                            <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top" alt="Campaign Image" height="260px">
+                                            <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}"
+                                                onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top"
+                                                alt="Campaign Image" height="260px">
 
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ $data->title }}</h5>
@@ -506,7 +511,8 @@
 
                                                 </div>
                                                 <div class="text-end mb-3 ">
-                                                    <a href="{{ route('brand.campaign.appliers', $data->id) }}" class="btn btn-info btn-sm">Appliers</a>
+                                                    <a href="{{ route('brand.campaign.appliers', $data->id) }}"
+                                                        class="btn btn-info btn-sm">Appliers</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -574,7 +580,9 @@
 
 
                                                 <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" target="_blank">
-                                                    <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" height="200" class="card-img-top p-3 img-thumbnail portImage" alt="">
+                                                    <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
+                                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                                        alt="">
                                                 </a>
 
                                             </div>
