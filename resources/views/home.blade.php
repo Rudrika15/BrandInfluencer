@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Brand beans | Brands')
 @section('content')
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('assetshtml/css/custom.css') }}" />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -114,7 +116,8 @@
                     box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
                 }
             </style>
-            <div class="row">
+
+            {{-- <div class="row">
                 @foreach ($influencer as $influencers)
                     @if ($influencers->profilePhoto != null)
                         <div class="col-md-4">
@@ -140,35 +143,43 @@
                         </div>
                     @endif
                 @endforeach
-            </div>
-
-            {{-- <div class="influencer_inner">
-                @foreach ($influencer as $item)
-                    @if ($item->profilePhoto != null)
-                        <div class="influencer_item">
-                            @if ($item->is_trending == 'on')
-                                <span class="influencer_tag">Trending</span>
-                            @elseif ($item->is_featured == 'on')
-                                <span class="influencer_tag featured">Featured</span>
-                            @endif
-
-                            <div class="influencer_img">
-                                <img class="img-responsive" src="{{ asset('profile') }}/{{ $item->profilePhoto ?? '' }}"
-                                    onerror="this.src='{{ asset('images/default.jpg') }}'" />
-
-                            </div>
-                            <div class="content">
-                                <p>{{ $item->name }}</p>
-                                <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                <div class="explore_btn">
-                                    <a href="{{ route('general.influencerProfile', $item->id) }}"
-                                        class="custombtn highlighbtn">Book Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
             </div> --}}
+
+            <div class="container influencer_section " style="height: 400px !important;">
+                <div class="">
+                    <div class="influencer_inner">
+                        @foreach ($influencer as $item)
+                            {{-- @if ($item->profilePhoto != null) --}}
+                            <div class="influencer_item ">
+                                @if ($item->influencer->is_trending == 'on')
+                                    <span class="influencer_tag">Trending</span>
+                                @endif
+                                @if ($item->influencer->is_featured == 'on')
+                                    <span class="influencer_tag featured mt-4">Featured</span>
+                                @endif
+
+                                {{-- <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"> --}}
+                                <div class="influencer_img">
+                                    <img class="bg-light" src="{{ asset('profile') }}/{{ $item->profilePhoto ?? '' }}"
+                                        onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                        style="height: 350px; object-fit: contain;" />
+                                </div>
+                                {{-- </a> --}}
+                                <div class="content">
+                                    <p>{{ $item->name }}</p>
+                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                    <div class="explore_btn ">
+                                        <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"
+                                            class="custombtn highlighbtn">View Profile</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            {{-- @endif --}}
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         @endrole
     </div>
 

@@ -474,7 +474,7 @@
                                                                 <div class="col-md-7">
                                                                     <input type="text" class="form-control shadow-none "
                                                                         id="name" name="name"
-                                                                        value="{{ $users->name ?? '-' }}">
+                                                                        value="{{ $users->name ?? '' }}">
 
                                                                 </div>
                                                             </div>
@@ -486,7 +486,7 @@
                                                                 <div class="col-md-7">
                                                                     <input type="text" class=" form-control shadow-none"
                                                                         id="username" name="username"
-                                                                        value="{{ $users->username ?? '-' }}">
+                                                                        value="{{ $users->username ?? '' }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -497,7 +497,7 @@
                                                                 <div class="col-md-7">
                                                                     <input type="text" class=" form-control shadow-none"
                                                                         id="state" name="state"
-                                                                        value="{{ $users->state ?? '-' }}">
+                                                                        value="{{ $users->state ?? '' }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -509,7 +509,7 @@
                                                                 <div class="col-md-7">
                                                                     <input type="text" class="form-control shadow-none "
                                                                         id="location" name="city"
-                                                                        value="{{ $users->city ?? '-' }}">
+                                                                        value="{{ $users->city ?? '' }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -530,7 +530,7 @@
                                                                     <div class="col-md-4"><label>Date of Birth:</label></div>
                                                                     <div class="col-md-7">
                                                                         <input type="date" class=" form-control shadow-none"
-                                                                            name="dob" value="{{ $influencer->dob }}"
+                                                                            name="dob" value="{{ $influencer->dob ?? '' }}"
                                                                             id="dob">
 
                                                                     </div>
@@ -572,7 +572,7 @@
                                                                         <input type="text"
                                                                             class=" form-control shadow-none"
                                                                             name="instagramUrl"
-                                                                            value=" {{ $influencer->instagramUrl ?? '-' }}  "
+                                                                            value=" {{ $influencer->instagramUrl ?? '' }}  "
                                                                             id="instagramUrl">
                                                                     </div>
                                                                 </div>
@@ -587,7 +587,7 @@
                                                                         <input type="text"
                                                                             class=" form-control shadow-none"
                                                                             name="instagramFollowers"
-                                                                            value="{{ $influencer->instagramFollowers ?? '-' }}"
+                                                                            value="{{ $influencer->instagramFollowers ?? '' }}"
                                                                             id="instagramFollowers">
                                                                     </div>
                                                                 </div>
@@ -602,7 +602,7 @@
                                                                         <input type="text"
                                                                             class=" form-control shadow-none"
                                                                             name="youtubeChannelUrl"
-                                                                            value="{{ $influencer->youtubeChannelUrl }}"
+                                                                            value="{{ $influencer->youtubeChannelUrl ?? '' }}"
                                                                             id="youtubeChannelUrl">
                                                                     </div>
                                                                 </div>
@@ -617,7 +617,7 @@
                                                                         <input type="text"
                                                                             class=" form-control shadow-none"
                                                                             name="youtubeSubscriber"
-                                                                            value="{{ $influencer->youtubeSubscriber }}"
+                                                                            value="{{ $influencer->youtubeSubscriber ?? '' }}"
                                                                             id="youtubeSubscriber">
                                                                     </div>
                                                                 </div>
@@ -630,14 +630,14 @@
                                                                     <input type="file" accept="image/*"
                                                                         class="form-control shadow-none "
                                                                         id="profilePhoto" name="profilePhoto"
-                                                                        value="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}">
+                                                                        value="{{ url('profile') }}/{{ $users->profilePhoto ?? '' }}">
                                                                     @if ($errors->has('profilePhoto'))
                                                                         <span
                                                                             class="text-danger">{{ $errors->first('profilePhoto') }}</span>
                                                                     @endif
                                                                 </div>
                                                                 <div class="col-md-2">
-                                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '-' }}"
+                                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '' }}"
                                                                         class="img-fluid" alt="Responsive image">
                                                                 </div>
                                                             </div>
@@ -653,7 +653,7 @@
                                                                 <div class="col-md-2"><label>About:</label></div>
                                                                 <div class="col-md-10">
                                                                     <textarea style="width:95%" class="about form-control shadow-none" rows="5" placeholder="Enter About"
-                                                                        type="text" id="about" name="about" value="">{{ $users->about ?? '-' }}</textarea>
+                                                                        type="text" id="about" name="about" value="">{{ $users->about ?? '' }}</textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
