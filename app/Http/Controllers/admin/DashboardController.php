@@ -134,8 +134,8 @@ class DashboardController extends Controller
             if (in_array('Influencer', $roles)) {
 
                 $request->validate([
-                    'instagramUrl' => 'required | url |regex: [/], [a-z A-Z 0-9] ',
-                    'youtubeChannelUrl' => 'required | regex: [@], [a-z A-Z 0-9]'
+                    'instagramUrl' => ['required', 'regex:/^https:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9._]+$/'],
+                    'youtubeChannelUrl' => ['required', 'regex:/^https:\/\/www\.youtube\.com\/@[-a-zA-Z0-9_]+$/'],
                 ]);
 
                 $influencer = InfluencerProfile::where('userId', '=', $id)->first();
