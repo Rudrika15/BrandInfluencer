@@ -283,15 +283,15 @@ class ApiController extends Controller
 
                 $response = [
                     'User Data' => $user,
-
-                    'flag' => false,
-                    // 'token' => $token,
+                    'role' => $role,
+                    'token' => $token,
+                    'flag' => true,
                 ];
 
                 return response($response, 200);
             } else {
                 return response([
-                    'flag' => true,
+                    'flag' => false,
                     'message' => ['User Data does not exist']
                 ], 404);
             }
@@ -378,6 +378,7 @@ class ApiController extends Controller
                 $response = [
                     'User Data' => $user,
                     'token' => $token,
+                    'flag' => true
                 ];
 
                 return response($response, 201);
@@ -390,6 +391,7 @@ class ApiController extends Controller
             return response([
                 'message' => ['User Found'],
                 'User Data' => $findUser,
+                'flag' => false
             ], 404);
         }
     }
