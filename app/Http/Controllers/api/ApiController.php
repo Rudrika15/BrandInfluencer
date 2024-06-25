@@ -311,7 +311,7 @@ class ApiController extends Controller
         $rules = array(
             'name' => "required",
             'email' => "required|required|email|unique:users,email",
-            'password' => ['required', 'string', 'min:6'],
+            'password' => ['string', 'min:6'],
             'username' => "unique:users,username",
             "userType" => "required",
             "mobileno" => "required",
@@ -354,9 +354,8 @@ class ApiController extends Controller
                 $influencer->save();
             }
             if ($request->userType == "brand" || $request->userType == "Brand") {
-                $categoryIds = json_decode($request['categoryId'], true);
+                $categoryIds = $request['categoryId'];
                 foreach ($categoryIds as $categoryId) {
-                    return $categoryId;
                     // Store the new categories
                     $data = new BrandWithCategory();
                     $data->brandId = $request->userId;
