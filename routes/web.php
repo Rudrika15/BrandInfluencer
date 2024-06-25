@@ -56,9 +56,10 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', function () {
-    $influencers = InfluencerProfile::where('is_trending', 'on')->get();
-    $categories = CategoryInfluencer::with('Influencer')->get();
-    return view('welcome', compact('influencers', 'categories'));
+    $categories = CategoryInfluencer::all();
+    $influencers = InfluencerProfile::all();
+    $categoryInfluencer = CategoryInfluencer::with('Influencer')->whereHas('Influencer')->get();
+    return view('welcome', compact('influencers', 'categories', 'categoryInfluencer'));
 });
 Route::post('brandDetails', [HomepageController::class, 'brandDetails'])->name('brandDetails');
 
