@@ -579,6 +579,7 @@
                                                                         @if ($errors->has('instagramUrl'))
                                                                             <span class="text-danger">
                                                                                 {{ $errors->first('instagramUrl') }}
+                                                                                error
                                                                             </span>
                                                                         @endif
 
@@ -612,6 +613,12 @@
                                                                             name="youtubeChannelUrl"
                                                                             value="{{ $influencer->youtubeChannelUrl ?? '' }}"
                                                                             id="youtubeChannelUrl">
+                                                                        @if ($errors->has('youtubeChannelUrl'))
+                                                                            <span class="text-danger">
+                                                                                {{ $errors->first('youtubeChannelUrl') }}
+                                                                                error
+                                                                            </span>
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                             </div>

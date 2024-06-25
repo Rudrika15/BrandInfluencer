@@ -57,7 +57,7 @@ Auth::routes();
 
 Route::get('/', function () {
     $influencers = InfluencerProfile::where('is_trending', 'on')->get();
-    $categories = CategoryInfluencer::all();
+    $categories = CategoryInfluencer::with('Influencer')->get();
     return view('welcome', compact('influencers', 'categories'));
 });
 Route::post('brandDetails', [HomepageController::class, 'brandDetails'])->name('brandDetails');
