@@ -356,14 +356,14 @@ class ApiController extends Controller
                 $influencer->save();
             }
             if ($request->userType == "brand" || $request->userType == "Brand") {
-<<<<<<< HEAD
-                $categoryIds = json_decode($request['categoryId']);
-                foreach ($categoryIds as $categoryId) {
-                    
-=======
+
+                // $categoryIds = json_decode($request['categoryId']);
+                // foreach ($categoryIds as $categoryId) {
+
+
                 $categoryIds = $request['categoryId'];
                 foreach ($categoryIds as $categoryId) {
->>>>>>> 97c31b6526c5158c5c758656130b53e68e2efb5b
+
                     // Store the new categories
                     $data = new BrandWithCategory();
                     $data->brandId = $user->id;

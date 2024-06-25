@@ -699,18 +699,18 @@ header .navbar .nav-item ul li a:hover {
     top: 15px;
     z-index: 3;
     right: 15px;
-    width: 30px;
-    height: 30px;
-    font-size: 21px;
+    /* width: 30px;
+    height: 30px; */
+    font-size: 30px;
     line-height: 35px;
     position: absolute;
     text-align: center;
-    border-radius: 50px;
+    /* border-radius: 50px; */
     transition: all ease-in-out 0.5s;
-    background-color: rgba(255, 255, 255, 0.75);
+    /* background-color: rgba(255, 255, 255, 0.75); */
 }
 .influencer_section .influencer_inner .influencer_item .heart_icon:hover {
-    background-color: #fff;
+    /* background-color: #fff; */
 }
 .influencer_section .influencer_inner .influencer_item:before {
     top: 0;

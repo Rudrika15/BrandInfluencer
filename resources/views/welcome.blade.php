@@ -9,7 +9,7 @@
     <!-- <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"> -->
 
     <title>Welcome to Brandbeans</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assetshtml/images/fav_icon.png" type="image/x-icon') }}">
 
@@ -379,27 +379,31 @@
 
                         @foreach ($filteredInfluencers as $item)
                             <div class="influencer_item">
+                                @if ($item->profile->profilePhoto)
+                                    @if ($item->is_trending == 'on')
+                                        <span class="influencer_tag">Trending</span>
+                                    @elseif ($item->is_featured == 'on')
+                                        <span class="influencer_tag featured">Featured</span>
+                                    @endif
+                                    @if ($item->is_brandBeansVerified)
+                                        <i class="bi bi-patch-check-fill heart_icon " style="color: blue"></i>
+                                    @endif
 
-                                @if ($item->is_trending == 'on')
-                                    <span class="influencer_tag">Trending</span>
-                                @elseif ($item->is_featured == 'on')
-                                    <span class="influencer_tag featured">Featured</span>
-                                @endif
+                                    <div class="influencer_img">
+                                        <img class="img-responsive"
+                                            src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
+                                            onerror="this.src='{{ asset('images/default.jpg') }}'" />
 
-                                <div class="influencer_img">
-                                    <img class="img-responsive"
-                                        src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
-                                        onerror="this.src='{{ asset('images/default.jpg') }}'" />
-
-                                </div>
-                                <div class="content">
-                                    <p>{{ $item->profile->name }}</p>
-                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                    <div class="explore_btn">
-                                        <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
-                                            class="custombtn highlighbtn">Book Now</a>
                                     </div>
-                                </div>
+                                    <div class="content">
+                                        <p>{{ $item->profile->name }}</p>
+                                        <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                        <div class="explore_btn">
+                                            <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                                class="custombtn highlighbtn">Book Now</a>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         @endforeach
 
@@ -413,28 +417,33 @@
             <div class="tab-pane active" id="alltab" role="tabpanel" aria-labelledby="all-tab">
                 <div class="influencer_inner">
                     @foreach ($influencers as $item)
-                        <div class="influencer_item ">
-                            @if ($item->is_trending == 'on')
-                                <span class="influencer_tag">Trending</span>
-                            @endif
-                            @if ($item->is_featured == 'on')
-                                <span class="influencer_tag featured " style="margin-top: 5%;">Featured</span>
-                            @endif
-                            <div class="influencer_img">
-                                <img class="img-responsive"
-                                    src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
-                                    onerror="this.src='{{ asset('images/default.jpg') }}'"
-                                    style="height: 350px; object-fit: contain;" />
-                            </div>
-                            <div class="content">
-                                <p>{{ $item->profile->name }}</p>
-                                <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                <div class="explore_btn">
-                                    <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
-                                        class="custombtn highlighbtn">Book Now</a>
+                        @if ($item->profile->profilePhoto)
+                            <div class="influencer_item ">
+                                @if ($item->is_trending == 'on')
+                                    <span class="influencer_tag">Trending</span>
+                                @endif
+                                @if ($item->is_featured == 'on')
+                                    <span class="influencer_tag featured " style="margin-top: 5%;">Featured</span>
+                                @endif
+                                @if ($item->is_brandBeansVerified)
+                                    <i class="bi bi-patch-check-fill heart_icon " style="color: blue; "></i>
+                                @endif
+                                <div class="influencer_img">
+                                    <img class="img-responsive"
+                                        src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
+                                        onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                        style="height: 350px; object-fit: contain;" />
+                                </div>
+                                <div class="content">
+                                    <p>{{ $item->profile->name }}</p>
+                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                    <div class="explore_btn">
+                                        <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                            class="custombtn highlighbtn">Book Now</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
                 </div>
             </div>
