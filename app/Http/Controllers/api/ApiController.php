@@ -319,56 +319,73 @@ class ApiController extends Controller
         );
 
 
-
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return $validator->errors();
         }
+        $findUser = User::where('mobileno', $request->mobileno)->first();
+        if (!$findUser) {
+
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            if ($request->username)
+                $user->username = $request->username;
+            else
+                $user->username = $request->name;
+            $user->password = Hash::make($request->password);
+            $user->package = 'FREE';
+            $user->mobileno = $request->mobileno;
+            if ($user->userType == "influencer" || $user->userType == "Influencer") {
+                $user->assignRole('Influencer');
+            }
+            if ($user->userType == "brand" || $user->userType == "Brand") {
+                $user->assignRole('Brand');
+            }
+            $user->save();
+
+            if ($request->userType == "influencer" || $request->userType == "Influencer") {
+
+                $influencer = new InfluencerProfile();
+                $influencer->userId = $user->id;
+                $influencer->categoryId = $request['categoryId'];
+                $influencer->contactNo = $user->mobileno;
+
+                $influencer->save();
+            }
+            if ($request->userType == "brand" || $request->userType == "Brand") {
+                $categoryIds = json_decode($request['categoryId'], true);
+                foreach ($categoryIds as $categoryId) {
+                    return $categoryId;
+                    // Store the new categories
+                    $data = new BrandWithCategory();
+                    $data->brandId = $request->userId;
+                    $data->brandCategoryId = $categoryId;
+                    $data->save();
+                }
+            }
 
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->username)
-            $user->username = $request->username;
-        else
-            $user->username = $request->name;
-        $user->password = Hash::make($request->password);
-        $user->package = 'FREE';
-        $user->mobileno = $request->mobileno;
-        if ($user->userType == "influencer" || $user->userType == "Influencer") {
-            $user->assignRole('Influencer');
-        }
-        if ($user->userType == "brand" || $user->userType == "Brand") {
-            $user->assignRole('Brand');
-        }
-        $user->save();
 
-        if ($user->userType == "influencer" || $user->userType == "Influencer") {
+            if ($user) {
+                $token = $user->createToken('my-app-token')->plainTextToken;
+                //send mail + random number code here
+                $role = $user->getRoleNames();
+                $response = [
+                    'User Data' => $user,
+                    'token' => $token,
+                ];
 
-            $influencer = new InfluencerProfile();
-            $influencer->userId = $user->id;
-            $influencer->categoryId = $request->categoryId;
-            $influencer->contactNo = $user->mobileno;
-            $influencer->save();
-        }
-
-
-
-
-        if ($user) {
-            $token = $user->createToken('my-app-token')->plainTextToken;
-            //send mail + random number code here
-            $role = $user->getRoleNames();
-            $response = [
-                'User Data' => $user,
-                'token' => $token,
-            ];
-
-            return response($response, 201);
+                return response($response, 201);
+            } else {
+                return response([
+                    'message' => ['These credentials do not match our records.']
+                ], 404);
+            }
         } else {
             return response([
-                'message' => ['These credentials do not match our records.']
+                'message' => ['User Found'],
+                'User Data' => $findUser,
             ], 404);
         }
     }
