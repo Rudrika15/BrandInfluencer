@@ -315,6 +315,7 @@ class ApiController extends Controller
             'username' => "unique:users,username",
             "userType" => "required",
             "mobileno" => "required",
+            "categoryId" => "required",
         );
 
 
@@ -342,6 +343,16 @@ class ApiController extends Controller
             $user->assignRole('Brand');
         }
         $user->save();
+
+        if ($user->userType == "influencer" || $user->userType == "Influencer") {
+
+            $influencer = new InfluencerProfile();
+            $influencer->userId = $user->id;
+            $influencer->categoryId = $request->categoryId;
+            $influencer->contactNo = $user->mobileno;
+            $influencer->save();
+        }
+
 
 
 
