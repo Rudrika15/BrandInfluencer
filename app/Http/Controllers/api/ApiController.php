@@ -4752,7 +4752,7 @@ class ApiController extends Controller
             return $item->max('campaignId');
         })->toArray();
         $mostAppliedd = Campaign::whereIn('id', $mostApplied)->get();
-        $trending = Campaign::whereIn('id', $mostApplied)->orderBy('id', 'desc');
+        $trending = Campaign::whereIn('id', $mostApplied)->orderBy('id', 'desc')->get();
         return response()->json([
             'success' => true,
             'paidCampaigns' => $paidCampaigns,
