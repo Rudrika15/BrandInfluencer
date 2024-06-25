@@ -54,7 +54,8 @@
                     <li><a href="{{ route('login') }}" class="custombtn">Login</a></li>
                     <li><a href="{{ route('register') }}" class="custombtn highlighbtn">Register</a></li>
                 </ul>
-                <div class="side-menu-close d-flex d-lg-none flex-wrap flex-column align-items-center justify-content-center ml-auto">
+                <div
+                    class="side-menu-close d-flex d-lg-none flex-wrap flex-column align-items-center justify-content-center ml-auto">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -106,7 +107,8 @@
                                     <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer
                                         for your business identifying involves individuals whose values align with
                                         identifying your brand.</p>
-                                    <a class="wow fadeInUp custombtn" href="#featured_creators" data-wow-duration="2s" href="#">Find
+                                    <a class="wow fadeInUp custombtn" href="#featured_creators" data-wow-duration="2s"
+                                        href="#">Find
                                         Influencer</a>
                                 </div>
                             </div>
@@ -128,7 +130,8 @@
                                     <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer
                                         for your business identifying involves individuals whose values align with
                                         identifying your brand.</p>
-                                    <a class="wow fadeInUp custombtn" href="#featured_creators" data-wow-duration="2s" href="#">Find
+                                    <a class="wow fadeInUp custombtn" href="#featured_creators" data-wow-duration="2s"
+                                        href="#">Find
                                         Influencer</a>
                                 </div>
                             </div>
@@ -199,7 +202,8 @@
                 <div class="item featured_item">
                     <div class="featured_slide">
                         <div>
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
+                            <img class="img-responsive"
+                                src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
@@ -210,7 +214,8 @@
                 <div class="item featured_item">
                     <div class="featured_slide">
                         <div>
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
+                            <img class="img-responsive"
+                                src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
@@ -221,7 +226,8 @@
                 <div class="item featured_item">
                     <div class="featured_slide">
                         <div>
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
+                            <img class="img-responsive"
+                                src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
@@ -232,7 +238,8 @@
                 <div class="item featured_item">
                     <div class="featured_slide">
                         <div>
-                            <img class="img-responsive" src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
+                            <img class="img-responsive"
+                                src="{{ asset('assetshtml/images/featured_slider1.png') }}" />
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
@@ -260,7 +267,8 @@
             <ul class="nav nav-tabs" id="myTab" role="tablist">
 
                 <li class="nav-item active">
-                    <a class="nav-link active" id="all-tab" data-toggle="tab" href="#alltab" role="tab" aria-controls="alltab" aria-selected="true">
+                    <a class="nav-link active" id="all-tab" data-toggle="tab" href="#alltab" role="tab"
+                        aria-controls="alltab" aria-selected="true">
 
                         All
                     </a>
@@ -277,7 +285,10 @@
                 @endforeach --}}
                 @foreach ($categories as $category)
                     <li class="nav-item">
-                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="tab-{{ $category->id }}" data-toggle="tab" href="#category-{{ $category->id }}" role="tab" aria-controls="category-{{ $category->id }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $category->name }}</a>
+                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="tab-{{ $category->id }}"
+                            data-toggle="tab" href="#category-{{ $category->id }}" role="tab"
+                            aria-controls="category-{{ $category->id }}"
+                            aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $category->name }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -355,7 +366,8 @@
                 </div>
             @endforeach --}}
             @foreach ($categoryInfluencer as $category)
-                <div class="tab-pane fade" id="category-{{ $category->id }}" role="tabpanel" aria-labelledby="tab-{{ $category->id }}">
+                <div class="tab-pane fade" id="category-{{ $category->id }}" role="tabpanel"
+                    aria-labelledby="tab-{{ $category->id }}">
                     <div class="influencer_inner">
                         @php
                             // Filter influencers by category id
@@ -382,24 +394,27 @@
                                             src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
                                             onerror="this.src='{{ asset('images/default.jpg') }}'" />
 
-                                <div class="influencer_img">
-                                    <img class="img-responsive" src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}" onerror="this.src='{{ asset('images/default.jpg') }}'" />
+                                        <div class="influencer_img">
+                                            <img class="img-responsive"
+                                                src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
+                                                onerror="this.src='{{ asset('images/default.jpg') }}'" />
 
-                                </div>
-                                <div class="content">
-                                    <p>{{ $item->profile->name }}</p>
-                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                    <div class="explore_btn">
-                                        <a href="{{ route('general.influencerProfile', $item->profile->id) }}" class="custombtn highlighbtn">Book Now</a>
-                                    </div>
-                                    <div class="content">
-                                        <p>{{ $item->profile->name }}</p>
-                                        <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                        <div class="explore_btn">
-                                            <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
-                                                class="custombtn highlighbtn">Book Now</a>
                                         </div>
-                                    </div>
+                                        <div class="content">
+                                            <p>{{ $item->profile->name }}</p>
+                                            <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                            <div class="explore_btn">
+                                                <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                                    class="custombtn highlighbtn">Book Now</a>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ $item->profile->name }}</p>
+                                                <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                                <div class="explore_btn">
+                                                    <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                                        class="custombtn highlighbtn">Book Now</a>
+                                                </div>
+                                            </div>
                                 @endif
                             </div>
                         @endforeach
@@ -422,7 +437,7 @@
                                 @if ($item->is_featured == 'on')
                                     <span class="influencer_tag featured " style="margin-top: 5%;">Featured</span>
                                 @endif
-                                @if ($item->is_brandBeansVerified)
+                                @if ($item->is_brandBeansVerified == 'on')
                                     <i class="bi bi-patch-check-fill heart_icon " style="color: blue; "></i>
                                 @endif
                                 <div class="influencer_img">
@@ -462,7 +477,8 @@
 
                     <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer for your
                         business involves identifying individuals whose values align with your brand.</p>
-                    <button class="wow fadeInUp custombtn" data-wow-duration="2s" data-toggle="modal" data-target="#modelId">Fill the Form</button>
+                    <button class="wow fadeInUp custombtn" data-wow-duration="2s" data-toggle="modal"
+                        data-target="#modelId">Fill the Form</button>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="influencer_img">
@@ -473,7 +489,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -678,7 +695,8 @@
                         products. We have been showcasing the best and out-of-the-box range of products that will
                         level
                         up your living style.</p>
-                    <a href="{{ route('about') }}" class="explore_btn">Explore More <span><i class='bx bx-right-arrow-alt'></i></span></a>
+                    <a href="{{ route('about') }}" class="explore_btn">Explore More <span><i
+                                class='bx bx-right-arrow-alt'></i></span></a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 quick_links">
                     <h4>Quick Links</h4>
@@ -705,10 +723,12 @@
                     <h4>Download App</h4>
                     <ul>
                         <li>
-                            <a href="#"><img src="{{ asset('assetshtml/images/appstore_icon.png') }}" height="50" /></a>
+                            <a href="#"><img src="{{ asset('assetshtml/images/appstore_icon.png') }}"
+                                    height="50" /></a>
                         </li>
                         <li>
-                            <a href="#"><img src="{{ asset('assetshtml/images/playstore_icon.png') }}" height="50" /></a>
+                            <a href="#"><img src="{{ asset('assetshtml/images/playstore_icon.png') }}"
+                                    height="50" /></a>
                         </li>
                     </ul>
                 </div>

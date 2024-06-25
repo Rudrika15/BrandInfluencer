@@ -213,6 +213,9 @@
                                 @if ($item->influencer->is_featured == 'on')
                                     <span class="influencer_tag featured mt-4">Featured</span>
                                 @endif
+                                @if ($item->influencer->is_brandBeansVerified == 'on')
+                                    <i class="bi bi-patch-check-fill heart_icon " style="color: blue; "></i>
+                                @endif
 
                                 {{-- <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"> --}}
                                 <div class="influencer_img">

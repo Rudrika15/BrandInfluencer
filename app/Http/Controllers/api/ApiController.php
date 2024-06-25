@@ -310,9 +310,6 @@ class ApiController extends Controller
     {
         $rules = array(
             'name' => "required",
-            'email' => "required|required|email|unique:users,email",
-            'password' => ['string', 'min:6'],
-            'username' => "unique:users,username",
             "userType" => "required",
             "mobileno" => "required",
             "categoryId" => "required",
