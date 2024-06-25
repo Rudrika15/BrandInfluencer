@@ -336,10 +336,10 @@ class ApiController extends Controller
             $user->password = Hash::make($request->password);
             $user->package = 'FREE';
             $user->mobileno = $request->mobileno;
-            if ($user->userType == "influencer" || $user->userType == "Influencer") {
+            if ($request->userType == "influencer" || $request->userType == "Influencer") {
                 $user->assignRole('Influencer');
             }
-            if ($user->userType == "brand" || $user->userType == "Brand") {
+            if ($request->userType == "brand" || $request->userType == "Brand") {
                 $user->assignRole('Brand');
             }
             $user->save();
@@ -354,9 +354,9 @@ class ApiController extends Controller
                 $influencer->save();
             }
             if ($request->userType == "brand" || $request->userType == "Brand") {
-                $categoryIds = json_decode($request['categoryId'], true);
+                $categoryIds = json_decode($request['categoryId']);
                 foreach ($categoryIds as $categoryId) {
-                    return $categoryId;
+                    
                     // Store the new categories
                     $data = new BrandWithCategory();
                     $data->brandId = $request->userId;
