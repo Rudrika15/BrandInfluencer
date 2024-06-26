@@ -168,39 +168,40 @@ class ApiController extends Controller
             $otps->mobileno = $request->mobile;
             $otps->time = $time;
             $otps->save();
-        } else {
-
-            $user = new User();
-            $user->mobileno = $request->mobile;
-            $user->save();
-            if ($request->userType == 'Influencer' || $request->userType == 'influencer') {
-
-                $user->assignRole('Influencer');
-            }
-            if ($request->userType == 'Brand' || $request->userType == 'brand') {
-
-                $user->assignRole('Brand');
-            }
-
-            $otps = new Otp();
-            $otps->otp = $otp;
-            $otps->mobileno = $user->mobileno;
-            $otps->time = $time;
-            $otps->save();
-            if ($response) {
-                $response = [
-                    'user' => $user,
-                    'token' => $user->createToken('my-app-token')->plainTextToken,
-                    'message' => "OTP Send Successfully",
-                ];
-
-                return response($response, 201);
-            } else {
-                return response([
-                    'message' => ['No Data Found']
-                ], 404);
-            }
         }
+        //  else {
+
+        //     $user = new User();
+        //     $user->mobileno = $request->mobile;
+        //     $user->save();
+        //     if ($request->userType == 'Influencer' || $request->userType == 'influencer') {
+
+        //         $user->assignRole('Influencer');
+        //     }
+        //     if ($request->userType == 'Brand' || $request->userType == 'brand') {
+
+        //         $user->assignRole('Brand');
+        //     }
+
+        //     $otps = new Otp();
+        //     $otps->otp = $otp;
+        //     $otps->mobileno = $user->mobileno;
+        //     $otps->time = $time;
+        //     $otps->save();
+        //     if ($response) {
+        //         $response = [
+        //             'user' => $user,
+        //             'token' => $user->createToken('my-app-token')->plainTextToken,
+        //             'message' => "OTP Send Successfully",
+        //         ];
+
+        //         return response($response, 201);
+        //     } else {
+        //         return response([
+        //             'message' => ['No Data Found']
+        //         ], 404);
+        //     }
+        // }
         // Process your response here
         // return $response;
         if ($response) {
@@ -297,7 +298,7 @@ class ApiController extends Controller
             }
         } else {
             return response([
-                'flag' => true,
+                'flag' => false,
                 'message' => ['User or Otp does not exist']
             ], 404);
         }
@@ -4794,5 +4795,19 @@ class ApiController extends Controller
             'mostApplied' => $mostAppliedd,
             'trending' => $trending
         ], 200);
+    }
+
+    public function userProfile($id)
+    {
+        $profile = User::find($id);
+        if ($profile) {
+            return response()->json([
+                'user' => $profile
+            ], 200);
+        } else {
+            return response()->json([
+                'error' => 'User not found'
+            ], 404);
+        }
     }
 }

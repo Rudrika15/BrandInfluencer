@@ -98,6 +98,9 @@ Route::get('/broview/{id}', [ApiController::class, 'broview']);
 Route::post('/brostore', [ApiController::class, 'brostore']);
 Route::get('/brodelete/{id?}', [ApiController::class, 'brodelete']);
 
+//user profile 
+Route::get('user/profile/{id}', [ApiController::class, 'userProfile']);
+
 //category API list Start
 // nonebusinesscategory
 Route::get('/nonebusinesscategory', [ApiController::class, 'nonebusinesscategory']);
