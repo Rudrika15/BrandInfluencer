@@ -379,7 +379,7 @@ class ApiController extends Controller
                 $response = [
                     'User Data' => $user,
                     'token' => $token,
-                    'flag' => true
+                    'flag' => false
                 ];
 
                 return response($response, 201);
@@ -392,7 +392,7 @@ class ApiController extends Controller
             return response([
                 'message' => ['User Found'],
                 'User Data' => $findUser,
-                'flag' => false
+                'flag' => true
             ], 404);
         }
     }
