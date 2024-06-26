@@ -294,13 +294,13 @@ class ApiController extends Controller
                 return response([
                     'flag' => false,
                     'message' => ['User Data does not exist']
-                ], 404);
+                ], 200);
             }
         } else {
             return response([
                 'flag' => false,
                 'message' => ['User or Otp does not exist']
-            ], 404);
+            ], 200);
         }
     }
 
