@@ -61,6 +61,7 @@ Route::get('/', function () {
     $categoryInfluencer = CategoryInfluencer::with('Influencer')->whereHas('Influencer')->get();
     return view('welcome', compact('influencers', 'categories', 'categoryInfluencer'));
 });
+
 Route::post('brandDetails', [HomepageController::class, 'brandDetails'])->name('brandDetails');
 
 
@@ -90,6 +91,8 @@ Route::get('/term', [HomepageController::class, 'term'])->name('term');
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/home', [App\Http\Controllers\HomepageController::class, 'index'])->name('home');
+    Route::get('/search', [App\Http\Controllers\HomepageController::class, 'search'])->name('search');
+
     Route::post('/update-session', [HomepageController::class, 'updateSession'])->name('update.session');
 
     // notification

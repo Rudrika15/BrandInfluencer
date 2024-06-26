@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class HomepageController extends Controller
 {
@@ -190,5 +191,19 @@ class HomepageController extends Controller
         $brandDetails->message = $request->message;
         $brandDetails->save();
         return back()->with('success', 'Your Data Recorded Successfully , we will connect to you soon ');
+    }
+
+
+    public function search(Request $request)
+    {
+        $searchTerm = "%" . $request->search . "%";
+        $applied = Apply::where('userId', Auth::user()->id)->get();
+        $appliedIds = Arr::pluck($applied, 'campaignId');
+        $campaigns = DB::table('campaigns')->where('title', 'LIKE', $searchTerm)
+            ->whereNotIn('id', $appliedIds)
+            ->where('startDate', '<=', now())
+            ->where('endDate', '>=', now())
+            ->orderBy('created_at', 'desc')->get();
+        return response()->json($campaigns);
     }
 }
