@@ -62,13 +62,20 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $validation = Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255',],
+            'username' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'mobileno' => ['required', 'unique:users'],
-            'password' => 'required|same:confirm-password',
+            'password' => ['required', 'confirmed'],
+            'brandCategory' => 'required_if:session,brand',
+            'influencerCategory' => 'required_if:session,influencer',
+        ], [
+            'brandCategory.required_if' => 'The brand category field is required when you choose brand role.',
+            'influencerCategory.required_if' => 'The influencer category field is required when you choose influencer.',
         ]);
+
+        return $validation;
     }
 
     /**
@@ -79,6 +86,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+
         try {
             $new_str = str_replace(' ', '', $data['username']);
 

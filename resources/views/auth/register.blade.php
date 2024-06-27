@@ -132,6 +132,10 @@
                             @endforeach
                         </select>
                         <small class="text-muted "> You can select multiple categories with ctrl + click</small>
+                        <br>
+                        @error('influencerCategory')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
                     </div>
                     <div id="brandCategory">
                         <select name="brandCategory[]" multiple class="form-control">
@@ -141,6 +145,10 @@
                             @endforeach
                         </select>
                         <small class="text-muted "> You can select multiple categories with ctrl + click</small>
+                        <br>
+                        @error('brandCategory')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
                     </div>
                 </div>
                 <br>
