@@ -285,10 +285,12 @@
                 @endforeach --}}
                 @foreach ($categories as $category)
                     <li class="nav-item">
-                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="tab-{{ $category->id }}"
+                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="category-{{ $category->id }}-tab"
                             data-toggle="tab" href="#category-{{ $category->id }}" role="tab"
                             aria-controls="category-{{ $category->id }}"
-                            aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $category->name }}</a>
+                            aria-selected="{{ $loop->first ? 'true' : 'false' }}">
+                            {{ $category->name }}
+                        </a>
                     </li>
                 @endforeach
             </ul>
@@ -329,76 +331,29 @@
                     </div>
                 </div>
             @endforeach --}}
-            {{-- @foreach ($categories as $category)
-                <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{ $category->name }}tab"
-                    role="tabpanel" aria-labelledby="{{ $category->name }}-tab">
+
+            @foreach ($categories as $category)
+                <div class="tab-pane fade " id="category-{{ $category->id }}" role="tabpanel"
+                    aria-labelledby="category-{{ $category->id }}-tab">
                     <div class="influencer_inner">
-                        @foreach ($influencers->filter(function ($influencer) use ($category) {
-        return $category->Influencer->contains('categoryId', $influencer->id);
-    }) as $item)
-                            <div class="influencer_item">
-
-                                @if ($item->is_trending == 'on')
-                                    <span class="influencer_tag">Trending</span>
-                                @elseif ($item->is_featured == 'on')
-                                    <span class="influencer_tag featured">Featured</span>
-                                @endif
-
-                                <div class="influencer_img">
-
-
-                                    <img class="img-responsive"
-                                        src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
-                                        onerror="this.src='{{ asset('images/default.jpg') }}'" />
-
-                                </div>
-                                <div class="content">
-                                    <p>{{ $item->profile->name }}</p>
-                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                    <div class="explore_btn">
-                                        <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
-                                            class="custombtn highlighbtn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endforeach --}}
-            @foreach ($categoryInfluencer as $category)
-                <div class="tab-pane fade" id="category-{{ $category->id }}" role="tabpanel"
-                    aria-labelledby="tab-{{ $category->id }}">
-                    <div class="influencer_inner">
-                        @php
-                            // Filter influencers by category id
-                            $filteredInfluencers = $influencers->filter(function ($influencer) use ($category) {
-                                $categoryIds = json_decode($influencer->categoryId, true);
-                                return in_array($category->id, $categoryIds);
-                            });
-                        @endphp
-
-                        @foreach ($filteredInfluencers as $item)
-                            <div class="influencer_item">
+                        @foreach ($influencers as $item)
+                            @if ($item->categoryId && in_array($category->id, json_decode($item->categoryId, true)))
                                 @if ($item->profile->profilePhoto)
-                                    @if ($item->is_trending == 'on')
-                                        <span class="influencer_tag">Trending</span>
-                                    @elseif ($item->is_featured == 'on')
-                                        <span class="influencer_tag featured">Featured</span>
-                                    @endif
-                                    @if ($item->is_brandBeansVerified)
-                                        <i class="bi bi-patch-check-fill heart_icon " style="color: blue"></i>
-                                    @endif
-
-                                    <div class="influencer_img">
-                                        <img class="img-responsive"
-                                            src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
-                                            onerror="this.src='{{ asset('images/default.jpg') }}'" />
+                                    <div class="influencer_item">
+                                        @if ($item->is_trending == 'on')
+                                            <span class="influencer_tag">Trending</span>
+                                        @elseif ($item->is_featured == 'on')
+                                            <span class="influencer_tag featured">Featured</span>
+                                        @endif
+                                        @if ($item->is_brandBeansVerified == 'on')
+                                            <i class="bi bi-patch-check-fill heart_icon" style="color: blue"></i>
+                                        @endif
 
                                         <div class="influencer_img">
                                             <img class="img-responsive"
-                                                src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
-                                                onerror="this.src='{{ asset('images/default.jpg') }}'" />
-
+                                                src="{{ asset('profile/' . $item->profile->profilePhoto) }}"
+                                                onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                                style="height: 350px; object-fit: contain;" />
                                         </div>
                                         <div class="content">
                                             <p>{{ $item->profile->name }}</p>
@@ -407,24 +362,15 @@
                                                 <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
                                                     class="custombtn highlighbtn">Book Now</a>
                                             </div>
-                                            <div class="content">
-                                                <p>{{ $item->profile->name }}</p>
-                                                <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                                <div class="explore_btn">
-                                                    <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
-                                                        class="custombtn highlighbtn">Book Now</a>
-                                                </div>
-                                            </div>
+                                        </div>
+                                    </div>
                                 @endif
-                            </div>
+                            @endif
                         @endforeach
-
-                        @if ($filteredInfluencers->isEmpty())
-                            <p>No influencers in this category.</p>
-                        @endif
                     </div>
                 </div>
             @endforeach
+
 
             <div class="tab-pane active" id="alltab" role="tabpanel" aria-labelledby="all-tab">
                 <div class="influencer_inner">
