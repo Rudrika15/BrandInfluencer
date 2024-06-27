@@ -6,18 +6,18 @@
         @import url("https://fonts.googleapis.com/css?family=Bree+Serif&display=swap");
 
         /* * {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    box-sizing: border-box;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        box-sizing: border-box;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
         /* body {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                background: #f8f9fa;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                overflow-x: hidden;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding-top: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                font-family: "Poppins", sans-serif;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin: 0 100px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: #f8f9fa;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    overflow-x: hidden;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-top: 20px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-family: "Poppins", sans-serif;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0 100px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
         .profile-header {
             background: #fff;
@@ -114,21 +114,21 @@
 
 
         /* .profile-option .notification .alert-message {
-                                                                                                                                                                                                                                                                                                                                                                                                position: absolute;
-                                                                                                                                                                                                                                                                                                                                                                                                top: -5px;
-                                                                                                                                                                                                                                                                                                                                                                                                right: -5px;
-                                                                                                                                                                                                                                                                                                                                                                                                background: #fff;
-                                                                                                                                                                                                                                                                                                                                                                                                color: #00c9e4;
-                                                                                                                                                                                                                                                                                                                                                                                                border: 1px solid #00c9e4;
-                                                                                                                                                                                                                                                                                                                                                                                                padding: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                border-radius: 50%;
-                                                                                                                                                                                                                                                                                                                                                                                                height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                font-size: 0.8rem;
-                                                                                                                                                                                                                                                                                                                                                                                                font-weight: bold;
-                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    position: absolute;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    top: -5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    right: -5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: #fff;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: #00c9e4;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border: 1px solid #00c9e4;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-radius: 50%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    height: 20px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-size: 0.8rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-weight: bold;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
         .main-bd {
             width: 100%;
@@ -209,6 +209,7 @@
         .nav-b {
             width: 740px;
             z-index: -1;
+
         }
 
         .nav-b ul {
@@ -252,9 +253,9 @@
             text-align: center;
         }
 
-        .profile-Gallery .card {
-            width: 15rem;
-        }
+        /* .profile-Gallery .card {
+                                                                                                                                                                                            width: 15rem;
+                                                                                                                                                                                        } */
 
         @media (max-width: 1450px) {
 
@@ -269,14 +270,14 @@
         }
 
         @media(max-width : 1400px) {
-            .nav-b {
-                width: 600px;
-            }
+            /* .nav-b {
+                                                                                                                                                            width: 600px;
+                                                                                                                                                        }
 
-            .card {
-                width: 170px !important;
-                height: 170px !important;
-            }
+                                                                                                                                                        .card {
+                                                                                                                                                            width: 170px !important;
+                                                                                                                                                            height: 170px !important;
+                                                                                                                                                        } */
 
 
         }
@@ -584,11 +585,13 @@
                 @endrole
                 @role('Influencer')
                     <div class="nav-b">
+                        {{-- <div class="card "> --}}
                         <ul>
                             <li onclick="tabs(0)" class="user-post active">Gallery</li>
                             <li onclick="tabs(1)" class="user-review">Packages</li>
                             <li onclick="tabs(2)" class="user-reels">Reels</li>
                         </ul>
+                        {{-- </div> --}}
                     </div>
                     <div class="profile-body">
                         <div class="profile-Gallery tab">
@@ -608,13 +611,12 @@
                                 @if (count($portfolio) > 0)
                                     @foreach ($portfolio as $port)
                                         <div class="col-md-4">
-                                            <div class="card text-start">
+                                            <div class="card text-start w-100">
 
 
                                                 <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" target="_blank">
                                                     <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
-                                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                                        alt="">
+                                                        class="card-img-top p-3 img-thumbnail portImage" alt="">
                                                 </a>
 
                                             </div>
@@ -646,7 +648,7 @@
                                 <div class="row ">
                                     @foreach ($influencer->profile->influencerPackage as $package)
                                         <div class="col-md-4 p-2">
-                                            <div class="card" style="width: 15rem;">
+                                            <div class="card w-100" style="width: 15rem;">
                                                 <div class="card-header">
                                                     {{ $package->title }}
                                                 </div>
@@ -838,34 +840,34 @@
         }
         tabs(0);
 
-        let bio = document.querySelector(".bio");
-        const bioMore = document.querySelector("#see-more-bio");
-        const bioLength = bio.innerText.length;
+        // let bio = document.querySelector(".bio");
+        // const bioMore = document.querySelector("#see-more-bio");
+        // const bioLength = bio.innerText.length;
 
-        function bioText() {
-            bio.oldText = bio.innerText;
+        // function bioText() {
+        //     bio.oldText = bio.innerText;
 
-            bio.innerText = bio.innerText.substring(0, 100) + "...";
-            bio.innerHTML += `<span onclick='addLength()' id='see-more-bio'>See More</span>`;
-        }
+        //     bio.innerText = bio.innerText.substring(0, 100) + "...";
+        //     bio.innerHTML += `<span onclick='addLength()' id='see-more-bio'>See More</span>`;
+        // }
 
-        bioText();
+        // bioText();
 
-        let isFullTextVisible = false;
+        // let isFullTextVisible = false;
 
-        function addLength() {
-            if (isFullTextVisible) {
-                bio.innerText = bio.oldText.substring(0, 100) + "...";
-                document.getElementById("see-more-bio").innerText = "See More";
-                isFullTextVisible = false;
-            } else {
-                bio.innerText = bio.oldText;
-                document.getElementById("see-more-bio").innerText = "See Less";
-                isFullTextVisible = true;
-            }
-        }
-        if (document.querySelector(".alert-message").innerText > 9) {
-            document.querySelector(".alert-message").style.fontSize = ".7rem";
-        }
+        // function addLength() {
+        //     if (isFullTextVisible) {
+        //         bio.innerText = bio.oldText.substring(0, 100) + "...";
+        //         document.getElementById("see-more-bio").innerText = "See More";
+        //         isFullTextVisible = false;
+        //     } else {
+        //         bio.innerText = bio.oldText;
+        //         document.getElementById("see-more-bio").innerText = "See Less";
+        //         isFullTextVisible = true;
+        //     }
+        // }
+        // if (document.querySelector(".alert-message").innerText > 9) {
+        //     document.querySelector(".alert-message").style.fontSize = ".7rem";
+        // }
     </script>
 @endsection
