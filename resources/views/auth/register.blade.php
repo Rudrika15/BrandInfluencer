@@ -78,7 +78,8 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <input class="form-control" style="margin-top: 5%" type="name" placeholder="Name" value="{{ old('name') }}" id="name" name="name">
+                    <input class="form-control" style="margin-top: 5%" type="name" placeholder="Name"
+                        value="{{ old('name') }}" id="name" name="name">
                     @error('name')
                         <span role="alert">
                             <strong class="text-danger">{{ $message }}</strong>
@@ -87,7 +88,8 @@
                 </div>
                 <br>
                 <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Email" value="{{ old('email') }}" id="email" name="email">
+                    <input type="email" class="form-control" placeholder="Email" value="{{ old('email') }}"
+                        id="email" name="email">
                     @error('email')
                         <span role="alert">
                             <strong class="text-danger">{{ $message }}</strong>
@@ -96,7 +98,8 @@
                 </div>
                 <br>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Create Your Unique Username" value="{{ old('username') }}" id="username" name="username">
+                    <input type="text" class="form-control" placeholder="Create Your Unique Username"
+                        value="{{ old('username') }}" id="username" name="username">
                     @error('username')
                         <span role="alert">
                             <strong class="text-danger">{{ $message }}</strong>
@@ -105,7 +108,8 @@
                 </div>
                 <br>
 
-                <div class="mb-3"><input type="text" class="form-control" placeholder="Enter your Phone number" value="{{ old('mobileno') }}" id="mobileno" name="mobileno">
+                <div class="mb-3"><input type="text" class="form-control" placeholder="Enter your Phone number"
+                        value="{{ old('mobileno') }}" id="mobileno" name="mobileno">
                     @error('mobileno')
                         <span role="alert">
                             <strong class="text-danger">{{ $message }}</strong>
@@ -121,11 +125,12 @@
                     @enderror
                 </div>
                 <br>
-                <div class="mb-3"><input type="password" class="form-control" placeholder="Confirm Password" class="" id="password_confirmation" name="confirm-password"></div>
+                <div class="mb-3"><input type="password" class="form-control" placeholder="Confirm Password"
+                        class="" id="password_confirmation" name="confirm-password"></div>
                 <br>
                 <div class="mb-3">
                     <div id="influencerCategory">
-                        <select name="influencerCategory[]" multiple class="form-control">
+                        <select name="influencerCategory[]" id="categoryInfluencer" multiple class="form-control">
                             <option disabled>Select Your Category</option>
                             @foreach ($influencerCategories as $influencer)
                                 <option value="{{ $influencer->id }}">{{ $influencer->name }}</option>
@@ -134,7 +139,7 @@
                         <small class="text-muted "> You can select multiple categories with ctrl + click</small>
                     </div>
                     <div id="brandCategory">
-                        <select name="brandCategory[]" multiple class="form-control">
+                        <select name="brandCategory[]" id="categoryBrand" multiple class="form-control">
                             <option disabled>Select Your Category</option>
                             @foreach ($brandCategories as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->categoryName }}</option>
@@ -161,7 +166,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="{{ asset('js/scripts.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         // Function to handle the selection
         function selectOption(option) {
@@ -175,9 +181,11 @@
             // Show/hide category based on selection
             if (option === 'brand') {
                 document.getElementById('brandCategory').classList.remove('hidden');
+
                 document.getElementById('influencerCategory').classList.add('hidden');
             } else if (option === 'influencer') {
                 document.getElementById('influencerCategory').classList.remove('hidden');
+
                 document.getElementById('brandCategory').classList.add('hidden');
             }
             document.getElementById('session').value = option;
@@ -191,9 +199,11 @@
                 // Show the appropriate category div
                 if (selectedOption === 'brand') {
                     document.getElementById('brandCategory').classList.remove('hidden');
+
                     document.getElementById('influencerCategory').classList.add('hidden');
                 } else if (selectedOption === 'influencer') {
                     document.getElementById('influencerCategory').classList.remove('hidden');
+
                     document.getElementById('brandCategory').classList.add('hidden');
                 }
             } else {
