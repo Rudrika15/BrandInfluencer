@@ -451,19 +451,19 @@
                             @csrf
 
                             <label for="brandName">Enter Your BrandName</label>
-                            <input type="text" name="brandname" class="form-control" name="brandName">
+                            <input type="text" name="brandname" class="form-control" name="brandName" required>
 
                             <label for="name">Enter Your Name</label>
-                            <input type="text" name="name" class="form-control" name="name">
+                            <input type="text" name="name" class="form-control" name="name" required>
 
                             <label for="email">Enter Your Email</label>
-                            <input type="text" name="email" class="form-control" name="email">
+                            <input type="text" name="email" class="form-control" name="email" required>
 
                             <label for="mobile">Enter Your Mobile</label>
-                            <input type="text" name="mobile" class="form-control" name="mobile">
+                            <input type="text" name="mobile" class="form-control" name="mobile" required>
 
                             <label for="message">Enter Your Message</label>
-                            <textarea class="form-control" name="message"> </textarea>
+                            <textarea class="form-control" name="message" required> </textarea>
 
 
                     </div>

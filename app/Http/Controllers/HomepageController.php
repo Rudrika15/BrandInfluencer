@@ -183,6 +183,13 @@ class HomepageController extends Controller
 
     public function brandDetails(Request $request)
     {
+        $request->validate([
+            'brandname' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'mobile' => 'required',
+            'message' => 'required',
+        ]);
         $brandDetails = new branddetails();
         $brandDetails->brandname = $request->brandname;
         $brandDetails->name = $request->name;
