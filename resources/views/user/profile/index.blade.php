@@ -6,18 +6,18 @@
         @import url("https://fonts.googleapis.com/css?family=Bree+Serif&display=swap");
 
         /* * {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        box-sizing: border-box;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                box-sizing: border-box;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
         /* body {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: #f8f9fa;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    overflow-x: hidden;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-top: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-family: "Poppins", sans-serif;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0 100px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            background: #f8f9fa;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            overflow-x: hidden;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-top: 20px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-family: "Poppins", sans-serif;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin: 0 100px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .profile-header {
             background: #fff;
@@ -114,21 +114,21 @@
 
 
         /* .profile-option .notification .alert-message {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    position: absolute;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    top: -5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    right: -5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: #fff;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: #00c9e4;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border: 1px solid #00c9e4;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-radius: 50%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-size: 0.8rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-weight: bold;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            position: absolute;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            top: -5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            right: -5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            background: #fff;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: #00c9e4;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px solid #00c9e4;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border-radius: 50%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            height: 20px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-size: 0.8rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: bold;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .main-bd {
             width: 100%;
@@ -253,9 +253,8 @@
             text-align: center;
         }
 
-        /* .profile-Gallery .card {
-                                                                                                                                                                                            width: 15rem;
-                                                                                                                                                                                        } */
+
+
 
         @media (max-width: 1450px) {
 
@@ -270,16 +269,15 @@
         }
 
         @media(max-width : 1400px) {
-            /* .nav-b {
-                                                                                                                                                            width: 600px;
-                                                                                                                                                        }
+            .nav-b {
+                width: 600px;
+            }
+        }
 
-                                                                                                                                                        .card {
-                                                                                                                                                            width: 170px !important;
-                                                                                                                                                            height: 170px !important;
-                                                                                                                                                        } */
-
-
+        @media(max-width : 1200px) {
+            .nav-b {
+                width: 400px;
+            }
         }
 
         @media (max-width: 1100px) {
@@ -298,6 +296,43 @@
 
         }
 
+        @media(max-width : 1060px) {
+            .nav-b {
+                width: 500px;
+            }
+
+            .profile-header {
+                margin-left: 100px;
+            }
+
+            .main-bd {
+                margin-left: 100px;
+            }
+        }
+
+        @media(max-width : 991px) {
+            .nav-b {
+                width: 330px;
+            }
+
+            .profile-header {
+                margin-left: 100px;
+                width: 650px;
+                height: 200px;
+                /* padding: 0%; */
+            }
+
+            .main-bd {
+                margin-left: 100px;
+            }
+
+            .profile-option {
+                right: 110px;
+                top: 70%;
+                transform: translateY(50%);
+            }
+        }
+
         @media (max-width: 900px) {
             body {
                 margin: 0 20px;
@@ -308,7 +343,8 @@
                 height: 100%;
                 flex-direction: column;
                 text-align: center;
-                padding-bottom: 20px;
+                padding-bottom: 40px;
+                width: 570px;
             }
 
             .profile-img {
@@ -329,8 +365,8 @@
             }
 
             .profile-option {
-                right: 20px;
-                top: 75%;
+                right: 230px;
+                top: 82%;
                 transform: translateY(50%);
             }
 
@@ -350,22 +386,62 @@
                 justify-content: center;
             }
 
+            .nav-b {
+                width: 568px;
+            }
+
 
         }
 
-        @media (max-width: 400px) {
-            body {
-                margin: ;
+        @media (max-width: 800px) {
+
+            .profile-header {
+
+                padding-bottom: 40px;
+                width: 420px;
+                margin-left: 185px;
+
             }
 
-            .profile-header h3 {}
 
             .profile-option {
-                width: 30px;
-                height: 30px;
-                position: absolute;
-                right: 15px;
-                top: 83%;
+                right: 157px;
+                top: 86%;
+                transform: translateY(50%);
+            }
+
+            .main-bd {
+                flex-direction: column;
+                width: 500px;
+                padding-left: 15%;
+            }
+
+
+
+            .nav-b {
+                width: 410px;
+
+            }
+
+
+        }
+
+        @media (max-width: 426px) {
+            .profile-option {
+
+                right: 157px;
+                top: 85%;
+            }
+
+            .nav {
+                display: flex;
+                justify-content: end;
+                margin-left: 670px !important;
+            }
+
+            .points {
+
+                margin-left: 520px !important;
             }
 
             .profile-option .notification .alert-message {
@@ -377,28 +453,32 @@
                 font-size: 0.7rem;
             }
 
-            .profile-nav-info h3 {
-                font-size: 1.9rem;
+            .main-bd {
+                flex-direction: column;
+                width: 500px;
+                padding-left: 29%;
             }
 
-            .profile-nav-info .address p,
-            .profile-nav-info .address span {
-                font-size: 0.7rem;
+            .nav-b {
+                width: 410px;
+
             }
         }
 
-        #see-more-bio,
-        #see-less-bio {
-            color: blue;
-            cursor: pointer;
-            text-transform: lowercase;
+        @media(max-width: 376px) {
+            .main-bd {
+                flex-direction: column;
+                width: 500px;
+                padding-left: 35%;
+            }
         }
 
-        .tab h1 {
-            font-family: "Bree Serif", sans-serif;
-            display: flex;
-            justify-content: center;
-            margin: 20px auto;
+        @media(max-width: 321px) {
+            .main-bd {
+                flex-direction: column;
+                width: 500px;
+                padding-left: 40%;
+            }
         }
     </style>
 
