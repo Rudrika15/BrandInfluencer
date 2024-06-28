@@ -466,7 +466,7 @@
                                                     method="post">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-md-6 pb-2">
+                                                        <div class="col-md-12 pb-3">
                                                             {{-- <input type="hidden" name="cardid" value="{{ $users->id }}"> --}}
 
                                                             <div class="row">
@@ -480,7 +480,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-6 pb-2">
+                                                        <div class="col-md-12 pb-3">
                                                             <div class="row">
                                                                 <div class="col-md-4"><label>Username:</label></div>
                                                                 <div class="col-md-7">
@@ -491,7 +491,7 @@
                                                             </div>
                                                         </div>
                                                         {{-- @if (Auth::user()->hasRole('Influencer')) --}}
-                                                        <div class="col-md-6 pb-2">
+                                                        <div class="col-md-12 pb-3">
                                                             <div class="row">
                                                                 <div class="col-md-4"><label>State:</label></div>
                                                                 <div class="col-md-7">
@@ -503,7 +503,7 @@
                                                         </div>
                                                         {{-- @endif --}}
 
-                                                        <div class="col-md-6 pb-2 ">
+                                                        <div class="col-md-12 pb-3 ">
                                                             <div class="row ">
                                                                 <div class="col-md-4"><label>City:</label></div>
                                                                 <div class="col-md-7">
@@ -514,7 +514,7 @@
                                                             </div>
                                                         </div>
                                                         {{-- @if (!Auth::user()->hasRole('Influencer'))
-                                                        <div class="col-md-6 pb-2">
+                                                        <div class="col-md-6 pb-3">
                                                         <div class="row">
                                                             <div class="col-md-4"><label>Address:</label></div>
                                                             <div class="col-md-7">
@@ -524,7 +524,7 @@
                                                                     </div>
                                                                         @endif --}}
                                                         @role('Influencer')
-                                                            <div class="col-md-6 pb-2">
+                                                            <div class="col-md-12 pb-3">
                                                                 <div class="row">
 
                                                                     <div class="col-md-4"><label>Date of Birth:</label></div>
@@ -539,7 +539,7 @@
 
 
 
-                                                            <div class="col-md-6 pb-2">
+                                                            <div class="col-md-12 pb-3">
                                                                 <div class="row">
 
                                                                     <div class="col-md-4"><label>Gender:</label></div>
@@ -564,7 +564,7 @@
 
 
 
-                                                            <div class="col-md-6 pb-2">
+                                                            <div class="col-md-12 pb-3">
                                                                 <div class="row">
 
                                                                     <div class="col-md-4"><label>Instagram Url:</label></div>
@@ -572,8 +572,11 @@
                                                                         <input type="text"
                                                                             class=" form-control shadow-none"
                                                                             name="instagramUrl"
-                                                                            value=" {{ $influencer->instagramUrl ?? '' }}  "
+                                                                            value=" {{ $influencer->instagramUrl ?? '' }} {{ old('instagramUrl') }} "
                                                                             id="instagramUrl">
+                                                                        <div class="form-text" id="emailHelp">
+                                                                            Ex : https://instagram.com/username
+                                                                        </div>
 
 
                                                                         @if ($errors->has('instagramUrl'))
@@ -587,7 +590,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md-6 pb-2">
+                                                            <div class="col-md-12 pb-3">
                                                                 <div class="row">
 
                                                                     <div class="col-md-4"><label>Instagram Followers:</label>
@@ -602,7 +605,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md-6 pb-2">
+                                                            <div class="col-md-12 pb-3">
                                                                 <div class="row">
 
                                                                     <div class="col-md-4"><label>Youteube Channel Url:</label>
@@ -613,6 +616,9 @@
                                                                             name="youtubeChannelUrl"
                                                                             value="{{ $influencer->youtubeChannelUrl ?? '' }}"
                                                                             id="youtubeChannelUrl">
+                                                                        <div class="form-text" id="emailHelp">
+                                                                            Ex : https://youtube.com/@username
+                                                                        </div>
                                                                         @if ($errors->has('youtubeChannelUrl'))
                                                                             <span class="text-danger">
                                                                                 {{ $errors->first('youtubeChannelUrl') }}
@@ -623,7 +629,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md-6 pb-2">
+                                                            <div class="col-md-12 pb-3">
                                                                 <div class="row">
 
                                                                     <div class="col-md-4"><label>Youteube Subscribers:</label>
@@ -638,22 +644,27 @@
                                                                 </div>
                                                             </div>
                                                         @endrole
-                                                        <div class="col-md-6 pb-2">
+                                                        <div class="col-md-12  pb-3">
                                                             <div class="row">
                                                                 <div class="col-md-4"><label>Profile Photo:</label></div>
-                                                                <div class="col-md-6">
-                                                                    <input type="file" accept="image/*"
-                                                                        class="form-control shadow-none "
-                                                                        id="profilePhoto" name="profilePhoto"
-                                                                        value="{{ url('profile') }}/{{ $users->profilePhoto ?? '' }}">
-                                                                    @if ($errors->has('profilePhoto'))
-                                                                        <span
-                                                                            class="text-danger">{{ $errors->first('profilePhoto') }}</span>
-                                                                    @endif
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '' }}"
-                                                                        class="img-fluid" alt="Responsive image">
+                                                                <div class="mb-3 col-md-8">
+                                                                    <div class="row">
+                                                                        <div class="col-md-8">
+                                                                            <input type="file" accept='image/*'
+                                                                                onchange="readURL(this,'#img1')"
+                                                                                class="form-control" id="image"
+                                                                                name="profilePhoto"
+                                                                                style="object-fit: contain">
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <label for="image"></label>
+                                                                            <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}"
+                                                                                onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                                                                alt="{{ __('Reponsive Image') }}"
+                                                                                id="img1"
+                                                                                style='min-height:100px;min-width:100px;max-height:100px;max-width:100px; object-fit: contain;'>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -663,10 +674,10 @@
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-md-12 pb-2 mt-1">
+                                                        <div class="col-md-12 pb-3 mt-1">
                                                             <div class="row">
-                                                                <div class="col-md-2"><label>About:</label></div>
-                                                                <div class="col-md-10">
+                                                                <div class="col-md-4"><label>About:</label></div>
+                                                                <div class="col-md-8">
                                                                     <textarea style="width:95%" class="about form-control shadow-none" rows="5" placeholder="Enter About"
                                                                         type="text" id="about" name="about" value="">{{ $users->about ?? '' }}</textarea>
                                                                 </div>
@@ -812,7 +823,7 @@
                                                     <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
                                                     @role('Influencer')
                                                         <div class="row">
-                                                            <div class="col-md-12 pb-2">
+                                                            <div class="col-md-12 pb-3">
                                                                 <label>Influencer Category:</label>
                                                             </div>
                                                             <div class="col-md-12">
@@ -833,7 +844,7 @@
                                                     {{-- {{ $brandCategory }} --}}
                                                     @role('Brand')
                                                         <div class="row">
-                                                            <div class="col-md-12 pb-2">
+                                                            <div class="col-md-12 pb-3">
                                                                 <label>Brand Category:</label>
                                                             </div>
                                                             <div class="col-md-12">
@@ -1179,7 +1190,7 @@
 
     {{-- @role('Influencer')
     <div class="row mt-2">
-        <div class="col-md-6 pb-2">
+        <div class="col-md-6 pb-3">
             <div class="row">
 
                 <div class="col-md-4"> --}}
@@ -1196,7 +1207,7 @@
 </div>
 </div>
 </div>
-<div class="col-md-6 pb-2">
+<div class="col-md-6 pb-3">
     <div class="row">
 
         <div class="col-md-4"><label>Instagram Followers:</label></div>
@@ -1208,7 +1219,7 @@
 </div>
 </div>
 <div class="row">
-    <div class="col-md-6 pb-2">
+    <div class="col-md-6 pb-3">
         <div class="row">
 
             <div class="col-md-4"><label>Youtube Channel Url:</label></div>
@@ -1219,7 +1230,7 @@
     {{-- </div>
 </div>
 </div>
-<div class="col-md-6 pb-2">
+<div class="col-md-6 pb-3">
     <div class="row">
 
         <div class="col-md-4"><label>Youtube Subscriber:</label></div>
@@ -1231,4 +1242,15 @@ placeholder="Enter your youtube subscriber" id="youtubeSubscriber">
 </div>
 </div>
 @endrole --}}
+    <script>
+        function readURL(input, tgt) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector(tgt).setAttribute("src", e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 @endsection
