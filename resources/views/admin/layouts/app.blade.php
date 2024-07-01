@@ -13,7 +13,11 @@
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"> --}}
+
     {{-- bootstrap 5 icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Custom styles for this template-->
@@ -148,12 +152,16 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <img class="img-profile rounded-circle" src="{{ asset('profile') }}/{{ Auth::user()->profilePhoto }}">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                <img class="img-profile rounded-circle"
+                                    src="{{ asset('profile') }}/{{ Auth::user()->profilePhoto }}">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
                                 {{-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
@@ -167,7 +175,8 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div> --}}
-                                <a class="dropdown-item" href="{{ route('home') }}" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{{ route('home') }}" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -180,7 +189,65 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                
                 <div class="container-fluid">
+
+                    <div class="d-flex justify-content-end">
+
+                        @if (session()->has('success'))
+                            <div class="toast align-items-center text-white show bg-success" role="alert"
+                                aria-live="assertive" aria-atomic="true" data-bs-autohide="true"
+                                data-bs-delay="5000">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        {{ session('success') }}
+                                    </div>
+                                    {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                                        aria-label="Close">X</button> --}}
+                                </div>
+                                <div class="progress" style="height: 3px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
+                                        role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        @endif
+                        @if (session()->has('error'))
+                            <div class="toast align-items-center text-white show bg-danger" role="alert"
+                                aria-live="assertive" aria-atomic="true" data-bs-autohide="true"
+                                data-bs-delay="5000">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        {{ session('error') }}
+                                    </div>
+                                    {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                                        aria-label="Close"></button> --}}
+                                </div>
+                                <div class="progress" style="height: 3px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
+                                        role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        @endif
+                        @if (session()->has('warning'))
+                            <div class="toast align-items-center text-white show bg-warning" role="alert"
+                                aria-live="assertive" aria-atomic="true" data-bs-autohide="true"
+                                data-bs-delay="5000">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        {{ session('warning') }}
+                                    </div>
+                                    {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button> --}}
+                                </div>
+                                <div class="progress" style="height: 3px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
+                                        role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        @endif
+
+
+                    </div>
 
                     @yield('content')
 
@@ -212,7 +279,8 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -229,7 +297,60 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.toast');
+
+            function startProgressBar(toast) {
+                const progressBar = toast.querySelector('.progress-bar');
+                if (progressBar) {
+                    if (!toast.classList.contains('progress-in-progress')) {
+                        const delay = parseInt(toast.getAttribute('data-bs-delay'));
+                        progressBar.style.transition = `width ${delay}ms linear`;
+                        progressBar.style.width = '100%';
+                        toast.classList.add('progress-in-progress');
+
+                        // Check when progress bar reaches 100% width
+                        progressBar.addEventListener('transitionend', function() {
+                            if (progressBar.style.width === '100%' && !toast.classList.contains(
+                                    'hovered')) {
+                                toast.remove();
+                            }
+                        });
+                    }
+                }
+            }
+
+            function resetProgressBar(toast) {
+                const progressBar = toast.querySelector('.progress-bar');
+                if (progressBar) {
+                    progressBar.style.width = '0%';
+                    toast.classList.remove('progress-in-progress');
+                }
+            }
+
+            toasts.forEach(toast => {
+                toast.addEventListener('mouseenter', function() {
+                    toast.classList.add('hovered');
+                    resetProgressBar(toast);
+                });
+
+                toast.addEventListener('mouseleave', function() {
+                    toast.classList.remove('hovered');
+                    startProgressBar(toast);
+                });
+
+                startProgressBar(toast);
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

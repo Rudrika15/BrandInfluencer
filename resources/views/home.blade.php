@@ -247,44 +247,57 @@
 
     <script>
         $(document).ready(function() {
+            var timeout = null;
+
             $('#search').on('keyup', function() {
                 var searchTerm = $(this).val();
-                $.ajax({
-                    type: 'GET',
-                    url: '{{ route('search') }}',
-                    data: {
-                        search: searchTerm
-                    },
-                    success: function(data) {
-                        $('#container').html('');
-                        $.each(data, function(index, campaign) {
-                            var html = '<div class="col-md-4">';
-                            html +=
-                                '<div class="card" style="width: 18rem; height: 22rem">';
-                            html +=
-                                '<a href="{{ route('influencer.campaignView') }}/' +
-                                campaign.id + '">';
-                            html += '<img src="{{ asset('campaignPhoto') }}/' +
-                                campaign.photo +
-                                '" onerror="this.src=\'{{ asset('images/default.jpg') }}\'" class="card-img-top" style="height: 250px" alt="...">';
-                            html += '<div class="card-body">';
-                            html +=
-                                '<h5 class="card-title" style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1;  -webkit-box-orient: vertical;">' +
-                                campaign.title + '</h5>';
-                            html +=
-                                '<p class="card-text" style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">' +
-                                campaign.detail + '</p>';
-                            html += '</div>';
-                            html += '</a>';
-                            html += '</div>';
-                            html += '</div>';
-                            $('#container').append(html);
-                        });
-                    }
-                });
+
+                clearTimeout(timeout); // Clear the previous timeout
+
+                timeout = setTimeout(function() {
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ route('search') }}',
+                        data: {
+                            search: searchTerm
+                        },
+                        success: function(data) {
+                            $('#container').html('');
+                            $.each(data, function(index, campaign) {
+                                var html = '<div class="col-md-4">';
+                                html +=
+                                    '<div class="card" style="width: 18rem; height: 22rem">';
+                                html +=
+                                    '<a href="{{ route('influencer.campaignView') }}/' +
+                                    campaign.id + '">';
+                                html +=
+                                    '<img src="{{ asset('campaignPhoto') }}/' +
+                                    campaign.photo +
+                                    '" onerror="this.src=\'{{ asset('images/default.jpg') }}\'" class="card-img-top" style="height: 250px" alt="...">';
+                                html += '<div class="card-body">';
+                                html +=
+                                    '<h5 class="card-title" style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1;  -webkit-box-orient: vertical;">' +
+                                    campaign.title + '</h5>';
+                                html +=
+                                    '<p class="card-text" style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">' +
+                                    campaign.detail + '</p>';
+                                html += '</div>';
+                                html += '</a>';
+                                html += '</div>';
+                                html += '</div>';
+                                $('#container').append(html);
+                            });
+                        }
+                    });
+                }, 500); // Delay for 2 seconds
             });
+
+            // Trigger an initial search to load all records on page load
+            $('#search').trigger('keyup');
         });
     </script>
+
+
     <script>
         $.ajaxSetup({
             headers: {

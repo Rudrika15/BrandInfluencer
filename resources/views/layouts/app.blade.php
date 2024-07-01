@@ -138,6 +138,84 @@
         .secondary-menu__labels.open {
             display: block;
         }
+
+        /* loader  */
+
+        .content {
+            opacity: 0.1;
+        }
+
+        .mainCss {
+            width: 100%;
+            height: 100vh;
+            backdrop-filter: blur(10px);
+        }
+
+        .dotsCss {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            background-color: rgb(29, 72, 128);
+            border-radius: 20px;
+            transform: translate(0px, -40px);
+            animation: bounce 1s infinite;
+        }
+
+        .dot:nth-child(2) {
+            background-color: rgb(21, 198, 235);
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            background-color: rgb(29, 72, 128);
+            animation-delay: 0.4s;
+        }
+
+        .dot:nth-child(4) {
+            background-color: rgb(21, 198, 235);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translate(0px, -10px);
+            }
+
+            40% {
+                width: 0px;
+                height: 2px;
+                transform: translate(0px, 40px) scale(1.7);
+            }
+
+            100% {
+                height: 20px;
+                transform: translate(0px, -20px);
+            }
+
+        }
+
+
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            z-index: 9999;
+        }
     </style>
     @role('Admin')
         <style>
@@ -484,9 +562,19 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <div class="container content">
+    <div class="loader" id="loader">
+        <!-- Include the loader content here -->
+        <div class="dotsCss">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+    <div class="container content" id="content">
 
         <div class="text-info text-end pb-2 fw-bold points"> {{ 'Points:' . $total }}</div>
+
         @yield('content')
 
     </div>
@@ -545,7 +633,16 @@
             });
         });
     </script>
-
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader');
+                document.getElementById('content');
+                loader.style.display = 'none';
+                content.style.opacity = '1';
+            }, 1000); // 2000 milliseconds = 2 seconds
+        });
+    </script>
     <script>
         const dropdownMenu = document.getElementById("dropdown-menu");
         const handleDropdownClicked = (event) => {
