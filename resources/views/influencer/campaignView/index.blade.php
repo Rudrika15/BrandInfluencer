@@ -105,7 +105,7 @@
                                         <form action="{{ route('new.influencer.chat.index') }}" name="msg"
                                             method="post">
                                             @csrf
-                                            <input type="hiddenn" name="receiverId" value="{{ $data->user->id ?? '-' }}">
+                                            <input type="hidden" name="receiverId" value="{{ $data->user->id ?? '-' }}">
                                             <div class="input-group mb-3">
                                                 <input type="text" class="form-control" name="message"
                                                     placeholder="Write a message" aria-label="Recipient's username"

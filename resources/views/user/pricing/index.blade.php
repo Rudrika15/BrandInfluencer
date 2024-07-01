@@ -5,8 +5,10 @@
         <div class='row'>
             <div class='col-md-12'>
                 <div class="d-flex justify-content-between mb-3">
-                    <div class="p-2">
-                        <h3 class="line-title">Packages</h3>
+                    <div class="card w-100 p-2">
+                        <div class="card-header text-center">
+                            <h3 class="ms-3">Packages</h3>
+                        </div>
                     </div>
 
                 </div>
@@ -16,8 +18,8 @@
             <div class="row">
 
                 @foreach ($subpack as $subpack)
-                    <div class="col-md-6 p-3">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col-md-4 p-3">
+                        <div class="card " style="width: 21rem;">
                             <div class="card-body ">
                                 <?php
                                 // $price = 0;
@@ -41,10 +43,11 @@
                                         <form id="payment-form" action="{{ route('razorpay.payment.store') }}"
                                             method="POST">
                                             @csrf
-                                            <div class="pay-container">
+                                            <div class="pay-container text-start">
                                                 <input type="hidden" name="amount" class="amount"
                                                     value="{{ $subpack->price }}" />
-                                                <button class="pay-button btn btn-primary btn-sm mt-2" type="button">Get
+                                                <button class="pay-button btn btn-primary btn-sm mt-2 justify-content-end"
+                                                    type="button">Get
                                                     Started</button>
                                             </div>
                                         </form>

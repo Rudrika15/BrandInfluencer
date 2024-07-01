@@ -29,9 +29,9 @@
             });
 
             // If no other checkbox is checked, ensure 'Trending' remains checked
-            if (!anyChecked) {
-                $('#trending').prop('checked', true);
-            }
+            // if (!anyChecked) {
+            //     $('#trending').prop('checked', true);
+            // }
 
             // When any checkbox is clicked
             $('input[type="checkbox"]').click(function() {
@@ -61,9 +61,13 @@
         {{-- @if (session('role') === 'influencer') --}}
         @role('Influencer')
             <div class="card" style="width: 95%">
-                <div class="card-header justify-content-center">
-                    {{-- <h1>Campaigns</h1> --}}
-                    <input type="text" class="form-control" id="search" placeholder="Search">
+                <div class="card-body bg-light">
+                    <div class="row">
+                        <h1 class="text-center">Campaigns</h1>
+                    </div>
+                    <div class="row d-flex  justify-content-center mt-2 mb-2">
+                        <input type="text" class="form-control  " style="width: 90%" id="search" placeholder="Search">
+                    </div>
                 </div>
             </div>
             <div class="row" id="container">
@@ -215,7 +219,7 @@
                                     <span class="influencer_tag featured mt-4">Featured</span>
                                 @endif
                                 @if ($item->influencer->is_brandBeansVerified == 'on')
-                                    <i class="bi bi-patch-check-fill heart_icon " style="color: blue; "></i>
+                                    <i class="bi bi-patch-check-fill heart_icon " style="color: #15c6eb; "></i>
                                 @endif
 
                                 {{-- <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"> --}}
