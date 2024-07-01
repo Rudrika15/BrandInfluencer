@@ -141,7 +141,7 @@
 
         /* loader  */
 
-        .content {
+        .loaderContent {
             opacity: 0.1;
         }
 
@@ -571,7 +571,7 @@
             <div class="dot"></div>
         </div>
     </div>
-    <div class="container content" id="content">
+    <div class="container content loaderContent" id="loaderContent">
 
         <div class="text-info text-end pb-2 fw-bold points"> {{ 'Points:' . $total }}</div>
 
@@ -637,9 +637,9 @@
         window.addEventListener('load', function() {
             setTimeout(function() {
                 document.getElementById('loader');
-                document.getElementById('content');
+                document.getElementById('loaderContent');
                 loader.style.display = 'none';
-                content.style.opacity = '1';
+                loaderContent.style.opacity = '1';
             }, 1000); // 2000 milliseconds = 2 seconds
         });
     </script>
