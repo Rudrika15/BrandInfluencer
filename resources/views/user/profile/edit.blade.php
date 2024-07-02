@@ -658,7 +658,7 @@
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <label for="image"></label>
-                                                                            <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto ?? '' }}"
+                                                                            <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}"
                                                                                 onerror="this.src='{{ asset('images/default.jpg') }}'"
                                                                                 alt="{{ __('Reponsive Image') }}"
                                                                                 id="img1"

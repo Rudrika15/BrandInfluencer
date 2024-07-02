@@ -3588,8 +3588,6 @@ class ApiController extends Controller
     }
     function influencerListById($id)
     {
-
-
         $influencer = User::whereHas('roles', function ($q) {
             $q->where('name', 'Influencer');
         })->with('influencer')->where('id', '=', $id)->get();

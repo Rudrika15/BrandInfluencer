@@ -63,17 +63,17 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('users.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>User Managment</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('roles.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-cogs"></i>
                     <span>Role Managment</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('users.assignRole') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-cog"></i>
                     <span> Assign Role</span></a>
             </li>
             {{-- <li class="nav-item active">
@@ -88,37 +88,37 @@
 
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('influencer.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-list"></i>
                     <span> Influencer Category</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('brand.category.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fab fa-stack-overflow"></i>
                     <span> Brand Category</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin.campaign.list') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-list-alt"></i>
                     <span> Brand Campaign List</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('influencer.packages') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-box-open"></i>
                     <span> Influencer Packages</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('influencer.list') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-clipboard-list"></i>
                     <span> Influencer List</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin.brand.activity.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-clipboard"></i>
                     <span> Package Activity</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin.brand.package.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-box"></i>
                     <span> Packages</span></a>
             </li>
 
@@ -189,7 +189,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                
+
                 <div class="container-fluid">
 
                     <div class="d-flex justify-content-end">
@@ -350,7 +350,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-    
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
