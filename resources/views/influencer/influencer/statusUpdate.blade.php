@@ -4,12 +4,12 @@
     <div class='container'>
         <div class='row'>
 
-            @if ($message = Session::get('success'))
+            {{-- @if ($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{ $message }}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            @endif
+            @endif --}}
             <div class='col-md-12'>
                 <div class="d-flex justify-content-between mb-3">
                     <div class="p-2">

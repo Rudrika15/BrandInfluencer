@@ -27,8 +27,10 @@ class BrandCategoryController extends Controller
         $brandCategory->categoryName = $request->categoryName;
         $brandCategory->icon = time() . '.' . $request->icon->extension();
         $request->icon->move(public_path('brandCategoryIcon'), $brandCategory->icon);
-        $brandCategory->poster = time() . '.' . $request->poster->extension();
-        $request->poster->move(public_path('brandCategoryPoster'), $brandCategory->poster);
+        if ($request->poster) {
+            $brandCategory->poster = time() . '.' . $request->poster->extension();
+            $request->poster->move(public_path('brandCategoryPoster'), $brandCategory->poster);
+        }
         $brandCategory->save();
         return redirect('brand/category/index')->with('success', 'Brand Category Created Successfully');
     }

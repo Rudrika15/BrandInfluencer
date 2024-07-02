@@ -102,9 +102,9 @@
                 </div>
             </form>
             <hr>
-            <div class="pt-2" style="display: flex; justify-content: space-between">
+            <div class="pt-2" style="display: flex; justify-content: center">
                 <a href="{{ route('otp.login') }}" class="a-link"><i class="fa fa-user-plus"></i>Login with OTP</a>
-                <a href="{{ route('register') }}" class="a-link"><i class="fa fa-user-plus"></i>Register</a>
+                {{-- <a href="{{ route('register') }}" class="a-link"><i class="fa fa-user-plus"></i>Register</a> --}}
             </div>
         </div>
 

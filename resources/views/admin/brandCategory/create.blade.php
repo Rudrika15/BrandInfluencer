@@ -55,13 +55,13 @@
                                 <label for="exampleInputPassword1" class="form-label">Poster</label>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <input type="file" accept='image/*' onchange="readURL(this,'#img1')"
+                                        <input type="file" accept='image/*' onchange="readURL(this,'#img2')"
                                             class="form-control" id="image" name="poster">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="image"></label>
                                         <img src="{{ url('images/default.jpg') }}" alt="{{ __('main image') }}"
-                                            id="img1"
+                                            id="img2"
                                             style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
 
                                     </div>

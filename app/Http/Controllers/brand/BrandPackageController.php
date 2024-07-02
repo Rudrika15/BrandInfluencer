@@ -32,7 +32,7 @@ class BrandPackageController extends Controller
         $package->price = $request->price;
         $package->points = $request->points;
         $package->save();
-        return redirect('admin/brand/package/index')->with('success', 'Package added successfully');
+        return redirect('admin/package/index')->with('success', 'Package added successfully');
     }
 
     public function show(BrandPackage $brandPackage)
@@ -60,13 +60,13 @@ class BrandPackageController extends Controller
         $package->price = $request->price;
         $package->points = $request->points;
         $package->save();
-        return redirect('admin/brand/package/index')->with('success', 'Package updated successfully');
+        return redirect('admin/package/index')->with('success', 'Package updated successfully');
     }
 
     public function destroy($id)
     {
         $brandPackage = BrandPackage::find($id);
         $brandPackage->delete();
-        return redirect('admin/brand/package/index')->with('success', 'Package deleted successfully');
+        return redirect('admin/package/index')->with('success', 'Package deleted successfully');
     }
 }
