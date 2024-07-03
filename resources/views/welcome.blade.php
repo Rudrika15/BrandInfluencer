@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@yield('title')</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"> -->
 
     <title>Welcome to Brandbeans</title>
@@ -127,11 +132,12 @@
                                     <h1 class="wow fadeInUp" data-wow-duration="1s">Find The Right
                                         <span>Influencer</span> For <span>Your Business</span>
                                     </h1>
-                                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect influencer
+                                    <p class="wow fadeInUp" data-wow-duration="1.5s">Discovering the perfect
+                                        influencer
                                         for your business identifying involves individuals whose values align with
                                         identifying your brand.</p>
-                                    <a class="wow fadeInUp custombtn" href="#featured_creators" data-wow-duration="2s"
-                                        href="#">Find
+                                    <a class="wow fadeInUp custombtn" href="#featured_creators"
+                                        data-wow-duration="2s" href="#">Find
                                         Influencer</a>
                                 </div>
                             </div>

@@ -513,6 +513,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         {{-- @if (!Auth::user()->hasRole('Influencer'))
                                                         <div class="col-md-6 pb-3">
                                                         <div class="row">
@@ -643,32 +644,61 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        @endrole
-                                                        <div class="col-md-12  pb-3">
-                                                            <div class="row">
-                                                                <div class="col-md-4"><label>Profile Photo:</label></div>
-                                                                <div class="mb-3 col-md-8">
-                                                                    <div class="row">
-                                                                        <div class="col-md-8">
-                                                                            <input type="file" accept='image/*'
-                                                                                onchange="readURL(this,'#img1')"
-                                                                                class="form-control" id="image"
-                                                                                name="profilePhoto"
-                                                                                style="object-fit: contain">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label for="image"></label>
-                                                                            <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto }}"
-                                                                                onerror="this.src='{{ asset('images/default.jpg') }}'"
-                                                                                alt="{{ __('Reponsive Image') }}"
-                                                                                id="img1"
-                                                                                style='min-height:100px;min-width:100px;max-height:100px;max-width:100px; object-fit: contain;'>
+                                                            <div class="col-md-12  pb-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-4"><label>Profile Photo:</label></div>
+                                                                    <div class="mb-3 col-md-8">
+                                                                        <div class="row">
+                                                                            <div class="col-md-8">
+                                                                                <input type="file" accept='image/*'
+                                                                                    onchange="readURL(this,'#img1')"
+                                                                                    class="form-control" id="image"
+                                                                                    name="profilePhoto"
+                                                                                    style="object-fit: contain">
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label for="image"></label>
+
+                                                                                <img src="{{ asset('profile') }}/{{ $influencer->profile->profilePhoto ?? '' }}"
+                                                                                    onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                                                                    alt="{{ __('Reponsive Image') }}"
+                                                                                    id="img1"
+                                                                                    style='min-height:100px;min-width:100px;max-height:100px;max-width:100px; object-fit: contain;'>
+
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        @endrole
+                                                        @role('Brand')
+                                                            <div class="col-md-12  pb-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-4"><label>Profile Photo:</label></div>
+                                                                    <div class="mb-3 col-md-8">
+                                                                        <div class="row">
+                                                                            <div class="col-md-8">
+                                                                                <input type="file" accept='image/*'
+                                                                                    onchange="readURL(this,'#img1')"
+                                                                                    class="form-control" id="image"
+                                                                                    name="profilePhoto"
+                                                                                    style="object-fit: contain">
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label for="image"></label>
 
+                                                                                <img src="{{ asset('profile') }}/{{ $users->profilePhoto }}"
+                                                                                    onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                                                                    alt="{{ __('Reponsive Image') }}"
+                                                                                    id="img1"
+                                                                                    style='min-height:100px;min-width:100px;max-height:100px;max-width:100px; object-fit: contain;'>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endrole
 
 
                                                     </div>
