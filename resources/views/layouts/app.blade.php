@@ -216,6 +216,12 @@
             background-color: transparent;
             z-index: 9999;
         }
+
+        @media (max-width : 769px) {
+            .dropdown-menu {
+                margin-left: 20%;
+            }
+        }
     </style>
     @role('Admin')
         <style>
@@ -239,171 +245,183 @@
     }
     
     ?>
-    <nav class="sidebar" style="z-index: 1">
-        <header class="site-header">
-            <div class="image-text">
-                <span class="image">
-                    <a href="{{ route('home') }}"><img src="{{ asset('images/Logo2.png') }}" alt="logo" /></a>
-                </span>
-                <div class="text header-text">
-                    <span class="main">Brand</span>
-                    <span class="sub">Beans</span>
-                </div>
-            </div>
-            <i class="bx bx-chevron-right toggle"></i>
 
-        </header>
-        <div class="menu-bar">
-            <div class="menu">
-                {{-- @if (Auth::check() && Auth::user()->roles->contains('Influencer'))
+    <div class="loader" id="loader">
+        <!-- Include the loader content here -->
+        <div class="dotsCss">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+    <div class="container content loaderContent" id="loaderContent">
+        <nav class="sidebar" style="z-index: 1">
+            <header class="site-header">
+                <div class="image-text">
+                    <span class="image">
+                        <a href="{{ route('home') }}"><img src="{{ asset('images/Logo2.png') }}" alt="logo" /></a>
+                    </span>
+                    <div class="text header-text">
+                        <span class="main">Brand</span>
+                        <span class="sub">Beans</span>
+                    </div>
+                </div>
+                <i class="bx bx-chevron-right toggle"></i>
+
+            </header>
+            <div class="menu-bar">
+                <div class="menu">
+                    {{-- @if (Auth::check() && Auth::user()->roles->contains('Influencer'))
                     hi
                 @else
                     hello
                 @endif --}}
-                @role('Influencer')
-                    <ul class="menu-links" id="brand">
-                        {{-- <li class="search-bar">
+                    @role('Influencer')
+                        <ul class="menu-links" id="brand">
+                            {{-- <li class="search-bar">
                         <i class="bx bx-search icons"></i>
                         <input type="search" placeholder="Search..." />
                             </li> --}}
-                        <li class="nav-linkm {{ request()->routeIs('home') ? 'active' : '' }} ">
-                            <a href="{{ route('home') }}" class="text-hover">
-                                <i class="bx bx-home-alt icons text-blue"></i>
-                                <span class="text nav-text text-blue">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="nav-linkm {{ request()->routeIs('influencer.campaignApplyList') ? 'active' : '' }}">
-                            <a href="{{ route('influencer.campaignApplyList') }}">
-                                <i class="bx bx-bar-chart-alt-2 icons"></i>
-                                <span class="text nav-text text-blue">My Applied Campaigns</span>
-                            </a>
-                        </li>
-                        <li class="nav-linkm {{ request()->routeIs('influencer.notifications') ? 'active' : '' }}">
-                            <a href="{{ route('influencer.notifications') }}">
-                                <i class="bx bx-bell icons"></i>
-                                <span class="text nav-text text-blue">Notifications</span>
+                            <li class="nav-linkm {{ request()->routeIs('home') ? 'active' : '' }} ">
+                                <a href="{{ route('home') }}" class="text-hover">
+                                    <i class="bx bx-home-alt icons text-blue"></i>
+                                    <span class="text nav-text text-blue">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-linkm {{ request()->routeIs('influencer.campaignApplyList') ? 'active' : '' }}">
+                                <a href="{{ route('influencer.campaignApplyList') }}">
+                                    <i class="bx bx-bar-chart-alt-2 icons"></i>
+                                    <span class="text nav-text text-blue">My Applied Campaigns</span>
+                                </a>
+                            </li>
+                            <li class="nav-linkm {{ request()->routeIs('influencer.notifications') ? 'active' : '' }}">
+                                <a href="{{ route('influencer.notifications') }}">
+                                    <i class="bx bx-bell icons"></i>
+                                    <span class="text nav-text text-blue">Notifications</span>
 
-                                @if (App\Models\BrandInfluencerNotification::where('userId', Auth::user()->id)->where('is_read', 'Yes')->first())
-                                    <i class='bx bxs-bell notificationIcon text-success ms-5 mb-1'
-                                        title="You have new notification"></i>
-                                @endif
-                            </a>
-                        </li>
-                        <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
-                            <a href="{{ route('influencer.chat.index') }}">
-                                <i class="bx bx-message icons"></i>
-                                <span class="text nav-text text-blue">Chats</span>
-                            </a>
-                        </li>
-                        <li class="nav-linkm {{ request()->routeIs('influencer.package.index') ? 'active' : '' }}">
-                            <a href="{{ route('influencer.package.index') }}">
-                                <i class="bx bx-pie-chart-alt icons"></i>
-                                <span class="text nav-text text-blue">Packages</span>
-                            </a>
-                        </li>
-                        <li
-                            class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
-                            <a href="{{ route('pricing.index') }}">
-                                <i class="bi bi-piggy-bank-fill icons"></i>
-                                <span class="text nav-text text-blue">Pricing</span>
-                            </a>
-                        </li>
+                                    @if (App\Models\BrandInfluencerNotification::where('userId', Auth::user()->id)->where('is_read', 'Yes')->first())
+                                        <i class='bx bxs-bell notificationIcon text-success ms-5 mb-1'
+                                            title="You have new notification"></i>
+                                    @endif
+                                </a>
+                            </li>
+                            <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
+                                <a href="{{ route('influencer.chat.index') }}">
+                                    <i class="bx bx-message icons"></i>
+                                    <span class="text nav-text text-blue">Chats</span>
+                                </a>
+                            </li>
+                            <li class="nav-linkm {{ request()->routeIs('influencer.package.index') ? 'active' : '' }}">
+                                <a href="{{ route('influencer.package.index') }}">
+                                    <i class="bx bx-pie-chart-alt icons"></i>
+                                    <span class="text nav-text text-blue">Packages</span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
+                                <a href="{{ route('pricing.index') }}">
+                                    <i class="bi bi-piggy-bank-fill icons"></i>
+                                    <span class="text nav-text text-blue">Pricing</span>
+                                </a>
+                            </li>
 
-                    </ul>
-                @endrole
-                @role('Brand')
-                    <ul class="menu-links" id="influencer">
-                        {{-- brand menu --}}
+                        </ul>
+                    @endrole
+                    @role('Brand')
+                        <ul class="menu-links" id="influencer">
+                            {{-- brand menu --}}
 
-                        <li class="nav-linkm {{ request()->routeIs('home') ? 'active' : '' }}">
-                            <a href="{{ route('home') }}">
-                                <i class="bx bx-home-alt icons"></i>
-                                <span class="text nav-text text-blue">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="nav-linkm {{ request()->routeIs('brand.campaign.index') ? 'active' : '' }} ">
-                            <a href="{{ route('brand.campaign.index') }}">
-                                <i class="bi bi-person-workspace icons"></i>
-                                <span class="text nav-text text-blue">Campaign</span>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} active">
+                            <li class="nav-linkm {{ request()->routeIs('home') ? 'active' : '' }}">
+                                <a href="{{ route('home') }}">
+                                    <i class="bx bx-home-alt icons"></i>
+                                    <span class="text nav-text text-blue">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-linkm {{ request()->routeIs('brand.campaign.index') ? 'active' : '' }} ">
+                                <a href="{{ route('brand.campaign.index') }}">
+                                    <i class="bi bi-person-workspace icons"></i>
+                                    <span class="text nav-text text-blue">Campaign</span>
+                                </a>
+                            </li>
+                            {{-- <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} active">
                         <a href="{{ route('brand.campaign.step.index') }}">
                             <i class="bx bx-home-alt icons"></i>
                             <span class="text nav-text text-blue">Campaign Steps</span>
                         </a>
                     </li> --}}
-                        {{-- <li class="nav-linkm {{ request()->routeIs('brand.campaign.appliers') ? 'active' : '' }} ">
+                            {{-- <li class="nav-linkm {{ request()->routeIs('brand.campaign.appliers') ? 'active' : '' }} ">
                         <a href="{{ route('brand.campaign.appliers') }}">
                             <i class="bi bi-person-add icons"></i>
                             <span class="text nav-text text-blue">Appliers</span>
                         </a>
                     </li> --}}
-                        <li class="nav-linkm {{ request()->routeIs('influencer.notifications') ? 'active' : '' }}">
-                            <a href="{{ route('influencer.notifications') }}">
-                                <i class="bx bx-bell icons"></i>
-                                <span class="text nav-text text-blue">Notifications </span>
+                            <li class="nav-linkm {{ request()->routeIs('influencer.notifications') ? 'active' : '' }}">
+                                <a href="{{ route('influencer.notifications') }}">
+                                    <i class="bx bx-bell icons"></i>
+                                    <span class="text nav-text text-blue">Notifications </span>
 
-                                @if (App\Models\BrandInfluencerNotification::where('userId', Auth::user()->id)->where('is_read', 'Yes')->first())
-                                    <i class='bx bxs-bell notificationIcon text-success ms-5 mb-1'
-                                        title="You have new notification"></i>
-                                @endif
+                                    @if (App\Models\BrandInfluencerNotification::where('userId', Auth::user()->id)->where('is_read', 'Yes')->first())
+                                        <i class='bx bxs-bell notificationIcon text-success ms-5 mb-1'
+                                            title="You have new notification"></i>
+                                    @endif
 
-                            </a>
-                        </li>
-                        <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
-                            <a href="{{ route('influencer.chat.index') }}">
-                                <i class="bx bx-message icons"></i>
-                                <span class="text nav-text text-blue">Chats</span>
-                            </a>
-                        </li>
-                        <li
-                            class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
-                            <a href="{{ route('pricing.index') }}">
-                                <i class="bi bi-piggy-bank-fill icons"></i>
-                                <span class="text nav-text text-blue">Pricing</span>
-                            </a>
-                        </li>
+                                </a>
+                            </li>
+                            <li class="nav-linkm {{ request()->routeIs('influencer.chat.index') ? 'active' : '' }}">
+                                <a href="{{ route('influencer.chat.index') }}">
+                                    <i class="bx bx-message icons"></i>
+                                    <span class="text nav-text text-blue">Chats</span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
+                                <a href="{{ route('pricing.index') }}">
+                                    <i class="bi bi-piggy-bank-fill icons"></i>
+                                    <span class="text nav-text text-blue">Pricing</span>
+                                </a>
+                            </li>
 
-                        <li class="nav-linkm {{ request()->routeIs('brand.log') ? 'active' : '' }} ">
-                            <a href="{{ route('brand.log') }}">
-                                <i class="bi bi-list-nested icons"></i>
-                                <span class="text nav-text text-blue">Point Log</span>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} active">
+                            <li class="nav-linkm {{ request()->routeIs('brand.log') ? 'active' : '' }} ">
+                                <a href="{{ route('brand.log') }}">
+                                    <i class="bi bi-list-nested icons"></i>
+                                    <span class="text nav-text text-blue">Point Log</span>
+                                </a>
+                            </li>
+                            {{-- <li class="nav-linkm {{ request()->routeIs('pricing.index') ? 'active' : '' }} active">
                         <a href="{{ route('brand.offers') }}">
                             <i class="bx bx-home-alt icons"></i>
                             <span class="text nav-text text-blue">Brand Offers</span>
                         </a>
                     </li> --}}
-                        <li class="nav-linkm ">
-                            <a href="{{ route('brand.campaign.create') }}" class="btn btn-primary btn-sm rounded-pill">
-                                <i class="bx bx-plus icons text-white" style="color: white !important"></i>
-                                <span class="text nav-text text-center text-white h6">
-                                    Create
-                                    Campaign
-                                </span>
-                            </a>
-                        </li>
+                            <li class="nav-linkm ">
+                                <a href="{{ route('brand.campaign.create') }}"
+                                    class="btn btn-primary btn-sm rounded-pill">
+                                    <i class="bx bx-plus icons text-white" style="color: white !important"></i>
+                                    <span class="text nav-text text-center text-white h6">
+                                        Create
+                                        Campaign
+                                    </span>
+                                </a>
+                            </li>
 
 
-                    </ul>
-                @endrole
-            </div>
+                        </ul>
+                    @endrole
+                </div>
 
-            <div class="bottom-content">
-                <li class="nav-linkm ">
-                    <a href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="bx bx-log-out icons"></i>
-                        <span class="text nav-text text-blue">Log Out</span>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
-                <li class="mode">
+                <div class="bottom-content">
+                    <li class="nav-linkm ">
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="bx bx-log-out icons"></i>
+                            <span class="text nav-text text-blue">Log Out</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                    {{-- <li class="mode">
                     <div class="moon-sun">
                         <i class="bx bx-moon icons moon"></i>
                         <i class="bx bx-sun icons sun"></i>
@@ -412,62 +430,63 @@
                     <div class="toggle-switch">
                         <span class="switch"></span>
                     </div>
-                </li>
+                </li> --}}
+                </div>
             </div>
-        </div>
 
-    </nav>
-    <nav class="nav menu-links text-white justify-content-end  py-4 pe-4" style="z-index: -1">
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <ul class="nav">
-            {{-- <li class="nav-item pe-3" style="color: #156b9f;"> --}}
+        </nav>
 
-            <section class="dropdown-menu" id="dropdown-menu">
-                <button onclick="handleDropdownClicked(event)">
-                    <span class="material-symbols-outlined"> account_circle </span>
-                    {{ Auth::user()->name }}
-                    <span id="dropdown-icon" class="chevron material-symbols-outlined"> expand_more </span>
-                </button>
-                <section class="dropdown-menu__labels">
-                    <div id="primary-menu" class="primary-menu">
-                        <div class="primary-menu__labels">
-                            @role('Admin')
-                                <a href="{{ route('admin.dashboard') }}">
+        <nav class="nav menu-links text-white justify-content-end  py-4 pe-4" style="z-index: -1">
+            <link rel="stylesheet"
+                href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+            <ul class="nav">
+                {{-- <li class="nav-item pe-3" style="color: #156b9f;"> --}}
+
+                <section class="dropdown-menu" id="dropdown-menu">
+                    <button onclick="handleDropdownClicked(event)">
+                        <span class="material-symbols-outlined"> account_circle </span>
+                        {{ Auth::user()->name }}
+                        <span id="dropdown-icon" class="chevron material-symbols-outlined"> expand_more </span>
+                    </button>
+                    <section class="dropdown-menu__labels">
+                        <div id="primary-menu" class="primary-menu">
+                            <div class="primary-menu__labels">
+                                @role('Admin')
+                                    <a href="{{ route('admin.dashboard') }}">
+                                        <button>
+                                            <span class="material-symbols-outlined"> admin_panel_settings </span>
+                                            Admin
+                                        </button>
+                                    </a>
+                                @endrole
+                                <a href="{{ route('profile') }}">
                                     <button>
-                                        <span class="material-symbols-outlined"> admin_panel_settings </span>
-                                        Admin
+                                        <span class="material-symbols-outlined"> store </span>
+                                        Profile
                                     </button>
                                 </a>
-                            @endrole
-                            <a href="{{ route('profile') }}">
-                                <button>
-                                    <span class="material-symbols-outlined"> store </span>
-                                    Profile
-                                </button>
-                            </a>
 
-                            <a href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <button>
-                                    <span class="material-symbols-outlined"> logout </span>
-                                    Sign Out
-                                </button>
-                            </a>
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <button>
+                                        <span class="material-symbols-outlined"> logout </span>
+                                        Sign Out
+                                    </button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </section>
-            </section>
 
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
 
 
 
-            {{-- </li> --}}
-            {{-- <li class="nav-item dropdown">
+
+                {{-- </li> --}}
+                {{-- <li class="nav-item dropdown">
                 <a class=" dropdown-toggle " style="color: #156b9f" href="#" id="navbarDropdownMenuLink"
                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }}
@@ -504,65 +523,65 @@
                 </ul>
             </li> --}}
 
-        </ul>
+            </ul>
 
-    </nav>
-    <div class="d-flex justify-content-end">
+        </nav>
+        <div class="d-flex justify-content-end">
 
-        @if (session()->has('success'))
-            <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive"
-                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('success') }}
+            @if (session()->has('success'))
+                <div class="toast align-items-center text-white show bg-success" role="alert" aria-live="assertive"
+                    aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
-                </div>
-                <div class="progress" style="height: 3px;">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
-                        style="width: 0%"></div>
-                </div>
-            </div>
-        @endif
-        @if (session()->has('error'))
-            <div class="toast align-items-center text-white show bg-danger" role="alert" aria-live="assertive"
-                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('error') }}
+                    <div class="progress" style="height: 3px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
+                            role="progressbar" style="width: 0%"></div>
                     </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
                 </div>
-                <div class="progress" style="height: 3px;">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light" role="progressbar"
-                        style="width: 0%"></div>
-                </div>
-            </div>
-        @endif
-        @if (session()->has('warning'))
-            <div class="toast align-items-center text-white show bg-warning" role="alert" aria-live="assertive"
-                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('warning') }}
+            @endif
+            @if (session()->has('error'))
+                <div class="toast align-items-center text-white show bg-danger" role="alert" aria-live="assertive"
+                    aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('error') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
                     </div>
-                    {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                    <div class="progress" style="height: 3px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
+                            role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+            @endif
+            @if (session()->has('warning'))
+                <div class="toast align-items-center text-white show bg-warning" role="alert" aria-live="assertive"
+                    aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('warning') }}
+                        </div>
+                        {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
                         aria-label="Close"></button> --}}
+                    </div>
+                    <div class="progress" style="height: 3px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
+                            role="progressbar" style="width: 0%"></div>
+                    </div>
                 </div>
-                <div class="progress" style="height: 3px;">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar"
-                        style="width: 0%"></div>
-                </div>
-            </div>
-        @endif
+            @endif
 
 
-    </div>
+        </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <div class="loader" id="loader">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        {{-- <div class="loader" id="loader">
         <!-- Include the loader content here -->
         <div class="dotsCss">
             <div class="dot"></div>
@@ -571,7 +590,7 @@
             <div class="dot"></div>
         </div>
     </div>
-    <div class="container content loaderContent" id="loaderContent">
+    <div class="container content loaderContent" id="loaderContent"> --}}
 
         <div class="text-info text-end pb-2 fw-bold points"> {{ 'Points:' . $total }}</div>
 
@@ -586,6 +605,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> --}}
     <script src="{{ asset('influencerbrand/script.js') }}"></script>
 
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sidebar = document.querySelector('.sidebar');
+            const toggle = document.querySelector('.toggle'); // get the toggle element
+
+            function updateSidebarClass() {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.add('close');
+                    toggle.style.display = 'none';
+                } else {
+                    sidebar.classList.remove('close');
+                    toggle.style.display = ''
+                }
+            }
+
+            // add click event listener to toggle element
+            toggle.addEventListener('click', function() {
+                sidebar.classList.toggle('close'); // toggle the close class
+            });
+
+            window.addEventListener('resize', updateSidebarClass);
+            updateSidebarClass(); // initial call
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const toasts = document.querySelectorAll('.toast');

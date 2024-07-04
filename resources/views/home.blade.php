@@ -5,6 +5,47 @@
     <link rel="stylesheet" href="{{ asset('assetshtml/css/custom.css') }}" />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        @media (max-width: 1025px) and (min-width: 992px) {
+            .col-lg-4 {
+                width: 50%;
+            }
+        }
+
+        @media (max-width : 769px) {
+            .camp {
+                width: 100% !important;
+            }
+        }
+
+        @media (max-width : 426px) {
+            .camp {
+                margin-left: 20px;
+                width: 100% !important;
+            }
+
+            .detail {
+                margin-left: 43px;
+            }
+        }
+
+        @media (max-width : 376px) {
+            .detail {
+                margin-left: 25px;
+            }
+        }
+
+        @media (max-width : 376px) {
+            .camp {
+                margin-left: 25px;
+            }
+
+            .detail {
+                margin-left: 25px;
+                width: 95% !important;
+            }
+        }
+    </style>
 
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -60,7 +101,7 @@
 
         {{-- @if (session('role') === 'influencer') --}}
         @role('Influencer')
-            <div class="card" style="width: 95%">
+            <div class="card camp" style="width: 95%">
                 <div class="card-body bg-light">
                     <div class="row">
                         <h1 class="text-center">Campaigns</h1>
@@ -73,8 +114,8 @@
             <div class="row" id="container">
 
                 @foreach ($campaigns as $campaign)
-                    <div class="col-md-4">
-                        <div class="card" style="width: 18rem; height: 22rem">
+                    <div class="col-md-6 col-sm-2 col-lg-4">
+                        <div class="card detail" style="width: 18rem; height: 22rem">
 
                             <a href="{{ route('influencer.campaignView') }}/{{ $campaign->id }}">
 
@@ -268,9 +309,10 @@
                         success: function(data) {
                             $('#container').html('');
                             $.each(data, function(index, campaign) {
-                                var html = '<div class="col-md-4">';
+                                var html =
+                                    '<div class="col-md-6 col-sm-12 col-lg-4">';
                                 html +=
-                                    '<div class="card" style="width: 18rem; height: 22rem">';
+                                    '<div class="card detail" style="width: 18rem; height: 22rem">';
                                 html +=
                                     '<a href="{{ route('influencer.campaignView') }}/' +
                                     campaign.id + '">';
