@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 download_app">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 download_app">
                 <h4>Download App</h4>
                 <ul>
                     <li>
