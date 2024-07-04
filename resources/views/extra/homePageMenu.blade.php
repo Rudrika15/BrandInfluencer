@@ -1,6 +1,6 @@
  <div class="custom-overlay"></div>
  <header>
-     <div class="container navbar">
+     <div class="container navbar ">
          <a href="/" title="Perfect Property" class="header-logo d-block">
              <img src="{{ asset('assetshtml/images/logo.png') }}" title="Brandbeans" height="50" />
          </a>

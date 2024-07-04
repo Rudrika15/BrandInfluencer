@@ -213,7 +213,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <a href="#featured_creators" class="custombtn">Find Influencer</a>
+                            <a href="#featured_creators" class="custombtn featured">Find Influencer</a>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <a class="custombtn" href="#featured_creators">Find Influencer</a>
+                            <a class="custombtn featured" href="#featured_creators">Find Influencer</a>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <a class="custombtn" href="#featured_creators">Find Influencer</a>
+                            <a class="custombtn featured" href="#featured_creators">Find Influencer</a>
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,7 @@
                         </div>
                         <div class="content">
                             <h4>Discovering the perfect influencer for your business</h4>
-                            <a class="custombtn" href="#featured_creators">Find Influencer</a>
+                            <a class="custombtn featured" href="#featured_creators">Find Influencer</a>
                         </div>
                     </div>
                 </div>

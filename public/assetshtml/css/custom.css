@@ -134,10 +134,14 @@ header .navbar {
     padding-bottom: 0;
 }
 @media only screen and (min-width: 280px) and (max-width: 480px) {
+    header {
+        width: 110% !important;
+    }
     header .navbar {
         justify-content: space-between;
     }
 }
+
 header .navbar::before,
 header .navbar::after {
     content: inherit;
@@ -1120,3 +1124,9 @@ footer .bottom_stripe .social_media ul li {
     margin-left: 10px;
     display: inline-block;
 } /*# sourceMappingURL=custom.css.map */
+
+@media (max-width: 1025px) {
+    .featured {
+        margin-left: 50px;
+    }
+}
