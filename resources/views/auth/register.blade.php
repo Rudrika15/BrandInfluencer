@@ -67,7 +67,7 @@
 
 <body onload="loadSelectedOption()">
     @include('extra.homePageMenu')
-    <div class="container" style="margin-top: 150px; max-width: 500px; margin-bottom: 100px">
+    <div class="container" style="margin-top: 50px; max-width: 500px; margin-bottom: 100px">
         <div class="card ">
             {{-- <div class="text-info text-center pb-4 fw-bold"><img src="{{ asset('images/logo.png') }}" class="w-25" alt=""></div> --}}
             <form action="{{ route('register') }}" method="post">

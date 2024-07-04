@@ -60,7 +60,7 @@
 
     @include('extra.homePageMenu')
 
-    <div class="container" style="margin-top: 150px; max-width: 500px; margin-bottom: 100px">
+    <div class="container" style="margin-top: 100px; max-width: 500px; margin-bottom: 100px">
         <div class="card">
             <div class="border p-5">
                 {{-- <div class="text-info text-center pb-2 fw-bold">Brand beans</div> --}}

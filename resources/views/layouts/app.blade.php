@@ -220,6 +220,13 @@
         @media (max-width : 769px) {
             .dropdown-menu {
                 margin-left: 20%;
+
+            }
+        }
+
+        @media (max-width : 1025px) {
+            .dropdown-menu {
+                margin-left: 40%;
             }
         }
     </style>

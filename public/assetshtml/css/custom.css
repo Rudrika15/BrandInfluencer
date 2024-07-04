@@ -134,9 +134,6 @@ header .navbar {
     padding-bottom: 0;
 }
 @media only screen and (min-width: 280px) and (max-width: 480px) {
-    header {
-        width: 110% !important;
-    }
     header .navbar {
         justify-content: space-between;
     }
@@ -1101,6 +1098,11 @@ footer .download_app ul {
     list-style: none;
 }
 @media only screen and (min-width: 767px) and (max-width: 980px) {
+    footer .download_app ul {
+        flex-direction: column;
+    }
+}
+@media (max-width: 321px) {
     footer .download_app ul {
         flex-direction: column;
     }
