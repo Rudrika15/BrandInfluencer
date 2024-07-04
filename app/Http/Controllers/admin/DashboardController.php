@@ -116,6 +116,7 @@ class DashboardController extends Controller
             // return $request;
             $id = Auth::user()->id;
             $userData = User::find($id);
+            $userData->name = $request->name;
             $userData->username = $request->username;
             $userData->state = $request->state;
             $userData->city = $request->city;
