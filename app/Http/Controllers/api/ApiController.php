@@ -814,7 +814,7 @@ class ApiController extends Controller
             'userId' => 'required',
             // 'name' => 'required',
             // 'profilePhoto' => 'required',
-            'category' => 'required',
+            // 'category' => 'required',
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
