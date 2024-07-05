@@ -217,16 +217,32 @@
             z-index: 9999;
         }
 
-        @media (max-width : 769px) {
+        @media(max-width: 321px) {
+            .dropdown-menu {
+                margin-left: 16%;
+            }
+        }
+
+        @media (max-width : 426px) and (min-width : 321px) {
+            .dropdown-menu {
+                margin-left: 10%;
+            }
+
+            .points {
+                margin-right: 10% !important;
+            }
+        }
+
+        @media (max-width : 769px) and (min-width : 426px) {
             .dropdown-menu {
                 margin-left: 20%;
 
             }
         }
 
-        @media (max-width : 1025px) {
+        @media (max-width : 1025px) and (min-width : 769px) {
             .dropdown-menu {
-                margin-left: 40%;
+                margin-left: 20%;
             }
         }
     </style>

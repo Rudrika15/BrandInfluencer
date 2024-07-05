@@ -1,7 +1,20 @@
 @extends('layouts.app')
 @section('title', 'Brand beans | Campaign Applied List')
 @section('content')
+    <style>
+        @media(max-width: 1024px) and (min-width: 768px) {
+            .col-lg-4 {
+                width: 50%;
+            }
+        }
 
+        @media(max-width: 426px) {
+            .apply {
+                margin-left: 10%;
+            }
+            
+        }
+    </style>
     {{-- <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet"> --}}
 
     <div class='container'>
@@ -60,8 +73,8 @@
             @if (count($campaignList) > 0)
 
                 @foreach ($campaignList as $brand)
-                    <div class="col-md-4">
-                        <div class="card" style="width: 18rem; height: 22rem">
+                    <div class="col-md-6 col-lg-4 col-sm-12">
+                        <div class="card apply" style="width: 18rem; height: 22rem">
                             <a href="{{ route('influencer.campaignView') }}/{{ $brand->campaign->id }}">
 
                                 <img src="{{ asset('campaignPhoto') }}/{{ $brand->campaign->photo }}"

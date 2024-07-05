@@ -34,6 +34,45 @@
 
             /* Adjust the color and thickness as needed */
         }
+
+        @media(max-width:768px) and (min-width:321px) {
+            .card {
+                margin-left: 10%;
+                width: 90% !important;
+            }
+
+            .w-75 {
+                width: 100% !important;
+            }
+
+
+
+            .col-md-2 {
+                display: none;
+            }
+        }
+
+        @media(max-width : 321px) {
+
+
+            .card {
+                margin-left: 17%;
+                width: 95% !important;
+            }
+
+            .col-md-2 {
+                display: none;
+            }
+
+            .w-75 {
+                width: 100% !important;
+            }
+
+            .line-title {
+
+                width: 90%;
+            }
+        }
     </style>
     <div class="card w-100 p-3">
         <div class="card-body">
@@ -47,7 +86,7 @@
 
             @foreach ($notificationsAll as $notification)
                 <div class="row w-75">
-                    <div class="col-md-1">
+                    <div class="col-md-2 col-sm-4 col-lg-2">
                         @if ($notification->type == 'Campaign')
                             <i class="bi bi-megaphone fa-3x text-muted"></i>
                         @elseif($notification->type == 'Chat')
@@ -56,17 +95,17 @@
                             <i class="fa fa-user fa-3x text-muted" aria-hidden="true"></i>
                         @endif
                     </div>
-                    <div class="col-md-10 pt-3 ps-3">
+                    <div class="col-md-10 col-sm-8 col-lg-10 pt-3 ps-3">
                         <span class="fw-bold text-muted">{{ $notification->title }}</span> <br>
                         <small class="text-muted">{{ \Carbon\Carbon::parse($notification->dateTime)->diffForHumans() }}
                         </small>
                     </div>
-                    <div class="col-md-1 ">
-                        {{-- <img src="{{ asset('images/default.jpg') }}" class="img-thumbnail" width="500px" height="500px"
+                    {{-- <div class="col-md-1 "> --}}
+                    {{-- <img src="{{ asset('images/default.jpg') }}" class="img-thumbnail" width="500px" height="500px"
                         alt=""> --}}
-                    </div>
+                    {{-- </div> --}}
 
-                    <hr class="mt-2">
+                    <hr class="mt-2 ">
                 </div>
             @endforeach
 
