@@ -143,6 +143,7 @@ header .navbar::before,
 header .navbar::after {
     content: inherit;
 }
+
 header .navbar .nav-item {
     gap: 2rem;
     width: 100%;
@@ -302,6 +303,14 @@ header .navbar .nav-item ul li a:hover {
     -ms-transition: 0.4s;
     -o-transition: 0.4s;
 }
+
+.button-padding {
+    padding: 0% !important;
+    text-align: center !important;
+    margin-right: 100px;
+    background-color: #000 !important;
+}
+
 .side-menu-close span:nth-child(1) {
     top: -5px;
 }

@@ -419,7 +419,7 @@
                     </li> --}}
                             <li class="nav-linkm ">
                                 <a href="{{ route('brand.campaign.create') }}"
-                                    class="btn btn-primary btn-sm rounded-pill">
+                                    class="btn btn-primary btn-sm rounded-pill plus-icon ">
                                     <i class="bx bx-plus icons text-white" style="color: white !important"></i>
                                     <span class="text nav-text text-center text-white h6">
                                         Create

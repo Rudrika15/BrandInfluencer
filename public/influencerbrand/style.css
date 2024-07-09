@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Poppins:wght@300;400;500;600;700&display=swap");
 
-
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
@@ -136,10 +135,10 @@ body.dark {
     background-color: var(--dark-color);
     display: flex;
     align-items: center;
-    justify-content: center;
     border-radius: 50%;
     color: var(--sidebar-color);
     font-size: 22px;
+    text-align: center;
 }
 
 .sidebar li {
@@ -298,9 +297,18 @@ body.dark .search-bar input {
 }
 
 .sidebar.close .toggle {
-    transform: translateY(-50%);
+    transform: translateY(-45%);
 }
 
+.sidebar.close .plus-icon .bx {
+    padding-right: 25px;
+}
+.sidebar.close .plus-icon {
+    padding-right: 10px;
+}
+.sidebar.close {
+    padding: none;
+}
 
 a {
     text-decoration: none;
@@ -314,7 +322,7 @@ a:hover {
 
 .site-header {
     border-bottom: 1px solid #ccc;
-    padding: .7em 1em .5em 1em;
+    padding: 0.7em 1em 0.5em 1em;
 }
 
 .site-header::after {
@@ -402,7 +410,6 @@ ul {
 }
 
 .dropdown-menu li:hover {
-
     color: #1d4880 !important;
     background-color: #15c6eb;
 }
@@ -481,7 +488,6 @@ ul {
 }
 
 /* end */
-
 
 /* brand list card design  */
 
@@ -785,9 +791,8 @@ button {
 
 /* end */
 
-
 /* toggle switch design */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Khojki&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Khojki&display=swap");
 
 /* body,
 html {
@@ -824,7 +829,7 @@ html {
     display: none;
 }
 
-.toggle+label {
+.toggle + label {
     cursor: pointer;
     color: #fff;
     transition: color 0.3s;
@@ -832,41 +837,40 @@ html {
     border: #1d4880 1px solid !important;
 }
 
-.toggle:checked+label {
+.toggle:checked + label {
     color: #15c6eb;
     background-color: #1d4880;
 }
 
-.toggle-left+label {
+.toggle-left + label {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.toggle-right+label {
+.toggle-right + label {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.text-blue{
+.text-blue {
     color: rgb(29, 72, 128) !important;
 }
 
-a:hover .text-blue{
-color: #15c6eb !important;
-}
-
-.icons{
+a:hover .text-blue {
     color: #15c6eb !important;
 }
 
-a:hover .icons{
+.icons {
+    color: #15c6eb !important;
+}
+
+a:hover .icons {
     color: rgb(29, 72, 128) !important;
 }
 
-.nav-linkm.active a{ 
+.nav-linkm.active a {
     background-color: rgb(247, 243, 243);
     color: #15c6eb !important;
-
 }
 .nav-linkm.active a .nav-text {
     color: #15c6eb !important;
@@ -874,6 +878,5 @@ a:hover .icons{
 .nav-linkm.active a .icons {
     color: rgb(29, 72, 128) !important;
 }
-
 
 /* end */
