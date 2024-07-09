@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- Icon  -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
@@ -89,39 +90,41 @@
 
         <div class="row">
             <?php $count = 0; ?>
-        
+
             @foreach ($influencers as $influencer)
                 <?php $count++; ?>
-        
+
                 @if (isset($influencer->profilePhoto))
                     <div class="col-md-3 influencers-container pt-3" style="height: 350px">
                         <a href="{{ route('main.influencer.profile') }}/{{ $influencer->id }}">
                             <?php
                             // Get the full path to the image
                             $imagePath = public_path('profile/' . $influencer->profilePhoto);
-        
+                            
                             // Optimize the image
                             $optimizedImagePath = \Spatie\LaravelImageOptimizer\Facades\ImageOptimizer::optimize($imagePath);
-        
+                            
                             // Output the optimized image path (for debugging)
                             echo "Optimized Image Path: $optimizedImagePath";
                             ?>
-                            <img class="image pb-2" src="{{ asset('profile') }}/{{ basename($optimizedImagePath) }}" alt="image">
+                            <img class="image pb-2" src="{{ asset('profile') }}/{{ basename($optimizedImagePath) }}"
+                                alt="image">
                         </a><br>
                         <span class="blueFont fw-bold">{{ $influencer->name }}</span>
                     </div>
                 @endif
-        
+
                 @if ($count == 40)
-                    @break
-                @endif
-            @endforeach
-        </div>
-        
+                @break
+            @endif
+        @endforeach
+    </div>
+
 
     @if (Auth::user())
         @if (Auth::user()->hasRole('Brand'))
-            <a href="{{ route('brand.influencerList') }}?category=" class="btn blueButton text-white mt-3" id="viewMoreBtn">View more Influencers</a>
+            <a href="{{ route('brand.influencerList') }}?category=" class="btn blueButton text-white mt-3"
+                id="viewMoreBtn">View more Influencers</a>
         @else
             <a href="{{ route('brand.register') }}" class="btn blueButton text-white mt-3">View more
                 Influencers</a>
@@ -257,7 +260,9 @@
 </div>
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
 <script src="{{ asset('scripts/influencer.js') }}"></script>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <script src="https://unpkg.com/sweetalert@2"></script>
@@ -330,7 +335,8 @@
                 }
             }).done(function(response) {
                 console.log('response', response);
-                window.location = `{{ route('main.influencer') }}?category=${encodeURIComponent(category)}`;
+                window.location =
+                    `{{ route('main.influencer') }}?category=${encodeURIComponent(category)}`;
             });
         });
         viewMoreBtn.href = `{{ route('brand.influencerList') }}?category=${encodeURIComponent(tabValue)}`;

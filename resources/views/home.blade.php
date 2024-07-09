@@ -265,7 +265,8 @@
 
                                 {{-- <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"> --}}
                                 <div class="influencer_img">
-                                    <img class="bg-light" src="{{ asset('profile') }}/{{ $item->profilePhoto ?? '' }}"
+                                    <img class="bg-light lazy"
+                                        data-src="{{ asset('profile') }}/{{ $item->profilePhoto ?? '' }}"
                                         onerror="this.src='{{ asset('images/default.jpg') }}'"
                                         style="height: 350px; object-fit: contain;" />
                                 </div>
@@ -285,10 +286,36 @@
                 </div>
 
             </div>
+
+
         @endrole
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const lazyImages = document.querySelectorAll('.lazy');
 
+            if ("IntersectionObserver" in window) {
+                const imageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            const image = entry.target;
+                            image.src = image.dataset.src;
+                            image.classList.remove('lazy');
+                            imageObserver.unobserve(image);
+                        }
+                    });
+                }, {
+                    rootMargin: '0px 0px 50px 0px',
+                    threshold: 0
+                });
+
+                lazyImages.forEach(function(image) {
+                    imageObserver.observe(image);
+                });
+            }
+        });
+    </script>
 
     <script>
         $(document).ready(function() {

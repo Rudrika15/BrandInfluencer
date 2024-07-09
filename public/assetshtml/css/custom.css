@@ -279,11 +279,13 @@ header .navbar .nav-item ul li a:hover {
     flex-direction: column !important;
     justify-content: center !important;
 }
-@media only screen and (min-width: 981px) and (max-width: 1200px),
+
+@media (min-width: 768px) /* and (max-width: 981px),
+    only screen and (min-width: 981px) and (max-width: 1200px),
     only screen and (min-width: 1201px) and (max-width: 1366px),
     only screen and (min-width: 1367px) and (max-width: 1920px),
     only screen and (min-width: 1921px) and (max-width: 2500px),
-    only screen and (min-width: 2501px) {
+    only screen and (min-width: 2501px) { */ {
     .side-menu-close {
         display: none;
     }
@@ -1131,5 +1133,11 @@ footer .bottom_stripe .social_media ul li {
 @media (max-width: 1025px) {
     .featured {
         margin-left: 50px;
+    }
+}
+@media (max-width: 321px) {
+    .featured {
+        margin-left: 0px;
+        width: 80%;
     }
 }

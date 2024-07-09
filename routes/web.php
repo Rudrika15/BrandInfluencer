@@ -87,7 +87,8 @@ Route::get('/privacy', [HomepageController::class, 'privacy'])->name('privacy');
 Route::get('/refund', [HomepageController::class, 'refund'])->name('refund');
 Route::get('/term', [HomepageController::class, 'term'])->name('term');
 
-
+// Route::middleware('optimizeImages')->group(
+//     function () {
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/home', [App\Http\Controllers\HomepageController::class, 'index'])->name('home');
@@ -353,3 +354,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 });
+    // }
+// );

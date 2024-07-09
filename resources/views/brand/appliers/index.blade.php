@@ -23,8 +23,8 @@
                                         <tr>
                                             <th> Campaign Name</th>
                                             <th> Applier</th>
-                                            <th> Status</th>
-                                            <th style="width: 10px;"> Action</th>
+                                            {{-- <th> Status</th>
+                                            <th style="width: 10px;"> Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -36,7 +36,7 @@
                                                 <td>
                                                     {{ $data->user->username ?? '-' }}
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     @if ($data->status == 'Approved')
                                                         <p class="text-success">
                                                             {{ $data->status }}
@@ -80,11 +80,11 @@
                                                     <a class="btn btn-outline-info btn-xs" style="margin-left: 8px;"
                                                         title="View influencer Detail"
                                                         href="{{ route('brand.campaign.influencerDetail') }}/{{ $data->campaignId }}/{{ $data->userId }}"><i
-                                                            class="bi bi-info fa-lg"></i></a>
-                                                    {{-- @if ($data->status == 'Approved')
+                                                            class="bi bi-info fa-lg"></i></a> --}}
+                                                {{-- @if ($data->status == 'Approved')
                                     <a class="btn btn-outline-primary btn-xs" title="View Post" style="margin-left: 8px;" href="{{ route('brand.campaign.influencerPortfolio') }}/{{ $data->campaignId }}/{{ $data->userId }}"><i class="bi bi-eye  fa-lg"></i></a>
                                 @endif --}}
-                                                </td>
+                                                {{-- </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>

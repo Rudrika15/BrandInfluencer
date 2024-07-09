@@ -433,7 +433,7 @@
                     @endrole
                 </div>
 
-                <div class="bottom-content">
+                <div class="bottom-content mb-3">
                     <li class="nav-linkm ">
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -558,11 +558,11 @@
                         <div class="toast-body">
                             {{ session('success') }}
                         </div>
-                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                            aria-label="Close"></button>
+                        {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-bs-label="Close"></button> --}}
                     </div>
                     <div class="progress" style="height: 3px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
                             role="progressbar" style="width: 0%"></div>
                     </div>
                 </div>
@@ -574,8 +574,8 @@
                         <div class="toast-body">
                             {{ session('error') }}
                         </div>
-                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                            aria-label="Close"></button>
+                        {{-- <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button> --}}
                     </div>
                     <div class="progress" style="height: 3px;">
                         <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"

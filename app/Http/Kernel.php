@@ -6,6 +6,18 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+    // app/Http/Kernel.php
+    protected $middlewareAliases = [
+        'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,
+    ];
+    // protected $middleware = [
+    //     // Other middleware classes...
+    //     \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+    //     \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+    //     \App\Http\Middleware\TrimStrings::class,
+    //     \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+    //     'optimizeImages', // Add the aliased class to the existing array
+    // ];
     /**
      * The application's global HTTP middleware stack.
      *

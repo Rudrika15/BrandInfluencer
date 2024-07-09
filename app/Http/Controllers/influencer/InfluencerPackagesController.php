@@ -36,7 +36,7 @@ class InfluencerPackagesController extends Controller
         $influencerPackage->price = $request->price;
         $influencerPackage->description = $request->description;
         $influencerPackage->save();
-        return \redirect()->back()->with('success', 'Package Added Successfully');
+        return \redirect()->route('influencer.package.index')->with('success', 'Package Added Successfully');
     }
 
     public function show(InfluencerPackages $influencerPackages)
@@ -63,7 +63,7 @@ class InfluencerPackagesController extends Controller
         $influencerPackage->price = $request->price;
         $influencerPackage->description = $request->description;
         $influencerPackage->save();
-        return \redirect()->back()->with('success', 'Package Update Successfully');
+        return \redirect()->route('influencer.package.index')->with('success', 'Package Update Successfully');
     }
 
     public function destroy($id)

@@ -344,32 +344,34 @@
                     <div class="influencer_inner">
                         @foreach ($influencers as $item)
                             @if ($item->categoryId && in_array($category->id, json_decode($item->categoryId, true)))
-                                @if ($item->profile->profilePhoto)
-                                    <div class="influencer_item">
-                                        @if ($item->is_trending == 'on')
-                                            <span class="influencer_tag">Trending</span>
-                                        @elseif ($item->is_featured == 'on')
-                                            <span class="influencer_tag featured">Featured</span>
-                                        @endif
-                                        @if ($item->is_brandBeansVerified == 'on')
-                                            <i class="bi bi-patch-check-fill heart_icon" style="color: blue"></i>
-                                        @endif
+                                @if ($item->profile)
+                                    @if ($item->profile->profilePhoto)
+                                        <div class="influencer_item">
+                                            @if ($item->is_trending == 'on')
+                                                <span class="influencer_tag">Trending</span>
+                                            @elseif ($item->is_featured == 'on')
+                                                <span class="influencer_tag featured">Featured</span>
+                                            @endif
+                                            @if ($item->is_brandBeansVerified == 'on')
+                                                <i class="bi bi-patch-check-fill heart_icon" style="color: blue"></i>
+                                            @endif
 
-                                        <div class="influencer_img">
-                                            <img class="img-responsive"
-                                                src="{{ asset('profile/' . $item->profile->profilePhoto) }}"
-                                                onerror="this.src='{{ asset('images/default.jpg') }}'"
-                                                style="height: 350px; object-fit: contain;" />
-                                        </div>
-                                        <div class="content">
-                                            <p>{{ $item->profile->name }}</p>
-                                            <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                            <div class="explore_btn">
-                                                <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
-                                                    class="custombtn highlighbtn">Book Now</a>
+                                            <div class="influencer_img">
+                                                <img class="img-responsive"
+                                                    src="{{ asset('profile/' . $item->profile->profilePhoto) }}"
+                                                    onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                                    style="height: 350px; object-fit: contain;" />
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ $item->profile->name }}</p>
+                                                <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                                <div class="explore_btn">
+                                                    <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                                        class="custombtn highlighbtn">Book Now</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 @endif
                             @endif
                         @endforeach
@@ -381,32 +383,34 @@
             <div class="tab-pane active" id="alltab" role="tabpanel" aria-labelledby="all-tab">
                 <div class="influencer_inner">
                     @foreach ($influencers as $item)
-                        @if ($item->profile->profilePhoto)
-                            <div class="influencer_item ">
-                                @if ($item->is_trending == 'on')
-                                    <span class="influencer_tag">Trending</span>
-                                @endif
-                                @if ($item->is_featured == 'on')
-                                    <span class="influencer_tag featured " style="margin-top: 5%;">Featured</span>
-                                @endif
-                                @if ($item->is_brandBeansVerified == 'on')
-                                    <i class="bi bi-patch-check-fill heart_icon " style="color: blue; "></i>
-                                @endif
-                                <div class="influencer_img">
-                                    <img class="img-responsive"
-                                        src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
-                                        onerror="this.src='{{ asset('images/default.jpg') }}'"
-                                        style="height: 350px; object-fit: contain;" />
-                                </div>
-                                <div class="content">
-                                    <p>{{ $item->profile->name }}</p>
-                                    <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
-                                    <div class="explore_btn">
-                                        <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
-                                            class="custombtn highlighbtn">Book Now</a>
+                        @if ($item->profile)
+                            @if ($item->profile->profilePhoto)
+                                <div class="influencer_item ">
+                                    @if ($item->is_trending == 'on')
+                                        <span class="influencer_tag">Trending</span>
+                                    @endif
+                                    @if ($item->is_featured == 'on')
+                                        <span class="influencer_tag featured " style="margin-top: 5%;">Featured</span>
+                                    @endif
+                                    @if ($item->is_brandBeansVerified == 'on')
+                                        <i class="bi bi-patch-check-fill heart_icon " style="color: blue; "></i>
+                                    @endif
+                                    <div class="influencer_img">
+                                        <img class="img-responsive"
+                                            src="{{ asset('profile') }}/{{ $item->profile->profilePhoto }}"
+                                            onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                            style="height: 350px; object-fit: contain;" />
+                                    </div>
+                                    <div class="content">
+                                        <p>{{ $item->profile->name }}</p>
+                                        <span>{{ $item->instagramFollowers ?? '0' }} Followers</span>
+                                        <div class="explore_btn">
+                                            <a href="{{ route('general.influencerProfile', $item->profile->id) }}"
+                                                class="custombtn highlighbtn">Book Now</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endif
                     @endforeach
                 </div>
