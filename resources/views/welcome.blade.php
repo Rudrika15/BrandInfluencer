@@ -353,7 +353,8 @@
                                                 <span class="influencer_tag featured">Featured</span>
                                             @endif
                                             @if ($item->is_brandBeansVerified == 'on')
-                                                <i class="bi bi-patch-check-fill heart_icon" style="color: blue"></i>
+                                                <i class="bi bi-patch-check-fill heart_icon"
+                                                    style="color: #15c6eb; "></i>
                                             @endif
 
                                             <div class="influencer_img">
@@ -393,7 +394,7 @@
                                         <span class="influencer_tag featured " style="margin-top: 5%;">Featured</span>
                                     @endif
                                     @if ($item->is_brandBeansVerified == 'on')
-                                        <i class="bi bi-patch-check-fill heart_icon " style="color: blue; "></i>
+                                        <i class="bi bi-patch-check-fill heart_icon " style="color: #15c6eb; "></i>
                                     @endif
                                     <div class="influencer_img">
                                         <img class="img-responsive"

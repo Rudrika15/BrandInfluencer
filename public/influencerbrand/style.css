@@ -306,9 +306,6 @@ body.dark .search-bar input {
 .sidebar.close .plus-icon {
     padding-right: 10px;
 }
-.sidebar.close {
-    padding: none;
-}
 
 a {
     text-decoration: none;
