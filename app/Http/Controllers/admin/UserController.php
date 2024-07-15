@@ -42,24 +42,24 @@ class UserController extends Controller
         try {
             $data = User::whereHas('roles', function ($query) {
                 return $query->where('name', '!=', 'User');
-            })->orderBy('id', 'DESC')->paginate(50);
+            })->orderBy('id', 'DESC')->paginate(10);
             $userRoles = Role::all();
 
             $search = $request->roleSearch;
             if ($search == "Admin") {
                 $data = User::whereHas('roles', function ($query) {
                     return $query->where('name', '=', 'Admin');
-                })->orderBy('id', 'DESC')->paginate(50);
+                })->orderBy('id', 'DESC')->paginate(10);
             }
             if ($search == "Brand") {
                 $data = User::whereHas('roles', function ($query) {
                     return $query->where('name', '=', 'Brand');
-                })->orderBy('id', 'DESC')->paginate(50);
+                })->orderBy('id', 'DESC')->paginate(10);
             }
             if ($search == "Influencer") {
                 $data = User::whereHas('roles', function ($query) {
                     return $query->where('name', '=', 'Influencer');
-                })->orderBy('id', 'DESC')->paginate(50);
+                })->orderBy('id', 'DESC')->paginate(10);
             }
 
 
@@ -95,7 +95,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required|regex:/^[A-Za-z]+$/',
             'email' => 'required|email|unique:users,email',
             // 'password' => 'required|same:confirm-password',
             'roles' => 'required',
@@ -121,7 +121,7 @@ class UserController extends Controller
             $userUpdate->save();
 
             $card = new CardsModels();
-            $card->userid = $user->id;
+            $card->user_id = $user->id;
             $card->save();
 
             $payment = new Payment();
@@ -274,7 +274,7 @@ class UserController extends Controller
             if ($package) {
                 $query->where('package', 'LIKE', '%' . $package . '%');
             }
-        })->orderBy('id', 'DESC')->paginate(20);
+        })->orderBy('id', 'DESC')->paginate(10);
 
         return view('admin.users.assignRoles', compact('users', 'userRoles'));
     }

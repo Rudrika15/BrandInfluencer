@@ -102,6 +102,11 @@
                     <span> Brand Campaign List</span></a>
             </li>
             <li class="nav-item active">
+                <a class="nav-link" href="{{ route('brand.leads.index') }}">
+                    <i class="fas fa-fw fa-list-alt"></i>
+                    <span> Brand Leads</span></a>
+            </li>
+            <li class="nav-item active">
                 <a class="nav-link" href="{{ route('influencer.packages') }}">
                     <i class="fas fa-box-open"></i>
                     <span> Influencer Packages</span></a>
@@ -258,7 +263,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-white mt-3">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Your Website 2021</span>

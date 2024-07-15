@@ -20,7 +20,7 @@
             </div>
         </div> --}}
         <div class="d-flex justify-content-end">
-            <a href="{{ route('home') }}" class="btn btn-light mb-5 ">
+            <a href="{{ url()->previous() }}" class="btn btn-light mb-5 ">
                 < Back</a>
         </div>
         <div class="row ps-5">
@@ -67,6 +67,13 @@
                                             <div class="col text-white p-3  text-center bg-secondary rounded-pill">
                                                 <b> <span>Already Applied</span> </b>
                                             </div>
+                                        @elseif (
+                                            $campaign->filter(function ($item) {
+                                                    return $item->applyForLastDate < \Carbon\Carbon::yesterday();
+                                                })->count() > 0)
+                                            <div class="col text-white p-3  text-center bg-secondary rounded-pill">
+                                                <b> <span>Application Closed</span> </b>
+                                            </div>
                                         @else
                                             {{-- <h5 class="text-success"> <strong> Already Applied </strong></h5> --}}
                                             {{-- <a href="{{ route('brand.campaign.appliersCreate', ['campaignId' => $data->id, 'userId' => $data->user->id]) }}"
@@ -85,108 +92,112 @@
                                                         <b><span>Apply</span></b>
                                                     </div>
                                                 </button>
+                                        @endif
                                     </div>
                                     </form>
-                            @endif
 
-                        </div>
 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Send Message to
-                                            {{ $data->title }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('new.influencer.chat.index') }}" name="msg"
-                                            method="post">
-                                            @csrf
-                                            <input type="hidden" name="receiverId" value="{{ $data->user->id ?? '-' }}">
-                                            <div class="input-group mb-3">
-                                                <input type="text" class="form-control" name="message"
-                                                    placeholder="Write a message" aria-label="Recipient's username"
-                                                    aria-describedby="button-addon2" required>
-                                                <button class="btn btn-outline-info" type="submit" id="button-addon2">
-                                                    <i class="bi bi-send"></i> </button>
-                                            </div>
-                                        </form>
-                                    </div>
 
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="ps-4">
-                            <div class="col" style="padding-top:35px;">
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Send Message to
+                                                    {{ $data->title }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('new.influencer.chat.index') }}" name="msg"
+                                                    method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="receiverId"
+                                                        value="{{ $data->user->id ?? '-' }}">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" name="message"
+                                                            placeholder="Write a message" aria-label="Recipient's username"
+                                                            aria-describedby="button-addon2" required>
+                                                        <button class="btn btn-outline-info" type="submit"
+                                                            id="button-addon2">
+                                                            <i class="bi bi-send"></i> </button>
+                                                    </div>
+                                                </form>
+                                            </div>
 
-                                <h5 class="card-text mb-3">
-                                    Description
-                                </h5>
-                                <p>{{ $data->detail }}.
-                                </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ps-4">
+                                    <div class="col" style="padding-top:35px;">
+
+                                        <h5 class="card-text mb-3">
+                                            Description
+                                        </h5>
+                                        <p>{{ $data->detail }}.
+                                        </p>
 
 
-                                <h5 class="card-text mb-3 mt-5 "> Rules </h5>
-                                <p>{{ $data->rule }}</p>
+                                        <h5 class="card-text mb-3 mt-5 "> Rules </h5>
+                                        <p>{{ $data->rule }}</p>
 
-                                <h5 class="card-text mb-3 mt-5">Eligible Criteria </h5>
-                                <p> {{ $data->eligibleCriteria }}</p>
+                                        <h5 class="card-text mb-3 mt-5">Eligible Criteria </h5>
+                                        <p> {{ $data->eligibleCriteria }}</p>
 
-                                <h5 class="card-text mb-3 mt-5">Target Gender </h5>
-                                <p> {{ $data->targetGender }} </p>
-                                <h5 class="card-text mb-3 mt-5">Target Age Group
-                                </h5>
-                                <p> {{ $data->targetAgeGroup }} </p>
-                                <h5 class="card-text mb-3 mt-5">Start Date </h5>
-                                <p> {{ $data->startDate }} </p>
-                                <h5 class="card-text mb-3 mt-5">End Date </h5>
-                                <p> {{ $data->endDate }} </p>
+                                        <h5 class="card-text mb-3 mt-5">Target Gender </h5>
+                                        <p> {{ $data->targetGender }} </p>
+                                        <h5 class="card-text mb-3 mt-5">Target Age Group
+                                        </h5>
+                                        <p> {{ $data->targetAgeGroup }} </p>
+                                        <h5 class="card-text mb-3 mt-5">Start Date </h5>
+                                        <p> {{ $data->startDate }} </p>
+                                        <h5 class="card-text mb-3 mt-5">End Date </h5>
+                                        <p> {{ $data->endDate }} </p>
 
-                            </div>
-                            <div class="col-md-4">
-                                <h5 class="card-text mb-3 mt-5">Apply For Last Date </h5>
-                                <p>{{ $data->applyForLastDate }}. </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5 class="card-text mb-3 mt-5">Apply For Last Date </h5>
+                                        <p>{{ $data->applyForLastDate }}. </p>
 
-                                <h5 class="card-text mb-3 mt-5">Task </h5>
-                                <p>{{ $data->task }} </p>
-                                <h5 class="card-text mb-3 mt-5">Max Application </h5>
-                                <p>{{ $data->maxApplication }} </p>
-                                <h5 class="card-text mb-3 mt-5">Status </h5>
-                                <span class="text-success">{{ $data->status }}</span>
+                                        <h5 class="card-text mb-3 mt-5">Task </h5>
+                                        <p>{{ $data->task }} </p>
+                                        <h5 class="card-text mb-3 mt-5">Max Application </h5>
+                                        <p>{{ $data->maxApplication }} </p>
+                                        <h5 class="card-text mb-3 mt-5">Status </h5>
+                                        <span class="text-success">{{ $data->status }}</span>
 
-                                {{-- <a class="btn btn-success btn-sm"
+                                        {{-- <a class="btn btn-success btn-sm"
                                                 href="{{ route('brand.campaign.campaign.step') }}/{{ $data->id }}">Campaign
                                                 Steps</a> --}}
-                                {{-- @if ($campaignCount == 1)
+                                        {{-- @if ($campaignCount == 1)
                                                     @endif --}}
-                            </div>
+                                    </div>
 
-                            <div style="display: flex; justify-content: end">
-                                <form action="{{ route('influencer.campaignApply') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="campaignId" value="{{ $data->id }}">
-                                    {{-- <button type="submit" class="btn btn-sm btn-primary">Apply</button> --}}
-                                </form>
-                                {{-- @if ($campaignCount == 0)
+                                    <div style="display: flex; justify-content: end">
+                                        <form action="{{ route('influencer.campaignApply') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="campaignId" value="{{ $data->id }}">
+                                            {{-- <button type="submit" class="btn btn-sm btn-primary">Apply</button> --}}
+                                        </form>
+                                        {{-- @if ($campaignCount == 0)
                                                 @else
                                                     Already applied
                                                 @endif --}}
-                            </div>
+                                    </div>
 
 
 
+                                </div>
+                            @endforeach
                         </div>
-                        @endforeach
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     </div>
     </div>

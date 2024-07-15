@@ -13,7 +13,7 @@ class CategoryInfluencerController extends Controller
     public function index()
     {
         try {
-            $influencerCategory = CategoryInfluencer::orderBy('id', 'DESC')->get();
+            $influencerCategory = CategoryInfluencer::orderBy('id', 'DESC')->paginate(10);
 
             return view('admin.influencerCategory.index', \compact('influencerCategory'));
         } catch (\Throwable $th) {
@@ -57,7 +57,7 @@ class CategoryInfluencerController extends Controller
             function ($q) {
                 $q->where('name', 'Influencer');
             }
-        )->whereHas('influencer')->get();
+        )->whereHas('influencer')->paginate(10);
         return view('influencer.influencer.list', \compact('influencer'));
     }
     public function singleView($id)

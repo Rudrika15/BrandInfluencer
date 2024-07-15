@@ -42,7 +42,11 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+
                             </table>
+                            <div class="d-flex justify-content-end">
+                                {{ $influencerCategory->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>

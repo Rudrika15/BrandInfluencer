@@ -4,14 +4,20 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\BrandCategory;
+use App\Models\branddetails;
 use Illuminate\Http\Request;
 
 class BrandCategoryController extends Controller
 {
     public function index()
     {
-        $brandCategory = BrandCategory::all();
+        $brandCategory = BrandCategory::paginate(5);
         return view('admin.brandCategory.index', compact('brandCategory'));
+    }
+    public function leads()
+    {
+        $brandLeads = branddetails::paginate(10);
+        return view('admin.brandCategory.leads', compact('brandLeads'));
     }
     public function create()
     {

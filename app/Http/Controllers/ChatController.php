@@ -42,6 +42,9 @@ class ChatController extends Controller
 
     public function newInfluencerChatIndex(Request $request)
     {
+        $request->validate([
+            'message' => 'required'
+        ]);
         $id = Auth::user()->id;
         $email = Auth::user()->email;
         $receiverId = $request->receiverId;

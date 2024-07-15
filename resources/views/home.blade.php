@@ -264,12 +264,23 @@
                                 @endif
 
                                 {{-- <a href="{{ route('brand.influencerProfile') }}/{{ $item->id }}/{{ $item->userId }}"> --}}
+
                                 <div class="influencer_img">
-                                    <img class="bg-light lazy"
-                                        data-src="{{ asset('profile') }}/{{ $item->profilePhoto ?? '' }}"
-                                        onerror="this.src='{{ asset('images/default.jpg') }}'"
-                                        style="height: 350px; object-fit: contain;" />
+                                    <picture>
+                                        <source type="image/webp"
+                                            src="{{ asset('profile') }}/{{ $item->profilePhoto ? str_replace('.jpg', '.webp', $item->profilePhoto) : '' }}">
+                                        <source type="image/webp"
+                                            src="{{ asset('profile') }}/{{ $item->profilePhoto ? str_replace('.png', '.webp', $item->profilePhoto) : '' }}">
+
+                                        <img class="bg-light lazy" loading="lazy"
+                                            data-src="{{ asset('profile') }}/{{ $item->profilePhoto ?? '' }}"
+                                            onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                            style="height: 350px; object-fit: contain;" alt="Profile Photo" />
+                                    </picture>
+
                                 </div>
+
+
                                 {{-- </a> --}}
                                 <div class="content">
                                     <p>{{ $item->name }}</p>

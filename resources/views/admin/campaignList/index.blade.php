@@ -43,13 +43,17 @@
                                                     <br>
                                                 @endforeach
                                             </td>
-                                            <td><img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}" alt="{{ __('main image') }}" style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
+                                            <td><img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}"
+                                                    alt="{{ __('main image') }}"
+                                                    style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $campaigns->links() }}
+                            <div class="d-flex justify-content-end">
+                                {{ $campaigns->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>

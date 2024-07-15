@@ -178,6 +178,8 @@ Route::post('brand/category/update', [BrandCategoryController::class, 'update'])
 Route::get('brand/category/delete/{id?}', [BrandCategoryController::class, 'delete'])->name('brand.category.delete');
 
 
+
+
 // Offer
 Route::controller(OfferController::class)->group(function () {
     Route::get('offer/index', 'index')->name('offer.index');

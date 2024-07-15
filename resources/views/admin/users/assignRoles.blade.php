@@ -32,13 +32,16 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-4 " style="padding-top:10px ">
-                                                <input type="text" name="userName" placeholder="Search by User Name" class="form-control">
+                                                <input type="text" name="userName" placeholder="Search by User Name"
+                                                    class="form-control">
                                             </div>
                                             <div class="col-md-4 " style="padding-top:10px ">
-                                                <input type="text" name="userEmail" placeholder="Search by User Email" class="form-control">
+                                                <input type="text" name="userEmail" placeholder="Search by User Email"
+                                                    class="form-control">
                                             </div>
                                             <div class="col-md-4 " style="padding-top:10px ">
-                                                <input type="text" name="mobileNumber" placeholder="Search by User Mobile Number" class="form-control">
+                                                <input type="text" name="mobileNumber"
+                                                    placeholder="Search by User Mobile Number" class="form-control">
                                             </div>
                                             <div class="col-md-4 " style="padding-top:10px ">
                                                 <select name="package" class="form-control" id="">
@@ -49,7 +52,8 @@
                                             </div>
                                             <div class="col-md-4 " style="padding-top:10px ">
                                                 <button type="submit" class="btn btn-sm btn-success">Submit</button>
-                                                <a href="{{ route('users.assignRole') }}" class="btn btn-sm btn-secondary">Reset</a>
+                                                <a href="{{ route('users.assignRole') }}"
+                                                    class="btn btn-sm btn-secondary">Reset</a>
                                             </div>
                                         </div>
 
@@ -70,11 +74,14 @@
 
                                     @foreach ($users as $user)
                                         <tr class="">
-                                            <td scope="row"><a class="btn btn-primary btn-xs " href="{{ route('users.assignRoleCreate', $user->id) }}">Assign Role</a></td>
+                                            <td scope="row"><a class="btn btn-primary btn-xs "
+                                                    href="{{ route('users.assignRoleCreate', $user->id) }}">Assign Role</a>
+                                            </td>
                                             <td>
                                                 @if (!empty($user->getRoleNames()))
                                                     @foreach ($user->getRoleNames() as $v)
-                                                        <label class="badge bg-success text-light">{{ $v }}</label>
+                                                        <label
+                                                            class="badge bg-success text-light">{{ $v }}</label>
                                                     @endforeach
                                                 @endif
                                             </td>
@@ -89,8 +96,9 @@
                             </table>
                         </div>
 
-
-                        {{ $users->links() }}
+                        <div class="d-flex justify-content-end mt-2">
+                            {{ $users->links() }}
+                        </div>
 
                     </div>
                 </div>

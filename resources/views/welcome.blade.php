@@ -358,7 +358,7 @@
                                             @endif
 
                                             <div class="influencer_img">
-                                                <img class="img-responsive"
+                                                <img class="img-responsive" loading="lazy"
                                                     src="{{ asset('profile/' . $item->profile->profilePhoto) }}"
                                                     onerror="this.src='{{ asset('images/default.jpg') }}'"
                                                     style="height: 350px; object-fit: contain;" />
@@ -462,21 +462,22 @@
                             @csrf
 
                             <label for="brandName">Enter Your BrandName</label>
-                            <input type="text" name="brandname" class="form-control" name="brandName" required>
+                            <input type="text" name="brandname" class="form-control" id="brandName" required>
 
                             <label for="name">Enter Your Name</label>
-                            <input type="text" name="name" class="form-control" name="name" required>
+                            <input type="text" name="name" class="form-control" id="name" required>
 
                             <label for="email">Enter Your Email</label>
-                            <input type="text" name="email" class="form-control" name="email" required>
+                            <input type="email" name="email" class="form-control" id="email" required
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                                title="Invalid email address">
 
                             <label for="mobile">Enter Your Mobile</label>
-                            <input type="text" name="mobile" class="form-control" name="mobile" required>
+                            <input type="tel" name="mobile" class="form-control" id="mobile" required
+                                pattern="[0-9]{10}" title="Mobile number should be 10  digits">
 
                             <label for="message">Enter Your Message</label>
-                            <textarea class="form-control" name="message" required> </textarea>
-
-
+                            <textarea class="form-control" name="message" id="message" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -885,6 +886,43 @@
             var modal = $(this);
             // Use above variables to manipulate the DOM
 
+        });
+    </script>
+    <script>
+        const form = document.getElementById('myForm');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const mobile = document.getElementById('mobile');
+            const message = document.getElementById('message');
+
+
+
+            if (!name.checkValidity()) {
+                alert('Invalid name');
+                return;
+            }
+
+            if (!email.checkValidity()) {
+                alert('Invalid email address');
+                return;
+            }
+
+            if (!mobile.checkValidity()) {
+                alert('Invalid mobile number');
+                return;
+            }
+
+            if (!message.checkValidity()) {
+                alert('Invalid message');
+                return;
+            }
+
+            // Form is valid, submit it
+            form.submit();
         });
     </script>
 

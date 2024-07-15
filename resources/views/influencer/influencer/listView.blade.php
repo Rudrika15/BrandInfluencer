@@ -33,11 +33,13 @@
                                                         <img class="img-thumbnail"
                                                             style="border-radius: 50%; height: 150px; width: 150px;"
                                                             src="{{ asset('profile') }}/{{ $profile->profile->profilePhoto }}"
+                                                            onerror="this.src={{ asset('images/default.jpg') }}"
                                                             alt="image">
                                                     @else
                                                         <img class="img-thumbnail"
                                                             style="border-radius: 50%; height: 150px; width: 150px;"
-                                                            src="{{ url('asset/img/defaultImage.jpg') }}"
+                                                            src="{{ asset('images/default.jpg') }}"
+                                                            onerror="this.src={{ asset('images/default.jpg') }}"
                                                             alt="image"><br> <br>
                                                     @endif
 

@@ -74,11 +74,12 @@
             }
         }
     </style>
-    <div class="card w-100 p-3">
+    <div class="card w-100 ">
+        <h3 class="card-header justify-content-center">Notifications</h3>
         <div class="card-body">
 
 
-            <h3 class="line-title">Notifications</h3>
+
 
             {{-- <div class="row">
                 <div class="col-md-12"> --}}

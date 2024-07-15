@@ -186,8 +186,8 @@ class HomepageController extends Controller
         $request->validate([
             'brandname' => 'required',
             'name' => 'required',
-            'email' => 'required',
-            'mobile' => 'required',
+            'email' => 'required|email',
+            'mobile' => 'required|digits:10',
             'message' => 'required',
         ]);
         $brandDetails = new branddetails();

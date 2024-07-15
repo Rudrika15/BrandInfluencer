@@ -342,14 +342,16 @@ class CampaignController extends Controller
             'title' => 'required',
             'detail' => 'required',
             'price' => 'required',
-            'rule' => 'required',
-            'eligibleCriteria' => 'required',
+            // 'rule' => 'required',
+            'eligibleCriteria' => 'numeric',
             'targetGender' => 'required',
-            'targetAgeGroup' => 'required',
-            'startDate' => 'required',
-            'endDate' => 'required',
+            // 'targetAgeGroup' => 'required',
+            'minTargetAgeGroup' => 'numeric|gt:0',
+            'maxTargetAgeGroup' => 'numeric|gt:minTargetAgeGroup',
+            'startDate' => 'date|after:today',
+            'endDate' => 'date|after:today',
             'applyForLastDate' => 'required',
-            'task' => 'required',
+            // 'task' => 'required',
             'maxApplication' => 'required',
         ]);
 
@@ -364,14 +366,14 @@ class CampaignController extends Controller
                 $campaign->photo = time() . '.' . $request->photo->extension();
                 $request->photo->move(public_path('campaignPhoto'), $campaign->photo);
             }
-            $campaign->rule = $request->rule;
+            // $campaign->rule = $request->rule;
             $campaign->eligibleCriteria = $request->eligibleCriteria;
             $campaign->targetGender = $request->targetGender;
-            $campaign->targetAgeGroup = $request->targetAgeGroup;
+            $campaign->targetAgeGroup = $request->minTargetAgeGroup . "-" . $request->maxTargetAgeGroup;
             $campaign->startDate = $request->startDate;
             $campaign->endDate = $request->endDate;
             $campaign->applyForLastDate = $request->applyForLastDate;
-            $campaign->task = $request->task;
+            // $campaign->task = $request->task;
             $campaign->maxApplication = $request->maxApplication;
             $campaign->status = "Active";
             $campaign->save();

@@ -33,13 +33,18 @@
                                                 {{ $data->title }}
                                             </td>
                                             <td>
-                                                <a href="{{ route('admin.brand.activity.edit') }}/{{ $data->id }}" class="btn btn-primary btn-sm">Edit</a>
-                                                <a href="{{ route('admin.brand.activity.delete') }}/{{ $data->id }}" class="btn btn-danger btn-sm">Delete</a>
+                                                <a href="{{ route('admin.brand.activity.edit') }}/{{ $data->id }}"
+                                                    class="btn btn-primary btn-sm">Edit</a>
+                                                <a href="{{ route('admin.brand.activity.delete') }}/{{ $data->id }}"
+                                                    class="btn btn-danger btn-sm">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="d-flex justify-content-end">
+                                {{ $activities->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -45,6 +45,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="d-flex justify-content-end">{{ $brandCategory->links() }}</div>
+
                         </div>
                     </div>
                 </div>

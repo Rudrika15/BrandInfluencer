@@ -65,6 +65,7 @@ Route::get('/', function () {
 Route::post('brandDetails', [HomepageController::class, 'brandDetails'])->name('brandDetails');
 
 
+Route::get('brand/leads/index', [BrandCategoryController::class, 'leads'])->name('brand.leads.index');
 
 // OTP 
 
