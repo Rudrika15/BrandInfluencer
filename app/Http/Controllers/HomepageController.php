@@ -213,4 +213,14 @@ class HomepageController extends Controller
             ->orderBy('created_at', 'desc')->get();
         return response()->json($campaigns);
     }
+    public function brands()
+    {
+        $brands = User::Role('Brand')->paginate(9);
+        return \view('influencer.brandView.brands', \compact('brands'));
+    }
+    public function profileView($id)
+    {
+        $profile = User::find($id);
+        return \view('influencer.brandView.profileView', \compact('profile'));
+    }
 }

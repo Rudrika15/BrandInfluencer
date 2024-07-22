@@ -139,9 +139,8 @@
 
                             <div class="mb-3">
                                 <label for="startDate" class="form-label">Start Date</label>
-                                <input type="date" class="form-control"
-                                    min="{{ date('Y-m-d', strtotime('+1 day')) }}" value="{{ $campaign->startDate }}"
-                                    required id="startDate" name="startDate">
+                                <input type="date" class="form-control" value="{{ $campaign->startDate }}" required
+                                    id="startDate" name="startDate">
                                 @error('startDate')
                                     <span style="color: red">{{ $errors->first('startDate') }}</span>
                                 @enderror
@@ -149,8 +148,8 @@
 
                             <div class="mb-3">
                                 <label for="endDate" class="form-label">End Date</label>
-                                <input type="date" class="form-control" required min="{{ date('Y-m-d') }}"
-                                    value="{{ $campaign->endDate }}" id="endDate" name="endDate">
+                                <input type="date" class="form-control" required value="{{ $campaign->endDate }}"
+                                    id="endDate" name="endDate">
                                 @error('endDate')
                                     <span style="color: red;">{{ $errors->first('endDate') }}</span>
                                 @enderror

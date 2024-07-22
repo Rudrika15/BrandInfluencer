@@ -202,7 +202,7 @@ class DashboardController extends Controller
         return redirect()->back()->with('success', 'Details Updated successfully');
     }
 
-    public function addPortfolio(Request $request)
+    public function     addPortfolio(Request $request)
     {
         $this->validate($request, [
             'photo' => 'required',

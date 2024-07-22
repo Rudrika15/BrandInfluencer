@@ -312,6 +312,12 @@
                                     <span class="text nav-text text-blue">Dashboard</span>
                                 </a>
                             </li>
+                            <li class="nav-linkm {{ request()->routeIs('requests') ? 'active' : '' }} ">
+                                <a href="{{ route('requests') }}" class="text-hover">
+                                    <i class="bx bxs-user-plus icons text-blue"></i>
+                                    <span class="text nav-text text-blue">Requests</span>
+                                </a>
+                            </li>
                             <li class="nav-linkm {{ request()->routeIs('influencer.campaignApplyList') ? 'active' : '' }}">
                                 <a href="{{ route('influencer.campaignApplyList') }}">
                                     <i class="bx bx-bar-chart-alt-2 icons"></i>
@@ -359,6 +365,13 @@
                                 <a href="{{ route('home') }}">
                                     <i class="bx bx-home-alt icons"></i>
                                     <span class="text nav-text text-blue">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-linkm {{ request()->routeIs('requests') ? 'active' : '' }} ">
+                                <a href="{{ route('requests') }}" class="text-hover">
+                                    <i class="bx bxs-user-plus icons text-blue"></i>
+
+                                    <span class="text nav-text text-blue">Requests</span>
                                 </a>
                             </li>
                             <li class="nav-linkm {{ request()->routeIs('brand.campaign.index') ? 'active' : '' }} ">
@@ -578,7 +591,7 @@
                             aria-label="Close"></button> --}}
                     </div>
                     <div class="progress" style="height: 3px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-light"
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
                             role="progressbar" style="width: 0%"></div>
                     </div>
                 </div>
@@ -615,7 +628,7 @@
     </div>
     <div class="container content loaderContent" id="loaderContent"> --}}
 
-        <div class="text-info text-end pb-2 fw-bold points"> {{ 'Points:' . $total }}</div>
+        <div class="text-info text-end me-5 pb-5 fw-bold points"> {{ 'Points:' . $total }}</div>
 
         @yield('content')
 

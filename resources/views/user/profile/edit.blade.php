@@ -655,6 +655,9 @@
                                                                                     class="form-control" id="image"
                                                                                     name="profilePhoto"
                                                                                     style="object-fit: contain">
+                                                                                @error('profilePhoto')
+                                                                                    {{ $message }}
+                                                                                @enderror
                                                                             </div>
                                                                             <div class="col-md-4">
                                                                                 <label for="image"></label>
@@ -761,8 +764,14 @@
                                                             <img src="" alt="Preview Image" id="previewImage"
                                                                 class="drop-zoon__preview-image" draggable="false">
                                                             <input type="file" id="fileInput" name="photo"
-                                                                class="drop-zoon__file-input" accept="image/*">
+                                                                class="drop-zoon__file-input" required
+                                                                title="Please add Image" accept="image/*">
+                                                            @error('photo')
+                                                                <span
+                                                                    class="text-danger drop-zoon__paragraph">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
+
                                                         <!-- End Drop Zoon -->
 
                                                         <!-- File Details -->
@@ -1025,6 +1034,7 @@
         // Images Types
         const imagesTypes = [
             "jpeg",
+            "jpg",
             "png",
             "svg",
             "gif"
@@ -1186,7 +1196,7 @@
                 if (fileSize <= 20971520) { // 20MB :)
                     return true;
                 } else { // Else File Size
-                    return alert('Please Your File Should be 2 Megabytes or Less');
+                    return alert('Please Your File Should be 20 Megabytes or Less');
                 };
             } else { // Else File Type 
                 return alert('Please make sure to upload An Image File Type');

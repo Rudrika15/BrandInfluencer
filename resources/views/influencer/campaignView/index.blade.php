@@ -39,6 +39,37 @@
                                     <div class="p-3">
                                         <h4 class="card-title text-uppercase mb-3"> {{ $data->title }}</h4>
 
+
+                                        @if ($follow->followingId == $data->userId)
+                                            @if ($follow->status)
+                                                @if ($follow->status == 'requested')
+                                                    <p class="text-muted text-uppercase mb-3"><b>Created by:</b>
+                                                        {{ $data->user->name ?? '' }}
+                                                        <button class="btn btn-sm btn-secondary">requested</button>
+                                                        <br>
+                                                    @elseif ($follow->status == 'rejected')
+                                                    <p class="text-muted text-uppercase mb-3"><b>Created by:</b>
+                                                        {{ $data->user->name ?? '' }}
+                                                        <button class="btn btn-sm btn-secondary">rejected</button>
+                                                        <br>
+                                                    @elseif($follow->status == 'following')
+                                                    <p class="text-muted text-uppercase mb-3"><b>Created by:</b>
+                                                        {{ $data->user->name ?? '' }}
+                                                        <button class="btn btn-sm btn-secondary">following</button>
+                                                        <br>
+                                                @endif
+                                            @endif
+                                        @else
+                                            <form action="{{ route('follow') }}" method="POST">
+                                                @csrf
+
+                                                <p class="text-muted text-uppercase mb-3"><b>Created by:</b>
+                                                    {{ $data->user->name ?? '' }}
+                                                    <input type="hidden" name="followingId" value="{{ $data->userId }}">
+                                                    <button type="submit" class="btn btn-sm btn-primary">Follow</button>
+                                                </p>
+                                            </form>
+                                        @endif
                                         <small>Posted {{ $data->created_at->diffForHumans() }}</small>
                                         <div class="col-2 mt-3 text-center">
                                             <h4 class="rounded" style="background-color: rgb(231, 227, 227); height: 35px">
@@ -73,6 +104,10 @@
                                                 })->count() > 0)
                                             <div class="col text-white p-3  text-center bg-secondary rounded-pill">
                                                 <b> <span>Application Closed</span> </b>
+                                            </div>
+                                        @elseif($count >= $data->maxApplication)
+                                            <div class="col text-white p-3  text-center bg-secondary rounded-pill">
+                                                <b> <span>Application Full</span> </b>
                                             </div>
                                         @else
                                             {{-- <h5 class="text-success"> <strong> Already Applied </strong></h5> --}}

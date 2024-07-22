@@ -19,6 +19,7 @@ use App\Models\CardsModels;
 use App\Models\Category;
 use App\Models\CategoryInfluencer;
 use App\Models\CheckApply;
+use App\Models\Follow;
 use App\Models\IMPGPayment;
 use App\Models\InfluencerPortfolio;
 use App\Models\InfluencerProfile;
@@ -348,8 +349,8 @@ class CampaignController extends Controller
             // 'targetAgeGroup' => 'required',
             'minTargetAgeGroup' => 'numeric|gt:0',
             'maxTargetAgeGroup' => 'numeric|gt:minTargetAgeGroup',
-            'startDate' => 'date|after:today',
-            'endDate' => 'date|after:today',
+            'startDate' => 'date',
+            'endDate' => 'date',
             'applyForLastDate' => 'required',
             // 'task' => 'required',
             'maxApplication' => 'required',
@@ -504,7 +505,8 @@ class CampaignController extends Controller
             ->count();
 
         $portfolio = InfluencerPortfolio::where('userId', '=', $id)->get();
-        return view('brand.influencerProfileView', compact('influencer', 'seenStatus', 'portfolio'));
+        $follow = Follow::where('userId', '=', Auth::user()->id)->first();
+        return view('brand.influencerProfileView', compact('influencer', 'seenStatus', 'portfolio', 'follow'));
     }
 
     public function influencerContactPoint(Request $request)

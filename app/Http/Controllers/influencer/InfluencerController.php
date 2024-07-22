@@ -10,6 +10,7 @@ use App\Models\CardsModels;
 use App\Models\Category;
 use App\Models\CategoryInfluencer;
 use App\Models\CheckApply;
+use App\Models\Follow;
 use App\Models\InfluencerPortfolio;
 use App\Models\InfluencerProfile;
 use App\Models\Link;
@@ -68,6 +69,7 @@ class InfluencerController extends Controller
     {
         try {
             $userId = Auth::user()->id;
+
             // return $userId;
             $campaign = Campaign::where('id', '=', $id)->orderBy('id', 'DESC')->get();
             // return $campaign;
@@ -79,9 +81,14 @@ class InfluencerController extends Controller
                         ->count();
                     $campaignCount = $campaignCountData;
                 }
-                return view('influencer.campaignView.index', \compact('campaign', 'campaignCount'));
+                $count = Apply::where('CampaignId', '=', $id)
+                    ->count();
+                $follow = Follow::where('userId', '=', $userId)->first();
+                return view('influencer.campaignView.index', \compact('campaign', 'campaignCount', 'count', 'follow'));
             }
-            return view('influencer.campaignView.index', \compact('campaign'));
+
+            $follow = Follow::where('userId', '=', $userId)->first();
+            return view('influencer.campaignView.index', \compact('campaign', 'follow'));
         } catch (\Throwable $th) {
             throw $th;
         }

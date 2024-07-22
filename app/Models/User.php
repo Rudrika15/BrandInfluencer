@@ -132,4 +132,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(CategoryInfluencer::class, 'userId', 'id');
     }
+    public function follow()
+    {
+        return  $this->hasMany(Follow::class, 'userId', 'id');
+    }
 }

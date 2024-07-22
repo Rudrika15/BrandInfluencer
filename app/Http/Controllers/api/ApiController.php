@@ -4728,18 +4728,29 @@ class ApiController extends Controller
 
         $role = $findRole->roles->pluck('name')->first();
         if ($role == "Influencer") {
+            $influencerDetails = User::where('id', $userId)->get();
+            $brandDetails = User::where('id', $reciverId)->get();
+
             $chats = ChatGroup::where('influencerId', $userId)
                 ->where('brandId', $reciverId)
                 ->with('getBrandDetail')
+                ->with('getInfluencerDetail')
                 ->with('chat')
                 ->get();
         }
         if ($role == "Brand") {
+            $brandDetails = User::where('id', $userId)->get();
+            $influencerDetails = User::where('id', $reciverId)->get();
+
             $chats = ChatGroup::where('brandId', $userId)
                 ->where('influencerId', $reciverId)
+                ->with('getBrandDetail')
                 ->with('getInfluencerDetail')
                 ->with('chat')
                 ->get();
+        }
+        if ($chats->isEmpty()) {
+            return response()->json(['success' => true, 'chats' => $chats,  'influencerDetails' => $influencerDetails, 'brandDetails' => $brandDetails], 200);
         }
 
         return response()->json(['success' => true, 'chats' => $chats], 200);

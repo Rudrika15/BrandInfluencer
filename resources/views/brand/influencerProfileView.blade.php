@@ -86,43 +86,41 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
+            /* cursor: pointer; */
             transition: all 0.5s ease-in-out;
             outline: none;
-            background: #00c9e4;
-
         }
 
-        .profile-option:hover {
-            background: #fff;
-            border: 1px solid #00c9e4;
+        .profile-option .btn-info:hover {
+            background-color: #1d4880;
         }
 
-        .profile-option:hover .notification i {
-            color: #00c9e4;
-        }
 
-        .profile-option:hover span {
-            background: #00c9e4;
-        }
+        /* .profile-option:hover .notification i {
+                                                                                                                                                                                                                    color: #00c9e4;
+                                                                                                                                                                                                                } */
 
-        .profile-option .notification i {
-            color: #fff;
-            font-size: 1.2rem;
-            transition: all 0.5s ease-in-out;
-        }
+        /* .profile-option:hover span {
+                                                                                                                                                                                                                    background: #00c9e4;
+                                                                                                                                                                                                                } */
 
-        .profile-option .notification .alert-message {
-            top: -5px;
-            right: -5px;
-            height: 20px;
-            width: 80px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
+        /* .profile-option .notification i {
+                                                                                                                                                                                                                    color: #fff;
+                                                                                                                                                                                                                    font-size: 1.2rem;
+                                                                                                                                                                                                                    transition: all 0.5s ease-in-out;
+                                                                                                                                                                                                                }
+
+                                                                                                                                                                                                                .profile-option .notification .alert-message {
+                                                                                                                                                                                                                    top: -5px;
+                                                                                                                                                                                                                    right: -5px;
+                                                                                                                                                                                                                    height: 20px;
+                                                                                                                                                                                                                    width: 80px;
+                                                                                                                                                                                                                    display: flex;
+                                                                                                                                                                                                                    justify-content: center;
+                                                                                                                                                                                                                    align-items: center;
+                                                                                                                                                                                                                    font-size: 0.8rem;
+                                                                                                                                                                                                                    font-weight: bold;
+                                                                                                                                                                                                                } */
 
         .main-bd {
             width: 100%;
@@ -197,13 +195,13 @@
 
 
         /* .rate {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding-top: 6px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-top: 6px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
         /* .rate i {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-size: 0.9rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: rgba(2, 214, 241, 0.9);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                font-size: 0.9rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                color: rgba(2, 214, 241, 0.9);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
         .nav-b {
             width: 740px;
@@ -454,16 +452,51 @@
 
             </div>
             <div class="profile-option">
-                <div class="">
-                    @if (Auth::user()->hasRole('Brand'))
-                        <div class="me-5">
-                            <button type="button" class="btn btn-info text-white px-5 py-2 me-5" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"> Message </button>
 
-                        </div>
-                    @endif
-                </div>
+                @if (Auth::user()->hasRole('Brand'))
+                    <div class="me-5 mt-2">
+                        <button type="button" class="btn btn-info text-white px-5 py-2 me-5" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"> Message </button>
+                        @if ($follow)
+                            @if ($follow->followingId == $influencer->userId)
+                                @if ($follow->status)
+                                    @if ($follow->status == 'requested')
+                                        <button class="btn btn-secondary px-5  mt-3  py-2 me-5"
+                                            style="width: 75%;">Requested</button>
+                                        <br>
+                                    @elseif ($follow->status == 'rejected')
+                                        <button class="btn btn-secondary px-5  mt-3  py-2 me-5"
+                                            style="width: 75%;">Rejected</button>
+                                        <br>
+                                    @elseif($follow->status == 'following')
+                                        <button class="btn btn-secondary px-5  mt-3  py-2 me-5"
+                                            style="width: 75%;">Following</button>
+                                        <br>
+                                    @endif
+                                @endif
+                            @else
+                                <form action="{{ route('follow') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="followingId" value="{{ $influencer->userId }}">
+                                    <button type="submit" class="btn btn-primary px-5  mt-3  py-2 me-5"
+                                        style="width: 77%;">Follow</button>
+                                </form>
+                            @endif
+                        @else
+                            <form action="{{ route('follow') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="followingId" value="{{ $influencer->userId }}">
+                                <button type="submit" class="btn btn-primary px-5  mt-3  py-2 me-5"
+                                    style="width: 77%;">Follow</button>
+                            </form>
+                        @endif
+
+
+
+                    </div>
+                @endif
             </div>
+
         </div>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -524,125 +557,132 @@
                 <div class="profile-body">
                     <div class="profile-Gallery tab">
                         <div class="row">
+                            {{-- add influencer portfolio --}}
+                            <style>
+                                .card-img-top {
+                                    aspect-ratio: 2/2;
+                                }
 
-                            @if (isset($influencer->profile->card))
-
-                                @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
-                                    @if ($portfolio->type == 'Photo' && $portfolio->image != null && $portfolio->image != '')
-                                        <div class="col-md-4">
-                                            <div class="card text-start" style="width: 15rem;">
-
-                                                <style>
-                                                    .card-img-top {
-                                                        aspect-ratio: 2/2;
-                                                    }
-
-                                                    .card-img-top:hover {
-                                                        transform: scale(1.1);
-                                                        transition: 0.1s ease-in-out;
-                                                        margin-top: -10px;
-                                                    }
-                                                </style>
+                                .card-img-top:hover {
+                                    transform: scale(1.1);
+                                    transition: 0.1s ease-in-out;
+                                    margin-top: -10px;
+                                }
+                            </style>
+                            @if (count($portfolio) > 0)
+                                @foreach ($portfolio as $port)
+                                    <div class="col-md-4">
+                                        <div class="card text-start w-100">
 
 
-                                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                    target="_blank">
-                                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
-                                                        alt="">
+                                            <a href="{{ asset('portfolioPhoto') }}/{{ $port->photo }}" target="_blank">
+                                                <img src="{{ asset('portfolioPhoto') }}/{{ $port->photo }}"
+                                                    class="card-img-top p-3 img-thumbnail portImage" alt="">
+                                            </a>
 
-                                                </a>
-
-                                            </div>
                                         </div>
-                                    @endif
+                                    </div>
                                 @endforeach
-
+                            @else
+                                <h4 class="text-center ps-5 text-muted fw-italic">No Portfolio Found</h4>
                             @endif
-
+                            {{-- @if (isset($influencer->profile))
+                @if (isset($influencer->profile->card))
+                    @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                        <div class="col-md-4">
+                            <div class="card text-start" style="width: 15rem;">
+                                <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                    target="_blank">
+                                    <img src="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                        height="200" class="card-img-top p-3 img-thumbnail portImage"
+                                        alt="">
+                                </a>
+                            </div>
                         </div>
-
-
+                    @endforeach
+                @endif
+            @endif --}}
+                        </div>
                     </div>
+
                     <div class="profile-Packages tab">
-                        <div class="row">
-
-
-                            @if (count($influencer->profile->influencerPackage) > 0)
-
+                        @if ($influencer->profile->influencerPackage()->exists())
+                            <div class="row ">
                                 @foreach ($influencer->profile->influencerPackage as $package)
                                     <div class="col-md-4 p-2">
-                                        <div class="card" style="width: 15rem;">
+                                        <div class="card w-100" style="width: 15rem;">
                                             <div class="card-header">
                                                 {{ $package->title }}
                                             </div>
                                             <div class="card-body">
                                                 <p class="card-text">{!! $package->description !!}</p>
-                                                {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
 
-                            @endif
-
-                        </div>
-
-
+                            </div>
+                        @else
+                            <h4 class="text-center ps-5 text-muted fw-italic">No Package Found</h4>
+                        @endif
                     </div>
                     <div class="profile-reel tab">
                         <div class="row">
-                            @if (isset($influencer->profile))
 
-
+                            @if ($influencer->profile)
                                 @if ($influencer->profile->card)
+                                    @if ($influencer->profile->card->cardPortfolio()->exists())
+                                        @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
+                                            @if ($portfolio->type == 'Video' && $portfolio->image != null && $portfolio->image != '')
+                                                <div class="col-md-6">
+                                                    <div class=" text-start" style="width: 15rem;">
 
-                                    @foreach ($influencer->profile->card->cardPortfolio as $portfolio)
-                                        @if ($portfolio->type == 'Video' && $portfolio->image != null && $portfolio->image != '')
-                                            <div class="col-md-6">
-                                                <div class=" text-start" style="width: 15rem;">
+                                                        <style>
+                                                            .card-img-top {
+                                                                aspect-ratio: 2/2;
+                                                            }
 
-                                                    <style>
-                                                        .card-img-top {
-                                                            aspect-ratio: 2/2;
-                                                        }
-
-                                                        .card-img-top:hover {
-                                                            transform: scale(1.1);
-                                                            transition: 0.1s ease-in-out;
-                                                            margin-top: -10px;
-                                                        }
-                                                    </style>
+                                                            .card-img-top:hover {
+                                                                transform: scale(1.1);
+                                                                transition: 0.1s ease-in-out;
+                                                                margin-top: -10px;
+                                                            }
+                                                        </style>
 
 
-                                                    <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
-                                                        target="_blank">
+                                                        <a href="{{ asset('cardimage') }}/{{ $portfolio->image }}"
+                                                            target="_blank">
 
-                                                        @php
-                                                            // Extracting the reel ID from the URL stored in the 'image' field
-                                                            $reelUrl = $portfolio->image;
-                                                            $reelId = basename(parse_url($reelUrl, PHP_URL_PATH));
-                                                        @endphp
-                                                        <blockquote class="instagram-media"
-                                                            data-instgrm-permalink="https://www.instagram.com/reel/{{ $reelId }}/"
-                                                            data-instgrm-version="14"
-                                                            style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-                                                            <div style="padding:16px;">
-                                                                <a href="https://www.instagram.com/reel/{{ $reelId }}/"
-                                                                    style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px; text-decoration:none;"
-                                                                    target="_blank">View on Instagram</a>
-                                                            </div>
-                                                        </blockquote>
-                                                    </a>
+                                                            @php
+                                                                // Extracting the reel ID from the URL stored in the 'image' field
+                                                                $reelUrl = $portfolio->image;
+                                                                $reelId = basename(parse_url($reelUrl, PHP_URL_PATH));
+                                                            @endphp
+                                                            <blockquote class="instagram-media"
+                                                                data-instgrm-permalink="https://www.instagram.com/reel/{{ $reelId }}/"
+                                                                data-instgrm-version="14"
+                                                                style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+                                                                <div style="padding:16px;">
+                                                                    <a href="https://www.instagram.com/reel/{{ $reelId }}/"
+                                                                        style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px; text-decoration:none;"
+                                                                        target="_blank">View on Instagram</a>
+                                                                </div>
+                                                            </blockquote>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
-
-
-
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <h4 class="text-center ps-5 text-muted fw-italic">No Reel Found</h4>
+                                    @endif
+                                @else
+                                    <h4 class="text-center ps-5 text-muted fw-italic">No Reel Found</h4>
                                 @endif
+                            @else
+                                <h4 class="text-center ps-5 text-muted fw-italic">No Reel Found</h4>
                             @endif
+
                         </div>
                     </div>
 
