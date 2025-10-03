@@ -87,6 +87,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
+        
 
         try {
             $new_str = str_replace(' ', '', $data['username']);

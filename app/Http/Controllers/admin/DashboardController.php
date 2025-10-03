@@ -111,58 +111,54 @@ class DashboardController extends Controller
     /* card new store */
     public function store(Request $request)
     {
-
         try {
-            // return $request;
             $id = Auth::user()->id;
             $userData = User::find($id);
+
+            // Update User fields
             $userData->username = $request->username;
             $userData->state = $request->state;
             $userData->city = $request->city;
             $userData->about = $request->about;
 
             if ($request->hasFile('profilePhoto')) {
-
                 $userData->profilePhoto = time() . '.' . $request->profilePhoto->extension();
                 $request->profilePhoto->move(public_path('profile'), $userData->profilePhoto);
             }
-
             $userData->save();
 
-            $roleCollection = $userData->getRoleNames();
-            $roles = $roleCollection->toArray();
+            // Roles
+            $roles = $userData->getRoleNames()->toArray();
+
+            // Influencer updates
             if (in_array('Influencer', $roles)) {
 
                 $request->validate([
-                    'instagramUrl' => ['required', 'regex:/^https:\/\/instagram\.com\/[a-zA-Z0-9._]+$/'],
-                    'youtubeChannelUrl' => ['required', 'regex:/^https:\/\/youtube\.com\/@[-a-zA-Z0-9_]+$/'],
+                    'instagramUrl' => ['required', 'regex:/^https:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9._]+$/'],
+                    'youtubeChannelUrl' => ['required', 'regex:/^https:\/\/(www\.)?youtube\.com\/@[-a-zA-Z0-9_]+$/'],
                 ]);
 
-                $influencer = InfluencerProfile::where('userId', '=', $id)->first();
+                // ✅ create if not exists
+                $influencer = InfluencerProfile::firstOrNew(['userId' => $id]);
+
                 $influencer->city = $userData->city;
                 $influencer->state = $userData->state;
                 $influencer->gender = $request->gender;
-                $influencer->dob = $request->dob;
-                $influencer->instagramUrl = $request->instagramUrl;
+                $influencer->dob = $request->dob; // make sure format is Y-m-d
+                $influencer->instagramUrl = trim($request->instagramUrl);
                 $influencer->instagramFollowers = $request->instagramFollowers;
-                $influencer->youtubeChannelUrl = $request->youtubeChannelUrl;
+                $influencer->youtubeChannelUrl = trim($request->youtubeChannelUrl);
                 $influencer->youtubeSubscriber = $request->youtubeSubscriber;
-                // $influencer->pinCode = $request->pinCode;
                 $influencer->address = $request->address;
                 $influencer->save();
             }
-
-            // if (in_array('Brand', $roles)) {
-
-            //     return "brand";
-            // }
-
 
             return redirect()->back()->with('success', 'Details Updated successfully');
         } catch (\Throwable $th) {
             throw $th;
         }
     }
+
 
     public function categoryUpdate(Request $request)
     {

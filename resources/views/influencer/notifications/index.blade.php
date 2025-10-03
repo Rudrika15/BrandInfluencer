@@ -38,44 +38,45 @@
     <div class="card w-100 p-3">
         <div class="card-body">
 
-
-            <h3 class="line-title">Notifications</h3>
-
-            {{-- <div class="row">
-                <div class="col-md-12"> --}}
-            {{-- <div class="overflow-y-scroll"> --}}
+            <h3 class="line-title mb-4">Notifications</h3>
 
             @foreach ($notificationsAll as $notification)
-                <div class="row w-75">
-                    <div class="col-md-1">
-                        @if ($notification->type == 'Campaign')
-                            <i class="bi bi-megaphone fa-3x text-muted"></i>
-                        @elseif($notification->type == 'Chat')
-                            <i class="bi bi-chat-dots-fill fa-3x text-muted"></i>
-                        @else
-                            <i class="fa fa-user fa-3x text-muted" aria-hidden="true"></i>
-                        @endif
+                <div class="card mb-3 shadow-sm border-0">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="me-3">
+                            @if ($notification->type == 'Campaign')
+                                <i class="bi bi-megaphone text-primary fs-2"></i>
+                            @elseif($notification->type == 'Chat')
+                                <i class="bi bi-chat-dots-fill text-success fs-2"></i>
+                            @else
+                                <i class="fa fa-user text-muted fs-2"></i>
+                            @endif
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-bold text-dark">{{ $notification->title }}</h6>
+                            <small class="text-muted">
+                                {{ \Carbon\Carbon::parse($notification->dateTime)->diffForHumans() }}
+                            </small>
+                        </div>
+                        {{-- <div>
+                            @if ($notification->is_read == 'No')
+                                <span class="badge bg-danger">New</span>
+                            @else
+                                <span class="badge bg-secondary">Read</span>
+                            @endif
+                        </div> --}}
                     </div>
-                    <div class="col-md-10 pt-3 ps-3">
-                        <span class="fw-bold text-muted">{{ $notification->title }}</span> <br>
-                        <small class="text-muted">{{ \Carbon\Carbon::parse($notification->dateTime)->diffForHumans() }}
-                        </small>
-                    </div>
-                    <div class="col-md-1 ">
-                        {{-- <img src="{{ asset('images/default.jpg') }}" class="img-thumbnail" width="500px" height="500px"
-                        alt=""> --}}
-                    </div>
-
-                    <hr class="mt-2">
                 </div>
             @endforeach
 
-            {{-- </div> --}}
-            {{-- </div>
-    </div> --}}
+            {{-- Bootstrap Pagination --}}
+            <div class="d-flex justify-content-end mt-4">
+                {{ $notificationsAll->links('pagination::bootstrap-5') }}
+            </div>
 
         </div>
     </div>
+
 
 
 @endsection

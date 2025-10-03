@@ -31,20 +31,19 @@
                                     @foreach ($brandCategory as $data)
                                         <tr>
                                             <td>{{ $data->categoryName }}</td>
-                                            <td><img src="{{ asset('brandCategoryIcon') }}/{{ $data->icon }}"
-                                                    alt="{{ __('main image') }}"
-                                                    style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
+                                            <td><img src="{{ asset('brandCategoryIcon') }}/{{ $data->icon }}" alt="{{ __('main image') }}" style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary btn-sm"
-                                                    href="{{ route('brand.category.edit') }}/{{ $data->id }}">Edit</a>
-                                                <a class="btn btn-danger btn-sm"
-                                                    href="{{ route('brand.category.delete') }}/{{ $data->id }}">Delete</a>
+                                                <a class="btn btn-primary btn-sm" href="{{ route('brand.category.edit') }}/{{ $data->id }}">Edit</a>
+                                                <a class="btn btn-danger btn-sm" href="{{ route('brand.category.delete') }}/{{ $data->id }}">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="d-flex justify-content-end mt-3">
+                                {{ $brandCategory->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>

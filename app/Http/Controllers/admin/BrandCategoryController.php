@@ -10,7 +10,7 @@ class BrandCategoryController extends Controller
 {
     public function index()
     {
-        $brandCategory = BrandCategory::all();
+        $brandCategory = BrandCategory::paginate(10);
         return view('admin.brandCategory.index', compact('brandCategory'));
     }
     public function create()

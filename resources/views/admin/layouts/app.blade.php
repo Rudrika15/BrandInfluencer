@@ -44,7 +44,7 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin.dashboard') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-chart-pie"></i>
                     <span>Dashboard</span></a>
             </li>
 
@@ -59,17 +59,17 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('users.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-user"></i>
                     <span>User Managment</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('roles.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-lock"></i>
                     <span>Role Managment</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('users.assignRole') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-user-plus"></i>
                     <span> Assign Role</span></a>
             </li>
             {{-- <li class="nav-item active">
@@ -84,37 +84,37 @@
 
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('influencer.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-user-tag"></i>
                     <span> Influencer Category</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('brand.category.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-store"></i>
                     <span> Brand Category</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin.campaign.list') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-bullhorn"></i>
                     <span> Brand Campaign List</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('influencer.packages') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-gift"></i>
                     <span> Influencer Packages</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('influencer.list') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-user-friends"></i>
                     <span> Influencer List</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin.brand.activity.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-chart-line"></i>
                     <span> Package Activity</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin.brand.package.index') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-box-open"></i>
                     <span> Packages</span></a>
             </li>
 

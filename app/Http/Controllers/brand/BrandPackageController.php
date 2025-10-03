@@ -10,7 +10,7 @@ class BrandPackageController extends Controller
 {
     public function index()
     {
-        $brandPackage = BrandPackage::all();
+        $brandPackage = BrandPackage::paginate(10);
         return view('admin.brandPackage.index', \compact('brandPackage'));
     }
 

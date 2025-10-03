@@ -25,7 +25,7 @@
                                         <th> CreatedBy</th>
                                         <th> Title</th>
                                         <th> Campaign Type </th>
-                                        <th> Totle Appliers </th>
+                                        <th> Total Appliers </th>
                                         <th> Image</th>
                                         {{-- <th> Action</th> --}}
                                     </tr>
@@ -49,7 +49,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $campaigns->links() }}
+                            <div class="d-flex justify-content-end mt-3">
+                                {{ $campaigns->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>

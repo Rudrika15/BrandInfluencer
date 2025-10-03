@@ -21,41 +21,43 @@
 
                         {!! Form::open(['route' => 'roles.store', 'method' => 'POST']) !!}
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
                                     <strong>Name:</strong>
                                     {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
+                                    @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 p-3">
-                        <div class="form-group">
-                            <strong>Permission:</strong>
-                            <br />
+
+                    <div class="col-md-12 p-3">
+                        <div class="form-group mb-3">
+                            <strong>Permission:</strong><br />
                             <div class="row">
                                 @foreach ($permission as $value)
                                     <div class="col-md-3">
-                                        <label>{{ Form::checkbox('permission[]', $value->id, false, ['class' => 'name']) }}
-                                            {{ $value->name }}</label>
+                                        <label>
+                                            {{ Form::checkbox('permission[]', $value->id, false, ['class' => 'name']) }}
+                                            {{ $value->name }}
+                                        </label>
                                     </div>
                                 @endforeach
                             </div>
+                            @error('permission')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
-                    <br>
-                    <div class="col-xs-12 col-sm-12 col-md-12 text-center py-2">
+
+                    <div class="col-md-12 text-center py-2">
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>
                 {!! Form::close() !!}
-
             </div>
         </div>
     </div>
-
-
-
-
-
 @endsection

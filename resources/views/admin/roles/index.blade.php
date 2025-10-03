@@ -20,8 +20,9 @@
                     <div class="card-body">
 
                         @include('admin.roles.table')
+                        <div class="d-flex justify-content-end">
                         {{ $roles }}
-
+                        </div>
                     </div>
                 </div>
             </div>

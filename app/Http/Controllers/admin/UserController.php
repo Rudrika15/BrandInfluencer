@@ -42,24 +42,24 @@ class UserController extends Controller
         try {
             $data = User::whereHas('roles', function ($query) {
                 return $query->where('name', '!=', 'User');
-            })->orderBy('id', 'DESC')->paginate(50);
+            })->orderBy('name', 'ASC')->paginate(10);
             $userRoles = Role::all();
 
             $search = $request->roleSearch;
             if ($search == "Admin") {
                 $data = User::whereHas('roles', function ($query) {
                     return $query->where('name', '=', 'Admin');
-                })->orderBy('id', 'DESC')->paginate(50);
+                })->orderBy('id', 'DESC')->paginate(10);
             }
             if ($search == "Brand") {
                 $data = User::whereHas('roles', function ($query) {
                     return $query->where('name', '=', 'Brand');
-                })->orderBy('id', 'DESC')->paginate(50);
+                })->orderBy('id', 'DESC')->paginate(10);
             }
             if ($search == "Influencer") {
                 $data = User::whereHas('roles', function ($query) {
                     return $query->where('name', '=', 'Influencer');
-                })->orderBy('id', 'DESC')->paginate(50);
+                })->orderBy('id', 'DESC')->paginate(10);
             }
 
 
@@ -223,7 +223,7 @@ class UserController extends Controller
 
     public function assignRoles(Request $request)
     {
-        $users = User::paginate(20);
+        $users = User::paginate(10);
         $userRoles = Role::all();
 
         $search = $request->roleSearch;
@@ -274,7 +274,7 @@ class UserController extends Controller
             if ($package) {
                 $query->where('package', 'LIKE', '%' . $package . '%');
             }
-        })->orderBy('id', 'DESC')->paginate(20);
+        })->orderBy('id', 'DESC')->paginate(10);
 
         return view('admin.users.assignRoles', compact('users', 'userRoles'));
     }

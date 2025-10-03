@@ -40,20 +40,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($influencer as $influencer)
+                                @foreach ($influencer as $influencerData)
                                     <tr>
-                                        <td>{{ $influencer->name }}</td>
-                                        <td>{{ $influencer->email }}</td>
-                                        <td>{{ $influencer->mobileno }}</td>
+                                        <td>{{ $influencerData->name }}</td>
+                                        <td>{{ $influencerData->email }}</td>
+                                        <td>{{ $influencerData->mobileno }}</td>
                                         <td>
-                                            @if ($influencer->influencer->is_featured == 'on')
+                                            @if ($influencerData->influencer->is_featured == 'on')
                                                 <i class="bi bi-check text-success h2"></i>
                                             @else
                                                 <i class="bi bi-x text-danger h2"></i>
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($influencer->influencer->is_trending == 'on')
+                                            @if ($influencerData->influencer->is_trending == 'on')
                                                 <i class="bi bi-check text-success h2"></i>
                                             @else
                                                 <i class="bi bi-x text-danger h2"></i>
@@ -61,25 +61,24 @@
                                         </td>
 
                                         <td>
-                                            @if ($influencer->influencer->is_brandBeansVerified == 'on')
+                                            @if ($influencerData->influencer->is_brandBeansVerified == 'on')
                                                 <i class="bi bi-check text-success h2"></i>
                                             @else
                                                 <i class="bi bi-x text-danger h2"></i>
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('influencer.singleView') }}/{{ $influencer->id }}"
-                                                class="btn btn-primary btn-sm">View Details</a>
-                                            <a href="{{ route('influencer.statusEdit') }}/{{ $influencer->id }}"
-                                                class="btn btn-info btn-sm">Edit</a>
+                                            <a href="{{ route('influencer.singleView') }}/{{ $influencerData->id }}" class="btn btn-primary btn-sm">View Details</a>
+                                            <a href="{{ route('influencer.statusEdit') }}/{{ $influencerData->id }}" class="btn btn-info btn-sm">Edit</a>
 
                                         </td>
                                     </tr>
                                 @endforeach
-
-
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-end mt-3">
+                            {{ $influencer->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

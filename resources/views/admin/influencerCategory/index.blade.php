@@ -31,16 +31,19 @@
                                     @foreach ($influencerCategory as $data)
                                         <tr>
                                             <td>{{ $data->name }}</td>
-                                            <td><img src="{{ asset('influencerCategory') }}/{{ $data->categoryIcon }}"
-                                                    alt="image" style="height: 50px; width: 50px;"></td>
                                             <td>
-                                                <a class="btn btn-primary btn-sm"
-                                                    href="{{ route('influencer.edit') }}/{{ $data->id }}">Edit</a>
-                                                <a class="btn btn-danger btn-sm"
-                                                    href="{{ route('influencer.delete') }}/{{ $data->id }}">Delete</a>
+                                                <img src="{{ $data->categoryIcon ? asset('influencerCategory/' . $data->categoryIcon) : 'https://via.placeholder.com/50' }}" alt="image" style="height: 50px; width: 50px;">
+                                            </td>
+
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" href="{{ route('influencer.edit') }}/{{ $data->id }}">Edit</a>
+                                                <a class="btn btn-danger btn-sm" href="{{ route('influencer.delete') }}/{{ $data->id }}">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
+                                    <div>
+                                        {{ $influencerCategory->links() }}
+                                    </div>
                                 </tbody>
                             </table>
                         </div>

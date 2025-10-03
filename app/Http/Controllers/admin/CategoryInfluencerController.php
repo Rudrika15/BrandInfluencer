@@ -13,7 +13,7 @@ class CategoryInfluencerController extends Controller
     public function index()
     {
         try {
-            $influencerCategory = CategoryInfluencer::orderBy('id', 'DESC')->get();
+            $influencerCategory = CategoryInfluencer::orderBy('id', 'DESC')->paginate(10);
 
             return view('admin.influencerCategory.index', \compact('influencerCategory'));
         } catch (\Throwable $th) {
@@ -57,18 +57,35 @@ class CategoryInfluencerController extends Controller
             function ($q) {
                 $q->where('name', 'Influencer');
             }
-        )->whereHas('influencer')->get();
+        )->whereHas('influencer')->paginate(10);
         return view('influencer.influencer.list', \compact('influencer'));
     }
+
+    // public function singleView($id)
+    // {
+    //     $profile = InfluencerProfile::with('profile')
+    //         ->with('inCategories')
+    //         ->where('userId', '=', $id)
+    //         ->orderBy('id', 'DESC')
+    //         ->first();
+    //     return view('influencer.influencer.listView', \compact('profile'));
+    // }
+
+
     public function singleView($id)
     {
         $profile = InfluencerProfile::with('profile')
-            ->with('incategory')
             ->where('userId', '=', $id)
             ->orderBy('id', 'DESC')
             ->first();
-        return view('influencer.influencer.listView', \compact('profile'));
+
+        // Get categories
+        $categoryIds = json_decode($profile->categoryId, true) ?? [];
+        $categories = CategoryInfluencer::whereIn('id', $categoryIds)->get();
+
+        return view('influencer.influencer.listView', compact('profile', 'categories'));
     }
+
 
     public function statusEdit($id)
     {

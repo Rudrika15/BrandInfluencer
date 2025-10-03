@@ -30,23 +30,15 @@
 
                                                 <div class="text-center">
                                                     @if ($profile->profile->profilePhoto)
-                                                        <img class="img-thumbnail"
-                                                            style="border-radius: 50%; height: 150px; width: 150px;"
-                                                            src="{{ asset('profile') }}/{{ $profile->profile->profilePhoto }}"
-                                                            alt="image">
+                                                        <img class="img-thumbnail" style="border-radius: 50%; height: 150px; width: 150px;" src="{{ asset('profile') }}/{{ $profile->profile->profilePhoto }}" alt="image">
                                                     @else
-                                                        <img class="img-thumbnail"
-                                                            style="border-radius: 50%; height: 150px; width: 150px;"
-                                                            src="{{ url('asset/img/defaultImage.jpg') }}"
-                                                            alt="image"><br> <br>
+                                                        <img class="img-thumbnail" style="border-radius: 50%; height: 150px; width: 150px;" src="{{ url('asset/img/defaultImage.jpg') }}" alt="image"><br> <br>
                                                     @endif
 
-                                                    <h4 class=""
-                                                        style="padding-left: 20px; text-transform: uppercase">
+                                                    <h4 class="" style="padding-left: 20px; text-transform: uppercase">
                                                         <b>{{ $profile->profile->name }}</b>
                                                         @if ($profile->is_brandBeansVerified == 'on')
-                                                            <i class="menu-icon fa fa-check-circle text-white"
-                                                                style="margin-left: 5px;"></i>
+                                                            <i class="menu-icon fa fa-check-circle text-white" style="margin-left: 5px;"></i>
                                                         @endif
 
                                                     </h4>
@@ -58,8 +50,15 @@
                                                     </h5>
                                                     <h6 class="card-subtitle mb-2 "><b>Contact Number :
                                                         </b>{{ $profile->contactNo }}</h6>
-                                                    <h6 class="card-subtitle mb-2 "><b>Category Name : </b><span
-                                                            id="category"></span></h6>
+                                                    {{-- <h6 class="card-subtitle mb-2 "><b>Category Name : </b><span id="category"></span></h6> --}}
+                                                    <h6 class="card-subtitle mb-2">
+                                                        <b>Category Name :</b>
+                                                        @foreach ($categories as $category)
+                                                            {{ $category->name }}@if (!$loop->last)
+                                                                ,
+                                                            @endif
+                                                        @endforeach
+                                                    </h6>
                                                     <h6 class="card-subtitle mb-2 "><b>Address : </b>{{ $profile->address }}
                                                     </h6>
                                                     <h6 class="card-subtitle mb-2 "><b>Brand Beans Verified : </b>

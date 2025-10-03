@@ -74,7 +74,7 @@ class InfluencerPackagesController extends Controller
 
     public function packageView()
     {
-        $influencerPackages = InfluencerPackages::with('user')->get();
+        $influencerPackages = InfluencerPackages::with('user')->paginate(10);
         return view('influencer.packages.packageView', \compact('influencerPackages'));
     }
 }

@@ -28,6 +28,12 @@ class InfluencerProfile extends Model
         return $this->hasMany(CategoryInfluencer::class, 'id', 'categoryId');
     }
 
+    public function inCategories()
+    {
+        $ids = json_decode($this->categoryId, true) ?? []; // convert null to empty array
+        return CategoryInfluencer::whereIn('id', $ids);
+    }
+
     function portfolio()
     {
         return $this->hasMany(InfluencerPortfolio::class, 'userId', 'userId');

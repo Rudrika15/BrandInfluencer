@@ -78,8 +78,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <input class="form-control" style="margin-top: 5%" type="name" placeholder="Name"
-                        value="{{ old('name') }}" id="name" name="name">
+                    <input class="form-control" style="margin-top: 5%" type="name" placeholder="Name" value="{{ old('name') }}" id="name" name="name">
                     @error('name')
                         <span role="alert">
                             <strong class="text-danger">{{ $message }}</strong>
@@ -88,8 +87,7 @@
                 </div>
                 <br>
                 <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Email" value="{{ old('email') }}"
-                        id="email" name="email">
+                    <input type="email" class="form-control" placeholder="Email" value="{{ old('email') }}" id="email" name="email">
                     @error('email')
                         <span role="alert">
                             <strong class="text-danger">{{ $message }}</strong>
@@ -98,8 +96,7 @@
                 </div>
                 <br>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Create Your Unique Username"
-                        value="{{ old('username') }}" id="username" name="username">
+                    <input type="text" class="form-control" placeholder="Create Your Unique Username" value="{{ old('username') }}" id="username" name="username">
                     @error('username')
                         <span role="alert">
                             <strong class="text-danger">{{ $message }}</strong>
@@ -108,8 +105,7 @@
                 </div>
                 <br>
 
-                <div class="mb-3"><input type="text" class="form-control" placeholder="Enter your Phone number"
-                        value="{{ old('mobileno') }}" id="mobileno" name="mobileno">
+                <div class="mb-3"><input type="text" class="form-control" placeholder="Enter your Phone number" value="{{ old('mobileno') }}" id="mobileno" name="mobileno">
                     @error('mobileno')
                         <span role="alert">
                             <strong class="text-danger">{{ $message }}</strong>
@@ -125,8 +121,7 @@
                     @enderror
                 </div>
                 <br>
-                <div class="mb-3"><input type="password" class="form-control" placeholder="Confirm Password"
-                        class="" id="password_confirmation" name="confirm-password"></div>
+                <div class="mb-3"><input type="password" class="form-control" placeholder="Confirm Password" class="" id="password_confirmation" name="password_confirmation"></div>
                 <br>
                 <div class="mb-3">
                     <div id="influencerCategory">
@@ -174,8 +169,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="{{ asset('js/scripts.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         // Function to handle the selection
         function selectOption(option) {

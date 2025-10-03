@@ -10,19 +10,17 @@ class BrandInfluencerNotificationController extends Controller
 {
     public function index()
     {
-
         $roles = Auth::user()->roles->pluck('name');
 
         if ($roles->contains('Influencer')) {
-
             $notificationsAll = BrandInfluencerNotification::orderBy('created_at', 'desc')
-                ->where('visible', 'I')
-                ->orWhere('userId', Auth::user()->id)
-                ->get();
-
+                ->where(function ($q) {
+                    $q->where('visible', 'I')
+                        ->orWhere('userId', Auth::id());
+                })
+                ->paginate(10); // ✅ pagination (10 per page)
 
             foreach ($notificationsAll as $notification) {
-
                 $notification->is_read = 'No';
                 $notification->save();
             }
@@ -30,23 +28,24 @@ class BrandInfluencerNotificationController extends Controller
             $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
                 ->where('type', 'General')
                 ->where('visible', 'I')
-                ->where('userId', Auth::user()->id)
-                ->get();
+                ->where('userId', Auth::id())
+                ->paginate(10);
+
             $notificationsCampaign = BrandInfluencerNotification::orderBy('created_at', 'desc')
                 ->where('type', 'Campaign')
                 ->where('visible', 'I')
-                // ->orWhere('userId', Auth::user()->id)
-                ->get();
+                ->paginate(10);
         }
 
         if ($roles->contains('Brand')) {
             $notificationsAll = BrandInfluencerNotification::orderBy('created_at', 'desc')
-                ->where('visible', 'B')
-                ->orWhere('userId', Auth::user()->id)
-                ->get();
+                ->where(function ($q) {
+                    $q->where('visible', 'B')
+                        ->orWhere('userId', Auth::id());
+                })
+                ->paginate(10);
 
             foreach ($notificationsAll as $notification) {
-
                 $notification->is_read = 'No';
                 $notification->save();
             }
@@ -54,17 +53,19 @@ class BrandInfluencerNotificationController extends Controller
             $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
                 ->where('type', 'General')
                 ->where('visible', 'B')
-                ->where('userId', Auth::user()->id)
-                ->get();
+                ->where('userId', Auth::id())
+                ->paginate(10);
+
             $notificationsCampaign = BrandInfluencerNotification::orderBy('created_at', 'desc')
                 ->where('type', 'Campaign')
                 ->where('visible', 'B')
-                ->orWhere('userId', Auth::user()->id)
-                ->get();
+                ->orWhere('userId', Auth::id())
+                ->paginate(10);
         }
 
         return view('influencer.notifications.index', compact('notificationsAll', 'notificationsGeneral', 'notificationsCampaign'));
     }
+
 
 
     public function create()
