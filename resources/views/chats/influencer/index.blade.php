@@ -3,8 +3,7 @@
 @section('content')
 
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,0,0" />
 
     <style>
         @font-face {
@@ -31,50 +30,54 @@
             font-style: normal;
         }
 
-        .search-box {
-            font-size: 30px;
-            padding: 14px 19px;
-            border: 1px solid #C1C1C1;
-            background-color: white;
-            width: 9.8em;
-            border-radius: 10px;
-            transition: .2s;
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: 10px auto;
         }
 
-        .search-box:hover {
-            border-color: #AAAAAA;
+        .search-input {
+            width: 100%;
+            padding: 10px 45px 10px 45px;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            background-color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
 
-        .search-box:focus-within {
-            border-color: #FF0080;
-            box-shadow: 0 0 0 5px rgba(255, 0, 128, 0.40);
-        }
-
-        input {
-            font-family: Proxima Nova;
-            letter-spacing: -0.2px;
-            background-color: transparent;
-            font-size: 20px;
-            border: none;
-            border-radius: 30% color: #323232;
-            /* border-top-left-radius: 50px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      border-bottom-left-radius: 50px; */
-        }
-
-        button:hover {
-            cursor: pointer;
-            border: none
-        }
-
-        input:focus {
+        .search-input:focus {
             outline: none;
+            border-color: #15c6eb;
+            box-shadow: 0 0 6px rgba(255, 0, 128, 0.3);
         }
 
-        input[type='search']::-webkit-search-cancel-button {
-            -webkit-appearance: none;
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #888;
         }
 
-        .clear:not(:valid)~.search-clear {
+        .clear-btn {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #888;
+            cursor: pointer;
             display: none;
+        }
+
+        .search-input:valid~.clear-btn {
+            display: block;
         }
     </style>
 
@@ -93,14 +96,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-5 bg-white" style="height: 600px; overflow-y: auto;">
-                    <div class="pt-2 mt-1 bg-light rounded-pill">
-                        <button style="background: none; border: none; padding: 0;">
-                            <span style="font-size: 20px; vertical-align: -1px; color: #9B9B9B"
-                                class="material-symbols-outlined">search</span>
-                        </button>
-                        <input style="vertical-align: 4px; width: 255px;" type="search" name="focus" placeholder="Search"
-                            id="search" value="">
+                    <div class="search-container">
+                        <span class="material-symbols-outlined search-icon">search</span>
+                        <input type="search" id="search" class="search-input" placeholder="Search chats..." required>
+                        <button type="button" class="clear-btn" onclick="document.getElementById('search').value=''">×</button>
                     </div>
+
+
                     <hr>
                     {{-- {{ Auth::user()->session }} <br> --}}
                     {{-- @if (Auth::user()->hasRole(['Influencer']))
@@ -110,23 +112,17 @@
                         @foreach ($chats as $chat)
                             <input type="hidden" name="groupId" id="group-id" value="{{ $chat->id }}">
 
-                            <input type="hidden" name="influencerId" id="influencerIdForGetChat"
-                                value="{{ $chat->influencerId }}">
+                            <input type="hidden" name="influencerId" id="influencerIdForGetChat" value="{{ $chat->influencerId }}">
                             <input type="hidden" name="brandId" id="brandIdForGetChat" value="{{ $chat->brandId }}">
 
-                            <div class="bg-light pt-3 chat-item" style="cursor: pointer;"
-                                data-brand-id="{{ $chat->brandId }}" data-influencer-id="{{ $chat->influencerId }}">
+                            <div class="bg-light pt-3 chat-item" style="cursor: pointer;" data-brand-id="{{ $chat->brandId }}" data-influencer-id="{{ $chat->influencerId }}">
                                 <span class="ps-3">
 
                                     @if (Auth::user()->hasRole('Influencer'))
-                                        <img src="{{ asset('profile') }}/{{ $chat->brand->profilePhoto }} "
-                                            onerror="this.src='{{ asset('images/default.jpg') }}'" class="rounded-circle"
-                                            style="object-fit: contain; width: 40px; height: 40px; " alt="">
+                                        <img src="{{ asset('profile') }}/{{ $chat->brand->profilePhoto }} " onerror="this.src='{{ asset('images/default.jpg') }}'" class="rounded-circle" style="object-fit: contain; width: 40px; height: 40px; " alt="">
                                     @endif
                                     @if (Auth::user()->hasRole('Brand'))
-                                        <img src="{{ asset('profile') }}/{{ $chat->influencer->profilePhoto }} "
-                                            onerror="this.src='{{ asset('images/default.jpg') }}'" class="rounded-circle"
-                                            style="object-fit: contain; width: 40px; height: 40px; " alt="">
+                                        <img src="{{ asset('profile') }}/{{ $chat->influencer->profilePhoto }} " onerror="this.src='{{ asset('images/default.jpg') }}'" class="rounded-circle" style="object-fit: contain; width: 40px; height: 40px; " alt="">
                                     @endif
                                     <b class="ps-2">
                                         @if (Auth::user()->hasRole('Influencer'))
@@ -161,8 +157,7 @@
                         <div id="chatHeader" class="p-3 border-bottom">
                             <h5 id="receiverName">Selected Chat Receiver Name</h5>
                         </div>
-                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100"
-                            style="display: flex; flex-direction: column-reverse;">
+                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100" style="display: flex; flex-direction: column-reverse;">
                             {{-- <div class="bg-danger text-end">influencer message </div>
                             <div class="bg-warning">brand message </div> --}}
                             <div style="height: 600px; align-self: center; padding-top: 100px" id="defaultMessage">

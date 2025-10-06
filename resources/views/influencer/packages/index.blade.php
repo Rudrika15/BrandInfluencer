@@ -2,6 +2,13 @@
 @section('title', 'Brand beans | Brand Campaign')
 @section('content')
 
+    <style>
+        .btn.btn-danger:hover {
+            color: white !important;
+
+        }
+    </style>
+
 
     <div class='container'>
         <div class="card w-100">
@@ -39,10 +46,8 @@
                                     <td>{{ $data->price }}</td>
                                     <td>{!! $data->description !!}</td>
                                     <td>
-                                        <a class="btn btn-primary btn-sm"
-                                            href="{{ route('influencer.package.edit') }}/{{ $data->id }}">Edit</a>
-                                        <a class="btn btn-danger btn-sm"
-                                            href="{{ route('influencer.package.delete') }}/{{ $data->id }}">Delete</a>
+                                        <a class="btn btn-primary btn-sm" href="{{ route('influencer.package.edit') }}/{{ $data->id }}">Edit</a>
+                                        <a class="btn btn-danger btn-sm" href="{{ route('influencer.package.delete') }}/{{ $data->id }}">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach

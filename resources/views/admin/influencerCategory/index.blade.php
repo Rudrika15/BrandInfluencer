@@ -14,17 +14,18 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example" class="table table-bordered ">
+                            <table id="example" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th> Name</th>
-                                        <th> Category Icon</th>
-                                        <th> Action</th>
+                                        <th>Name</th>
+                                        <th>Category Icon</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -34,18 +35,20 @@
                                             <td>
                                                 <img src="{{ $data->categoryIcon ? asset('influencerCategory/' . $data->categoryIcon) : 'https://via.placeholder.com/50' }}" alt="image" style="height: 50px; width: 50px;">
                                             </td>
-
                                             <td>
-                                                <a class="btn btn-primary btn-sm" href="{{ route('influencer.edit') }}/{{ $data->id }}">Edit</a>
-                                                <a class="btn btn-danger btn-sm" href="{{ route('influencer.delete') }}/{{ $data->id }}">Delete</a>
+                                                <a class="btn btn-primary btn-sm" href="{{ route('influencer.edit', $data->id) }}">Edit</a>
+
+                                                <form action="{{ route('influencer.delete', $data->id) }}" method="GET" style="display:inline;" class="deleteForm">
+                                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
-                                    <div>
-                                        {{ $influencerCategory->links() }}
-                                    </div>
                                 </tbody>
                             </table>
+                            <div>
+                                {{ $influencerCategory->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,5 +56,24 @@
         </div>
     </div>
 
-
+    {{-- SweetAlert Script --}}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        document.querySelectorAll('.deleteForm').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                swal({
+                    title: "Are you sure?",
+                    text: "This influencer category will be permanently deleted!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

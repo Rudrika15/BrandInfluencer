@@ -50,16 +50,39 @@ class CategoryInfluencerController extends Controller
         }
     }
 
-    public function list()
+    // public function list()
+    // {
+    //     $influencer = User::whereHas(
+    //         'roles',
+    //         function ($q) {
+    //             $q->where('name', 'Influencer');
+    //         }
+    //     )->whereHas('influencer')->paginate(10);
+    //     return view('influencer.influencer.list', \compact('influencer'));
+    // }
+
+    public function list(Request $request)
     {
-        $influencer = User::whereHas(
-            'roles',
-            function ($q) {
-                $q->where('name', 'Influencer');
+        $search = $request->input('search');
+
+        $influencer = User::whereHas('roles', function ($q) {
+            $q->where('name', 'Influencer');
+        })->whereHas('influencer', function ($q) use ($search) {
+            if ($search) {
+                $q->where('name', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%")
+                    ->orWhere('mobileno', 'like', "%$search%");
             }
-        )->whereHas('influencer')->paginate(10);
-        return view('influencer.influencer.list', \compact('influencer'));
+        })->paginate(10);
+
+        // Keep search term in pagination links
+        if ($search) {
+            $influencer->appends(['search' => $search]);
+        }
+
+        return view('influencer.influencer.list', compact('influencer'));
     }
+
 
     // public function singleView($id)
     // {
@@ -103,7 +126,8 @@ class CategoryInfluencerController extends Controller
         $influencerStatus->is_brandBeansVerified = $request->is_brandBeansVerified;
         $influencerStatus->save();
 
-        return \redirect()->back()->with('success', 'Status Updated Successfully');
+        // return \redirect()->back()->with('success', 'Status Updated Successfully');
+        return redirect()->route('influencer.list')->with('success', 'Status Updated Successfully');
     }
 
     public function edit($id)

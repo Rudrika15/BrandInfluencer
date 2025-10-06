@@ -26,21 +26,21 @@
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text" class="form-control" value="{{ old('title') }}" id="title" name="title" required>
                                 @if ($errors->has('title'))
-                                    <span class="error text-danger fs-6">{{ $errors->first('title') }}</span>
+                                    <span class="error text-danger">{{ $errors->first('title') }}</span>
                                 @endif
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label">price</label>
                                 <input type="text" class="form-control" value="{{ old('price') }}" id="price" name="price" required>
                                 @if ($errors->has('price'))
-                                    <span class="error text-danger fs-6">{{ $errors->first('price') }}</span>
+                                    <span class="error text-danger">{{ $errors->first('price') }}</span>
                                 @endif
                             </div>
                             <div class="mb-3">
                                 <label for="points" class="form-label">points</label>
                                 <input type="text" class="form-control" value="{{ old('points') }}" id="points" name="points" required>
                                 @if ($errors->has('points'))
-                                    <span class="error text-danger fs-6">{{ $errors->first('points') }}</span>
+                                    <span class="error text-danger">{{ $errors->first('points') }}</span>
                                 @endif
                             </div>
 

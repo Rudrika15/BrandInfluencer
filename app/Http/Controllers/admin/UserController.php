@@ -121,7 +121,7 @@ class UserController extends Controller
             $userUpdate->save();
 
             $card = new CardsModels();
-            $card->userid = $user->id;
+            $card->user_id = $user->id;
             $card->save();
 
             $payment = new Payment();

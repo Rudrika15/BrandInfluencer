@@ -18,8 +18,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin.brand.package.detail.store') }}" enctype="multipart/form-data"
-                            method="post" style="margin-top: 15px;">
+                        <form action="{{ route('admin.brand.package.detail.store') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
                             @csrf
                             <input type="hidden" name="brandPackageId" value="{{ request('id') }}">
                             <div class="mb-3">
@@ -36,8 +35,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="points" class="form-label">points</label>
-                                <input type="number" class="form-control" value="{{ old('points') }}" id="points"
-                                    name="points" required>
+                                <input type="number" class="form-control" value="{{ old('points') }}" id="points" name="points" required>
                                 @if ($errors->has('points'))
                                     <span class="error text-danger fs-6">{{ $errors->first('points') }}</span>
                                 @endif
@@ -79,8 +77,7 @@
                                             <td>{!! $data->details !!}</td>
                                             <td>
                                                 {{-- <a class="btn btn-primary btn-sm" href="{{ route('admin.brand.package.edit') }}/{{ $data->id }}">Edit</a> --}}
-                                                <a class="btn btn-danger btn-sm"
-                                                    href="{{ route('admin.brand.package.detail.delete') }}/{{ $data->id }}">Delete</a>
+                                                <a class="btn btn-danger btn-sm" href="{{ route('admin.brand.package.detail.delete') }}/{{ $data->id }}">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -101,5 +98,31 @@
             });
         });
     </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.querySelectorAll('.btn-danger').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                let url = this.getAttribute('href');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This record will be deleted!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    </script>
+
 
 @endsection

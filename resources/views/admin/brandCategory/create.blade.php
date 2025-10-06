@@ -24,46 +24,35 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="" class="form-label">Name</label><span class="text-danger">*</span>
-                                <input type="text" class="form-control" value="{{ old('categoryName') }}"
-                                    name="categoryName" id="categoryName" aria-describedby="helpId" placeholder="" />
+                                <input type="text" class="form-control" value="{{ old('categoryName') }}" name="categoryName" id="categoryName" aria-describedby="helpId" placeholder="" />
                                 @if ($errors->has('categoryName'))
                                     <span class="text-danger">{{ $errors->first('categoryName') }}</span>
                                 @endif
                             </div>
 
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Icon</label> <span
-                                    class="text-danger">*</span>
+                                <label class="form-label">Icon</label> <span class="text-danger">*</span>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <input type="file" accept='image/*' onchange="readURL(this,'#img1')"
-                                            class="form-control" id="image" name="icon">
+                                        <input type="file" accept="image/*" onchange="readURL(this, '#iconPreview')" class="form-control" name="icon">
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="image"></label>
-                                        <img src="{{ url('images/default.jpg') }}" alt="{{ __('main image') }}"
-                                            id="img1"
-                                            style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
-
+                                        <img src="{{ url('images/default.jpg') }}" id="iconPreview" style="min-height:100px;min-width:100px;max-height:100px;max-width:100px;">
                                     </div>
                                 </div>
                                 @if ($errors->has('icon'))
                                     <span class="text-danger">{{ $errors->first('icon') }}</span>
                                 @endif
                             </div>
+
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Poster</label>
+                                <label class="form-label">Poster</label>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <input type="file" accept='image/*' onchange="readURL(this,'#img1')"
-                                            class="form-control" id="image" name="poster">
+                                        <input type="file" accept="image/*" onchange="readURL(this, '#posterPreview')" class="form-control" name="poster">
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="image"></label>
-                                        <img src="{{ url('images/default.jpg') }}" alt="{{ __('main image') }}"
-                                            id="img1"
-                                            style='min-height:100px;min-width:100px;max-height:100px;max-width:100px'>
-
+                                        <img src="{{ url('images/default.jpg') }}" id="posterPreview" style="min-height:100px;min-width:100px;max-height:100px;max-width:100px;">
                                     </div>
                                 </div>
                             </div>

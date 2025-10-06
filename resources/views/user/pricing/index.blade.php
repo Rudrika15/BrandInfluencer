@@ -1,87 +1,122 @@
 @extends('layouts.app')
 @section('title', 'Brand beans | Slogan Create')
 @section('content')
-    <div class='container'>
-        <div class='row'>
-            <div class='col-md-12'>
-                <div class="d-flex justify-content-between mb-3">
-                    <div class="p-2">
-                        <h3 class="line-title">Packages</h3>
-                    </div>
 
-                </div>
+    <style>
+        .package-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            height: 100%;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+        }
+
+        /* ✅ FIX START */
+        .row.g-4 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            /* space between cards */
+            justify-content: center;
+        }
+
+        .row.g-4>[class*='col-'] {
+            flex: 1 1 30%;
+            /* each card takes around 30% width */
+            min-width: 280px;
+            /* prevent too small cards */
+            max-width: 350px;
+        }
+
+        .card.package-card {
+            width: 100%;
+        }
+
+        /* ✅ FIX END */
+    </style>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <h3 class="line-title">Packages</h3>
             </div>
         </div>
-        <div class="container-fluid ">
-            <div class="row">
 
-                @foreach ($subpack as $subpack)
-                    <div class="col-md-6 p-3">
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body ">
-                                <?php
-                                // $price = 0;
-                                // $price = (($subpack->price) * ($subpack->discount) / 100);
-                                ?>
-                                <h3 class="card-title">{{ $subpack->title }}</h3>
-                                <!-- <h5 class="">₹<del>{{ $subpack->price }}</del> / {{ $subpack->subscriptionType }}</h5> -->
-                                <h5 class="">₹{{ $subpack->price }}
-                                    <?php
-                                    ?>
-                                    / {{ $subpack->points }} <span class="text-muted fs-6">Points</span></h5>
+        <div class="row g-4">
+            @foreach ($subpack as $subpack)
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card package-card shadow-sm border-0 h-100">
+                        <div class="card-body text-center">
+                            <h3 class="card-title mb-3" style="color: #1d4880;">{{ $subpack->title }}</h3>
 
+                            <h5 class="mb-3">
+                                ₹{{ $subpack->price }} /
+                                {{ $subpack->points }}
+                                <span class="text-muted fs-6">Points</span>
+                            </h5>
 
-                                <div class="text-center">
-                                    @if ($subpack->priceType == 'Free')
-                                        <a href="register"><button type="button"
-                                                class="btn btn-outline-primary btn-sm mt-2">SIGN
-                                                UP
-                                                FREE</button></a>
-                                    @else
-                                        <form id="payment-form" action="{{ route('razorpay.payment.store') }}"
-                                            method="POST">
-                                            @csrf
-                                            <div class="pay-container">
-                                                <input type="hidden" name="amount" class="amount"
-                                                    value="{{ $subpack->price }}" />
-                                                <button class="pay-button btn btn-primary btn-sm mt-2" type="button">Get
-                                                    Started</button>
-                                            </div>
-                                        </form>
-                                    @endif
-                                </div>
-                                <h6 class="card-text mt-3 h4">Best features for this Package.</h6>
-
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <table class="table table-bordered table-responsive">
-                                            <thead>
-                                                <tr>
-                                                    <th>Activities</th>
-                                                    <th>Points</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($subpack->brandPackageDetails as $subpackDetails)
-                                                    @foreach ($subpackDetails->activity as $activity)
-                                                        <tr>
-                                                            <td>{{ $activity->title }}</td>
-                                                            <td class="text-end">{{ $subpackDetails->points }}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </small>
-                                </p>
+                            <div class="text-center mb-3">
+                                @if ($subpack->priceType == 'Free')
+                                    <a href="register">
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            SIGN UP FREE
+                                        </button>
+                                    </a>
+                                @else
+                                    <form id="payment-form" action="{{ route('razorpay.payment.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="amount" class="amount" value="{{ $subpack->price }}">
+                                        <button class="btn btn-primary btn-sm pay-button" type="button">
+                                            Get Started
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
 
+                            <h6 class="fw-bold mt-3 mb-2">Best features for this Package</h6>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Activities</th>
+                                            <th class="text-end">Points</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($subpack->brandPackageDetails as $subpackDetails)
+                                            @foreach ($subpackDetails->activity as $activity)
+                                                <tr>
+                                                    <td>{{ $activity->title }}</td>
+                                                    <td class="text-end">{{ $subpackDetails->points }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                @endforeach
-            </div>
+                </div>
+            @endforeach
         </div>
     </div>
+
+
+
 
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>

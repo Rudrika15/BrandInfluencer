@@ -28,10 +28,10 @@ class ActivityController extends Controller
             $activity = new Activity();
             $activity->title = $request->title;
             $activity->save();
-            return \redirect()->back()->with('success', 'Activity created successfully.');
+            return redirect()->route('admin.brand.activity.index')->with('success', 'Activity created successfully.');
         } catch (\Throwable $th) {
             throw $th;
-            return \view('servererror');
+            return view('servererror');
         }
     }
     public function edit($id)
@@ -50,7 +50,7 @@ class ActivityController extends Controller
             $activity = Activity::find($id);
             $activity->title = $request->title;
             $activity->save();
-            return \redirect()->back()->with('success', 'Activity updated successfully.');
+            return redirect()->route('admin.brand.activity.index')->with('success', 'Activity updated successfully.');
         } catch (\Throwable $th) {
             throw $th;
             return \view('servererror');
