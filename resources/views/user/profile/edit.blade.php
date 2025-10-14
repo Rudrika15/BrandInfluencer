@@ -463,7 +463,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-4"><label>Your Full Name:</label></div>
                                                                 <div class="col-md-7">
-                                                                    <input type="text" class="form-control shadow-none " id="name" name="name" value="{{ $users->name ?? '' }}">
+                                                                    <input type="text" class="form-control shadow-none " id="name" name="name" value="{{ old('name', $users->name ?? '') }}">
 
                                                                 </div>
                                                             </div>
@@ -473,7 +473,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-4"><label>Username:</label></div>
                                                                 <div class="col-md-7">
-                                                                    <input type="text" class=" form-control shadow-none" id="username" name="username" value="{{ $users->username ?? '' }}">
+                                                                    <input type="text" class=" form-control shadow-none" id="username" name="username" value="{{ old('username', $users->username ?? '') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -482,7 +482,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-4"><label>State:</label></div>
                                                                 <div class="col-md-7">
-                                                                    <input type="text" class=" form-control shadow-none" id="state" name="state" value="{{ $users->state ?? '' }}">
+                                                                    <input type="text" class=" form-control shadow-none" id="state" name="state" value="{{ old('state', $users->state ?? '') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -492,7 +492,15 @@
                                                             <div class="row ">
                                                                 <div class="col-md-4"><label>City:</label></div>
                                                                 <div class="col-md-7">
-                                                                    <input type="text" class="form-control shadow-none " id="location" name="city" value="{{ $users->city ?? '' }}">
+                                                                    <input type="text" class="form-control shadow-none " id="location" name="city" value="{{ old('city', $users->city ?? '') }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 pb-2 ">
+                                                            <div class="row ">
+                                                                <div class="col-md-4"><label>Mobile No:</label></div>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" class="form-control shadow-none" id="mobileno" name="mobileno" value="{{ old('mobileno', $users->mobileno ?? '') }}" pattern="[0-9]{10,10}" title="Only numbers allowed">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -512,7 +520,7 @@
 
                                                                     <div class="col-md-4"><label>Date of Birth:</label></div>
                                                                     <div class="col-md-7">
-                                                                        <input type="date" class=" form-control shadow-none" name="dob" value="{{ $influencer->dob ?? '' }}" id="dob">
+                                                                        <input type="date" class=" form-control shadow-none" name="dob" value="{{ old('dob', $influencer->dob ?? '') }}" id="dob">
 
                                                                     </div>
                                                                 </div>
@@ -539,14 +547,12 @@
                                                                 </div>
                                                             </div>
 
-
-
                                                             <div class="col-md-6 pb-2">
                                                                 <div class="row">
 
                                                                     <div class="col-md-4"><label>Instagram Url:</label></div>
                                                                     <div class="col-md-7">
-                                                                        <input type="text" class=" form-control shadow-none" name="instagramUrl" value=" {{ $influencer->instagramUrl ?? '' }}  " id="instagramUrl">
+                                                                        <input type="text" class=" form-control shadow-none" name="instagramUrl" value="{{ old('instagramUrl', $influencer->instagramUrl ?? '') }}" id="instagramUrl">
                                                                         @if ($errors->has('instagramUrl'))
                                                                             <span class="text-danger">
                                                                                 {{ $errors->first('instagramUrl') }}
@@ -564,7 +570,7 @@
                                                                     <div class="col-md-4"><label>Instagram Followers:</label>
                                                                     </div>
                                                                     <div class="col-md-7">
-                                                                        <input type="text" class=" form-control shadow-none" name="instagramFollowers" value="{{ $influencer->instagramFollowers ?? '' }}" id="instagramFollowers">
+                                                                        <input type="text" class=" form-control shadow-none" name="instagramFollowers" value="{{ old('instagramFollowers', $influencer->instagramFollowers ?? '') }}" id="instagramFollowers">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -575,7 +581,7 @@
                                                                     <div class="col-md-4"><label>Youteube Channel Url:</label>
                                                                     </div>
                                                                     <div class="col-md-7">
-                                                                        <input type="text" class=" form-control shadow-none" name="youtubeChannelUrl" value="{{ $influencer->youtubeChannelUrl ?? '' }}" id="youtubeChannelUrl">
+                                                                        <input type="text" class=" form-control shadow-none" name="youtubeChannelUrl" value="{{ old('youtubeChannelUrl', $influencer->youtubeChannelUrl ?? '') }}" id="youtubeChannelUrl">
                                                                         @if ($errors->has('youtubeChannelUrl'))
                                                                             <span class="text-danger">
                                                                                 {{ $errors->first('youtubeChannelUrl') }}
@@ -592,25 +598,39 @@
                                                                     <div class="col-md-4"><label>Youteube Subscribers:</label>
                                                                     </div>
                                                                     <div class="col-md-7">
-                                                                        <input type="text" class=" form-control shadow-none" name="youtubeSubscriber" value="{{ $influencer->youtubeSubscriber ?? '' }}" id="youtubeSubscriber">
+                                                                        <input type="text" class=" form-control shadow-none" name="youtubeSubscriber" value="{{ old('youtubeSubscriber', $influencer->youtubeSubscriber ?? '') }}" id="youtubeSubscriber">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         @endrole
+
                                                         <div class="col-md-6 pb-2">
                                                             <div class="row">
                                                                 <div class="col-md-4"><label>Profile Photo:</label></div>
                                                                 <div class="col-md-6">
-                                                                    <input type="file" accept="image/*" class="form-control shadow-none " id="profilePhoto" name="profilePhoto" value="{{ url('profile') }}/{{ $users->profilePhoto ?? '' }}">
+                                                                    <input type="file" accept="image/*" class="form-control shadow-none" id="profilePhoto" name="profilePhoto">
                                                                     @if ($errors->has('profilePhoto'))
                                                                         <span class="text-danger">{{ $errors->first('profilePhoto') }}</span>
                                                                     @endif
                                                                 </div>
                                                                 <div class="col-md-2">
-                                                                    <img src="{{ url('profile') }}/{{ $users->profilePhoto ?? '' }}" class="img-fluid" alt="Responsive image">
+                                                                    <img id="profilePreview" src="{{ url('profile') }}/{{ $users->profilePhoto ?? asset('images/default-avatar.png') }}" class="img-fluid" alt="Profile Preview" style="cursor:pointer;" onclick="document.getElementById('profilePhoto').click();">
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <script>
+                                                            document.getElementById('profilePhoto').addEventListener('change', function(e) {
+                                                                const file = e.target.files[0];
+                                                                if (file && file.type.startsWith('image/')) {
+                                                                    const reader = new FileReader();
+                                                                    reader.onload = function(e) {
+                                                                        document.getElementById('profilePreview').src = e.target.result;
+                                                                    };
+                                                                    reader.readAsDataURL(file);
+                                                                }
+                                                            });
+                                                        </script>
 
 
 
@@ -621,7 +641,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-2"><label>About:</label></div>
                                                                 <div class="col-md-10">
-                                                                    <textarea style="width:95%" class="about form-control shadow-none" rows="5" placeholder="Enter About" type="text" id="about" name="about" value="">{{ $users->about ?? '' }}</textarea>
+                                                                    <textarea style="width:95%" class="about form-control shadow-none" rows="5" placeholder="Enter About" type="text" id="about" name="about" value="">{{ old('about', $users->about ?? '') }}</textarea>
                                                                 </div>
                                                             </div>
                                                         </div>

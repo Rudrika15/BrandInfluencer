@@ -86,9 +86,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
-        
-
         try {
             $new_str = str_replace(' ', '', $data['username']);
 
@@ -132,6 +129,7 @@ class RegisterController extends Controller
             $mycode = $new_str . $id;
             $userUpdate = User::find($id);
             $userUpdate->myrefer = $mycode;
+            $userUpdate->assignRole('User');
             $userUpdate->save();
 
             $code = $user->refer;

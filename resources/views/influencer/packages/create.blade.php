@@ -7,8 +7,6 @@
     <div class='container'>
         <div class="card w-100">
             <div class="card-body">
-
-
                 <div class='row'>
                     <div class='col-md-12'>
                         <div class="d-flex justify-content-between mb-3">
@@ -22,8 +20,7 @@
                     </div>
                 </div>
                 <div class="container-fluid ">
-                    <form action="{{ route('influencer.package.store') }}" enctype="multipart/form-data" method="post"
-                        style="margin-top: 15px;">
+                    <form action="{{ route('influencer.package.store') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
                         @csrf
 
                         <div class="mb-3">
@@ -41,27 +38,22 @@
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
-                            <input type="text" class="form-control" value="{{ old('price') }}" id="price"
-                                name="price" required>
+                            <input type="text" class="form-control" value="{{ old('price') }}" id="price" name="price">
                             @if ($errors->has('price'))
                                 <span class="error text-danger fs-6">{{ $errors->first('price') }}</span>
                             @endif
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea type="text" class="form-control" id="tinymce" name="description" required>{{ old('description') }}</textarea>
+                            <textarea type="text" class="form-control" id="tinymce" name="description">{{ old('description') }}</textarea>
                             @if ($errors->has('description'))
                                 <span class="error text-danger fs-6">{{ $errors->first('description') }}</span>
                             @endif
                         </div>
-
-
                         <br>
                         <button type="submit" class="btn btn-success btn-sm">Submit</button>
                     </form>
-
                 </div>
-
             </div>
         </div>
     </div>

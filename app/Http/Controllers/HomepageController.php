@@ -61,7 +61,7 @@ class HomepageController extends Controller
         })->with('influencer')->whereHas('influencer');
 
         // Apply category filter if specified
-        if (!empty($categoryId)) {
+        if (!empty($categoryId) && is_array($categoryId) && count($categoryId) > 0) {
             $influencer->whereHas('influencer', function ($q) use ($categoryId) {
                 $q->where(function ($q) use ($categoryId) {
                     foreach ($categoryId as $category) {

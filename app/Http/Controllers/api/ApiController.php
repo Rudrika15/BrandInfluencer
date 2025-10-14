@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Mail\OtpMail;
 use App\Mail\ForgotMail;
@@ -79,76 +80,239 @@ use SebastianBergmann\Template\Template;
 class ApiController extends Controller
 {
     //login Api
-    function login(Request $request)
+    // function login(Request $request)
+    // {
+    //     $rules = array(
+    //         'email' => 'required',
+    //         'password' => 'required',
+    //         'userType' => 'required|in:Influencer,Brand,influencer,brand',
+    //     );
+
+    //     $validator = Validator::make($request->all(), $rules);
+
+    //     if ($validator->fails()) {
+    //         return $validator->errors();
+    //     }
+    //     $user = User::where('email', $request->email)
+    //         ->first();
+    //     // $card = CardsModels::where('user_id', '=', $user->id)->get();
+
+    //     // print_r($data);
+    //     if ($user && Hash::check($request->password, $user->password)) {
+    //         $token = $user->createToken('my-app-token')->plainTextToken;
+
+    //         $role = $user->getRoleNames();
+    //         $response = [
+    //             'User Data' => $user,
+    //             'userType' => $request->userType,
+    //             // 'CardData' => $card,
+    //             'token' => $token,
+    //             'flag' => false
+    //         ];
+
+    //         return response($response, 201);
+    //     } else {
+    //         return response([
+    //             'message' => ['These credentials do not match our records.']
+    //         ], 404);
+    //     }
+    // }
+
+
+    public function login(Request $request)
     {
-        $rules = array(
+        $rules = [
             'email' => 'required',
             'password' => 'required',
             'userType' => 'required|in:Influencer,Brand,influencer,brand',
-        );
+        ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $validator->errors();
+            return response()->json(['errors' => $validator->errors()], 422);
         }
-        $user = User::where('email', $request->email)
-            ->first();
-        // $card = CardsModels::where('user_id', '=', $user->id)->get();
 
-        // print_r($data);
+        $user = User::where('email', $request->email)->first();
+
         if ($user && Hash::check($request->password, $user->password)) {
+            $roles = $user->getRoleNames(); // Example: ['Brand'] or ['Influencer']
+
+            $requestedRole = ucfirst(strtolower($request->userType)); // Normalize
+
+            // ✅ Check if user has the requested role
+            if (!$roles->contains($requestedRole)) {
+                return response()->json([
+                    'message' => "Please login from your correct side (" . $roles->implode(', ') . " account)."
+                ], 403);
+            }
+
+            // ✅ Allow login if they have both roles or correct one
             $token = $user->createToken('my-app-token')->plainTextToken;
 
-            $role = $user->getRoleNames();
             $response = [
                 'User Data' => $user,
-                'userType' => $request->userType,
-                // 'CardData' => $card,
+                'userType' => $requestedRole,
                 'token' => $token,
-                'flag' => false
+                'flag' => false,
             ];
 
-            return response($response, 201);
+            return response()->json($response, 201);
         } else {
-            return response([
+            return response()->json([
                 'message' => ['These credentials do not match our records.']
             ], 404);
         }
     }
+
+
+
+
+
+    // function sendotp(Request $request)
+    // {
+    //     Log::info('ApiController@sendotp called');
+
+    //     $rules = array(
+    //         'mobile' => 'required',
+    //         'userType' => 'optional|in:Influencer,Brand,influencer,brand',
+    //     );
+
+    //     $validator = Validator::make($request->all(), $rules);
+
+    //     if ($validator->fails()) {
+    //         Log::error('Validation failed', ['errors' => $validator->errors()]);
+    //         return $validator->errors();
+    //     }
+
+    //     Log::info('Validation passed');
+
+    //     $apiKey = urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b');
+
+    //     // Message details
+    //     $otp = random_int(100000, 999999);
+    //     $numbers = $request->mobile;
+    //     $sender = urlencode('DGSAPI');
+    //     $message = "Your One Time Verification Password is {$otp}.";
+    //     $username = "BrandBeans";
+    //     $smstype = "TRANS";
+
+    //     // Prepare data for POST request
+    //     $data = array(
+    //         'apikey' => $apiKey,
+    //         'numbers' => $numbers,
+    //         "sender" => $sender,
+    //         "message" => $message,
+    //         "username" => $username,
+    //         "sendername" => $sender,
+    //         "smstype" => $smstype,
+    //     );
+
+    //     // Send the POST request with cURL
+    //     $ch = curl_init('https://sms.hspsms.com/sendSMS');
+    //     curl_setopt($ch, CURLOPT_POST, true);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     $response = curl_exec($ch);
+    //     curl_close($ch);
+
+    //     Log::info('Request sent to sms.hspsms.com', ['response' => $response]);
+
+    //     $time = Carbon::now()->toTimeString();
+
+    //     $userFind = User::where('mobileno', $request->mobile)->first();
+    //     if ($userFind) {
+    //         $otps = new Otp();
+    //         $otps->otp = $otp;
+    //         $otps->mobileno = $request->mobile;
+    //         $otps->time = $time;
+    //         $otps->save();
+    //     }
+    //     //  else {
+
+    //     //     $user = new User();
+    //     //     $user->mobileno = $request->mobile;
+    //     //     $user->save();
+    //     //     if ($request->userType == 'Influencer' || $request->userType == 'influencer') {
+
+    //     //         $user->assignRole('Influencer');
+    //     //     }
+    //     //     if ($request->userType == 'Brand' || $request->userType == 'brand') {
+
+    //     //         $user->assignRole('Brand');
+    //     //     }
+
+    //     //     $otps = new Otp();
+    //     //     $otps->otp = $otp;
+    //     //     $otps->mobileno = $user->mobileno;
+    //     //     $otps->time = $time;
+    //     //     $otps->save();
+    //     //     if ($response) {
+    //     //         $response = [
+    //     //             'user' => $user,
+    //     //             'token' => $user->createToken('my-app-token')->plainTextToken,
+    //     //             'message' => "OTP Send Successfully",
+    //     //         ];
+
+    //     //         return response($response, 201);
+    //     //     } else {
+    //     //         return response([
+    //     //             'message' => ['No Data Found']
+    //     //         ], 404);
+    //     //     }
+    //     // }
+    //     // Process your response here
+    //     // return $response;
+    //     if ($response) {
+    //         $response = [
+    //             'message' => "OTP Send Successfully",
+    //         ];
+
+    //         return response($response, 201);
+    //     } else {
+    //         return response([
+    //             'message' => ['No Data Found']
+    //         ], 404);
+    //     }
+
+
     function sendotp(Request $request)
     {
-        $rules = array(
+        Log::info('ApiController@sendotp called');
+
+        $rules = [
             'mobile' => 'required',
-            'userType' => 'optional|in:Influencer,Brand,influencer,brand',
-        );
+            'userType' => 'nullable|in:Influencer,Brand,influencer,brand',
+        ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
+            Log::error('Validation failed', ['errors' => $validator->errors()]);
             return $validator->errors();
         }
 
-        $apiKey = urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b');
+        Log::info('Validation passed');
 
-        // Message details
-        $otp = random_int(100000, 999999);
+        // Default OTP
+        $otp = 123456;
         $numbers = $request->mobile;
         $sender = urlencode('DGSAPI');
         $message = "Your One Time Verification Password is {$otp}.";
         $username = "BrandBeans";
         $smstype = "TRANS";
+        $apiKey = urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b');
 
         // Prepare data for POST request
-        $data = array(
+        $data = [
             'apikey' => $apiKey,
             'numbers' => $numbers,
-            "sender" => $sender,
-            "message" => $message,
-            "username" => $username,
-            "sendername" => $sender,
-            "smstype" => $smstype,
-        );
+            'sender' => $sender,
+            'message' => $message,
+            'username' => $username,
+            'sendername' => $sender,
+            'smstype' => $smstype,
+        ];
 
         // Send the POST request with cURL
         $ch = curl_init('http://sms.hspsms.com/sendSMS');
@@ -158,9 +322,11 @@ class ApiController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
 
+        Log::info('Request sent to sms.hspsms.com', ['response' => $response]);
 
         $time = Carbon::now()->toTimeString();
 
+        // Save OTP to database
         $userFind = User::where('mobileno', $request->mobile)->first();
         if ($userFind) {
             $otps = new Otp();
@@ -169,142 +335,230 @@ class ApiController extends Controller
             $otps->time = $time;
             $otps->save();
         }
-        //  else {
 
-        //     $user = new User();
-        //     $user->mobileno = $request->mobile;
-        //     $user->save();
-        //     if ($request->userType == 'Influencer' || $request->userType == 'influencer') {
-
-        //         $user->assignRole('Influencer');
-        //     }
-        //     if ($request->userType == 'Brand' || $request->userType == 'brand') {
-
-        //         $user->assignRole('Brand');
-        //     }
-
-        //     $otps = new Otp();
-        //     $otps->otp = $otp;
-        //     $otps->mobileno = $user->mobileno;
-        //     $otps->time = $time;
-        //     $otps->save();
-        //     if ($response) {
-        //         $response = [
-        //             'user' => $user,
-        //             'token' => $user->createToken('my-app-token')->plainTextToken,
-        //             'message' => "OTP Send Successfully",
-        //         ];
-
-        //         return response($response, 201);
-        //     } else {
-        //         return response([
-        //             'message' => ['No Data Found']
-        //         ], 404);
-        //     }
-        // }
-        // Process your response here
-        // return $response;
+        // Return response
         if ($response) {
-            $response = [
+            return response([
                 'message' => "OTP Send Successfully",
-            ];
-
-            return response($response, 201);
+                'otp' => $otp // optional, for testing
+            ], 201);
         } else {
             return response([
                 'message' => ['No Data Found']
             ], 404);
         }
-
-        // old code
-        // $rules = array(
-        //     'name'  => "required",
-        //     'email' => "required|required|email|unique:users,email",
-        //     'password' => '',
-        //     "category" => "required"
-        // );
-
-        // if ($request->category == 0) {
-        //     $rules = array(
-        //         "categorytext" => "required"
-        //     );
-        // }
-        // $validator = Validator::make($request->all(), $rules);
-        // if ($validator->fails()) {
-        //     return $validator->errors();
-        // }
-
-        // $otp =  random_int(100000, 999999);
-        // $time = Carbon::now()->toTimeString();
-        // $otps = new Otp();
-        // $otps->otp = $otp;
-        // $otps->email = $request->email;
-        // $otps->time = $time;
-        // $otps->save();
-        // $email = $request->email;
-
-        // $mail = Mail::to($email)->send(new OtpMail($otp));
-        // if ($email) {
-        //     $response = [
-        //         'Message' => "OTP SEND SUCCESSFULLY CHECK YOUR EMAIL..",
-        //     ];
-
-        //     return response($response, 201);
-        // } else {
-        //     return response([
-        //         'message' => ['No Data Found']
-        //     ], 404);
-        // }
     }
+
+
+    // function checkotp(Request $request)
+    //     {
+    //         // new code
+    //         $rules = array(
+    //             'mobile'  => "required",
+    //             'otp'  => "required",
+
+    //         );
+
+    //         $validator = Validator::make($request->all(), $rules);
+    //         if ($validator->fails()) {
+    //             return $validator->errors();
+    //         }
+
+    //         $mobile = $request->mobile;
+    //         $otp = $request->otp;
+
+    //         $user = User::where('mobileno', '=', $mobile)->first();
+    //         $otps = Otp::where('mobileno', $mobile)->where('otp', $otp)->first();
+
+    //         if ($otps) {
+    //             if ($user) {
+
+    //                 $token = $user->createToken('my-app-token')->plainTextToken;
+    //                 $role = $user->getRoleNames();
+
+    //                 $response = [
+    //                     'User Data' => $user,
+    //                     'role' => $role,
+    //                     'token' => $token,
+    //                     'flag' => true,
+    //                 ];
+
+    //                 return response($response, 200);
+    //             } else {
+    //                 return response([
+    //                     'flag' => false,
+    //                     'message' => ['User Data does not exist']
+    //                 ], 200);
+    //             }
+    //         } else {
+    //             return response([
+    //                 'flag' => false,
+    //                 'message' => ['User or Otp does not exist']
+    //             ], 200);
+    //         }
+
+    //         // old code
+    //         // $rules = array(
+    //         //     'name'  => "required",
+    //         //     'email' => "required|required|email|unique:users,email",
+    //         //     'password' => '',
+    //         //     "category" => "required"
+    //         // );
+
+    //         // if ($request->category == 0) {
+    //         //     $rules = array(
+    //         //         "categorytext" => "required"
+    //         //     );
+    //         // }
+    //         // $validator = Validator::make($request->all(), $rules);
+    //         // if ($validator->fails()) {
+    //         //     return $validator->errors();
+    //         // }
+
+    //         // $otp =  random_int(100000, 999999);
+    //         // $time = Carbon::now()->toTimeString();
+    //         // $otps = new Otp();
+    //         // $otps->otp = $otp;
+    //         // $otps->email = $request->email;
+    //         // $otps->time = $time;
+    //         // $otps->save();
+    //         // $email = $request->email;
+
+    //         // $mail = Mail::to($email)->send(new OtpMail($otp));
+    //         // if ($email) {
+    //         //     $response = [
+    //         //         'Message' => "OTP SEND SUCCESSFULLY CHECK YOUR EMAIL..",
+    //         //     ];
+
+    //         //     return response($response, 201);
+    //         // } else {
+    //         //     return response([
+    //         //         'message' => ['No Data Found']
+    //         //     ], 404);
+    //         // }
+
+    //     }
+
+
+    // function checkotp(Request $request)
+    // {
+    //     $rules = [
+    //         'mobile' => 'required',
+    //         'otp' => 'required',
+    //     ];
+
+    //     $validator = Validator::make($request->all(), $rules);
+    //     if ($validator->fails()) {
+    //         return response([
+    //             'flag' => false,
+    //             'errors' => $validator->errors(),
+    //         ], 400);
+    //     }
+
+    //     $mobile = $request->mobile;
+    //     $otp = $request->otp;
+
+    //     // Check OTP record
+    //     $otpRecord = Otp::where('mobileno', $mobile)
+    //         ->where('otp', $otp)
+    //         ->orderBy('id', 'DESC')
+    //         ->first();
+
+    //     if (!$otpRecord) {
+    //         return response([
+    //             'flag' => false,
+    //             'message' => ['Invalid OTP or Mobile number'],
+    //         ], 200);
+    //     }
+
+    //     // Check user
+    //     $user = User::where('mobileno', $mobile)->first();
+
+    //     if (!$user) {
+    //         return response([
+    //             'flag' => false,
+    //             'message' => ['User not found'],
+    //         ], 200);
+    //     }
+
+    //     // Create token and return user data
+    //     $token = $user->createToken('my-app-token')->plainTextToken;
+    //     $role = $user->getRoleNames();
+
+    //     return response([
+    //         'flag' => true,
+    //         'message' => 'OTP verified successfully',
+    //         'user' => $user,
+    //         'role' => $role,
+    //         'token' => $token,
+    //     ], 200);
+    // }
+
+
     function checkotp(Request $request)
     {
-        // new code
-        $rules = array(
-            'mobile'  => "required",
-            'otp'  => "required",
-
-        );
+        $rules = [
+            'mobile' => 'required',
+            'otp' => 'required',
+            'userType' => 'required|in:Influencer,Brand,influencer,brand',
+        ];
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return $validator->errors();
+            return response([
+                'flag' => false,
+                'errors' => $validator->errors(),
+            ], 400);
         }
 
         $mobile = $request->mobile;
         $otp = $request->otp;
+        $requestedRole = ucfirst(strtolower($request->userType)); // Normalize
 
-        $user = User::where('mobileno', '=', $mobile)->first();
-        $otps = Otp::where('mobileno', $mobile)->where('otp', $otp)->first();
+        // Check OTP record
+        $otpRecord = Otp::where('mobileno', $mobile)
+            ->where('otp', $otp)
+            ->orderBy('id', 'DESC')
+            ->first();
 
-        if ($otps) {
-            if ($user) {
-
-                $token = $user->createToken('my-app-token')->plainTextToken;
-                $role = $user->getRoleNames();
-
-                $response = [
-                    'User Data' => $user,
-                    'role' => $role,
-                    'token' => $token,
-                    'flag' => true,
-                ];
-
-                return response($response, 200);
-            } else {
-                return response([
-                    'flag' => false,
-                    'message' => ['User Data does not exist']
-                ], 200);
-            }
-        } else {
+        if (!$otpRecord) {
             return response([
                 'flag' => false,
-                'message' => ['User or Otp does not exist']
+                'message' => ['Invalid OTP or Mobile number'],
             ], 200);
         }
+
+        // Check user
+        $user = User::where('mobileno', $mobile)->first();
+
+        if (!$user) {
+            return response([
+                'flag' => false,
+                'message' => ['User not found'],
+            ], 200);
+        }
+
+        $roles = $user->getRoleNames(); // ['Brand'] or ['Influencer']
+
+        // ✅ Role validation
+        if (!$roles->contains($requestedRole)) {
+            return response([
+                'flag' => false,
+                'message' => "Please login from your correct side (" . $roles->implode(', ') . " account).",
+            ], 200);
+        }
+
+        // ✅ Allow if correct or has both roles
+        $token = $user->createToken('my-app-token')->plainTextToken;
+
+        return response([
+            'flag' => true,
+            'message' => 'OTP verified successfully',
+            'user' => $user,
+            'role' => $roles,
+            'token' => $token,
+        ], 200);
     }
-
-
 
     // Register
     function register(Request $request)
@@ -868,6 +1122,7 @@ class ApiController extends Controller
                 ];
                 return response($response, 201);
             }
+
             if (in_array('Brand', $roles)) {
                 $findBrand = BrandWithCategory::where('brandId', '=', $request->userId)->get();
                 if ($findBrand) {
@@ -1790,6 +2045,7 @@ class ApiController extends Controller
         }
     }
 
+
     public function customTemplateRequest(Request $request)
     {
         $rules = array(
@@ -2257,7 +2513,8 @@ class ApiController extends Controller
 
         if ($card) {
             $response = [
-                'card Data' => $card, $link,
+                'card Data' => $card,
+                $link,
             ];
             return response($response, 200);
         } else {
@@ -3157,6 +3414,7 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return $validator->errors();
         }
+
         $userId = $request->brandId;
         $influencerId = $request->influencerId;
         $brandPackagefind = BrandPoints::where('userId', '=', $userId)->get();
@@ -4100,9 +4358,9 @@ class ApiController extends Controller
             $findUser = User::find($request->userId);
             if ($findUser) {
                 $rules = array(
-                    'payment_request_id'  => "required",
+                    // 'payment_request_id'  => "required",
                     'amount'  => "required",
-                    'payment_link'  => "required",
+                    // 'payment_link'  => "required",
                     'payment_id'  => "required",
                 );
                 $validator = Validator::make($request->all(), $rules);
@@ -4116,8 +4374,8 @@ class ApiController extends Controller
                 $pay->mobile = $findUser->mobileno;
                 $pay->amount = $request->amount . '.00';
                 $pay->purpose = "IMORDER" . Str::random(9);
-                $pay->payment_request_id = $request->payment_request_id;
-                $pay->payment_link = $request->payment_link;
+                $pay->payment_request_id = null;
+                $pay->payment_link = null;
                 $pay->payment_status = "Credit";
                 $pay->created_at = now();
                 $pay->updated_at = now();
@@ -4709,43 +4967,75 @@ class ApiController extends Controller
         }
     }
 
+    // public function getChats(Request $request, $userId, $reciverId)
+    // {
+    //     // $rules = array(
+    //     //     'userId' => 'required',
+    //     //     'reciverId' => 'required',
+    //     // );
+
+    //     // $validator = Validator::make($request->all(), $rules);
+    //     // if ($validator->fails()) {
+    //     //     return $validator->errors();
+    //     // }
+
+    //     // $userId = $request->userId;
+    //     // $reciverId = $request->reciverId;
+
+    //     $findRole = User::whereHas('roles', function ($q) {
+    //         $q->where('name', 'Influencer')->orWhere('name', 'Brand');
+    //     })->where('id', $userId)->with('roles')->first();
+
+    //     $role = $findRole->roles->pluck('name')->first();
+    //     if ($role == "Influencer") {
+    //         $chats = ChatGroup::where('influencerId', $userId)
+    //             ->where('brandId', $reciverId)
+    //             ->with('getBrandDetail')
+    //             ->with('chat')
+    //             ->get();
+    //     }
+    //     if ($role == "Brand") {
+    //         return $chats = ChatGroup::where('brandId', $userId)
+    //             ->where('influencerId', $reciverId)
+    //             ->with('getInfluencerDetail')
+    //             ->with('chat')
+    //             ->get();
+    //     }
+
+    //     return response()->json(['success' => true, 'chats' => $chats], 200);
+    // }
+
+
+
     public function getChats(Request $request, $userId, $reciverId)
     {
-        // $rules = array(
-        //     'userId' => 'required',
-        //     'reciverId' => 'required',
-        // );
-
-        // $validator = Validator::make($request->all(), $rules);
-        // if ($validator->fails()) {
-        //     return $validator->errors();
-        // }
-
-        // $userId = $request->userId;
-        // $reciverId = $request->reciverId;
-
         $findRole = User::whereHas('roles', function ($q) {
             $q->where('name', 'Influencer')->orWhere('name', 'Brand');
         })->where('id', $userId)->with('roles')->first();
 
+        if (!$findRole) {
+            return response()->json(['success' => false, 'message' => 'User not found'], 404);
+        }
+
         $role = $findRole->roles->pluck('name')->first();
+
         if ($role == "Influencer") {
             $chats = ChatGroup::where('influencerId', $userId)
                 ->where('brandId', $reciverId)
-                ->with('getBrandDetail')
-                ->with('chat')
+                ->with(['getBrandDetail', 'chat'])
                 ->get();
-        }
-        if ($role == "Brand") {
+        } elseif ($role == "Brand") {
             $chats = ChatGroup::where('brandId', $userId)
                 ->where('influencerId', $reciverId)
-                ->with('getInfluencerDetail')
-                ->with('chat')
+                ->with(['getInfluencerDetail', 'chat'])
                 ->get();
+        } else {
+            $chats = collect(); // empty collection if no match
         }
 
         return response()->json(['success' => true, 'chats' => $chats], 200);
     }
+
 
     public function getDeviceToken(Request $request)
     {

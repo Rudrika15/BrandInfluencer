@@ -92,52 +92,109 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+
+    //     $this->validate($request, [
+    //         'name' => 'required',
+    //         'email' => 'required|email|unique:users,email',
+    //         // 'password' => 'required|same:confirm-password',
+    //         'roles' => 'required',
+    //         'mobileno' => 'required',
+    //     ]);
+
+    //     try {
+    //         $input = $request->all();
+    //         $input['password'] = Hash::make(isset($input['password']) ? $input['password'] : '123456');
+
+    //         $input['username'] = $input['name'];
+    //         $input['package'] = "FREE";
+    //         $user = User::create($input);
+    //         $user->assignRole($request->input('roles'));
+    //         if ($request->profilePhoto) {
+    //             $user->profilePhoto = time() . '.' . $request->profilePhoto->extension();
+    //             $request->profilePhoto->move(public_path('profile'), $user->profilePhoto);
+    //         }
+
+    //         $user->save();
+
+    //         $userUpdate  = User::find($user->id);
+    //         $userUpdate->assignRole('User');
+    //         $userUpdate->save();
+
+    //         $card = new CardsModels();
+    //         $card->user_id = $user->id;
+    //         $card->save();
+
+    //         $payment = new Payment();
+    //         $payment->card_id = $card->id;
+    //         $payment->save();
+
+    //         $links = new Link();
+    //         $links->card_id  = $card->id;
+    //         $links->phone1  = $user->mobileno;
+    //         $links->save();
+    //         return redirect()->route('users.index')
+    //             ->with('success', 'User created successfully');
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            // 'password' => 'required|same:confirm-password',
             'roles' => 'required',
             'mobileno' => 'required',
         ]);
 
         try {
-            $input = $request->all();
-            // $input['password'] = Hash::make($input['password']);
+            $user = new User();
+            $user->name = $request->name;
+            $user->username = $request->name;
+            $user->email = $request->email;
+            $user->mobileno = $request->mobileno;
+            $user->password = Hash::make($request->password ?? '123456');
+            $user->package = "FREE";
 
-            $input['username'] = $input['name'];
-            $input['package'] = "FREE";
-            $user = User::create($input);
-            $user->assignRole($request->input('roles'));
-            if ($request->profilePhoto) {
-                $user->profilePhoto = time() . '.' . $request->profilePhoto->extension();
-                $request->profilePhoto->move(public_path('profile'), $user->profilePhoto);
+            // Upload profile photo if exists
+            if ($request->hasFile('profilePhoto')) {
+                $fileName = time() . '.' . $request->profilePhoto->extension();
+                $request->profilePhoto->move(public_path('profile'), $fileName);
+                $user->profilePhoto = $fileName;
             }
+
             $user->save();
 
-            $userUpdate  = User::find($user->id);
-            $userUpdate->assignRole('User');
-            $userUpdate->save();
+            // Assign role
+            $user->assignRole($request->input('roles'));
+            $user->assignRole('User');
 
+            // Create card
             $card = new CardsModels();
             $card->user_id = $user->id;
             $card->save();
 
+            // Create payment
             $payment = new Payment();
             $payment->card_id = $card->id;
             $payment->save();
 
+            // Create link
             $links = new Link();
-            $links->card_id  = $card->id;
-            $links->phone1  = $user->mobileno;
+            $links->card_id = $card->id;
+            $links->phone1 = $user->mobileno;
             $links->save();
+
             return redirect()->route('users.index')
                 ->with('success', 'User created successfully');
         } catch (\Throwable $th) {
             throw $th;
         }
     }
+
 
     /**
      * Display the specified resource.

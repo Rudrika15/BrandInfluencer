@@ -62,19 +62,23 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Photo</label><span style="color: red">*</span>
+                                    <label for="photo" class="form-label">Photo</label><span style="color: red">*</span>
                                     <div class="row">
                                         <div class="col-md-7">
-                                            <input type="file" accept="image/*" onchange="readURL(this,'#img1')" class="form-control" id="image" name="photo" require>
+                                            <input type="file" accept="image/*" onchange="readURL(this,'#img1')" class="form-control" id="photo" name="photo" required>
+                                            @error('photo')
+                                                <span style="color:red;">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-5">
-                                            <label for="image"></label>
-                                            <img src="{{ url('images/default.jpg') }}" alt="{{ __('main image') }}" id="img1" style='min-height:100px;min-width:150px;max-height:100px;max-width:150px'>
+                                            <label for="photo"></label>
+                                            <img src="{{ url('images/default.jpg') }}" alt="main image" id="img1" style="min-height:100px;min-width:150px;max-height:100px;max-width:150px">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                         {{-- <div class="mb-3">
                             <label for="rule" class="form-label">Rule</label>
@@ -91,15 +95,14 @@
 
                         <div class="mb-3">
                             <label for="targetGender" class="form-label">Target Gender</label>
-
-                            <select name="targetGender" value="{{ old('targetGender') }}" id="" class="form-control">
+                            <select name="targetGender" id="targetGender" class="form-control">
                                 <option disabled selected>--Select your Option--</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Both">Both</option>
+                                <option value="Male" {{ old('targetGender', $campaign->targetGender ?? '') == 'Male' ? 'selected' : '' }}>Male</option>
+                                <option value="Female" {{ old('targetGender', $campaign->targetGender ?? '') == 'Female' ? 'selected' : '' }}>Female</option>
+                                <option value="Both" {{ old('targetGender', $campaign->targetGender ?? '') == 'Both' ? 'selected' : '' }}>Both</option>
                             </select>
                             @error('targetGender')
-                                <span style="color: red">{{ $errors->first('targetGender') }}</span>
+                                <span style="color: red">{{ $message }}</span>
                             @enderror
                         </div>
 

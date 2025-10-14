@@ -120,6 +120,7 @@ class DashboardController extends Controller
             $userData->state = $request->state;
             $userData->city = $request->city;
             $userData->about = $request->about;
+            $userData->mobileno = $request->mobileno;
 
             if ($request->hasFile('profilePhoto')) {
                 $userData->profilePhoto = time() . '.' . $request->profilePhoto->extension();

@@ -10,61 +10,57 @@ class BrandInfluencerNotificationController extends Controller
 {
     public function index()
     {
-        $roles = Auth::user()->roles->pluck('name');
+        $user = Auth::user();
+        $roles = $user->roles->pluck('name');
+        $userId = $user->id;
 
         if ($roles->contains('Influencer')) {
-            $notificationsAll = BrandInfluencerNotification::orderBy('created_at', 'desc')
-                ->where(function ($q) {
-                    $q->where('visible', 'I')
-                        ->orWhere('userId', Auth::id());
-                })
-                ->paginate(10); // ✅ pagination (10 per page)
-
-            foreach ($notificationsAll as $notification) {
-                $notification->is_read = 'No';
-                $notification->save();
-            }
-
-            $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
-                ->where('type', 'General')
-                ->where('visible', 'I')
-                ->where('userId', Auth::id())
-                ->paginate(10);
-
-            $notificationsCampaign = BrandInfluencerNotification::orderBy('created_at', 'desc')
-                ->where('type', 'Campaign')
-                ->where('visible', 'I')
-                ->paginate(10);
+            $visible = 'I';
+        } elseif ($roles->contains('Brand')) {
+            $visible = 'B';
+        } else {
+            abort(403, 'Unauthorized');
         }
 
-        if ($roles->contains('Brand')) {
-            $notificationsAll = BrandInfluencerNotification::orderBy('created_at', 'desc')
-                ->where(function ($q) {
-                    $q->where('visible', 'B')
-                        ->orWhere('userId', Auth::id());
-                })
-                ->paginate(10);
+        // ✅ All Notifications
+        $notificationsAll = BrandInfluencerNotification::orderBy('created_at', 'desc')
+            ->where(function ($q) use ($visible, $userId) {
+                $q->where('visible', $visible)
+                    ->where('userId', $userId);
+            })
+            ->paginate(10);
 
-            foreach ($notificationsAll as $notification) {
-                $notification->is_read = 'No';
-                $notification->save();
-            }
-
-            $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
-                ->where('type', 'General')
-                ->where('visible', 'B')
-                ->where('userId', Auth::id())
-                ->paginate(10);
-
-            $notificationsCampaign = BrandInfluencerNotification::orderBy('created_at', 'desc')
-                ->where('type', 'Campaign')
-                ->where('visible', 'B')
-                ->orWhere('userId', Auth::id())
-                ->paginate(10);
+        // ✅ Mark all as unread (if required)
+        foreach ($notificationsAll as $notification) {
+            $notification->is_read = 'No';
+            $notification->save();
         }
 
-        return view('influencer.notifications.index', compact('notificationsAll', 'notificationsGeneral', 'notificationsCampaign'));
+        // ✅ General Notifications
+        $notificationsGeneral = BrandInfluencerNotification::orderBy('created_at', 'desc')
+            ->where('type', 'General')
+            ->where(function ($q) use ($visible, $userId) {
+                $q->where('visible', $visible)
+                    ->where('userId', $userId);
+            })
+            ->paginate(10);
+
+        // ✅ Campaign Notifications
+        $notificationsCampaign = BrandInfluencerNotification::orderBy('created_at', 'desc')
+            ->where('type', 'Campaign')
+            ->where(function ($q) use ($visible, $userId) {
+                $q->where('visible', $visible)
+                    ->where('userId', $userId);
+            })
+            ->paginate(10);
+
+        return view('influencer.notifications.index', compact(
+            'notificationsAll',
+            'notificationsGeneral',
+            'notificationsCampaign'
+        ));
     }
+
 
 
 
