@@ -183,14 +183,55 @@
                             <div class="content">
                                 <p>{{ $name }}</p>
                                 <span>{{ $followers }} Followers</span>
-                                <div class="explore_btn">
-                                    <a href="{{ route('brand.influencerProfile', [$item->id, $item->userId]) }}" class="custombtn highlighbtn">View Profile</a>
+
+                                @php
+                                    $catIds = json_decode($inf->categoryId ?? '[]');
+                                    $cats = \App\Models\CategoryInfluencer::whereIn('id', $catIds)->pluck('name');
+                                @endphp
+
+                                <div class="mt-2 d-flex flex-wrap gap-1">
+                                    @foreach ($cats as $cat)
+                                        <span class="badge bg-primary category-badge">{{ $cat }}</span>
+                                    @endforeach
+                                </div>
+
+                                {{-- 👇 View Profile Button --}}
+                                <div class="explore_btn mt-3">
+                                    <a href="{{ route('brand.influencerProfile', [$item->id, $item->userId]) }}" class="custombtn highlighbtn">
+                                        View Profile
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
             </div>
+
+            <style>
+                .category-badge {
+                    display: inline-block;
+                    width: fit-content;
+                    font-size: 12px;
+                    padding: 4px 8px;
+                    border-radius: 10px;
+                }
+
+                .explore_btn a {
+                    display: inline-block;
+                    padding: 6px 14px;
+                    background-color: #007bff;
+                    color: #fff;
+                    border-radius: 6px;
+                    font-size: 13px;
+                    text-decoration: none;
+                }
+
+                .explore_btn a:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+
+
         @endrole
 
     </div>

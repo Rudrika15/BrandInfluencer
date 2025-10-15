@@ -349,6 +349,7 @@
                 <button onclick="handleDropdownClicked(event)">
                     <span class="material-symbols-outlined"> account_circle </span>
                     {{ Auth::user()->name }}
+                    {{ Auth::user()->roles->pluck('name')->first() }}
                     <span id="dropdown-icon" class="chevron material-symbols-outlined"> expand_more </span>
                 </button>
                 <section class="dropdown-menu__labels">

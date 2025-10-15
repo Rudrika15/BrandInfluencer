@@ -128,29 +128,35 @@
                         <select name="influencerCategory[]" id="categoryInfluencer" multiple class="form-control">
                             <option disabled>Select Your Category</option>
                             @foreach ($influencerCategories as $influencer)
-                                <option value="{{ $influencer->id }}">{{ $influencer->name }}</option>
+                                <option value="{{ $influencer->id }}" {{ collect(old('influencerCategory'))->contains($influencer->id) ? 'selected' : '' }}>
+                                    {{ $influencer->name }}
+                                </option>
                             @endforeach
                         </select>
-                        <small class="text-muted "> You can select multiple categories with ctrl + click</small>
+                        <small class="text-muted"> You can select multiple categories with ctrl + click</small>
                         <br>
                         @error('influencerCategory')
                             <strong class="text-danger">{{ $message }}</strong>
                         @enderror
                     </div>
+
                     <div id="brandCategory">
                         <select name="brandCategory[]" id="categoryBrand" multiple class="form-control">
                             <option disabled>Select Your Category</option>
                             @foreach ($brandCategories as $brand)
-                                <option value="{{ $brand->id }}">{{ $brand->categoryName }}</option>
+                                <option value="{{ $brand->id }}" {{ collect(old('brandCategory'))->contains($brand->id) ? 'selected' : '' }}>
+                                    {{ $brand->categoryName }}
+                                </option>
                             @endforeach
                         </select>
-                        <small class="text-muted "> You can select multiple categories with ctrl + click</small>
+                        <small class="text-muted"> You can select multiple categories with ctrl + click</small>
                         <br>
                         @error('brandCategory')
                             <strong class="text-danger">{{ $message }}</strong>
                         @enderror
                     </div>
                 </div>
+
                 <br>
                 {{-- <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Do you have Refer Code??" class="" id="refer" name="refer">

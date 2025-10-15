@@ -62,11 +62,11 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="rule" class="form-label">Rule</label>
                                 <input type="text" class="form-control" id="rule" value="{{ $campaign->rule }}"
                                     name="rule" required>
-                            </div>
+                            </div> --}}
 
                             <div class="mb-3">
                                 <label for="eligibleCriteria" class="form-label">Eligible Criteria</label>
@@ -104,11 +104,11 @@
                                     id="applyForLastDate" name="applyForLastDate" required>
                             </div>
 
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="task" class="form-label">Task</label>
                                 <input type="text" class="form-control" value="{{ $campaign->task }}" id="task"
                                     name="task" required>
-                            </div>
+                            </div> --}}
 
                             <div class="mb-3">
                                 <label for="maxApplication" class="form-label">Max Application</label>

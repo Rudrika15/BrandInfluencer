@@ -63,7 +63,7 @@
 
                 </div>
             @else
-                <div class="text-center">
+                <div class="text-align-left">
                     <div style="margin-bottom: 50px;">
                         <p>[If you want find top most related influencer for your campaign please
                             update your profile and select your brand category]</p>

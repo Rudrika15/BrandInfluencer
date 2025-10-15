@@ -331,7 +331,7 @@ class UserController extends Controller
             if ($package) {
                 $query->where('package', 'LIKE', '%' . $package . '%');
             }
-        })->orderBy('id', 'DESC')->paginate(10);
+        })->orderBy('name', 'ASC')->paginate(10);
 
         return view('admin.users.assignRoles', compact('users', 'userRoles'));
     }

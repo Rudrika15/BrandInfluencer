@@ -154,7 +154,8 @@ class DashboardController extends Controller
                 $influencer->save();
             }
 
-            return redirect()->back()->with('success', 'Details Updated successfully');
+            // return redirect()->back()->with('success', 'Details Updated successfully');
+            return redirect()->route('profile', Auth::user()->id)->with('success', 'Details Updated successfully');
         } catch (\Throwable $th) {
             throw $th;
         }

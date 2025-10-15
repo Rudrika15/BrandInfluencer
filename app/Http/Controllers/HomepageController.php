@@ -18,29 +18,98 @@ class HomepageController extends Controller
 {
     //
 
-    function index(Request $request)
+    // function index(Request $request)
+    // {
+
+
+    //     $roles = Auth::user()->roles->pluck('name');
+
+    //     // influencer
+
+    //     // return $applied = Apply::where('userId', Auth::user()->id)->get(["campaignId"])->toArray();
+    //     $applied = Apply::where('userId', Auth::user()->id)->get();
+
+    //     // foreach ($applied as $apply) {
+    //     // }
+
+    //     // $brands = User::whereHas(
+    //     //     'roles',
+    //     //     function ($q) {
+    //     //         $q->where('name', 'Brand');
+    //     //     }
+    //     // )->whereHas('campaign',)->with('campaign')
+    //     //     ->whereNotIn('id', $applied)
+    //     //     ->get();
+
+    //     $appliedIds = Arr::pluck($applied, 'campaignId');
+
+    //     $campaigns = Campaign::whereNotIn('id', $appliedIds)
+    //         ->where('startDate', '<=', now())
+    //         ->where('endDate', '>=', now())
+    //         ->orderBy('created_at', 'desc')
+    //         ->get();
+
+    //     // brand 
+    //     $category = CategoryInfluencer::all();
+
+    //     $categoryId = $request->input('category');
+    //     $type = $request->input('type');
+
+    //     // Initialize the query to get users with the 'Influencer' role
+    //     $influencer = User::whereHas('roles', function ($q) {
+    //         $q->where('name', 'Influencer');
+    //     })->with('influencer')->whereHas('influencer');
+
+    //     // Apply category filter if specified
+    //     if (!empty($categoryId) && is_array($categoryId) && count($categoryId) > 0) {
+    //         $influencer->whereHas('influencer', function ($q) use ($categoryId) {
+    //             $q->where(function ($q) use ($categoryId) {
+    //                 foreach ($categoryId as $category) {
+    //                     $q->orWhereJsonContains('categoryId', $category);
+    //                 }
+    //             });
+    //         });
+    //     }
+
+    //     // Apply type filters
+    //     if ($type == "is_trending") {
+    //         $influencer->whereHas('influencer', function ($q) {
+    //             $q->where('is_trending', 'on');
+    //         });
+    //     } elseif ($type == "is_featured") {
+    //         $influencer->whereHas('influencer', function ($q) {
+    //             $q->where('is_featured', 'on');
+    //         });
+    //     } elseif ($type == "is_brandBeansVerified") {
+    //         $influencer->whereHas('influencer', function ($q) {
+    //             $q->where('is_brandBeansVerified', 'on');
+    //         });
+    //     }
+
+    //     // $influencer->whereHas('influencer', function ($q) {
+    //     //     $q->where('is_trending', 'on');
+    //     // });
+
+    //     // Get the results
+    //     $influencer = $influencer->get();
+
+
+    //     if ($roles->contains('Brand')) {
+    //         session(['role' => 'brand']);
+    //     }
+    //     if ($roles->contains('Influencer')) {
+    //         session(['role' => 'influencer']);
+    //     }
+
+    //     return view('home', compact('campaigns', 'influencer', 'category'));
+    // }
+
+
+    public function index(Request $request)
     {
-
-
         $roles = Auth::user()->roles->pluck('name');
 
-        // influencer
-
-        // return $applied = Apply::where('userId', Auth::user()->id)->get(["campaignId"])->toArray();
         $applied = Apply::where('userId', Auth::user()->id)->get();
-
-        // foreach ($applied as $apply) {
-        // }
-
-        // $brands = User::whereHas(
-        //     'roles',
-        //     function ($q) {
-        //         $q->where('name', 'Brand');
-        //     }
-        // )->whereHas('campaign',)->with('campaign')
-        //     ->whereNotIn('id', $applied)
-        //     ->get();
-
         $appliedIds = Arr::pluck($applied, 'campaignId');
 
         $campaigns = Campaign::whereNotIn('id', $appliedIds)
@@ -49,18 +118,20 @@ class HomepageController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // brand 
         $category = CategoryInfluencer::all();
 
         $categoryId = $request->input('category');
         $type = $request->input('type');
 
-        // Initialize the query to get users with the 'Influencer' role
+        // influencers with categories
         $influencer = User::whereHas('roles', function ($q) {
             $q->where('name', 'Influencer');
-        })->with('influencer')->whereHas('influencer');
+        })
+            ->with(['influencer' => function ($q) {
+                $q->select('id', 'userId', 'categoryId');
+            }])
+            ->whereHas('influencer');
 
-        // Apply category filter if specified
         if (!empty($categoryId) && is_array($categoryId) && count($categoryId) > 0) {
             $influencer->whereHas('influencer', function ($q) use ($categoryId) {
                 $q->where(function ($q) use ($categoryId) {
@@ -71,7 +142,6 @@ class HomepageController extends Controller
             });
         }
 
-        // Apply type filters
         if ($type == "is_trending") {
             $influencer->whereHas('influencer', function ($q) {
                 $q->where('is_trending', 'on');
@@ -86,13 +156,7 @@ class HomepageController extends Controller
             });
         }
 
-        // $influencer->whereHas('influencer', function ($q) {
-        //     $q->where('is_trending', 'on');
-        // });
-
-        // Get the results
         $influencer = $influencer->get();
-
 
         if ($roles->contains('Brand')) {
             session(['role' => 'brand']);
@@ -103,6 +167,7 @@ class HomepageController extends Controller
 
         return view('home', compact('campaigns', 'influencer', 'category'));
     }
+
 
     public function updateSession(Request $request)
     {

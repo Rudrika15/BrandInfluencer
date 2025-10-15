@@ -19,32 +19,32 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="{{ route('influencer.store') }}" enctype="multipart/form-data" method="post"
-                            style="margin-top: 15px;">
+                        <form action="{{ route('influencer.store') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
                             @csrf
 
+                            {{-- Name Field --}}
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
+                            {{-- Category Icon Field --}}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Category Icon</label>
+                                        <label for="image" class="form-label">Category Icon</label>
                                         <div class="row">
                                             <div class="col-md-7">
-                                                <input type="file" onchange="readURL(this,'#img1')" class="form-control"
-                                                    id="image" name="categoryIcon" require>
+                                                <input type="file" onchange="readURL(this,'#img1')" class="form-control @error('categoryIcon') is-invalid @enderror" id="image" name="categoryIcon">
+                                                @error('categoryIcon')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <div class="col-md-5">
-                                                <label for="image"></label>
-                                                <img src="{{ url('images/default.jpg') }}" alt="{{ __('main image') }}"
-                                                    id="img1"
-                                                    style='min-height:100px;min-width:150px;max-height:100px;max-width:150px'>
+                                                <img src="{{ url('images/default.jpg') }}" alt="main image" id="img1" style='min-height:100px;min-width:150px;max-height:100px;max-width:150px'>
                                             </div>
                                         </div>
                                         <div id="warn" style="display: none;">
@@ -52,12 +52,9 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                             <button type="submit" class="btn btn-success btn-sm">Submit</button>
                         </form>
-
                     </div>
                 </div>
             </div>

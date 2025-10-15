@@ -23,37 +23,43 @@
                                     <form action="{{ route('users.assignRole') }}" method="GET">
                                         <div class="row" style="padding-bottom:20px ">
                                             <div class="col-md-4 " style="padding-top:10px ">
-                                                <select name="roleSearch" class="form-control" id="">
-                                                    <option disabled selected>--Search Role wise--</option>
-
+                                                <select name="roleSearch" class="form-control">
+                                                    <option disabled {{ request('roleSearch') ? '' : 'selected' }}>--Search Role wise--</option>
                                                     @foreach ($userRoles as $item)
-                                                        <option>{{ $item->name }}</option>
+                                                        <option value="{{ $item->name }}" {{ request('roleSearch') == $item->name ? 'selected' : '' }}>
+                                                            {{ $item->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
+
                                             <div class="col-md-4 " style="padding-top:10px ">
-                                                <input type="text" name="userName" placeholder="Search by User Name" class="form-control">
+                                                <input type="text" name="userName" value="{{ request('userName') }}" placeholder="Search by User Name" class="form-control">
                                             </div>
+
                                             <div class="col-md-4 " style="padding-top:10px ">
-                                                <input type="text" name="userEmail" placeholder="Search by User Email" class="form-control">
+                                                <input type="text" name="userEmail" value="{{ request('userEmail') }}" placeholder="Search by User Email" class="form-control">
                                             </div>
+
                                             <div class="col-md-4 " style="padding-top:10px ">
-                                                <input type="text" name="mobileNumber" placeholder="Search by User Mobile Number" class="form-control">
+                                                <input type="text" name="mobileNumber" value="{{ request('mobileNumber') }}" placeholder="Search by User Mobile Number" class="form-control">
                                             </div>
+
                                             <div class="col-md-4 " style="padding-top:10px ">
-                                                <select name="package" class="form-control" id="">
-                                                    <option disabled selected>--Search Package wise--</option>
-                                                    <option value="Free">Free</option>
-                                                    <option value="Silver">Silver</option>
+                                                <select name="package" class="form-control">
+                                                    <option disabled {{ request('package') ? '' : 'selected' }}>--Search Package wise--</option>
+                                                    <option value="Free" {{ request('package') == 'Free' ? 'selected' : '' }}>Free</option>
+                                                    <option value="Silver" {{ request('package') == 'Silver' ? 'selected' : '' }}>Silver</option>
                                                 </select>
                                             </div>
+
                                             <div class="col-md-4 " style="padding-top:10px ">
                                                 <button type="submit" class="btn btn-sm btn-success">Submit</button>
                                                 <a href="{{ route('users.assignRole') }}" class="btn btn-sm btn-secondary">Reset</a>
                                             </div>
                                         </div>
-
                                     </form>
+
                                 </div>
                                 <thead>
                                     <tr>

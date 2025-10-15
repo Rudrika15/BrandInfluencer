@@ -13,7 +13,7 @@ class InfluencerPackagesController extends Controller
     public function index()
     {
         $id = Auth::user()->id;
-        $packages = InfluencerPackages::orderBy('id', 'DESC')->where('userId', '=', $id)->get();
+        $packages = InfluencerPackages::orderBy('price', 'DESC')->where('userId', '=', $id)->get();
         return view('influencer.packages.index', \compact('packages'));
     }
 

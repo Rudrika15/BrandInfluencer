@@ -1088,15 +1088,18 @@ class ApiController extends Controller
             $user->mobileno = $request->mobileno;
         }
 
-        if ($request->profilePhoto) {
-            $image = $request->profilePhoto;
-            $user->profilePhoto = time() . '.' . $request->profilePhoto->extension();
-            $request->profilePhoto->move(public_path('profile'), $user->profilePhoto);
+        if ($request->hasFile('profilePhoto')) {
+            $image = $request->file('profilePhoto');
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('profile'), $fileName);
+            $user->profilePhoto = $fileName;
         }
+
 
         if ($request->category) {
             $roleCollection = $user->getRoleNames();
             $roles = $roleCollection->toArray();
+
             if (in_array('Influencer', $roles)) {
 
                 $influencerCategory = InfluencerProfile::where('userId', '=', $request->userId)->first();
@@ -1112,7 +1115,7 @@ class ApiController extends Controller
                 $influencerCategory->pinCode = $request->pinCode;
                 $influencerCategory->instagramFollowers = $request->instagramFollowers;
                 $influencerCategory->youtubeChannelUrl = $request->youtubeChannelUrl;
-                $influencerCategory->youtubeSubscriber = $request->youtubeChannelUrl;
+                $influencerCategory->youtubeSubscriber = $request->youtubeSubscriber;
                 $influencerCategory->categoryId = $request['category'];
                 $influencerCategory->save();
 
@@ -3331,19 +3334,20 @@ class ApiController extends Controller
 
         $campaign = new Campaign();
         $campaign->title = $request->title;
+        $campaign->campaignType = $request->campaignType;
         $campaign->userId = $request->userId;
         $campaign->detail = $request->detail;
         $campaign->price = $request->price;
         $campaign->photo = time() . '.' . $request->photo->extension();
         $request->photo->move(public_path('campaignPhoto'), $campaign->photo);
-        $campaign->rule = $request->rule;
+        // $campaign->rule = $request->rule;
         $campaign->eligibleCriteria = $request->eligibleCriteria;
         $campaign->targetGender = $request->targetGender;
         $campaign->targetAgeGroup = $request->targetAgeGroup;
         $campaign->startDate = $request->startDate;
         $campaign->endDate = $request->endDate;
         $campaign->applyForLastDate = $request->applyForLastDate;
-        $campaign->task = $request->task;
+        // $campaign->task = $request->task;
         $campaign->maxApplication = $request->maxApplication;
         $campaign->status = "Active";
 
@@ -3531,6 +3535,9 @@ class ApiController extends Controller
         if ($request->title) {
             $campaign->title = $request->title;
         }
+        if ($request->campaignType) {
+            $campaign->campaignType = $request->campaignType;
+        }
         if ($request->detail) {
             $campaign->detail = $request->detail;
         }
@@ -3541,9 +3548,9 @@ class ApiController extends Controller
             $campaign->photo = time() . '.' . $request->photo->extension();
             $request->photo->move(public_path('campaignPhoto'), $campaign->photo);
         }
-        if ($request->rule) {
-            $campaign->rule = $request->rule;
-        }
+        // if ($request->rule) {
+        //     $campaign->rule = $request->rule;
+        // }
         if ($request->eligibleCriteria) {
             $campaign->eligibleCriteria = $request->eligibleCriteria;
         }
@@ -3562,9 +3569,9 @@ class ApiController extends Controller
         if ($request->applyForLastDate) {
             $campaign->applyForLastDate = $request->applyForLastDate;
         }
-        if ($request->task) {
-            $campaign->task = $request->task;
-        }
+        // if ($request->task) {
+        //     $campaign->task = $request->task;
+        // }
         if ($request->maxApplication) {
             $campaign->maxApplication = $request->maxApplication;
         }
@@ -4967,6 +4974,46 @@ class ApiController extends Controller
         }
     }
 
+    // public function chatList($userId)
+    // {
+    //     $user = User::whereHas('roles', function ($q) {
+    //         $q->where('name', 'Influencer')->orWhere('name', 'Brand');
+    //     })->where('id', $userId)->with('roles')->first();
+
+    //     if (!$user) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'User not found or does not have a valid role'
+    //         ], 404);
+    //     }
+
+    //     $role = $user->roles->pluck('name')->first();
+
+    //     $chatListQuery = ChatGroup::where('influencerId', $userId)
+    //         ->orWhere('brandId', $userId)
+    //         ->with(['getInfluencerDetail', 'getBrandDetail']);
+
+    //     $chatList = $chatListQuery->get()->map(function ($chat) use ($role, $userId) {
+    //         // Decide which one to show based on who is logged in
+    //         if ($role == 'Influencer') {
+    //             $chat->user_details = $chat->getBrandDetail;
+    //         } else {
+    //             $chat->user_details = $chat->getInfluencerDetail;
+    //         }
+
+    //         // Remove old keys
+    //         unset($chat->getBrandDetail, $chat->getInfluencerDetail);
+
+    //         return $chat;
+    //     });
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'chatList' => $chatList
+    //     ], 200);
+    // }
+
+
     // public function getChats(Request $request, $userId, $reciverId)
     // {
     //     // $rules = array(
@@ -5089,15 +5136,49 @@ class ApiController extends Controller
 
     public function userProfile($id)
     {
-        $profile = User::find($id);
-        if ($profile) {
-            return response()->json([
-                'user' => $profile
-            ], 200);
-        } else {
-            return response()->json([
-                'error' => 'User not found'
+        $user = User::find($id);
+
+        if (!$user) {
+            return response([
+                'flag' => false,
+                'message' => 'User not found',
             ], 404);
         }
+
+        $roleCollection = $user->getRoleNames();
+        $roles = $roleCollection->toArray();
+
+        // If Influencer
+        if (in_array('Influencer', $roles)) {
+            $profile = User::where('id', $id)
+                ->with('influencer')
+                ->first();
+
+            return response([
+                'User Data' => $profile,
+                'flag' => true,
+                'imagePath' => 'profile/' . $user->profilePhoto,
+            ], 200);
+        }
+
+        // If Brand
+        if (in_array('Brand', $roles)) {
+            $profile = User::where('id', $id)
+                ->with('brandCategory')
+                ->first();
+
+            return response([
+                'User Data' => $profile,
+                'flag' => true,
+                'imagePath' => 'profile/' . $user->profilePhoto,
+            ], 200);
+        }
+
+        // Default if no special role
+        return response([
+            'User Data' => $user,
+            'flag' => true,
+            'imagePath' => 'profile/' . $user->profilePhoto,
+        ], 200);
     }
 }

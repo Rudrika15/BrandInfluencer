@@ -4,20 +4,17 @@
     <div class='container'>
         <div class="card w-100">
             <div class="card-body">
-
-
                 <div class='row'>
                     <div class='col-md-12'>
                         <div class="d-flex justify-content-between mb-3">
                             <div class="p-2">
                                 <h3 class="line-title">Campaigns</h3>
                             </div>
-
                         </div>
                     </div>
                 </div>
-                <div class="container-fluid ">
 
+                <div class="container-fluid">
                     <form action="{{ route('brand.campaign.store') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
                         @csrf
 
@@ -25,29 +22,26 @@
                             <label for="title" class="form-label">Title</label><span style="color: red">*</span>
                             <input type="text" class="form-control" value="{{ old('title') }}" id="title" name="title">
                             @error('title')
-                                <span style="color: red">{{ $errors->first('title') }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
-
                         </div>
+
                         <div class="mb-3">
-                            <label for="campaignType" class="form-label">Campaign Type</label><span style="color: red">*</span>
-                            {{-- radio buttons  for campaign type  --}}
-                            <br>
-                            <input type="radio" name="campaignType" value="Barter" id="Barter" checked {{ old('campaignType') == 'Barter' ? 'checked' : '' }}>
+                            <label for="campaignType" class="form-label">Campaign Type</label><span style="color: red">*</span><br>
+                            <input type="radio" name="campaignType" value="Barter" id="Barter" {{ old('campaignType', 'Barter') == 'Barter' ? 'checked' : '' }}>
                             <label for="Barter">Barter</label>
                             <input type="radio" name="campaignType" value="Paid" id="Paid" {{ old('campaignType') == 'Paid' ? 'checked' : '' }}>
                             <label for="Paid">Paid</label>
                             @error('campaignType')
-                                <span style="color: red">{{ $errors->first('title') }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
-
                         </div>
 
                         <div class="mb-3">
                             <label for="detail" class="form-label">Detail</label><span style="color: red">*</span>
                             <textarea name="detail" id="detail" class="form-control">{{ old('detail') }}</textarea>
                             @error('detail')
-                                <span style="color: red">{{ $errors->first('detail') }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -55,7 +49,7 @@
                             <label for="price" class="form-label">Price</label><span style="color: red">*</span>
                             <input type="number" class="form-control" value="{{ old('price') }}" id="price" name="price">
                             @error('price')
-                                <span style="color: red">{{ $errors->first('price') }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -65,13 +59,12 @@
                                     <label for="photo" class="form-label">Photo</label><span style="color: red">*</span>
                                     <div class="row">
                                         <div class="col-md-7">
-                                            <input type="file" accept="image/*" onchange="readURL(this,'#img1')" class="form-control" id="photo" name="photo" required>
+                                            <input type="file" accept="image/*" onchange="readURL(this,'#img1')" class="form-control" id="photo" name="photo">
                                             @error('photo')
                                                 <span style="color:red;">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="col-md-5">
-                                            <label for="photo"></label>
                                             <img src="{{ url('images/default.jpg') }}" alt="main image" id="img1" style="min-height:100px;min-width:150px;max-height:100px;max-width:150px">
                                         </div>
                                     </div>
@@ -79,17 +72,11 @@
                             </div>
                         </div>
 
-
-                        {{-- <div class="mb-3">
-                            <label for="rule" class="form-label">Rule</label>
-                            <input type="text" class="form-control" id="rule" name="rule">
-                        </div> --}}
-
                         <div class="mb-3">
                             <label for="eligibleCriteria" class="form-label">Eligible Criteria</label>
                             <input type="text" class="form-control" value="{{ old('eligibleCriteria') }}" id="eligibleCriteria" name="eligibleCriteria">
                             @error('eligibleCriteria')
-                                <span style="color: red">{{ $errors->first('eligibleCriteria') }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -97,12 +84,12 @@
                             <label for="targetGender" class="form-label">Target Gender</label>
                             <select name="targetGender" id="targetGender" class="form-control">
                                 <option disabled selected>--Select your Option--</option>
-                                <option value="Male" {{ old('targetGender', $campaign->targetGender ?? '') == 'Male' ? 'selected' : '' }}>Male</option>
-                                <option value="Female" {{ old('targetGender', $campaign->targetGender ?? '') == 'Female' ? 'selected' : '' }}>Female</option>
-                                <option value="Both" {{ old('targetGender', $campaign->targetGender ?? '') == 'Both' ? 'selected' : '' }}>Both</option>
+                                <option value="Male" {{ old('targetGender') == 'Male' ? 'selected' : '' }}>Male</option>
+                                <option value="Female" {{ old('targetGender') == 'Female' ? 'selected' : '' }}>Female</option>
+                                <option value="Both" {{ old('targetGender') == 'Both' ? 'selected' : '' }}>Both</option>
                             </select>
                             @error('targetGender')
-                                <span style="color: red">{{ $message }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -110,27 +97,25 @@
                             <label for="targetAgeGroup" class="form-label">Target Age Group</label>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <input type="number" id="minTargetAgeGroup" class="form-control" min="0" value="{{ old('minTargetAgeGroup') }}" placeholder="minimum age group" name="minTargetAgeGroup">
+                                    <input type="number" id="minTargetAgeGroup" class="form-control" min="0" value="{{ old('minTargetAgeGroup') }}" placeholder="Minimum age" name="minTargetAgeGroup">
                                     @error('minTargetAgeGroup')
-                                        <span style="color: red">{{ $errors->first('minTargetAgeGroup') }}</span>
+                                        <span style="color: red;">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number" class="form-control" id="maxTargetAgeGroup" value="{{ old('maxTargetAgeGroup') }}" placeholder="maximum age group" name="maxTargetAgeGroup">
+                                    <input type="number" class="form-control" id="maxTargetAgeGroup" value="{{ old('maxTargetAgeGroup') }}" placeholder="Maximum age" name="maxTargetAgeGroup">
                                     @error('maxTargetAgeGroup')
-                                        <span style="color: red">{{ $errors->first('maxTargetAgeGroup') }}</span>
+                                        <span style="color: red;">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div class="mb-3">
                             <label for="startDate" class="form-label">Start Date</label>
                             <input type="date" class="form-control" min="{{ date('Y-m-d') }}" value="{{ old('startDate') }}" id="startDate" name="startDate">
                             @error('startDate')
-                                <span style="color: red">{{ $errors->first('startDate') }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -138,7 +123,7 @@
                             <label for="endDate" class="form-label">End Date</label>
                             <input type="date" class="form-control" min="{{ date('Y-m-d') }}" value="{{ old('endDate') }}" id="endDate" name="endDate">
                             @error('endDate')
-                                <span style="color: red;">{{ $errors->first('endDate') }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -146,24 +131,16 @@
                             <label for="applyForLastDate" class="form-label">Apply For Last Date</label>
                             <input type="date" class="form-control" min="{{ date('Y-m-d') }}" value="{{ old('applyForLastDate') }}" id="applyForLastDate" name="applyForLastDate">
                             @error('applyForLastDate')
-                                <span style="color: red">{{ $errors->first('applyForLastDate') }}</span>
+                                <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        {{-- <div class="mb-3">
-                            <label for="task" class="form-label">Task</label>
-                            <input type="text" class="form-control" value="{{ old('task') }}" id="task" name="task">
-
-                        </div> --}}
 
                         <div class="mb-3">
                             <label for="maxApplication" class="form-label">Max Application</label>
                             <input type="number" class="form-control" value="{{ old('maxApplication') }}" id="maxApplication" name="maxApplication">
-                            {{-- @error('maxApplication')
-                                   
-                                        <span style="color: red">{{ $errors->first('maxApplication') }}</span>
-                                   
-                                @enderror --}}
+                            @error('maxApplication')
+                                <span style="color: red;">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <br>
@@ -173,7 +150,6 @@
             </div>
         </div>
     </div>
-
 
     <script>
         function readURL(input, tgt) {
@@ -186,6 +162,4 @@
             }
         }
     </script>
-
-
 @endsection
