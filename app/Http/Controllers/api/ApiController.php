@@ -278,13 +278,9 @@ class ApiController extends Controller
 
     function sendotp(Request $request)
     {
-        Log::info('ApiController@sendotp called');
+        Log::info('ApiController@sendotp called', ['mobile' => $request->mobile]);
 
-        $rules = [
-            'mobile' => 'required',
-            'userType' => 'nullable|in:Influencer,Brand,influencer,brand',
-        ];
-
+        $rules = ['mobile' => 'required'];
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
@@ -294,27 +290,19 @@ class ApiController extends Controller
 
         Log::info('Validation passed');
 
-        // Default OTP
         $otp = 123456;
         $numbers = $request->mobile;
-        $sender = urlencode('DGSAPI');
-        $message = "Your One Time Verification Password is {$otp}.";
-        $username = "BrandBeans";
-        $smstype = "TRANS";
-        $apiKey = urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b');
 
-        // Prepare data for POST request
         $data = [
-            'apikey' => $apiKey,
+            'apikey' => urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b'),
             'numbers' => $numbers,
-            'sender' => $sender,
-            'message' => $message,
-            'username' => $username,
-            'sendername' => $sender,
-            'smstype' => $smstype,
+            'sender' => urlencode('DGSAPI'),
+            'message' => "Your One Time Verification Password is {$otp}.",
+            'username' => "BrandBeans",
+            'sendername' => urlencode('DGSAPI'),
+            'smstype' => "TRANS",
         ];
 
-        // Send the POST request with cURL
         $ch = curl_init('http://sms.hspsms.com/sendSMS');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -322,25 +310,23 @@ class ApiController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
 
-        Log::info('Request sent to sms.hspsms.com', ['response' => $response]);
+        Log::info('SMS API Response', ['response' => $response]);
 
         $time = Carbon::now()->toTimeString();
 
-        // Save OTP to database
-        $userFind = User::where('mobileno', $request->mobile)->first();
-        if ($userFind) {
-            $otps = new Otp();
-            $otps->otp = $otp;
-            $otps->mobileno = $request->mobile;
-            $otps->time = $time;
-            $otps->save();
-        }
+        // ✅ Always store OTP (even if user not found)
+        $otps = new Otp();
+        $otps->otp = $otp;
+        $otps->mobileno = $request->mobile;
+        $otps->time = $time;
+        $otps->save();
 
-        // Return response
+        Log::info('OTP saved successfully', ['mobile' => $request->mobile, 'otp_id' => $otps->id]);
+
         if ($response) {
             return response([
                 'message' => "OTP Send Successfully",
-                'otp' => $otp // optional, for testing
+                'otp' => $otp
             ], 201);
         } else {
             return response([
@@ -348,6 +334,7 @@ class ApiController extends Controller
             ], 404);
         }
     }
+
 
 
     // function checkotp(Request $request)
@@ -499,8 +486,7 @@ class ApiController extends Controller
     {
         $rules = [
             'mobile' => 'required',
-            'otp' => 'required',
-            'userType' => 'required|in:Influencer,Brand,influencer,brand',
+            'otp' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -513,9 +499,9 @@ class ApiController extends Controller
 
         $mobile = $request->mobile;
         $otp = $request->otp;
-        $requestedRole = ucfirst(strtolower($request->userType)); // Normalize
+        $requestedRole = ucfirst(strtolower($request->userType));
 
-        // Check OTP record
+        // ✅ Check OTP in otps table (for both new & existing users)
         $otpRecord = Otp::where('mobileno', $mobile)
             ->where('otp', $otp)
             ->orderBy('id', 'DESC')
@@ -528,19 +514,21 @@ class ApiController extends Controller
             ], 200);
         }
 
-        // Check user
+        // ✅ Check user existence
         $user = User::where('mobileno', $mobile)->first();
 
+        // 🟢 If user not found — new user
         if (!$user) {
             return response([
-                'flag' => false,
-                'message' => ['User not found'],
+                'flag' => true,
+                'is_new_user' => true,
+                'message' => 'OTP verified successfully, new user detected',
             ], 200);
         }
 
-        $roles = $user->getRoleNames(); // ['Brand'] or ['Influencer']
+        // ✅ If user found — verify role
+        $roles = $user->getRoleNames();
 
-        // ✅ Role validation
         if (!$roles->contains($requestedRole)) {
             return response([
                 'flag' => false,
@@ -548,17 +536,20 @@ class ApiController extends Controller
             ], 200);
         }
 
-        // ✅ Allow if correct or has both roles
+        // ✅ Create token for login
         $token = $user->createToken('my-app-token')->plainTextToken;
 
         return response([
             'flag' => true,
             'message' => 'OTP verified successfully',
+            'is_new_user' => false,
             'user' => $user,
             'role' => $roles,
             'token' => $token,
         ], 200);
     }
+
+
 
     // Register
     function register(Request $request)
@@ -568,6 +559,7 @@ class ApiController extends Controller
             "userType" => "required",
             "mobileno" => "required",
             "categoryId" => "required",
+            "email" => "required|required|email|unique:users,email",
         );
 
 
@@ -595,8 +587,6 @@ class ApiController extends Controller
                 $user->assignRole('Brand');
             }
             $user->save();
-
-
 
             if ($request->userType == "influencer" || $request->userType == "Influencer") {
 
@@ -632,6 +622,7 @@ class ApiController extends Controller
                 $role = $user->getRoleNames();
                 $response = [
                     'User Data' => $user,
+                    'role' => $role,
                     'token' => $token,
                     'flag' => false
                 ];
@@ -1095,6 +1086,9 @@ class ApiController extends Controller
             $user->profilePhoto = $fileName;
         }
 
+        $user->save();
+
+
 
         if ($request->category) {
             $roleCollection = $user->getRoleNames();
@@ -1153,7 +1147,6 @@ class ApiController extends Controller
                 }
             }
         }
-        $user->save();
 
 
         if ($user) {
