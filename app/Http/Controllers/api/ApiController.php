@@ -3828,8 +3828,6 @@ class ApiController extends Controller
         })->with('influencer')
             ->where('profilePhoto', '!=', null)->get();
 
-
-
         $response = [
             'status' => 200,
             'featured' => $featuredinfluencer,
@@ -3968,10 +3966,10 @@ class ApiController extends Controller
 
         $rules = array(
             'userId'  => "required",
-            'title'  => "required",
+            // 'title'  => "required",
             'photo'  => "required",
-            'type'  => "required",
-            'details'  => "required",
+            // 'type'  => "required",
+            // 'details'  => "required",
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -3982,11 +3980,11 @@ class ApiController extends Controller
         $influencer = new InfluencerPortfolio();
         if ($influencer) {
             $influencer->userId = $request->userId;
-            $influencer->title = $request->title;
+            // $influencer->title = $request->title;
             $influencer->photo = time() . '.' . $request->photo->extension();
             $request->photo->move(public_path('portfolioPhoto'), $influencer->photo);
-            $influencer->type = $request->type;
-            $influencer->details = $request->details;
+            // $influencer->type = $request->type;
+            // $influencer->details = $request->details;
             $influencer->save();
 
 
@@ -4239,12 +4237,14 @@ class ApiController extends Controller
 
     function influencerPackage()
     {
-        $package = User::with('influencerPackage')->whereHas(
-            'roles',
-            function ($q) {
+        $package = User::with('influencerPackage')
+            ->whereHas('roles', function ($q) {
                 $q->where('name', 'Influencer');
-            }
-        )->whereHas('influencerPackage')->get();
+            })
+            ->whereHas('influencerPackage')
+            ->orderBy('influencerPackage.price', 'asc') // 👈 order by price
+            ->get();
+
         $response = [
             'status' => true,
             'Data' => $package,
@@ -4252,6 +4252,7 @@ class ApiController extends Controller
 
         return response($response, 200);
     }
+
     function influencerPackageById($id)
     {
         $package = User::whereHas(

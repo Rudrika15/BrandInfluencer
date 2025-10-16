@@ -110,11 +110,6 @@
                     @endif --}}
                     @if (count($chats) > 0)
                         @foreach ($chats as $chat)
-                            <input type="hidden" name="groupId" id="group-id" value="{{ $chat->id }}">
-
-                            <input type="hidden" name="influencerId" id="influencerIdForGetChat" value="{{ $chat->influencerId }}">
-                            <input type="hidden" name="brandId" id="brandIdForGetChat" value="{{ $chat->brandId }}">
-
                             <div class="bg-light pt-3 chat-item" style="cursor: pointer;" data-brand-id="{{ $chat->brandId }}" data-influencer-id="{{ $chat->influencerId }}">
                                 <span class="ps-3">
 
@@ -174,8 +169,7 @@
                         <div id="chatFooter" class="p-3 border-top">
                             <form id="sendMessageForm">
                                 @csrf
-                                <input type="hidden" name="brandName" id="selectedReceiverId" value="">
-                                <input type="hidden" name="recevierId" id="recevierId" value="">
+                                <input type="hidden" name="receiverId" id="receiverId" value="">
                                 <input type="hidden" name="groupId" id="groupId" value="">
                                 <div class="input-group">
                                     <input name="message" class="form-control" placeholder="Type a message">
@@ -199,6 +193,9 @@
     <script>
         var roles = @json($findRole);
     </script>
+
+    <!-- Clean overrides: restore first-change behavior using groupId, disable broken handlers -->
+    
     <script>
         $(document).ready(function() {
             $('#chatFooter').hide();
@@ -229,22 +226,20 @@
 
             // When clicking on a chat item
             $('.chat-item').click(function() {
-                var senderId = '{{ Auth::id() }}'; // Assuming you have access to the sender's ID
-                var receiverId = $(this).data('brand-id');
-                console.log('receiverId:', receiverId);
-                var influencerId = $(this).data('influencer-id');
-                var message = " "; // Example message
-                var groupId = $('#group-id').val();
-                console.log('groupId of chat:', groupId);
-                $('#selectedReceiverId').val(receiverId);
-                if (roles.includes('Influencer')) {
+                var senco so {.log('re Aiveuth:',:rgyoiveuIae access to the sender'sinfluenceI                varinfluenceriverId =(this).data('bravar-md)age = " "; // Exampl  m ssag ns   ole.log('recevarigroupIdv=erId:goup-i        r influencerId = $(tcon.oa'-'og)'g;oupId of 
+hat:', g oup           var message = " "; // EReme v i.val();
+ of char );   $('#selectedReceiverId').val(receiverId);
+                if (roles.includes('Ifiluencer')) {
                     $('#recevierId').val(receiverId);
                 }
-                if (roles.includes('Brand')) {
-                    $('#recevierId').val(influencerId);
+                if (roles.includsi('Brand')) {
+                    $('#receviId').val(influencerId);
                 }
                 var receiverName = $(this).find('b').text().trim();
-                $('#receiverName').text(receiverName);
+       ame);
+
+                // Store the chat message
+                storeChatMess ge(groupId,  essag       $('#receiverName').text(receiverName);
 
                 // Store the chat message
                 storeChatMessage(groupId, message);
@@ -287,11 +282,8 @@
                             messageHtml += '</div>';
 
                             // Append the message HTML to the chat body
-                            $('#chatBody').prepend(messageHtml);
-                        });
-
-                        // Assuming the first chat group contains the groupId
-                        $('#groupId').val(response[0].groupId);
+                                  //uming the first chat group contains the groupId
+              (response[0].groupId);
                     },
 
 
@@ -315,11 +307,15 @@
                         console.log(response);
                         // Clear the message input
                         $('#sendMessageForm input[name="message"]').val('');
-                        // Refresh chat messages
+                        //
 
-                        // window.location.reload();
+                        // window.location.reload(); Refresh chat messages
 
-                        var receiverId = $('#brandIdForGetChat').val();
+                       bw.locaForGetChattion.l();
+                        // console.roge'receiverId:', receiverIdload();
+
+                        var receiverId =idIdForGetChForGetChatat').l();
+                        // console.voga'influencerId:', influencerIdl();
                         // console.log('receiverId:', receiverId);
                         var influencerId = $('#influencerIdForGetChat').val();
                         // console.log('influencerId:', influencerId);

@@ -459,7 +459,6 @@
                         <div class="me-5">
                             <button type="button" class="btn btn-info text-white px-5 py-2 me-5" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"> Message </button>
-
                         </div>
                     @endif
                 </div>

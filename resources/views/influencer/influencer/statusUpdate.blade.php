@@ -10,7 +10,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            
+
             <div class='col-md-12'>
                 <div class="d-flex justify-content-between mb-3">
                     <div class="p-2">
@@ -36,19 +36,16 @@
                                     <div class="col-md-12">
                                         <form action="{{ route('influencer.statusEditCode') }}" method="post">
                                             @csrf
-                                            <input type="hidden" value="{{ $profile->userId }}" name="influencerId"
-                                                id="" placeholder="">
+                                            <input type="hidden" value="{{ $profile->userId }}" name="influencerId" id="" placeholder="">
 
                                             <h2>{{ $profile->profile->username }}</h2>
                                             <div class="form-check">
                                                 <label>
 
-                                                    @if ($profile->is_featured == 'on')
-                                                        <input class="form-check-input" type="checkbox" name="is_featured"
-                                                            value="{{ $profile->is_featured }}" id="" checked>
+                                                    @if ($profile->is_featured == 'yes')
+                                                        <input class="form-check-input" type="checkbox" name="is_featured" value="{{ $profile->is_featured }}" id="" checked>
                                                     @else
-                                                        <input class="form-check-input" type="checkbox" name="is_featured"
-                                                            value="on" id="">
+                                                        <input class="form-check-input" type="checkbox" name="is_featured" value="yes" id="">
                                                     @endif
                                                     Is Featured
                                                 </label>
@@ -56,25 +53,20 @@
                                             <div class="form-check">
                                                 <label>
 
-                                                    @if ($profile->is_trending == 'on')
-                                                        <input class="form-check-input" type="checkbox" name="is_trending"
-                                                            value="{{ $profile->is_trending }}" id="" checked>
+                                                    @if ($profile->is_trending == 'yes')
+                                                        <input class="form-check-input" type="checkbox" name="is_trending" value="{{ $profile->is_trending }}" id="" checked>
                                                     @else
-                                                        <input class="form-check-input" type="checkbox" name="is_trending"
-                                                            value="on" id="">
+                                                        <input class="form-check-input" type="checkbox" name="is_trending" value="yes" id="">
                                                     @endif
                                                     Is Trending
                                                 </label>
                                             </div>
                                             <div class="form-check">
                                                 <label>
-                                                    @if ($profile->is_brandBeansVerified == 'on')
-                                                        <input class="form-check-input" name="is_brandBeansVerified"
-                                                            type="checkbox" value="{{ $profile->is_brandBeansVerified }}"
-                                                            id="" checked>
+                                                    @if ($profile->is_brandBeansVerified == 'yes')
+                                                        <input class="form-check-input" name="is_brandBeansVerified" type="checkbox" value="{{ $profile->is_brandBeansVerified }}" id="" checked>
                                                     @else
-                                                        <input class="form-check-input" name="is_brandBeansVerified"
-                                                            type="checkbox" value="on" id="">
+                                                        <input class="form-check-input" name="is_brandBeansVerified" type="checkbox" value="yes" id="">
                                                     @endif
                                                     Is BrandBeans Verified
                                                 </label>
