@@ -353,6 +353,7 @@ Route::post('/influencer-campaign-step', [ApiController::class, 'followedStep'])
 Route::get('/influencer-package', [ApiController::class, 'influencerPackage']);
 Route::get('/influencer-package-by-id/{id?}', [ApiController::class, 'influencerPackageById']);
 Route::post('/influencer-package-store', [ApiController::class, 'storeInfluencerPackage']);
+Route::post('/influencer-package-update/{id?}', [ApiController::class, 'updateInfluencerPackage']);
 Route::get('/influencer-package-delete/{id?}', [ApiController::class, 'deleteInfluencerPackage']);
 
 

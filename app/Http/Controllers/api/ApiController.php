@@ -4297,6 +4297,41 @@ class ApiController extends Controller
 
         return response($response, 200);
     }
+    
+    function updateInfluencerPackage($id, Request $request)
+    {
+        $rules = array(
+            
+            "userId" => "required",
+            "title" => "required",
+            "price" => "required",
+            "description" => "required",
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+        $package = InfluencerPackages::find($id);
+        if ($package) {
+            $package->userId = $request->userId;
+            $package->title = $request->title;
+            $package->price = $request->price;
+            $package->description = $request->description;
+            $package->save();
+            $response = [
+                'status' => true,
+                'Data' => $package,
+            ];
+
+            return response($response, 200);
+        } else {
+            return response([
+                'message' => 'Package not found'
+            ], 404);
+        }
+    }
+
     function deleteInfluencerPackage($id)
     {
         $package = InfluencerPackages::find($id);
