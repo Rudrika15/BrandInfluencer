@@ -5150,23 +5150,59 @@ class ApiController extends Controller
         $roles = $roleCollection->toArray();
 
         // If Influencer
+        // If Influencer
         if (in_array('Influencer', $roles)) {
             $profile = User::where('id', $id)
                 ->with('influencer')
                 ->first();
 
+            // Get categories manually
+            $categories = $profile->influencer ? $profile->influencer->inCategories()->select('id', 'name')->get() : [];
+
             return response([
                 'User Data' => $profile,
+                'Categories' => $categories,
                 'flag' => true,
                 'imagePath' => 'profile/' . $user->profilePhoto,
             ], 200);
         }
 
+
+
+        // // If Brand
+        // if (in_array('Brand', $roles)) {
+        //     $profile = User::where('id', $id)
+        //         ->with('brandCategory')
+        //         ->first();
+
+        //     return response([
+        //         'User Data' => $profile,
+        //         'flag' => true,
+        //         'imagePath' => 'profile/' . $user->profilePhoto,
+        //     ], 200);
+        // }
+
+
+        // If Brand
         // If Brand
         if (in_array('Brand', $roles)) {
             $profile = User::where('id', $id)
-                ->with('brandCategory')
+                ->with(['brandCategory.category' => function ($query) {
+                    $query->select('id', 'categoryName'); // correct column
+                }])
                 ->first();
+
+            // Make sure relation exists before transforming
+            if ($profile && $profile->brandCategory) {
+                $profile->brandCategory->transform(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'brandCategoryId' => $item->brandCategoryId,
+                        'brandId' => $item->brandId,
+                        'categoryName' => $item->category ? $item->category->categoryName : null
+                    ];
+                });
+            }
 
             return response([
                 'User Data' => $profile,
@@ -5174,6 +5210,8 @@ class ApiController extends Controller
                 'imagePath' => 'profile/' . $user->profilePhoto,
             ], 200);
         }
+
+
 
         // Default if no special role
         return response([

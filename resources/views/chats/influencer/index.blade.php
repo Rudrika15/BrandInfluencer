@@ -110,6 +110,11 @@
                     @endif --}}
                     @if (count($chats) > 0)
                         @foreach ($chats as $chat)
+                            <input type="hidden" name="groupId" id="group-id" value="{{ $chat->id }}">
+
+                            <input type="hidden" name="influencerId" id="influencerIdForGetChat" value="{{ $chat->influencerId }}">
+                            <input type="hidden" name="brandId" id="brandIdForGetChat" value="{{ $chat->brandId }}">
+
                             <div class="bg-light pt-3 chat-item" style="cursor: pointer;" data-brand-id="{{ $chat->brandId }}" data-influencer-id="{{ $chat->influencerId }}">
                                 <span class="ps-3">
 
@@ -152,25 +157,26 @@
                         <div id="chatHeader" class="p-3 border-bottom">
                             <h5 id="receiverName">Selected Chat Receiver Name</h5>
                         </div>
-                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100" style="display: flex; flex-direction: column-reverse;">
-                            {{-- <div class="bg-danger text-end">influencer message </div>
-                            <div class="bg-warning">brand message </div> --}}
-                            <div style="height: 600px; align-self: center; padding-top: 100px" id="defaultMessage">
-                                {{-- <div class="pt-2 text-center">
 
-                                    <img src="{{ asset('profile') }}/{{ Auth::user()->profilePhoto }}"
-                                        class="rounded-circle" width="100px" alt="">
-                                </div> --}}
+                        <div id="chatBody" class="flex-grow-1 overflow-auto p-3 align-self-end w-100" style="display: flex; flex-direction: column-reverse;">
+                            <div style="height: 600px; align-self: center; padding-top: 100px" id="defaultMessage">
                                 <span class="text-muted">
                                     Select a chat to start messaging
                                 </span>
                             </div>
                         </div>
+
                         <div id="chatFooter" class="p-3 border-top">
                             <form id="sendMessageForm">
                                 @csrf
-                                <input type="hidden" name="receiverId" id="receiverId" value="">
+                                <input type="hidden" name="brandName" id="selectedReceiverId" value="">
+                                <input type="hidden" name="recevierId" id="recevierId" value="">
                                 <input type="hidden" name="groupId" id="groupId" value="">
+
+                                <!-- ✅ Added for correct chat refresh -->
+                                <input type="hidden" id="brandIdForGetChat" value="">
+                                <input type="hidden" id="influencerIdForGetChat" value="">
+
                                 <div class="input-group">
                                     <input name="message" class="form-control" placeholder="Type a message">
                                     <button type="submit" class="btn btn-primary">Send</button>
@@ -193,9 +199,6 @@
     <script>
         var roles = @json($findRole);
     </script>
-
-    <!-- Clean overrides: restore first-change behavior using groupId, disable broken handlers -->
-    
     <script>
         $(document).ready(function() {
             $('#chatFooter').hide();
@@ -216,7 +219,6 @@
                     },
                     success: function(response) {
                         console.log("Chat message stored:", response);
-                        // Optionally, you can perform additional actions after successful storage
                     },
                     error: function(xhr, status, error) {
                         console.error("Error storing chat message:", error);
@@ -226,25 +228,36 @@
 
             // When clicking on a chat item
             $('.chat-item').click(function() {
-                var senco so {.log('re Aiveuth:',:rgyoiveuIae access to the sender'sinfluenceI                varinfluenceriverId =(this).data('bravar-md)age = " "; // Exampl  m ssag ns   ole.log('recevarigroupIdv=erId:goup-i        r influencerId = $(tcon.oa'-'og)'g;oupId of 
-hat:', g oup           var message = " "; // EReme v i.val();
- of char );   $('#selectedReceiverId').val(receiverId);
-                if (roles.includes('Ifiluencer')) {
+                var senderId = '{{ Auth::id() }}';
+                var receiverId = $(this).data('brand-id');
+                var influencerId = $(this).data('influencer-id');
+                var message = " ";
+                var groupId = $('#group-id').val();
+
+                console.log('receiverId:', receiverId);
+                console.log('influencerId:', influencerId);
+                console.log('groupId of chat:', groupId);
+
+                $('#selectedReceiverId').val(receiverId);
+
+                if (roles.includes('Influencer')) {
                     $('#recevierId').val(receiverId);
                 }
-                if (roles.includsi('Brand')) {
-                    $('#receviId').val(influencerId);
+                if (roles.includes('Brand')) {
+                    $('#recevierId').val(influencerId);
                 }
+
                 var receiverName = $(this).find('b').text().trim();
-       ame);
+                $('#receiverName').text(receiverName);
 
-                // Store the chat message
-                storeChatMess ge(groupId,  essag       $('#receiverName').text(receiverName);
+                // ✅ Update hidden IDs so correct chat refreshes
+                $('#brandIdForGetChat').val(receiverId);
+                $('#influencerIdForGetChat').val(influencerId);
 
-                // Store the chat message
+                // Store chat start event
                 storeChatMessage(groupId, message);
 
-                // Fetch and display chat messages related to the selected receiverId
+                // Fetch messages
                 fetchChatMessages(receiverId, influencerId);
             });
 
@@ -253,23 +266,19 @@ hat:', g oup           var message = " "; // EReme v i.val();
                 console.warn('brandId', brandId);
                 var url = '/chats/messages/' + brandId + '/' + influencerId;
                 $('#chatFooter').show();
-                console.log(url);
+
                 $.ajax({
                     type: 'GET',
                     url: url,
                     success: function(response) {
-                        // Clear the chat body before appending new messages
                         console.log("response", response);
                         $('#chatBody').empty();
 
-                        // Iterate over the array of messages and construct HTML elements for each message
                         response.forEach(function(chatGroup) {
-                            console.log("chatGroup", chatGroup);
                             var messageHtml = '<div class="message">';
                             var authCheck = '{{ Auth::id() }}';
-                            console.log("authCheck", authCheck);
+
                             if (chatGroup.session !== sessionRole) {
-                                // if (!authCheck) {
                                 messageHtml +=
                                     '<div style="background-color: #156b9f;" class="badge text-white rounded-pill fs-6 text p-3 mb-2">' +
                                     chatGroup.message + '</div>';
@@ -280,15 +289,13 @@ hat:', g oup           var message = " "; // EReme v i.val();
                             }
 
                             messageHtml += '</div>';
+                            $('#chatBody').prepend(messageHtml);
+                        });
 
-                            // Append the message HTML to the chat body
-                                  //uming the first chat group contains the groupId
-              (response[0].groupId);
+                        if (response.length > 0) {
+                            $('#groupId').val(response[0].groupId);
+                        }
                     },
-
-
-
-
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
                     }
@@ -298,31 +305,22 @@ hat:', g oup           var message = " "; // EReme v i.val();
             // Submitting the form via AJAX
             $('#sendMessageForm').submit(function(event) {
                 event.preventDefault();
+
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('influencer.chat.store') }}',
                     data: $(this).serialize(),
                     success: function(response) {
-                        // Handle success response
                         console.log(response);
-                        // Clear the message input
                         $('#sendMessageForm input[name="message"]').val('');
-                        //
 
-                        // window.location.reload(); Refresh chat messages
-
-                       bw.locaForGetChattion.l();
-                        // console.roge'receiverId:', receiverIdload();
-
-                        var receiverId =idIdForGetChForGetChatat').l();
-                        // console.voga'influencerId:', influencerIdl();
-                        // console.log('receiverId:', receiverId);
+                        // ✅ Now fetches correct chat after sending message
+                        var receiverId = $('#brandIdForGetChat').val();
                         var influencerId = $('#influencerIdForGetChat').val();
-                        // console.log('influencerId:', influencerId);
+
                         fetchChatMessages(receiverId, influencerId);
                     },
                     error: function(xhr, status, error) {
-                        // Handle error response
                         console.error(xhr.responseText);
                     }
                 });

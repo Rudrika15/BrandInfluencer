@@ -14,4 +14,7 @@ class BrandCategory extends Model
     {
         return $this->hasMany(BrandWithCategory::class, 'brandCategoryId', 'id');
     }
+
+
+   
 }
