@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('layouts.app')
 @section('title', 'Brand beans | Brands')
 @section('content')
 

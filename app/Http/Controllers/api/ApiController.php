@@ -3866,7 +3866,7 @@ class ApiController extends Controller
 
     function influencerCategoryList()
     {
-        $category = CategoryInfluencer::all();
+        $category = BrandCategory::all();
         if ($category) {
 
             $response = [
@@ -3968,7 +3968,7 @@ class ApiController extends Controller
             'userId'  => "required",
             // 'title'  => "required",
             'photo'  => "required",
-            // 'type'  => "required",
+            'type'  => "required",
             // 'details'  => "required",
         );
 
@@ -3983,7 +3983,7 @@ class ApiController extends Controller
             // $influencer->title = $request->title;
             $influencer->photo = time() . '.' . $request->photo->extension();
             $request->photo->move(public_path('portfolioPhoto'), $influencer->photo);
-            // $influencer->type = $request->type;
+            $influencer->type = $request->type;
             // $influencer->details = $request->details;
             $influencer->save();
 
@@ -4297,11 +4297,11 @@ class ApiController extends Controller
 
         return response($response, 200);
     }
-    
+
     function updateInfluencerPackage($id, Request $request)
     {
         $rules = array(
-            
+
             "userId" => "required",
             "title" => "required",
             "price" => "required",
@@ -4666,7 +4666,7 @@ class ApiController extends Controller
     function offerCategoryList()
     {
 
-        $offerList = BrandCategory::all();;
+        $offerList = BrandCategory::all();
         $response = [
             'status' => 200,
             'imagePath' => 'brandCategoryIcon',
@@ -4675,6 +4675,7 @@ class ApiController extends Controller
         ];
         return response($response, 200);
     }
+    
     function offerCategoryBrand($categoryId)
     {
         $offerList = BrandCategory::where('id', $categoryId)->with('brand.offer')->get();
@@ -5185,14 +5186,14 @@ class ApiController extends Controller
         $roles = $roleCollection->toArray();
 
         // If Influencer
-        // If Influencer
         if (in_array('Influencer', $roles)) {
             $profile = User::where('id', $id)
                 ->with('influencer')
                 ->first();
 
             // Get categories manually
-            $categories = $profile->influencer ? $profile->influencer->inCategories()->select('id', 'name')->get() : [];
+            $categories = $profile->influencer ? $profile->influencer->incategoriies()->select('id', 'name')->get() : [];
+            // $categories = $profile->influencer ? $profile->influencer->inCategories()->select('id', 'name')->get() : [];
 
             return response([
                 'User Data' => $profile,
@@ -5201,8 +5202,6 @@ class ApiController extends Controller
                 'imagePath' => 'profile/' . $user->profilePhoto,
             ], 200);
         }
-
-
 
         // // If Brand
         // if (in_array('Brand', $roles)) {
@@ -5218,7 +5217,6 @@ class ApiController extends Controller
         // }
 
 
-        // If Brand
         // If Brand
         if (in_array('Brand', $roles)) {
             $profile = User::where('id', $id)
@@ -5245,8 +5243,6 @@ class ApiController extends Controller
                 'imagePath' => 'profile/' . $user->profilePhoto,
             ], 200);
         }
-
-
 
         // Default if no special role
         return response([
