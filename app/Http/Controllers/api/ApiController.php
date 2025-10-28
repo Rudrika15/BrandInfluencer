@@ -1061,21 +1061,128 @@ class ApiController extends Controller
     //     }
     // }
 
-    function updateProfile(Request $request)
-    {
+    // function updateProfile(Request $request)
+    // {
 
+    //     $rules = array(
+    //         'userId' => 'required',
+    //         // 'name' => 'required',
+    //         // 'profilePhoto' => 'required',
+    //         // 'category' => 'required',
+    //     );
+    //     $validator = Validator::make($request->all(), $rules);
+    //     if ($validator->fails()) {
+    //         return $validator->errors();
+    //     }
+    //     $userId = $request->userId;
+
+    //     $user = User::find($userId);
+
+    //     if ($request->name) {
+    //         $user->name = $request->name;
+    //     }
+    //     if ($request->username) {
+    //         $user->username = $request->username;
+    //     }
+    //     if ($request->mobileno) {
+    //         $user->mobileno = $request->mobileno;
+    //     }
+
+    //     if ($request->hasFile('profilePhoto')) {
+    //         $image = $request->file('profilePhoto');
+    //         $fileName = time() . '.' . $image->getClientOriginalExtension();
+    //         $image->move(public_path('profile'), $fileName);
+    //         $user->profilePhoto = $fileName;
+    //     }
+
+
+    //     if ($request->category) {
+    //         $roleCollection = $user->getRoleNames();
+    //         $roles = $roleCollection->toArray();
+
+    //         if (in_array('Influencer', $roles)) {
+
+    //             $influencerCategory = InfluencerProfile::where('userId', '=', $request->userId)->first();
+    //             $influencerCategory->contactNo = $request->mobileno;
+    //             $influencerCategory->address = $request->address;
+    //             $influencerCategory->about = $request->about;
+    //             $influencerCategory->city = $request->city;
+    //             $influencerCategory->state = $request->state;
+    //             $influencerCategory->gender = $request->gender;
+    //             $influencerCategory->dob = $request->dob;
+    //             $influencerCategory->instagramUrl = $request->instagramUrl;
+    //             $influencerCategory->publicLocation = $request->publicLocation;
+    //             $influencerCategory->pinCode = $request->pinCode;
+    //             $influencerCategory->instagramFollowers = $request->instagramFollowers;
+    //             $influencerCategory->youtubeChannelUrl = $request->youtubeChannelUrl;
+    //             $influencerCategory->youtubeSubscriber = $request->youtubeSubscriber;
+    //             $influencerCategory->categoryId = $request['category'];
+    //             $influencerCategory->save();
+
+    //             $response = [
+    //                 'User Data' => $user->where('id', $userId)->with('influencer')->get(),
+    //                 'imagePath' => 'profile/' . $user->profilePhoto
+    //             ];
+    //             return response($response, 201);
+    //         }
+
+    //         if (in_array('Brand', $roles)) {
+    //             $findBrand = BrandWithCategory::where('brandId', '=', $request->userId)->get();
+    //             if ($findBrand) {
+    //                 // Get existing categories as an array
+    //                 $existingCategories = $findBrand->pluck('brandCategoryId')->toArray();
+
+    //                 // Ensure the request 'category' is treated as an array
+    //                 $newCategories = $request->input('category', []);
+
+    //                 // Decode JSON if it's a string
+    //                 if (is_string($newCategories)) {
+    //                     $newCategories = json_decode($newCategories, true);
+    //                 }
+
+    //                 // Filter out the categories that already exist
+    //                 $categoriesToAdd = array_diff($newCategories, $existingCategories);
+
+    //                 foreach ($categoriesToAdd as $categoryId) {
+    //                     // Store the new categories
+    //                     $data = new BrandWithCategory();
+    //                     $data->brandId = $request->userId;
+    //                     $data->brandCategoryId = $categoryId;
+    //                     $data->save();
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     $user->save();
+
+
+    //     if ($user) {
+    //         $response = [
+    //             'User Data' => $user,
+    //             'flag' => true,
+    //             'imagePath' => 'profile/' . $user->profilePhoto
+    //         ];
+
+    //         return response($response, 201);
+    //     } else {
+    //         return response([
+    //             'message' => ['No Data Found']
+    //         ], 404);
+    //     }
+    // }
+
+
+    public function updateProfile(Request $request)
+    {
         $rules = array(
             'userId' => 'required',
-            // 'name' => 'required',
-            // 'profilePhoto' => 'required',
-            'category' => 'required',
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return $validator->errors();
         }
-        $userId = $request->userId;
 
+        $userId = $request->userId;
         $user = User::find($userId);
 
         if ($request->name) {
@@ -1094,7 +1201,6 @@ class ApiController extends Controller
             $image->move(public_path('profile'), $fileName);
             $user->profilePhoto = $fileName;
         }
-
 
         if ($request->category) {
             $roleCollection = $user->getRoleNames();
@@ -1127,34 +1233,35 @@ class ApiController extends Controller
             }
 
             if (in_array('Brand', $roles)) {
-                $findBrand = BrandWithCategory::where('brandId', '=', $request->userId)->get();
-                if ($findBrand) {
-                    // Get existing categories as an array
-                    $existingCategories = $findBrand->pluck('brandCategoryId')->toArray();
 
-                    // Ensure the request 'category' is treated as an array
-                    $newCategories = $request->input('category', []);
-
-                    // Decode JSON if it's a string
-                    if (is_string($newCategories)) {
-                        $newCategories = json_decode($newCategories, true);
+                // ✅ FIXED BRAND CATEGORY UPDATE LOGIC
+                // If category not sent or empty → remove all
+                if (!$request->has('category') || empty($request->category)) {
+                    BrandWithCategory::where('brandId', '=', $request->userId)->delete();
+                } else {
+                    // Decode if JSON
+                    $categories = $request->input('category', []);
+                    if (is_string($categories)) {
+                        $categories = json_decode($categories, true);
                     }
 
-                    // Filter out the categories that already exist
-                    $categoriesToAdd = array_diff($newCategories, $existingCategories);
+                    // Delete old categories
+                    BrandWithCategory::where('brandId', '=', $request->userId)->delete();
 
-                    foreach ($categoriesToAdd as $categoryId) {
-                        // Store the new categories
-                        $data = new BrandWithCategory();
-                        $data->brandId = $request->userId;
-                        $data->brandCategoryId = $categoryId;
-                        $data->save();
+                    // Add new
+                    if (is_array($categories)) {
+                        foreach ($categories as $categoryId) {
+                            $data = new BrandWithCategory();
+                            $data->brandId = $request->userId;
+                            $data->brandCategoryId = $categoryId;
+                            $data->save();
+                        }
                     }
                 }
             }
         }
-        $user->save();
 
+        $user->save();
 
         if ($user) {
             $response = [
@@ -1162,7 +1269,6 @@ class ApiController extends Controller
                 'flag' => true,
                 'imagePath' => 'profile/' . $user->profilePhoto
             ];
-
             return response($response, 201);
         } else {
             return response([
@@ -1170,6 +1276,7 @@ class ApiController extends Controller
             ], 404);
         }
     }
+
 
 
     // category list
@@ -4675,7 +4782,7 @@ class ApiController extends Controller
         ];
         return response($response, 200);
     }
-    
+
     function offerCategoryBrand($categoryId)
     {
         $offerList = BrandCategory::where('id', $categoryId)->with('brand.offer')->get();
@@ -5192,7 +5299,7 @@ class ApiController extends Controller
                 ->first();
 
             // Get categories manually
-            $categories = $profile->influencer ? $profile->influencer->incategoriies()->select('id', 'name')->get() : [];
+            $categories = $profile->influencer ? $profile->influencer->incategoriies()->select('id', 'categoryName')->get() : [];
             // $categories = $profile->influencer ? $profile->influencer->inCategories()->select('id', 'name')->get() : [];
 
             return response([
