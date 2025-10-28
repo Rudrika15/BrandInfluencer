@@ -9,7 +9,7 @@
                         <h3>Create Campaign Step</h3>
                     </div>
                     <div class="p-2">
-                        <a href="{{ route('brand.campaign.step.index') }}" class="btn btn-primary">Back</a>
+                        <a href="{{ route('brand.campaign.index') }}" class="btn btn-primary">Back</a>
                     </div>
                 </div>
             </div>
@@ -19,10 +19,11 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="{{ route('brand.campaign.step.store') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
+                        <form action="{{ route('brand.campaign.store') }}" enctype="multipart/form-data" method="post"
+                            style="margin-top: 15px;">
                             @csrf
 
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="campaignId" class="form-label">Campaign</label>
                                 <select name="campaignId" class="form-control" id="campaignId">
                                     <option disabled selected>--Select your Option</option>
@@ -33,7 +34,17 @@
                                 @error('campaignId')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
+                            </div> --}}
+                            @foreach ($campaign as $item)
+                                <div class="mb-3">
+                                    <label for="id">ID</label>
+                                    <input type="hidden" class="form-control" name="campaignStepId"
+                                        value="{{ $item->id }}">
+                                    @error('id')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            @endforeach
 
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>

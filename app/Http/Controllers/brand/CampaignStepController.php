@@ -27,29 +27,55 @@ class CampaignStepController extends Controller
     public function create()
     {
         try {
+
+            // $step = CampaignStep::find($id);
             $userId = Auth::user()->id;
             $campaign = Campaign::where('userId', '=', $userId)->get();
+             // return $campaign;
+            // $userId = Auth::user()->id;
+            // $campaign = Campaign::where('userId', '=', $userId)->get();
             return view('brand.campaignStep.create', \compact('campaign'));
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
+    // public function create()
+    // {
+    //     try {
+    //         $userId = Auth::id();
+
+    //         // get campaigns of logged-in user
+    //         $campaigns = Campaign::where('userId', $userId)->get();
+
+    //         // get all steps to show in index page
+    //         $steps = CampaignStep::where('userId', $userId)->with('campaign')->get();
+
+    //         // return index view (because modals are inside it)
+    //         return view('brand.campaignStep.create', compact('campaigns', 'steps'));
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+
+   
+
     public function store(Request $request)
     {
+        
         $this->validate($request, [
-            'campaignId' => 'required',
+            // 'campaignId' => 'required',
             'title' => 'required',
             'detail' => 'required',
         ]);
 
         try {
             $campaign = new CampaignStep();
-            $campaign->campaignId = $request->campaignId;
+            $campaign->campaignId = $request->campaignStepId;
             $campaign->title = $request->title;
             $campaign->detail = $request->detail;
             $campaign->save();
-
+            
             return redirect('brand/campaign/step/index')->with('success', 'Campaign step Added Successfully..');
         } catch (\Throwable $th) {
             throw $th;
