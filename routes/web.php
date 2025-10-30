@@ -105,6 +105,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('influencer/profile/{id?}', [DashboardController::class, 'influencerProfile'])->name('general.influencerProfile');
 
+    // brand routs
+
+
+
     // user Profile
     Route::get('user/profile', [DashboardController::class, 'edit'])->name('profile');
     Route::get('user/profile/edit/{id}', [DashboardController::class, 'editProfile'])->name('profile.edit');
@@ -225,6 +229,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('brand/campaign/{id}/steps/create', [CampaignStepController::class, 'create'])
         ->name('brand.campaignStep.create');
 
+    // campaign step
+    Route::post('brand/campaign/step/store', [CampaignStepController::class, 'store'])->name('brand.campaignStep.store');
+    Route::get('brand/campaign/step/index/{id?}', [CampaignStepController::class, 'index'])->name('brand.campaignStep.index');
+    Route::get('brand/campaign/step/edit/{id?}', [CampaignStepController::class, 'edit'])->name('brand.campaignStep.edit');
+    Route::post('brand/campaign/step/update', [CampaignStepController::class, 'update'])->name('brand.campaignStep.update');
+    Route::get('brand/campaign/step/delete/{id?}', [CampaignStepController::class, 'delete'])->name('brand.campaignStep.delete');
 
     // Payment
 

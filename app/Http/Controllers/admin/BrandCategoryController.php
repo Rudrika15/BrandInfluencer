@@ -13,25 +13,61 @@ class BrandCategoryController extends Controller
         $brandCategory = BrandCategory::paginate(10);
         return view('admin.brandCategory.index', compact('brandCategory'));
     }
+    // public function create()
+    // {
+    //     return view('admin.brandCategory.create');
+    // }
+    // public function store(Request $request)
+    // {
+    //     $this->validate(request(), [
+    //         'categoryName' => 'required',
+    //         'icon' => 'required',
+    //     ]);
+    //     $brandCategory = new BrandCategory();
+    //     $brandCategory->categoryName = $request->categoryName;
+    //     $brandCategory->icon = time() . '.' . $request->icon->extension();
+    //     $request->icon->move(public_path('brandCategoryIcon'), $brandCategory->icon);
+    //     $brandCategory->poster = time() . '.' . $request->poster->extension();
+    //     $request->poster->move(public_path('brandCategoryPoster'), $brandCategory->poster);
+    //     $brandCategory->save();
+    //     return redirect('brand/category/index')->with('success', 'Brand Category Created Successfully');
+    // }
+
     public function create()
     {
         return view('admin.brandCategory.create');
     }
+
     public function store(Request $request)
     {
-        $this->validate(request(), [
-            'categoryName' => 'required',
-            'icon' => 'required',
+        $request->validate([
+            'categoryName' => 'required|string|max:255',
+            'icon' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'poster' => 'required|image|mimes:jpeg,png,jpg,svg|max:4096',
         ]);
+
         $brandCategory = new BrandCategory();
         $brandCategory->categoryName = $request->categoryName;
-        $brandCategory->icon = time() . '.' . $request->icon->extension();
-        $request->icon->move(public_path('brandCategoryIcon'), $brandCategory->icon);
-        $brandCategory->poster = time() . '.' . $request->poster->extension();
-        $request->poster->move(public_path('brandCategoryPoster'), $brandCategory->poster);
+
+        // 🟢 Handle icon upload
+        if ($request->hasFile('icon')) {
+            $iconName = uniqid() . '.' . $request->icon->extension();
+            $request->icon->move(public_path('brandCategoryIcon'), $iconName);
+            $brandCategory->icon = $iconName;
+        }
+
+        // 🟢 Handle poster upload
+        if ($request->hasFile('poster')) {
+            $posterName = uniqid() . '.' . $request->poster->extension();
+            $request->poster->move(public_path('brandCategoryPoster'), $posterName);
+            $brandCategory->poster = $posterName;
+        }
+
         $brandCategory->save();
+
         return redirect('brand/category/index')->with('success', 'Brand Category Created Successfully');
     }
+
     public function edit($id)
     {
         $brandCategory = BrandCategory::find($id);

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BrandWithCategory;
 use App\Models\Brochure;
 use App\Models\Cardportfoilo;
+use App\Models\BrandCategory;
 use App\Models\CardsModels;
 use App\Models\Category;
 use App\Models\InfluencerProfile;
@@ -60,23 +61,23 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        $validation = Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'mobileno' => ['required', 'unique:users'],
-            'password' => ['required', 'confirmed'],
-            'brandCategory' => 'required_if:session,brand',
-            'influencerCategory' => 'required_if:session,influencer',
-        ], [
-            'brandCategory.required_if' => 'The brand category field is required when you choose brand role.',
-            'influencerCategory.required_if' => 'The influencer category field is required when you choose influencer.',
-        ]);
+    // protected function validator(array $data)
+    // {
+    //     $validation = Validator::make($data, [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'username' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'mobileno' => ['required', 'unique:users'],
+    //         'password' => ['required', 'confirmed'],
+    //         'brandCategory' => 'required_if:session,brand',
+    //         'influencerCategory' => 'required_if:session,influencer',
+    //     ], [
+    //         'brandCategory.required_if' => 'The brand category field is required when you choose brand role.',
+    //         'influencerCategory.required_if' => 'The influencer category field is required when you choose influencer.',
+    //     ]);
 
-        return $validation;
-    }
+    //     return $validation;
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -84,67 +85,261 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+    // protected function create(array $data)
+    // {
+    //     try {
+    //         $new_str = str_replace(' ', '', $data['username']);
+
+    //         $user = User::create([
+    //             'name' => $data['name'],
+    //             'username' => $data['username'],
+    //             'email' => $data['email'],
+    //             'categoryId' => $data['categoryId'],
+    //             'package' => "FREE",
+    //             'mobileno' => $data['mobileno'],
+    //             'session' => $data['session'],
+    //             'password' => Hash::make($data['password']),
+    //         ]);
+
+    //         // $email = User::where('email', '=', $data['email'])->get();
+    //         // return $email;
+
+    //         if ($data['session'] == 'brand') {
+    //             $user->assignRole(['Brand']);
+    //             if (!empty($data['brandCategory'])) {
+    //                 foreach ($data['brandCategory'] as $brandCategoryId) {
+    //                     $brandCategory = new BrandWithCategory();
+    //                     $brandCategory->brandCategoryId = $brandCategoryId;
+    //                     $brandCategory->brandId = $user->id;
+    //                     $brandCategory->save();
+    //                 }
+    //             }
+    //         } else {
+    //             $user->assignRole(['Influencer']);
+    //             $influencer = new InfluencerProfile();
+    //             $influencer->userId = $user->id;
+    //             $influencer->contactNo = $user->mobileno;
+
+    //             if (!empty($data['influencerCategory'])) {
+    //                 // Serialize the array of category IDs to a JSON string
+    //                 $influencer->categoryId = json_encode($data['influencerCategory']);
+    //             }
+    //             $influencer->save();
+    //         }
+
+    //         $id = $user->id;
+    //         $mycode = $new_str . $id;
+    //         $userUpdate = User::find($id);
+    //         $userUpdate->myrefer = $mycode;
+    //         $userUpdate->assignRole('User');
+    //         $userUpdate->save();
+
+    //         $code = $user->refer;
+    //         if ($code) {
+
+    //             $pointableUser = User::where('myrefer', '=', $code)->first();
+
+    //             $userPoint = new Point();
+    //             $userPoint->userId = $pointableUser->id;
+    //             $userPoint->point = 50;
+    //             $userPoint->save();
+    //         }
+    //         return $user;
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }   
+    public function showRegistrationForm()
+    {
+        // 🟢 Fetch all Brand Categories and pass to view
+        $brandCategory = BrandCategory::all();
+
+        return view('auth.register', compact('brandCategory'));
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'mobileno' => ['required', 'string', 'max:15'],
+            'session' => ['required', 'string'], // brand or influencer
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+    }
+
+    /**
+     * Create a new user instance after valid registration.
+     */
+
+    // protected function create(array $data)
+    // {
+    //     try {
+    //         // 🟢 Remove spaces for referral code generation
+    //         $new_str = str_replace(' ', '', $data['username']);
+
+    //         // 🟢 Create user entry
+    //         $user = User::create([
+    //             'name'       => $data['name'],
+    //             'username'   => $data['username'],
+    //             'email'      => $data['email'],
+    //             'mobileno'   => $data['mobileno'],
+    //             'session'    => $data['session'], // 'brand' or 'influencer'
+    //             'password'   => Hash::make($data['password']),
+    //             'package'    => 'FREE',
+    //             'categoryId' => isset($data['brandCategory'])
+    //                 ? implode(',', $data['brandCategory'])
+    //                 : (isset($data['influencerCategory'])
+    //                     ? implode(',', $data['influencerCategory'])
+    //                     : null),
+    //         ]);
+
+    //         // 🟢 If Brand selected
+    //         if ($data['session'] === 'brand') {
+    //             $user->assignRole('Brand');
+
+    //             $brand = new BrandWithCategory();
+    //             $brand->userId = $user->id;
+    //             $brand->contactNo = $data['mobileno'];
+
+    //             if (!empty($data['brandCategory'])) {
+    //                 $brand->categoryId = json_encode($data['brandCategory']);
+    //             }
+
+    //             $brand->save();
+    //         }
+
+    //         // 🟢 If Influencer selected
+    //         if ($data['session'] === 'influencer') {
+    //             $user->assignRole('Influencer');
+
+    //             $influencer = new InfluencerProfile();
+    //             $influencer->userId = $user->id;
+    //             $influencer->contactNo = $data['mobileno'];
+
+    //             if (!empty($data['influencerCategory'])) {
+    //                 $influencer->categoryId = json_encode($data['influencerCategory']);
+    //             }
+
+    //             $influencer->save();
+    //         }
+
+    //         // 🟢 Generate referral code
+    //         $mycode = $new_str . $user->id;
+    //         $user->myrefer = $mycode;
+    //         $user->assignRole('User');
+    //         $user->save();
+
+    //         // 🟢 Referral point system
+    //         if (!empty($user->refer)) {
+    //             $pointableUser = User::where('myrefer', $user->refer)->first();
+    //             if ($pointableUser) {
+    //                 Point::create([
+    //                     'userId' => $pointableUser->id,
+    //                     'point'  => 50,
+    //                 ]);
+    //             }
+    //         }
+
+    //         // 🟢 Redirect based on user session type
+    //         if ($user->session === 'brand') {
+    //             return redirect()->route('brand.dashboard', ['id' => $user->id])
+    //                 ->with('success', 'Brand registered successfully!');
+    //         }
+
+    //         if ($user->session === 'influencer') {
+    //             return redirect()->route('influencer.dashboard', ['id' => $user->id])
+    //                 ->with('success', 'Influencer registered successfully!');
+    //         }
+
+    //         // Default redirect
+    //         return redirect()->route('home')->with('success', 'User registered successfully!');
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+
     protected function create(array $data)
     {
         try {
+            // 🟢 1️⃣ Sanitize username for referral
             $new_str = str_replace(' ', '', $data['username']);
 
+            // 🟢 2️⃣ Create User record
             $user = User::create([
-                'name' => $data['name'],
-                'username' => $data['username'],
-                'email' => $data['email'],
-                'package' => "FREE",
-                'mobileno' => $data['mobileno'],
-                'session' => $data['session'],
-                'password' => Hash::make($data['password']),
+                'name'       => $data['name'],
+                'username'   => $data['username'],
+                'email'      => $data['email'],
+                'mobileno'   => $data['mobileno'],
+                'session'    => $data['session'], // 'brand' or 'influencer'
+                'password'   => Hash::make($data['password']),
+                'package'    => 'FREE',
+                'categoryId' => isset($data['brandCategory'])
+                    ? implode(',', $data['brandCategory'])
+                    : (isset($data['influencerCategory'])
+                        ? implode(',', $data['influencerCategory'])
+                        : null),
             ]);
 
-            // $email = User::where('email', '=', $data['email'])->get();
-            // return $email;
+            // 🟢 3️⃣ Save specific type data
+            if ($data['session'] === 'brand') {
+                // Assign brand role
+                $user->assignRole('Brand');
 
-            if ($data['session'] == 'brand') {
-                $user->assignRole(['Brand']);
+                // Save brand profile
+                $brand = new BrandWithCategory();
+                $brand->userId = $user->id;
+                $brand->mobileNo = $data['mobileno'];
                 if (!empty($data['brandCategory'])) {
-                    foreach ($data['brandCategory'] as $brandCategoryId) {
-                        $brandCategory = new BrandWithCategory();
-                        $brandCategory->brandCategoryId = $brandCategoryId;
-                        $brandCategory->brandId = $user->id;
-                        $brandCategory->save();
-                    }
+                    $brand->categoryId = json_encode($data['brandCategory']);
                 }
-            } else {
-                $user->assignRole(['Influencer']);
+                $brand->save();
+
+                // Redirect to brand dashboard
+                $this->redirectTo = route('brand.dashboard', ['id' => $user->id]);
+            }
+
+            if ($data['session'] === 'influencer') {
+                // Assign influencer role
+                $user->assignRole('Influencer');
+
+                // Save influencer profile
                 $influencer = new InfluencerProfile();
                 $influencer->userId = $user->id;
-                $influencer->contactNo = $user->mobileno;
-
+                $influencer->contactNo = $data['mobileno'];
                 if (!empty($data['influencerCategory'])) {
-                    // Serialize the array of category IDs to a JSON string
                     $influencer->categoryId = json_encode($data['influencerCategory']);
                 }
                 $influencer->save();
+
+                // Redirect to influencer dashboard
+                $this->redirectTo = route('influencer.dashboard', ['id' => $user->id]);
             }
 
-            $id = $user->id;
-            $mycode = $new_str . $id;
-            $userUpdate = User::find($id);
-            $userUpdate->myrefer = $mycode;
-            $userUpdate->assignRole('User');
-            $userUpdate->save();
+            // 🟢 4️⃣ Generate referral code
+            $user->myrefer = $new_str . $user->id;
+            $user->assignRole('User');
+            $user->save();
 
-            $code = $user->refer;
-            if ($code) {
-
-                $pointableUser = User::where('myrefer', '=', $code)->first();
-
-                $userPoint = new Point();
-                $userPoint->userId = $pointableUser->id;
-                $userPoint->point = 50;
-                $userPoint->save();
+            // 🟢 5️⃣ Handle referral points
+            if (!empty($user->refer)) {
+                $pointableUser = User::where('myrefer', $user->refer)->first();
+                if ($pointableUser) {
+                    Point::create([
+                        'userId' => $pointableUser->id,
+                        'point'  => 50,
+                    ]);
+                }
             }
+
             return $user;
         } catch (\Throwable $th) {
             throw $th;
         }
     }
+
 }

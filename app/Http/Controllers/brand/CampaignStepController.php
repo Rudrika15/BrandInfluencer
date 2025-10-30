@@ -58,25 +58,26 @@ class CampaignStepController extends Controller
     //     }
     // }
 
-   
+
 
     public function store(Request $request)
     {
-        
+
         $this->validate($request, [
-            // 'campaignId' => 'required',
+            'campaignId' => 'required',
             'title' => 'required',
             'detail' => 'required',
         ]);
 
+        // return $request;
         try {
             $campaign = new CampaignStep();
-            $campaign->campaignId = $request->campaignStepId;
+            $campaign->campaignId = $request->campaignId;
             $campaign->title = $request->title;
             $campaign->detail = $request->detail;
             $campaign->save();
-            
-            return redirect('brand/campaign/step/index')->with('success', 'Campaign step Added Successfully..');
+
+            return back()->with('success', 'Campaign step Added Successfully..');
         } catch (\Throwable $th) {
             throw $th;
         }

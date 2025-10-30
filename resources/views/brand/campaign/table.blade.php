@@ -2,19 +2,19 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                @foreach ($campaign as $data)
+                  @foreach ($campaign->where('startDate', '>', \Carbon\Carbon::now()) as $data)
                     <div class="col-md-4 mb-4">
                         <div class="card" style="width: 18rem; height: 35rem;">
-
                             <img src="{{ asset('campaignPhoto') }}/{{ $data->photo }}"
-                                onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top"
-                                alt="Campaign Image" height="260px">
+                                onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                class="card-img-top" alt="Campaign Image" height="260px">
 
                             <div class="card-body">
                                 <h5 class="card-title">{{ $data->title }}</h5>
                                 <p class="card-text"
-                                    style=" overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
-                                    {{ $data->detail }} </p>
+                                    style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;">
+                                    {{ $data->detail }}
+                                </p>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <p class="card-text"><strong>Price:</strong> {{ $data->price }}</p>
@@ -26,7 +26,8 @@
                                         <p class="card-text"><strong>End Date:</strong> {{ $data->endDate }}</p>
                                     </div>
                                 </div>
-                                <div class="text-center mb-3  d-flex justify-content-center "
+
+                                <div class="text-center mb-3 d-flex justify-content-center"
                                     style="position: absolute; bottom: 0%;">
                                     <a href="{{ route('brand.campaign.edit', $data->id) }}"
                                         class="btn btn-success btn-sm me-2">Edit</a>
@@ -34,9 +35,8 @@
                                         class="btn btn-danger btn-sm me-2">Delete</a>
                                     <a href="{{ route('brand.campaign.appliers', $data->id) }}"
                                         class="btn btn-info btn-sm me-2">Appliers</a>
-                                    <a href="{{ route('brand.campaignStep.create', $data->id) }}"
+                                    <a href="{{ route('brand.campaignStep.index', $data->id) }}"
                                         class="btn btn-warning btn-sm">Steps</a>
-
                                 </div>
                             </div>
                         </div>
