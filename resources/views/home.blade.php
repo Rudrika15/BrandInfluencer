@@ -59,14 +59,14 @@
     <div class='container'>
 
         {{-- @if (session('role') === 'influencer') --}}
-        @role('Influencer')
+        {{-- @role('Influencer')
             <div class="card" style="width: 95%">
                 <div class="card-header justify-content-center">
-                    {{-- <h1>Campaigns</h1> --}}
                     <input type="text" class="form-control" id="search" placeholder="Search">
                 </div>
             </div>
             <div class="row" id="container">
+                    <h1>Campaigns</h1>
 
                 @foreach ($campaigns as $campaign)
                     <div class="col-md-4">
@@ -87,7 +87,65 @@
                     </div>
                 @endforeach
             </div>
-        @endrole
+        @endrole --}}
+
+        @role('Influencer')
+        <div class="card mb-3" style="width: 95%">
+    <div class="card-header text-center">
+        <input type="text" class="form-control" id="search" placeholder="Search campaigns...">
+    </div>
+</div>
+
+<div class="container-fluid">
+    <h3 class="mb-3">Active Campaigns</h3>
+
+    @if($campaigns->count() > 0)
+        <div class="row" id="container">
+            @foreach ($campaigns as $campaign)
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm " style="border-radius: 10px; overflow: hidden; width: 18rem; height: 35rem;">
+                        <a href="{{ route('influencer.campaignView.show', $campaign->id) }}" class="text-decoration-none text-dark">
+                            <img
+                                src="{{ asset('campaignPhoto/' . $campaign->photo) }}"
+                                onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                class="card-img-top"
+                                style="height: 220px; object-fit: cover;"
+                                alt="{{ $campaign->title }}"
+                            >
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate">
+                                    {{ $campaign->title }}
+                                </h5>
+                                <p class="card-text" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                    {{ $campaign->detail }}
+                                </p>
+                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="card-text"><strong>Price:</strong> {{ $campaign->price }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="card-text"><strong>Start Date:</strong> {{ $campaign->startDate }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="card-text"><strong>End Date:</strong> {{ $campaign->endDate }}</p>
+                                    </div>
+                                </div>
+
+        <a href="{{ route('influencer.campaignView.show', $campaign->id) }}" 
+           class="btn btn-success btn-sm">Apply</a>
+                             
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p class="text-muted">No active campaigns available right now.</p>
+    @endif
+</div>
+@endrole
+
 
 
         {{-- @if (session('role') === 'brand') --}}
@@ -255,7 +313,7 @@
                             html +=
                                 '<div class="card" style="width: 18rem; height: 22rem">';
                             html +=
-                                '<a href="{{ route('influencer.campaignView') }}/' +
+                                '<a href="{{ route('influencer.campaignView.show') }}/' +
                                 campaign.id + '">';
                             html += '<img src="{{ asset('campaignPhoto') }}/' +
                                 campaign.photo +

@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div> --}}
-        <div class="row">
+        {{-- <div class="row">
             @if (count($campaignList) > 0)
 
                 @foreach ($campaignList as $brand)
@@ -89,7 +89,54 @@
                 <h5>There Are No Campaigns Applied By You</h5>
             @endif
 
+        </div> --}}
+        <div class="row">
+    @if ($campaignList->count() > 0)
+        @foreach ($campaignList as $brand)
+            @if ($brand->campaign)
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card shadow-sm border-0 h-100">
+                        <a href="{{ route('influencer.campaignView.show', $brand->campaign->id) }}" 
+                           class="text-decoration-none text-dark">
+
+                            <img src="{{ asset('campaignPhoto/' . $brand->campaign->photo) }}"
+                                 onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                 class="card-img-top"
+                                 style="height: 250px; object-fit: cover; border-top-left-radius: .5rem; border-top-right-radius: .5rem;"
+                                 alt="{{ $brand->campaign->title }}">
+
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate mb-2">
+                                    {{ $brand->campaign->title }}
+                                </h5>
+
+                                <p class="card-text" style="
+                                    overflow: hidden;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;">
+                                    {{ $brand->campaign->detail }}
+                                </p>
+
+                                <p class="text-muted mb-1">
+                                    <strong>Type:</strong> {{ ucfirst($brand->campaign->campaignType) }}
+                                </p>
+                                <p class="text-muted mb-0">
+                                    <strong>Start:</strong> {{ \Carbon\Carbon::parse($brand->campaign->startDate)->format('d M Y') }}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+    @else
+        <div class="col-12 text-center py-4">
+            <h5>No campaigns applied by you.</h5>
         </div>
+    @endif
+</div>
+
     </div>
 
     {{-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

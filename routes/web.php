@@ -105,8 +105,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('influencer/profile/{id?}', [DashboardController::class, 'influencerProfile'])->name('general.influencerProfile');
 
-    // brand routs
-
+   
 
 
     // user Profile
@@ -164,6 +163,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // endprofile
 
+
     // influencer profile
     Route::get('influencer/profile', [InfluencerController::class, 'influencerProfile'])->name('influencer.profile');
     Route::get('influencer/edit/{id?}', [InfluencerController::class, 'edit'])->name('influencer.profile.edit');
@@ -174,14 +174,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('influencer/campaignApplyList', [InfluencerController::class, 'campaignApplyList'])->name('influencer.campaignApplyList');
     Route::get('influencer/appliedPhotoDelete/{id?}', [InfluencerController::class, 'appliedPhotoDelete'])->name('appliedPhotoDelete');
     Route::get('influencer/export', [InfluencerController::class, 'export'])->name('influencer.export');
-
+    Route::get('influencer/campaign/{id?}', [InfluencerController::class, 'campaignView'])->name('influencer.campaignView.show');
     // Applies
     Route::get('influencer/campaign/appliersCreate/{campaignId?}/{userId?}', [InfluencerController::class, 'appliersCreate'])->name('brand.campaign.appliersCreate');
     Route::post('influencer/campaign/appliersCreateStore', [InfluencerController::class, 'appliersCreateStore'])->name('brand.campaign.appliersCreateStore');
 
     Route::get('influencer/campaign/step/{campaignId?}', [InfluencerStepController::class, 'index'])->name('brand.campaign.campaign.step');
     Route::post('influencer/campaign/step', [InfluencerStepController::class, 'store'])->name('influencer.campaign.step.store');
-
+    
 
 
     // influencer status management
