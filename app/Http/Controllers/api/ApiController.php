@@ -4426,23 +4426,96 @@ class ApiController extends Controller
         }
     }
 
-    function influencerContentforCampaignView($id)
+    // function influencerContentforCampaignView($id)
+    // {
+
+    //     $appliers = CheckApply::where('userId', '=', $id)->get();
+
+    //     if ($appliers) {
+    //         $response = [
+    //             'status' => 200,
+    //             'data' => $appliers,
+    //         ];
+    //         return response($response, 200);
+    //     } else {
+    //         return response([
+    //             'message' => ['No List Found']
+    //         ], 404);
+    //     }
+    // }
+
+
+    // function influencerContentforCampaignView(Request $request, $campaignId)
+    // {
+    //     $influencerId = $request->input('influencerId');
+
+    //     // Step 1: Get all influencers for this campaign
+    //     $influencers = Apply::where('campaignId', $campaignId)
+    //         ->pluck('userId');
+
+    //     // Step 2: If influencerId is given, show their steps only
+    //     if ($influencerId) {
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $influencerId)
+    //             ->get();
+
+    //         if ($steps->isNotEmpty()) {
+    //             return response([
+    //                 'status' => 200,
+    //                 'data' => $steps,
+    //             ], 200);
+    //         } else {
+    //             return response([
+    //                 'message' => ['No Steps Found']
+    //             ], 404);
+    //         }
+    //     }
+
+    //     // Step 3: If no influencerId given, return influencer list
+    //     return response([
+    //         'status' => 200,
+    //         'influencers' => $influencers,
+    //     ], 200);
+    // }
+
+
+    function influencerContentforCampaignView(Request $request, $campaignId)
     {
+        // Step 1: Get campaign details
+        $campaign = Campaign::find($campaignId);
 
-        $appliers = CheckApply::where('userId', '=', $id)->get();
-
-        if ($appliers) {
-            $response = [
-                'status' => 200,
-                'data' => $appliers,
-            ];
-            return response($response, 200);
-        } else {
+        if (!$campaign) {
             return response([
-                'message' => ['No List Found']
+                'message' => ['Campaign not found']
             ], 404);
         }
+
+        // Step 2: Get influencers who applied
+        $influencers = Apply::where('campaignId', $campaignId)
+            ->pluck('userId');
+
+        // Step 3: Build influencer bunch with their steps
+        $influencerBunch = [];
+
+        foreach ($influencers as $influencerId) {
+            $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+                ->where('influencerId', $influencerId)
+                ->get();
+
+            $influencerBunch[] = [
+                'influencerId' => $influencerId,
+                'steps' => $steps,
+            ];
+        }
+
+        // Step 4: Return both bunches
+        return response([
+            'status' => 200,
+            'campaignBunch' => $campaign,
+            'influencerBunch' => $influencerBunch,
+        ], 200);
     }
+
 
     function BrandInfluencerList()
     {
