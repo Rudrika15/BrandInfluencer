@@ -346,7 +346,9 @@ Route::get('/influencer-campaign-list/{id?}', [ApiController::class, 'campaignAp
 // coentant store for approved influencer
 Route::post('/influencer-campaign-content-store', [ApiController::class, 'addContentforCampaign']);
 // Route::get('/influencer-campaign-content-view/{id?}', [ApiController::class, 'influencerContentforCampaignView']);
-Route::get('influencer-campaign-content-view/{campaignId}', [ApiController::class, 'influencerContentforCampaignView']);
+// Route::get('influencer-campaign-content-view/{campaignId}', [ApiController::class, 'influencerContentforCampaignView']);
+
+Route::get('influencer-campaign-content-view/{campaignId}/{influencerId?}', [ApiController::class, 'influencerContentforCampaignView']);
 
 // followed Step by influencer  
 Route::get('/influencer-campaign-stepList/{campaignId?}', [ApiController::class, 'stepList']);

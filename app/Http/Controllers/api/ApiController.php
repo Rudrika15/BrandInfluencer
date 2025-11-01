@@ -4424,52 +4424,287 @@ class ApiController extends Controller
     //         ], 404);
     //     }
     // }
-    
- 
- function influencerContentforCampaignView(Request $request, $campaignId)
+
+
+    //  function influencerContentforCampaignView(Request $request, $campaignId)
+    //     {
+    //         // Step 1: Get campaign details
+    //         $campaign = Campaign::find($campaignId);
+
+    //         if ($request->has('influencerId')) {
+    //             $influencerId = $request->influencerId;
+
+    //             $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //                 ->where('influencerId', $influencerId)
+    //                 ->get();
+
+    //             return response([
+    //                 'status' => 200,
+    //                 'steps' => $steps,
+    //             ], 200);
+    //         }
+
+    //         if (!$campaign) {
+    //             return response([
+    //                 'message' => ['Campaign not found']
+    //             ], 404);
+    //         }
+
+    //         // Step 2: Get influencers who applied
+    //         $influencers = Apply::where('campaignId', $campaignId)
+    //             ->pluck('userId');
+
+    //         // Step 3: Build influencer bunch with their steps
+    //         $influencerBunch = [];
+
+    //         foreach ($influencers as $influencerId) {
+    //             $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //                 ->where('influencerId', $influencerId)
+    //                 ->get();
+
+    //             $influencerBunch[] = [
+    //                 'influencerId' => $influencerId,
+    //                 'steps' => $steps,
+    //             ];
+    //         }
+
+    //         // Step 4: Return both bunches
+    //         return response([
+    //             'status' => 200,
+    //             'campaignBunch' => $campaign,
+    //             'influencerBunch' => $influencerBunch,
+    //         ], 200);
+    //     }
+
+
+    // public function influencerContentforCampaignView($campaignId, $influencerId = null)
+    // {
+    //     // Step 1: Get campaign details
+    //     $campaign = Campaign::find($campaignId);
+
+    //     if (!$campaign) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Campaign not found',
+    //         ], 404);
+    //     }
+
+    //     // Step 2: If influencerId is provided → show only that influencer’s steps
+    //     if ($influencerId) {
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $influencerId)
+    //             ->get();
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             'campaign' => $campaign,
+    //             'influencerId' => $influencerId,
+    //             'steps' => $steps,
+    //         ], 200);
+    //     }
+
+    //     // Step 3: Get all influencers for this campaign
+    //     $influencers = Apply::where('campaignId', $campaignId)
+    //         ->pluck('userId');
+
+    //     // Step 4: Build influencer bunch with their steps
+    //     $influencerBunch = [];
+
+    //     foreach ($influencers as $id) {
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $id)
+    //             ->get();
+
+    //         $influencerBunch[] = [
+    //             'influencerId' => $id,
+    //             'steps' => $steps,
+    //         ];
+    //     }
+
+    //     // Step 5: Return combined response
+    //     return response()->json([
+    //         'status' => 200,
+    //         'campaign' => $campaign,
+    //         'influencerBunch' => $influencerBunch,
+    //     ], 200);
+    // }
+
+
+    // public function influencerContentforCampaignView($campaignId, $influencerId = null)
+    // {
+    //     // Step 1: Get campaign details
+    //     $campaign = Campaign::find($campaignId);
+
+    //     if (!$campaign) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Campaign not found',
+    //         ], 404);
+    //     }
+
+    //     // Step 2: If influencerId is provided → show only that influencer’s steps
+    //     if ($influencerId) {
+    //         // Get influencer details from users and influencer_profiles tables
+    //         $influencer = User::with('influencer')->find($influencerId);
+
+    //         if (!$influencer) {
+    //             return response()->json([
+    //                 'status' => 404,
+    //                 'message' => 'Influencer not found',
+    //             ], 404);
+    //         }
+
+    //         // Get steps for this influencer
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $influencerId)
+    //             ->get();
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             // 'campaign' => $campaign,
+    //             // 'influencerId' => $influencerId,
+    //             'influencer' => $influencer, // 👈 includes full profile and user details
+    //             'steps' => $steps,
+    //         ], 200);
+    //     }
+
+    //     // Step 3: Get all influencers for this campaign
+    //     $influencers = Apply::where('campaignId', $campaignId)
+    //         ->pluck('userId');
+
+    //     // Step 4: Build influencer bunch with their steps and profiles
+    //     $influencer = [];
+
+    //     foreach ($influencers as $id) {
+    //         $influencer = User::with('influencer')->find($id);
+
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $id)
+    //             ->get();
+
+    //         $influencer[] = [
+    //             // 'influencerId' => $id,
+    //             'influencer' => $influencer,
+    //             'steps' => $steps,
+    //         ];
+    //     }
+
+    //     // Step 5: Return combined response
+    //     return response()->json([
+    //         'status' => 200,
+    //         'campaign' => $campaign,
+    //         'influencer' => $influencer,
+    //     ], 200);
+    // }
+
+
+    public function influencerContentforCampaignView($campaignId, $influencerId = null)
     {
         // Step 1: Get campaign details
         $campaign = Campaign::find($campaignId);
- 
+
         if (!$campaign) {
-            return response([
-                'message' => ['Campaign not found']
+            return response()->json([
+                'status' => 404,
+                'message' => 'Campaign not found',
             ], 404);
         }
- 
-        // Step 2: Get influencers who applied
-        $influencers = Apply::where('campaignId', $campaignId)
-            ->pluck('userId');
- 
-        // Step 3: Build influencer bunch with their steps
-        $influencerBunch = [];
- 
-        foreach ($influencers as $influencerId) {
-            $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
-                ->where('influencerId', $influencerId)
-                ->get();
- 
-            $influencerBunch[] = [
-                'influencerId' => $influencerId,
-                'steps' => $steps,
+
+        // Step 2: If influencerId is provided → show only that influencer’s steps
+        if ($influencerId) {
+            // Get influencer details
+            $influencer = User::with('influencer')->find($influencerId);
+
+            if (!$influencer) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Influencer not found',
+                ], 404);
+            }
+
+            // Rename relation key from influencer → influencerProfile
+            $influencerData = $influencer->toArray();
+            $influencerData['influencerProfile'] = $influencerData['influencer'] ?? null;
+            unset($influencerData['influencer']);
+
+            // Step 3: Get all campaign steps
+            $campaignSteps = CampaignStep::where('campaignId', $campaignId)->get();
+
+            // Step 4: For each campaign step, attach influencer’s activity data (if any)
+            $stepsWithActivity = $campaignSteps->map(function ($step) use ($campaignId, $influencerId) {
+                $activity = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+                    ->where('influencerId', $influencerId)
+                    ->where('stepId', $step->id)
+                    ->first();
+
+                return [
+                    'id' => $step->id,
+                    'title' => $step->title ?? null,
+                    'description' => $step->description ?? null,
+                    'status' => $step->status ?? null,
+                    'influencerActivity' => $activity, // can be null if not submitted
+                ];
+            });
+
+            return response()->json([
+                'status' => 200,
+                // 'campaign' => $campaign, // optional
+                'influencer' => $influencerData,
+                'steps' => $stepsWithActivity,
+            ], 200);
+        }
+
+        // Step 5: If no influencerId, show all influencers with their steps
+        $appliedInfluencers = Apply::where('campaignId', $campaignId)->pluck('userId');
+
+        $influencerList = [];
+
+        foreach ($appliedInfluencers as $id) {
+            $user = User::with('influencer')->find($id);
+            if (!$user) continue;
+
+            // Rename relation key
+            $userData = $user->toArray();
+            $userData['influencerProfile'] = $userData['influencer'] ?? null;
+            unset($userData['influencer']);
+
+            // Get all campaign steps
+            $campaignSteps = CampaignStep::where('campaignId', $campaignId)->get();
+
+            $stepsWithActivity = $campaignSteps->map(function ($step) use ($campaignId, $id) {
+                $activity = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+                    ->where('influencerId', $id)
+                    ->where('stepId', $step->id)
+                    ->first();
+
+                return [
+                    'id' => $step->id,
+                    'title' => $step->title ?? null,
+                    'description' => $step->description ?? null,
+                    'status' => $step->status ?? null,
+                    'influencerActivity' => $activity,
+                ];
+            });
+
+            $influencerList[] = [
+                'influencer' => $userData,
+                'steps' => $stepsWithActivity,
             ];
         }
- 
-        // Step 4: Return both bunches
-        return response([
+
+        // Step 6: Return combined response
+        return response()->json([
             'status' => 200,
-            'campaignBunch' => $campaign,
-            'influencerBunch' => $influencerBunch,
+            'campaign' => $campaign,
+            'influencers' => $influencerList,
         ], 200);
     }
- 
- 
 
- 
 
- 
 
- 
+
+
+
 
 
     function BrandInfluencerList()
