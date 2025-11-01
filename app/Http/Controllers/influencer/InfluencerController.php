@@ -67,6 +67,7 @@ class InfluencerController extends Controller
 
     public function campaigns($id)
     {
+        return $id;
         try {
             $userId = Auth::user()->id;
             // return $userId;
@@ -108,6 +109,49 @@ class InfluencerController extends Controller
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ]);
     }
+    // public function campaignView($id = null)
+    // {
+    //     try {
+    //         $userId = Auth::id();
+
+    //         $campaign = Campaign::where('id', $id)->first(); // only one campaign
+    //         if (!$campaign) {
+    //             return redirect()->back()->with('error', 'Campaign not found.');
+    //         }
+
+    //         $campaignCount = Apply::where('userId', $userId)
+    //             ->where('campaignId', $id)
+    //             ->count();
+
+    //         return view('influencer.campaignView.index', compact('campaign', 'campaignCount'));
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+    public function campaignView($id = null)
+    {
+        try {
+            $userId = Auth::id();
+
+            // Fetch single campaign with brand/user relationship
+            $campaign = Campaign::with('user')->find($id);
+
+            // Handle not found case
+            if (!$campaign) {
+                return redirect()->back()->with('error', 'Campaign not found.');
+            }
+
+            // Check if influencer already applied
+            $campaignCount = Apply::where('userId', $userId)
+                ->where('campaignId', $id)
+                ->count();
+
+            return view('influencer.campaignView.index', compact('campaign', 'campaignCount'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong: ' . $th->getMessage());
+        }
+    }
+
 
     public function campaignApply(Request $request)
     {

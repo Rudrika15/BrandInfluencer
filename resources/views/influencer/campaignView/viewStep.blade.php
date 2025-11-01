@@ -43,7 +43,8 @@
 
                                             @if ($counter < 1)
                                                 <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#uploadModal-{{ $data->id }}">
+                                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#uploadModal-{{ $data->id }}">
                                                     Upload Step
                                                 </button>
                                             @else
@@ -53,39 +54,58 @@
 
                                         {{-- <td class="text-warning">{{ $contentData->brandApproved ?? '' }}</td> --}}
 
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="uploadModal-{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="uploadModalLabel-{{ $data->id }}" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="uploadModalLabel-{{ $data->id }}">
-                                                                Upload your content Proof
-                                                            </h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form action="{{ route('influencer.campaign.step.store') }}" method="post" enctype="multipart/form-data">
-                                                                @csrf
-                                                                <input type="hidden" name="stepId" value="{{ $data->id }}">
-                                                                <input type="hidden" name="campaignId" value="{{ request('campaignId') }}">
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="uploadModal-{{ $data->id }}"
+                                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                            aria-labelledby="uploadModalLabel-{{ $data->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="uploadModalLabel-{{ $data->id }}">
+                                                            Upload your content Proof
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('influencer.campaign.step.store') }}"
+                                                            method="post" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <input type="hidden" name="stepId"
+                                                                value="{{ $data->id }}">
+                                                            <input type="hidden" name="campaignId"
+                                                                value="{{ request('campaignId') }}">
 
-                                                                <label for="uploadActivityPhoto-{{ $data->id }}">Upload Screenshot</label>
-                                                                <input type="file" class="form-control" name="uploadActivityPhoto" id="uploadActivityPhoto-{{ $data->id }}">
+                                                            <label for="uploadActivityPhoto-{{ $data->id }}">Upload
+                                                                Screenshot</label>
+                                                            <input type="file" class="form-control"
+                                                                name="uploadActivityPhoto"
+                                                                id="uploadActivityPhoto-{{ $data->id }}">
 
-                                                                <div class="my-2 text-center"><b>OR</b></div>
+                                                            <div class="my-2 text-center"><b>OR</b></div>
 
-                                                                <label for="uploadActivityLink-{{ $data->id }}">Upload URL</label>
-                                                                <input type="text" class="form-control" name="uploadActivityLink" id="uploadActivityLink-{{ $data->id }}" placeholder="Put your URL here..">
+                                                            {{-- <label for="uploadActivityLink-{{ $data->id }}">Upload URL</label>
+                                                                <input type="text" class="form-control" name="uploadActivityLink" id="uploadActivityLink-{{ $data->id }}" placeholder="Put your URL here.."> --}}
+                                                            {{-- <input type="file" class="form-control" name="uploadActivityLink" accept="video/*"> --}}
 
-                                                                <div class="mt-3 text-end">
-                                                                    <button type="submit" class="btn btn-success btn-sm">Submit</button>
-                                                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+
+                                                            <label for="uploadActivityVideo-{{ $data->id }}">Upload
+                                                                Video</label>
+                                                            <input type="file" class="form-control"
+                                                                name="uploadActivityLink" id="uploadActivityLink"
+                                                                accept="video/mp4">
+
+                                                            <div class="mt-3 text-end">
+                                                                <button type="submit"
+                                                                    class="btn btn-success btn-sm">Submit</button>
+                                                                <button type="button" class="btn btn-secondary btn-sm"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
                                         </td>
                                     </tr>

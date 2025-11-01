@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\brand\BrandPackageController;
 use App\Http\Controllers\brand\BrandPackageDetailController;
 use App\Http\Controllers\brand\CampaignController;
+use App\Http\Controllers\brand\CampaignStepController;
 use App\Http\Controllers\brand\DashboardController as BrandDashboardController;
 use App\Http\Controllers\brand\InstaMojoPaymentController;
 use App\Http\Controllers\BrandInfluencerNotificationController;
@@ -66,7 +67,7 @@ Route::post('brandDetails', [HomepageController::class, 'brandDetails'])->name('
 
 
 
-// OTP 
+// OTP
 
 Route::controller(OtpController::class)->group(function () {
     Route::get('loginn', 'login')->name('otp.login');
@@ -103,6 +104,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('influencer/dashboard', [DashboardController::class, 'dashboard'])->name('influencer.dashboard');
 
     Route::get('influencer/profile/{id?}', [DashboardController::class, 'influencerProfile'])->name('general.influencerProfile');
+
+   
+
 
     // user Profile
     Route::get('user/profile', [DashboardController::class, 'edit'])->name('profile');
@@ -159,6 +163,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // endprofile
 
+
     // influencer profile
     Route::get('influencer/profile', [InfluencerController::class, 'influencerProfile'])->name('influencer.profile');
     Route::get('influencer/edit/{id?}', [InfluencerController::class, 'edit'])->name('influencer.profile.edit');
@@ -169,14 +174,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('influencer/campaignApplyList', [InfluencerController::class, 'campaignApplyList'])->name('influencer.campaignApplyList');
     Route::get('influencer/appliedPhotoDelete/{id?}', [InfluencerController::class, 'appliedPhotoDelete'])->name('appliedPhotoDelete');
     Route::get('influencer/export', [InfluencerController::class, 'export'])->name('influencer.export');
-
+    Route::get('influencer/campaign/{id?}', [InfluencerController::class, 'campaignView'])->name('influencer.campaignView.show');
     // Applies
     Route::get('influencer/campaign/appliersCreate/{campaignId?}/{userId?}', [InfluencerController::class, 'appliersCreate'])->name('brand.campaign.appliersCreate');
     Route::post('influencer/campaign/appliersCreateStore', [InfluencerController::class, 'appliersCreateStore'])->name('brand.campaign.appliersCreateStore');
 
     Route::get('influencer/campaign/step/{campaignId?}', [InfluencerStepController::class, 'index'])->name('brand.campaign.campaign.step');
     Route::post('influencer/campaign/step', [InfluencerStepController::class, 'store'])->name('influencer.campaign.step.store');
-
+    
 
 
     // influencer status management
@@ -211,7 +216,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('influencer/package', [InfluencerPackagesController::class, 'packageView'])->name('influencer.packages');
 
 
-    // brand 
+    // brand
 
     // campaign
     Route::get('brand/campaign/index/', [CampaignController::class, 'index'])->name('brand.campaign.index');
@@ -221,13 +226,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('brand/campaign/update', [CampaignController::class, 'update'])->name('brand.campaign.update');
     Route::get('brand/campaign/delete/{id?}', [CampaignController::class, 'delete'])->name('brand.campaign.delete');
     Route::get('brand/campaign/appliers/{id}', [CampaignController::class, 'appliers'])->name('brand.campaign.appliers');
+    Route::get('brand/campaign/{id}/steps/create', [CampaignStepController::class, 'create'])
+        ->name('brand.campaignStep.create');
 
-    // Payment 
+    // campaign step
+    Route::post('brand/campaign/step/store', [CampaignStepController::class, 'store'])->name('brand.campaignStep.store');
+    Route::get('brand/campaign/step/index/{id?}', [CampaignStepController::class, 'index'])->name('brand.campaignStep.index');
+    Route::get('brand/campaign/step/edit/{id?}', [CampaignStepController::class, 'edit'])->name('brand.campaignStep.edit');
+    Route::post('brand/campaign/step/update', [CampaignStepController::class, 'update'])->name('brand.campaignStep.update');
+    Route::get('brand/campaign/step/delete/{id?}', [CampaignStepController::class, 'delete'])->name('brand.campaignStep.delete');
+
+    // Payment
 
     Route::get('payment', [PricingController::class, 'index']);
     Route::post('razorpay-payment', [PricingController::class, 'store'])->name('razorpay.payment.store');
 
-    // 
+    //
     Route::get('brand/pricing', [BrandPackageDetailController::class, 'pricingView'])->name('brand.pricing');
 
 
@@ -253,7 +267,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('influencer/chat/store', [ChatController::class, 'sendMessageInfluencer'])->name('influencer.chat.store');
     Route::get('/chats/messages/{receiverId}/{influencerId?}', [ChatController::class, 'fetchBrandMessages'])->name('influencer.chats.messages');
 
-    // find new chat 
+    // find new chat
     Route::get('/new/chats', [ChatController::class, 'findNewChat'])->name('find.new.chat');
     Route::post('/new/chats/store', [ChatController::class, 'firstChatStore'])->name('find.new.chat.store');
     // searched user get into the chat
@@ -269,7 +283,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/home', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
 
 
-    // campaign list at admin side 
+    // campaign list at admin side
 
     Route::get('admin/campaign/list', [DashboardController::class, 'campaignList'])->name('admin.campaign.list');
 

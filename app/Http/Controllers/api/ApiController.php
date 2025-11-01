@@ -862,7 +862,7 @@ class ApiController extends Controller
         if ($user) {
             $token = $user->createToken('my-app-token')->plainTextToken;
 
-            //send mail + random number   code here 
+            //send mail + random number   code here
             $role = $user->getRoleNames();
             $response = [
                 'User Data' => $user,
@@ -989,7 +989,7 @@ class ApiController extends Controller
     }
 
 
-    // update pin 
+    // update pin
     function updatePin(Request $request)
     {
         $rules = array(
@@ -2300,7 +2300,7 @@ class ApiController extends Controller
         }
     }
 
-    //media 
+    //media
 
     function storemedia(Request $request)
     {
@@ -2812,7 +2812,7 @@ class ApiController extends Controller
         }
     }
 
-    // Refer and earn 
+    // Refer and earn
 
     function refer(Request $request)
     {
@@ -3462,7 +3462,7 @@ class ApiController extends Controller
 
 
 
-    // Brand 
+    // Brand
 
     function brandCampainList($id)
     {
@@ -3970,7 +3970,7 @@ class ApiController extends Controller
         ];
         return response($response, 200);
     }
-    // approval 
+    // approval
     function brandCampaignApplierApproval($campaignId, $userId)
     {
         $applier = Apply::where('campaignId', '=', $campaignId)
@@ -4014,7 +4014,7 @@ class ApiController extends Controller
     }
 
 
-    // applier influencer content 
+    // applier influencer content
     function brandCampaignApplierContent($campaignId, $userId)
     {
         $applier = Campaign::where('id', '=', $campaignId)
@@ -4030,7 +4030,7 @@ class ApiController extends Controller
         return response($response, 200);
     }
 
-    // content approval 
+    // content approval
     function brandCampaignApplierContentApproval($id)
     {
         $applier = CheckApply::find($id);
@@ -4407,7 +4407,6 @@ class ApiController extends Controller
             ], 404);
         }
     }
-
     // function influencerContentforCampaignView($id)
     // {
 
@@ -4425,71 +4424,37 @@ class ApiController extends Controller
     //         ], 404);
     //     }
     // }
-
-
-    // function influencerContentforCampaignView(Request $request, $campaignId)
-    // {
-    //     $influencerId = $request->input('influencerId');
-
-    //     // Step 1: Get all influencers for this campaign
-    //     $influencers = Apply::where('campaignId', $campaignId)
-    //         ->pluck('userId');
-
-    //     // Step 2: If influencerId is given, show their steps only
-    //     if ($influencerId) {
-    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
-    //             ->where('influencerId', $influencerId)
-    //             ->get();
-
-    //         if ($steps->isNotEmpty()) {
-    //             return response([
-    //                 'status' => 200,
-    //                 'data' => $steps,
-    //             ], 200);
-    //         } else {
-    //             return response([
-    //                 'message' => ['No Steps Found']
-    //             ], 404);
-    //         }
-    //     }
-
-    //     // Step 3: If no influencerId given, return influencer list
-    //     return response([
-    //         'status' => 200,
-    //         'influencers' => $influencers,
-    //     ], 200);
-    // }
-
-
-    function influencerContentforCampaignView(Request $request, $campaignId)
+    
+ 
+ function influencerContentforCampaignView(Request $request, $campaignId)
     {
         // Step 1: Get campaign details
         $campaign = Campaign::find($campaignId);
-
+ 
         if (!$campaign) {
             return response([
                 'message' => ['Campaign not found']
             ], 404);
         }
-
+ 
         // Step 2: Get influencers who applied
         $influencers = Apply::where('campaignId', $campaignId)
             ->pluck('userId');
-
+ 
         // Step 3: Build influencer bunch with their steps
         $influencerBunch = [];
-
+ 
         foreach ($influencers as $influencerId) {
             $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
                 ->where('influencerId', $influencerId)
                 ->get();
-
+ 
             $influencerBunch[] = [
                 'influencerId' => $influencerId,
                 'steps' => $steps,
             ];
         }
-
+ 
         // Step 4: Return both bunches
         return response([
             'status' => 200,
@@ -4497,6 +4462,14 @@ class ApiController extends Controller
             'influencerBunch' => $influencerBunch,
         ], 200);
     }
+ 
+ 
+
+ 
+
+ 
+
+ 
 
 
     function BrandInfluencerList()
@@ -5008,7 +4981,7 @@ class ApiController extends Controller
     }
 
 
-    // brand offer 
+    // brand offer
 
     function offerCategoryList()
     {
@@ -5499,16 +5472,72 @@ class ApiController extends Controller
     }
 
 
+    // public function campaignList()
+    // {
+    //     $paidCampaigns = Campaign::where('campaignType', 'Paid')->get();
+    //     $barterCampaigns = Campaign::where('campaignType', 'Barter')->get();
+    //     $mostApplied  = Apply::with('campaign')->get();
+    //     $mostApplied = $mostApplied->groupBy('campaignId')->map(function ($item) {
+    //         return $item->max('campaignId');
+    //     })->toArray();
+    //     $mostAppliedd = Campaign::whereIn('id', $mostApplied)->get();
+    //     $trending = Campaign::whereIn('id', $mostApplied)->orderBy('id', 'desc')->get();
+    //     return response()->json([
+    //         'success' => true,
+    //         'paidCampaigns' => $paidCampaigns,
+    //         'barterCampaigns' => $barterCampaigns,
+    //         'mostApplied' => $mostAppliedd,
+    //         'trending' => $trending
+    //     ], 200);
+    // }
+
     public function campaignList()
     {
-        $paidCampaigns = Campaign::where('campaignType', 'Paid')->get();
-        $barterCampaigns = Campaign::where('campaignType', 'Barter')->get();
-        $mostApplied  = Apply::with('campaign')->get();
-        $mostApplied = $mostApplied->groupBy('campaignId')->map(function ($item) {
-            return $item->max('campaignId');
-        })->toArray();
-        $mostAppliedd = Campaign::whereIn('id', $mostApplied)->get();
-        $trending = Campaign::whereIn('id', $mostApplied)->orderBy('id', 'desc')->get();
+        $today = now()->startOfDay();
+
+        // Only future or ongoing Paid campaigns
+        $paidCampaigns = Campaign::where('campaignType', 'Paid')
+            ->where(function ($query) use ($today) {
+                $query->where('startDate', '>=', $today)
+                    ->orWhere('endDate', '>=', $today);
+            })
+            ->orderBy('startDate', 'asc')
+            ->get();
+
+        // Only future or ongoing Barter campaigns
+        $barterCampaigns = Campaign::where('campaignType', 'Barter')
+            ->where(function ($query) use ($today) {
+                $query->where('startDate', '>=', $today)
+                    ->orWhere('endDate', '>=', $today);
+            })
+            ->orderBy('startDate', 'asc')
+            ->get();
+
+        // Get most-applied campaign IDs
+        $mostApplied = Apply::with('campaign')->get()
+            ->groupBy('campaignId')
+            ->map(function ($item) {
+                return $item->max('campaignId');
+            })
+            ->toArray();
+
+        // Only future/ongoing campaigns from most-applied list
+        $mostAppliedd = Campaign::whereIn('id', $mostApplied)
+            ->where(function ($query) use ($today) {
+                $query->where('startDate', '>=', $today)
+                    ->orWhere('endDate', '>=', $today);
+            })
+            ->get();
+
+        // Future Campaigns
+        $trending = Campaign::whereIn('id', $mostApplied)
+            ->where(function ($query) use ($today) {
+                $query->where('startDate', '>=', $today)
+                    ->orWhere('endDate', '>=', $today);
+            })
+            ->orderBy('id', 'desc')
+            ->get();
+
         return response()->json([
             'success' => true,
             'paidCampaigns' => $paidCampaigns,
@@ -5517,6 +5546,9 @@ class ApiController extends Controller
             'trending' => $trending
         ], 200);
     }
+
+
+
 
     public function userProfile($id)
     {

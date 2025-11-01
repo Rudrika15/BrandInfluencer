@@ -13,19 +13,13 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-
                         <h2>Total user</h2>
                         <h3>{{ $user }}</h3>
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
-
-
 @endsection
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

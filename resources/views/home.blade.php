@@ -17,7 +17,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Check if any checkbox except 'Trending' is checked on page load
             var anyChecked = false;
@@ -54,19 +54,56 @@
                 }
             });
         });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+            // When checkbox changes
+            $('input[type="checkbox"]').on('change', function() {
+                // If this one is checked, uncheck the others
+                if ($(this).is(':checked')) {
+                    $('input[type="checkbox"]').not(this).prop('checked', false);
+                }
+
+                // Find which checkbox is checked
+                let selected = $('input[type="checkbox"]:checked').attr('id');
+
+                // If none is checked -> show all influencers
+                if (!selected) {
+                    $('.influencer_item').fadeIn(200);
+                    return;
+                }
+
+                // Hide all first
+                $('.influencer_item').hide();
+
+                // Show only matching influencers
+                if (selected === 'trending') {
+                    $('.influencer_item[data-trending="true"]').fadeIn(200);
+                } else if (selected === 'featured') {
+                    $('.influencer_item[data-featured="true"]').fadeIn(200);
+                } else if (selected === 'verified') {
+                    $('.influencer_item[data-verified="true"]').fadeIn(200);
+                }
+            });
+
+            // On initial page load — show all influencers
+            $('.influencer_item').show();
+        });
     </script>
+
 
     <div class='container'>
 
         {{-- @if (session('role') === 'influencer') --}}
-        @role('Influencer')
+        {{-- @role('Influencer')
             <div class="card" style="width: 95%">
                 <div class="card-header justify-content-center">
-                    {{-- <h1>Campaigns</h1> --}}
                     <input type="text" class="form-control" id="search" placeholder="Search">
                 </div>
             </div>
             <div class="row" id="container">
+                    <h1>Campaigns</h1>
 
                 @foreach ($campaigns as $campaign)
                     <div class="col-md-4">
@@ -87,7 +124,65 @@
                     </div>
                 @endforeach
             </div>
+        @endrole --}}
+
+        @role('Influencer')
+            <div class="card mb-3" style="width: 95%">
+                <div class="card-header text-center">
+                    <input type="text" class="form-control" id="search" placeholder="Search campaigns...">
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <h3 class="mb-3">Active Campaigns</h3>
+
+                @if ($campaigns->count() > 0)
+                    <div class="row" id="container">
+                        @foreach ($campaigns as $campaign)
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100 shadow-sm "
+                                    style="border-radius: 10px; overflow: hidden; width: 18rem; height: 35rem;">
+                                    <a href="{{ route('influencer.campaignView.show', $campaign->id) }}"
+                                        class="text-decoration-none text-dark">
+                                        <img src="{{ asset('campaignPhoto/' . $campaign->photo) }}"
+                                            onerror="this.src='{{ asset('images/default.jpg') }}'" class="card-img-top"
+                                            style="height: 220px; object-fit: cover;" alt="{{ $campaign->title }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate">
+                                                {{ $campaign->title }}
+                                            </h5>
+                                            <p class="card-text"
+                                                style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                                {{ $campaign->detail }}
+                                            </p>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p class="card-text"><strong>Price:</strong> {{ $campaign->price }}</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p class="card-text"><strong>Start Date:</strong> {{ $campaign->startDate }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p class="card-text"><strong>End Date:</strong> {{ $campaign->endDate }}</p>
+                                                </div>
+                                            </div>
+
+                                            <a href="{{ route('influencer.campaignView.show', $campaign->id) }}"
+                                                class="btn btn-success btn-sm">Apply</a>
+
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-muted">No active campaigns available right now.</p>
+                @endif
+            </div>
         @endrole
+
 
 
         {{-- @if (session('role') === 'brand') --}}
@@ -101,31 +196,61 @@
                         <div class='col-md-12'>
                             <form id="categoryForm" action="{{ route('home') }}" method="get">
                                 <div class="row d-flex justify-content-center">
-                                    <div class="col-md-12 d-flex gap-5 ">
+                                    {{-- <div class="col-md-12 d-flex gap-5 ">
                                         <div class="form-check form-switch">
                                             <label for="trending" class="form-label pe-3">
-                                                <input type="checkbox" class="form-check-input" name="type" value="is_trending" @if (request('type') == 'is_trending') checked @endif id="trending">
+                                                <input type="checkbox" class="form-check-input" name="type"
+                                                    value="is_trending" @if (request('type') == 'is_trending') checked @endif
+                                                    id="trending">
                                                 <b>Trending</b>
                                             </label>
                                         </div>
                                         <div class="form-check form-switch">
                                             <label for="featured" class="form-label pe-3">
-                                                <input type="checkbox" class="form-check-input" name="type" value="is_featured" @if (request('type') == 'is_featured') checked @endif id="featured">
+                                                <input type="checkbox" class="form-check-input" name="type"
+                                                    value="is_featured" @if (request('type') == 'is_featured') checked @endif
+                                                    id="featured">
                                                 <b>Featured</b>
                                             </label>
                                         </div>
                                         <div class="form-check form-switch">
                                             <label for="brandBeansVerified" class="form-label pe-3">
-                                                <input type="checkbox" class="form-check-input" name="type" value="is_brandBeansVerified" @if (request('type') == 'is_brandBeansVerified') checked @endif id="brandBeansVerified">
+                                                <input type="checkbox" class="form-check-input" name="type"
+                                                    value="is_brandBeansVerified"
+                                                    @if (request('type') == 'is_brandBeansVerified') checked @endif id="brandBeansVerified">
                                                 <b> BrandBeans Verified</b>
                                             </label>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                    <div class="col-md-12 d-flex gap-5 mb-3">
+    <div class="form-check form-switch">
+        <label class="form-label pe-3">
+            <input type="checkbox" class="form-check-input" id="trending" value="trending">
+            <b>Trending</b>
+        </label>
+    </div>
+
+    <div class="form-check form-switch">
+        <label class="form-label pe-3">
+            <input type="checkbox" class="form-check-input" id="featured" value="featured">
+            <b>Featured</b>
+        </label>
+    </div>
+
+    <div class="form-check form-switch">
+        <label class="form-label pe-3">
+            <input type="checkbox" class="form-check-input" id="verified" value="verified">
+            <b>BrandBeans Verified</b>
+        </label>
+    </div>
+</div>
+
                                     <div class="col-md-12 d-flex gap-3 mt-3">
                                         <select name="category[]" class="form-select" id="categorySelect" multiple>
                                             <option disabled>Select Categories</option>
                                             @foreach ($category as $cat)
-                                                <option value="{{ $cat->id }}" @if (is_array(request('category')) && in_array($cat->id, request('category'))) selected @endif>
+                                                <option value="{{ $cat->id }}"
+                                                    @if (is_array(request('category')) && in_array($cat->id, request('category'))) selected @endif>
                                                     {{ $cat->name }}
                                                 </option>
                                             @endforeach
@@ -133,9 +258,14 @@
                                         <button class="btn btn-primary" type="submit">Search</button>
                                         <a href="{{ route('home') }}" class="mt-1">
                                             <b>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" stroke="currentColor" stroke-width="1" />
-                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" stroke="currentColor" stroke-width="1" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+                                                        stroke="currentColor" stroke-width="1" />
+                                                    <path
+                                                        d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"
+                                                        stroke="currentColor" stroke-width="1" />
                                                 </svg>
                                             </b>
                                         </a>
@@ -153,59 +283,63 @@
                 }
             </style>
 
-            <div class="container influencer_section mt-4">
-                <div class="influencer_inner me-5 pe-3">
-                    @foreach ($influencer as $item)
-                        @php
-                            $inf = $item->influencer;
-                            $profilePhoto = $item->profilePhoto ?? 'defaultPerson.jpg';
-                            $name = $item->name ?? 'No Name';
-                            $followers = $inf->instagramFollowers ?? '0';
-                        @endphp
+           <div class="container influencer_section mt-4">
+    <div class="influencer_inner me-5 pe-3">
+        @foreach ($influencer as $item)
+            @php
+                $inf = $item->influencer;
+                $profilePhoto = $item->profilePhoto ?? 'defaultPerson.jpg';
+                $name = $item->name ?? 'No Name';
+                $followers = $inf->instagramFollowers ?? '0';
+            @endphp
 
-                        <div class="influencer_item">
-                            @if ($inf)
-                                @if ($inf->is_trending == 'on')
-                                    <span class="influencer_tag">Trending</span>
-                                @endif
-                                @if ($inf->is_featured == 'on')
-                                    <span class="influencer_tag featured mt-4">Featured</span>
-                                @endif
-                                @if ($inf->is_brandBeansVerified == 'on')
-                                    <i class="bi bi-patch-check-fill heart_icon" style="color: blue;"></i>
-                                @endif
-                            @endif
+            <div class="influencer_item"
+                 data-trending="{{ $inf->is_trending == 'on' ? 'true' : 'false' }}"
+                 data-featured="{{ $inf->is_featured == 'on' ? 'true' : 'false' }}"
+                 data-verified="{{ $inf->is_brandBeansVerified == 'on' ? 'true' : 'false' }}">
 
-                            <div class="influencer_img">
-                                <img class="bg-light" src="{{ asset('profile/' . $profilePhoto) }}" onerror="this.src='{{ asset('images/default.jpg') }}'" style="height: 350px; object-fit: contain;" />
-                            </div>
+                {{-- Tags --}}
+                @if ($inf->is_trending == 'on')
+                    <span class="influencer_tag">Trending</span>
+                @endif
+                @if ($inf->is_featured == 'on')
+                    <span class="influencer_tag featured mt-4">Featured</span>
+                @endif
+                @if ($inf->is_brandBeansVerified == 'on')
+                    <i class="bi bi-patch-check-fill heart_icon" style="color: blue;"></i>
+                @endif
 
-                            <div class="content">
-                                <p>{{ $name }}</p>
-                                <span>{{ $followers }} Followers</span>
+                <div class="influencer_img">
+                    <img class="bg-light" src="{{ asset('profile/' . $profilePhoto) }}"
+                         onerror="this.src='{{ asset('images/default.jpg') }}'"
+                         style="height: 350px; object-fit: contain;" />
+                </div>
 
-                                @php
-                                    $catIds = json_decode($inf->categoryId ?? '[]');
-                                    $cats = \App\Models\CategoryInfluencer::whereIn('id', $catIds)->pluck('name');
-                                @endphp
+                <div class="content">
+                    <p>{{ $name }}</p>
+                    <span>{{ $followers }} Followers</span>
 
-                                <div class="mt-2 d-flex flex-wrap gap-1">
-                                    @foreach ($cats as $cat)
-                                        <span class="badge bg-primary category-badge">{{ $cat }}</span>
-                                    @endforeach
-                                </div>
+                    @php
+                        $catIds = json_decode($inf->categoryId ?? '[]');
+                        $cats = \App\Models\CategoryInfluencer::whereIn('id', $catIds)->pluck('name');
+                    @endphp
 
-                                {{-- 👇 View Profile Button --}}
-                                <div class="explore_btn mt-3">
-                                    <a href="{{ route('brand.influencerProfile', [$item->id, $item->userId]) }}" class="custombtn highlighbtn">
-                                        View Profile
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <div class="mt-2 d-flex flex-wrap gap-1">
+                        @foreach ($cats as $cat)
+                            <span class="badge bg-primary category-badge">{{ $cat }}</span>
+                        @endforeach
+                    </div>
+
+                    <div class="explore_btn mt-3">
+                        <a href="{{ route('brand.influencerProfile', [$item->id, $item->userId]) }}"
+                           class="custombtn highlighbtn">View Profile</a>
+                    </div>
                 </div>
             </div>
+        @endforeach
+    </div>
+</div>
+
 
             <style>
                 .category-badge {
@@ -255,7 +389,7 @@
                             html +=
                                 '<div class="card" style="width: 18rem; height: 22rem">';
                             html +=
-                                '<a href="{{ route('influencer.campaignView') }}/' +
+                                '<a href="{{ route('influencer.campaignView.show') }}/' +
                                 campaign.id + '">';
                             html += '<img src="{{ asset('campaignPhoto') }}/' +
                                 campaign.photo +

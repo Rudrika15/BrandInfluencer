@@ -1,4 +1,4 @@
-@extends('extra.master')
+@extends('layouts.app')
 @section('title', 'Brand beans | Edit Campaign Step')
 @section('content')
     <div class='container'>
@@ -9,7 +9,7 @@
                         <h3>Edit Campaign Step</h3>
                     </div>
                     <div class="p-2">
-                        <a href="{{ route('brand.campaign.step.index') }}" class="btn btn-primary">Back</a>
+                        <a href="{{ route('brand.campaignStep.index') }}" class="btn btn-primary">Back</a>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="{{ route('brand.campaign.step.update') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
+                        <form action="{{ route('brand.campaignStep.update') }}" enctype="multipart/form-data" method="post" style="margin-top: 15px;">
                             @csrf
 
                             <input type="hidden" name="campaignStepId" value="{{ $step->id }}">

@@ -16,8 +16,8 @@
                 <td>{{ $data->title }}</td>
                 <td>{{ $data->detail }}</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="{{ route('brand.campaign.step.edit') }}/{{ $data->id }}">Edit</a>
-                    <a class="btn btn-danger btn-sm" href="{{ route('brand.campaign.step.delete') }}/{{ $data->id }}">Delete</a>
+                    <a class="btn btn-primary btn-sm" href="{{ route('brand.campaignStep.edit') }}/{{ $data->id }}">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="{{ route('brand.campaignStep.delete') }}/{{ $data->id }}">Delete</a>
                 </td>
             </tr>
         @endforeach
