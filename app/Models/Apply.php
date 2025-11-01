@@ -9,11 +9,19 @@ class Apply extends Model
 {
     use HasFactory;
 
+    protected $table = 'applies'; // optional: only if your table is not plural 'applies'
+
+    protected $fillable = [
+        'campaignId',
+        'userId',
+        'status',
+    ];
 
     public function campaign()
     {
         return $this->belongsTo(Campaign::class, 'campaignId', 'id');
     }
+
 
     public function campaignData()
     {

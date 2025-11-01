@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         .notificationIcon {
             font-size: 24px;
@@ -155,11 +157,11 @@
     $user = Auth::user()->id;
     $balance = \App\Models\BrandPoints::where('userId', $user)->get();
     $total = 0;
-    
+
     foreach ($balance as $points) {
         $total += $points->points;
     }
-    
+
     ?>
     <nav class="sidebar" style="z-index: 1">
         <header class="site-header">

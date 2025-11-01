@@ -40,7 +40,7 @@
     <div class="custom-overlay"></div>
     <header>
         <div class="container navbar">
-            <a href="{{ url('/') }}" title="Perfect Property" class="header-logo d-block">
+            <a href="{{ url('home') }}" title="Perfect Property" class="header-logo d-block">
                 <img src="{{ asset('assetshtml/images/logo.png') }}" title="Brandbeans" height="50" />
             </a>
             <div class="nav-item">
@@ -64,7 +64,7 @@
     </header>
     <!-- side menu start -->
     <div class="side-menu-wrap">
-        <a href="index.html" title="Perfect Property" class="side-menu-logo d-block p-3">
+        <a href="{{route('home')}}" title="Perfect Property" class="side-menu-logo d-block p-3">
             <img src="{{ asset('assetshtml/images/logo.png') }}" title="Perfect Property" width="180" />
         </a>
         <nav class="side-menu-nav">

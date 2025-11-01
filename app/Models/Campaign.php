@@ -18,4 +18,10 @@ class Campaign extends Model
     {
         return $this->belongsTo(User::class, 'userId', 'id');
     }
+
+
+    public function steps()
+    {
+        return $this->hasMany(CampaignStep::class, 'campaignId', 'id');
+    }
 }

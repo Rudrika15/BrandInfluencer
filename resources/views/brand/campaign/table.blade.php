@@ -31,8 +31,12 @@
                                     style="position: absolute; bottom: 0%;">
                                     <a href="{{ route('brand.campaign.edit', $data->id) }}"
                                         class="btn btn-success btn-sm me-2">Edit</a>
-                                    <a href="{{ route('brand.campaign.delete', $data->id) }}"
-                                        class="btn btn-danger btn-sm me-2">Delete</a>
+                                    {{-- <a href="{{ route('brand.campaign.delete', $data->id) }}"
+                                        class="btn btn-danger btn-sm me-2">Delete</a> --}}
+                                        <a href="{{ route('brand.campaign.delete', $data->id) }}"
+   class="btn btn-danger btn-sm me-2 delete-btn"
+   data-id="{{ $data->id }}">Delete</a>
+
                                     <a href="{{ route('brand.campaign.appliers', $data->id) }}"
                                         class="btn btn-info btn-sm me-2">Appliers</a>
                                     <a href="{{ route('brand.campaignStep.index', $data->id) }}"
@@ -96,3 +100,33 @@
         <span class="text-muted " style="font-weight: 500; font-size: 20px;">No Campaign Found</span>
     </div>
 @endif
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // stop link from redirecting
+
+            const url = this.getAttribute('href');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This campaign will be permanently deleted!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url; // proceed with deletion
+                }
+            });
+        });
+    });
+});
+</script>
+
