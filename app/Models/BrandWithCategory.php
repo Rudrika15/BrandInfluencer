@@ -28,4 +28,9 @@ class BrandWithCategory extends Model
     {
         return $this->hasMany(BrandOffer::class, 'userId', 'brandId');
     }
+
+    function category()
+    {
+        return $this->belongsTo(BrandCategory::class, 'brandCategoryId', 'id');
+    }
 }

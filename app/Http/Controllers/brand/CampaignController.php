@@ -172,8 +172,6 @@ class CampaignController extends Controller
                 }
             }
 
-
-
             return redirect('pricing')->with('warning', "You don't have enough points to create a campaign. Please purchase or renew your package.");
         } catch (\Throwable $th) {
             // throw $th;

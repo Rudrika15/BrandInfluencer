@@ -9,9 +9,13 @@ class CampaignStep extends Model
 {
     use HasFactory;
 
-
     public function campaign()
     {
         return $this->hasMany(Campaign::class, 'id', 'campaignId');
+    }
+
+    public function activitySteps()
+    {
+        return $this->hasMany(CampaignInfluencerActivityStep::class, 'stepId', 'id');
     }
 }

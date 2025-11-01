@@ -61,6 +61,7 @@
                                         @if ($data->status == 'Pending')
                                             <span class="badge bg-primary">Pending</span>
                                         @endif
+                                        
                                         <a href="{{ asset('checkApplyFile') }}/{{ $data->file }}" target="_blank">
                                             <img class="img-thumbnail" style="height: 200px; width: 200px;" src="{{ asset('checkApplyFile') }}/{{ $data->file }}" alt="image">
                                         </a>
@@ -72,10 +73,10 @@
                                                 <a class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop-{{ $data->id }}"><i class="bi bi-x text-white fa-lg"></i></a>
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
+
+
                                 <!-- modal -->
                                 {{-- <div class="remodal" data-remodal-id="remodal-{{ $data->id }}" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
                                 <button data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
@@ -86,6 +87,8 @@
                                     </p>
                                 </div>
                             </div> --}}
+
+
                                 <div class="modal fade" id="staticBackdrop-{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -143,10 +146,10 @@
                                                 <a class="btn btn-sm btn-danger" data-remodal-target="remodal-{{ $data->id }}" href="#"><i class="menu-icon fa fa-close text-white fa-lg"></i></a>
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
+
+
                                 <!-- modal -->
                                 <div class="remodal" data-remodal-id="remodal-{{ $data->id }}" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
                                     <button data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
@@ -213,8 +216,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
     </div>

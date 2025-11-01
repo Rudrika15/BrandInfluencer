@@ -276,7 +276,8 @@ Route::get('/brand-campaign-delete/{id?}', [ApiController::class, 'brandCampainD
 
 // Campaign Step
 
-Route::get('/brand-campaign-step-list/{userId?}', [ApiController::class, 'brandCampainStepList']);
+// Route::get('/brand-campaign-step-list/{userId?}', [ApiController::class, 'brandCampainStepList']);
+Route::get('/brand-campaign-step-list/{userId}/{campaignId?}', [ApiController::class, 'brandCampainStepList']);
 Route::post('/brand-campaign-step-store', [ApiController::class, 'brandCampainStepStore']);
 Route::post('/brand-campaign-step-edit/{id?}', [ApiController::class, 'brandCampainStepEdit']);
 Route::get('/brand-campaign-step-delete/{id?}', [ApiController::class, 'brandCampainStepDelete']);
@@ -344,7 +345,7 @@ Route::get('/influencer-campaign-list/{id?}', [ApiController::class, 'campaignAp
 
 // coentant store for approved influencer
 Route::post('/influencer-campaign-content-store', [ApiController::class, 'addContentforCampaign']);
-Route::get('/influencer-campaign-content-view/{id?}', [ApiController::class, 'influencerContentforCampaignView']);
+Route::get('/influencer-campaign-content-view/{campaignId?}', [ApiController::class, 'influencerContentforCampaignView']);
 
 // followed Step by influencer
 Route::get('/influencer-campaign-stepList/{campaignId?}', [ApiController::class, 'stepList']);
@@ -353,6 +354,7 @@ Route::post('/influencer-campaign-step', [ApiController::class, 'followedStep'])
 Route::get('/influencer-package', [ApiController::class, 'influencerPackage']);
 Route::get('/influencer-package-by-id/{id?}', [ApiController::class, 'influencerPackageById']);
 Route::post('/influencer-package-store', [ApiController::class, 'storeInfluencerPackage']);
+Route::post('/influencer-package-update/{id?}', [ApiController::class, 'updateInfluencerPackage']);
 Route::get('/influencer-package-delete/{id?}', [ApiController::class, 'deleteInfluencerPackage']);
 
 

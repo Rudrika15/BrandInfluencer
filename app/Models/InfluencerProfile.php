@@ -27,6 +27,10 @@ class InfluencerProfile extends Model
     {
         return $this->hasMany(CategoryInfluencer::class, 'id', 'categoryId');
     }
+    function incategoriies()
+    {
+        return $this->hasMany(BrandCategory::class, 'id', 'categoryId');
+    }
 
     public function inCategories()
     {

@@ -40,6 +40,156 @@ class ChatController extends Controller
         return view('chats.influencer.index', compact('chats'));
     }
 
+    // public function newInfluencerChatIndex(Request $request)
+    // {
+    //     $id = Auth::user()->id;
+    //     $email = Auth::user()->email;
+    //     $receiverId = $request->receiverId;
+
+    //     $sessionUser = Session()->get('role');
+
+    //     if ($sessionUser == 'brand') {
+    //         $findChatGroup = ChatGroup::where('influencerId', $receiverId)
+    //             ->where('brandId', $id)
+    //             ->first();
+    //     }
+    //     if ($sessionUser == 'influencer') {
+    //         $findChatGroup = ChatGroup::where('influencerId', $id)
+    //             ->where('brandId', $receiverId)
+    //             ->first();
+    //     }
+    //     if (!$findChatGroup) {
+
+
+    //         $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
+    //         $brandPackage = BrandPoints::where('userId', '=', $id)->first();
+
+
+    //         if ($brandPackageSum > 0) {
+    //             $package = BrandPackage::where('points', $brandPackage->points)->first();
+
+
+    //             if ($package) {
+    //                 $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'Like', '%per message%')->first();
+
+    //                 if ($packageDetailData) {
+    //                     $activity = Activity::where('id', $packageDetailData->activityId)->first();
+    //                     $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
+    //                         ->where('activityId', $activity->id)
+    //                         ->first();
+
+    //                     if ($packageDetail && $packageDetail->points < $brandPackageSum) {
+    //                         // Assuming $campaign is defined somewhere in your code
+    //                         $roles = Auth::user()->roles->pluck('name');
+    //                         $newChat = new ChatGroup();
+    //                         $newChat->brandId = $receiverId;
+    //                         $newChat->influencerId = $id;
+    //                         if ($roles->contains('Brand')) {
+    //                             $newChat->session = "brand";
+    //                         }
+    //                         if ($roles->contains('Influencer')) {
+    //                             $newChat->session = "influencer";
+    //                         }
+    //                         $newChat->save();
+
+    //                         $chat  = new Chat();
+    //                         $chat->groupId = $newChat->id;
+    //                         if ($roles->contains('Brand')) {
+    //                             $chat->session = "brand";
+    //                         }
+    //                         if ($roles->contains('Influencer')) {
+    //                             $chat->session = "influencer";
+    //                         }
+    //                         $chat->message = $request->message;
+
+    //                         $chat->save();
+
+    //                         $point = new BrandPoints();
+    //                         $point->userId = $id;
+    //                         $point->email = $email;
+    //                         $point->points = '-' . $packageDetail->points;
+    //                         $point->remark = 'Sent Message';
+    //                         $point->save();
+
+    //                         $notification = new BrandInfluencerNotification();
+    //                         $notification->userId = $receiverId;   // receiver id
+    //                         $notification->title = "New Message from " . Auth::user()->name;
+    //                         $notification->type = "General";
+    //                         $notification->visible = "I";
+    //                         $notification->dateTime = Carbon::now();
+    //                         $notification->is_read = "Yes";
+    //                         $notification->save();
+
+    //                         return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
+    //                     }
+    //                 } else {
+    //                     return \redirect()->back()->with('warning', "some issue in package");
+    //                 }
+    //             }
+    //         } else {
+    //             return \redirect('pricing')->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
+    //         }
+    //     } else {
+    //         $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
+    //         $brandPackage = BrandPoints::where('userId', '=', $id)->first();
+    //         $roles = Auth::user()->roles->pluck('name');
+
+    //         if ($brandPackageSum > 0) {
+    //             $package = BrandPackage::where('points', $brandPackage->points)->first();
+
+
+    //             if ($package) {
+    //                 $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'Like', '%per message%')->first();
+
+    //                 if ($packageDetailData) {
+    //                     $activity = Activity::where('id', $packageDetailData->activityId)->first();
+    //                     $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
+    //                         ->where('activityId', $activity->id)
+    //                         ->first();
+
+    //                     if ($packageDetail && $packageDetail->points < $brandPackageSum) {
+    //                         $chat  = new Chat();
+    //                         $chat->groupId = $findChatGroup->id;
+
+    //                         if ($roles->contains('Brand')) {
+    //                             $chat->session = "brand";
+    //                         }
+    //                         if ($roles->contains('Influencer')) {
+    //                             $chat->session = "influencer";
+    //                         }
+    //                         $chat->message = $request->message;
+    //                         $chat->save();
+
+    //                         $point = new BrandPoints();
+    //                         $point->userId = $id;
+    //                         $point->email = $email;
+    //                         $point->points = '-' . $packageDetail->points;
+    //                         $point->remark = 'Sent Message';
+    //                         $point->save();
+
+    //                         $notification = new BrandInfluencerNotification();
+    //                         $notification->userId = $receiverId;   // receiver id
+    //                         $notification->title = "New Message from " . Auth::user()->name;
+    //                         $notification->type = "General";
+    //                         $notification->visible = "I";
+    //                         $notification->dateTime = Carbon::now();
+    //                         $notification->is_read = "Yes";
+    //                         $notification->save();
+    //                         return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
+    //                     }
+    //                 } else {
+    //                     return \redirect('pricing')->with('warning', "some issue in package");
+    //                 }
+    //             } else {
+    //                 return \redirect('pricing')->with('warning', "package not found");
+    //             }
+    //         } else {
+    //             return \redirect('pricing')->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
+    //         }
+    //     }
+    // }
+
+
     public function newInfluencerChatIndex(Request $request)
     {
         $id = Auth::user()->id;
@@ -53,24 +203,24 @@ class ChatController extends Controller
                 ->where('brandId', $id)
                 ->first();
         }
+
         if ($sessionUser == 'influencer') {
             $findChatGroup = ChatGroup::where('influencerId', $id)
                 ->where('brandId', $receiverId)
                 ->first();
         }
+
         if (!$findChatGroup) {
-
-
             $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
             $brandPackage = BrandPoints::where('userId', '=', $id)->first();
-
 
             if ($brandPackageSum > 0) {
                 $package = BrandPackage::where('points', $brandPackage->points)->first();
 
-
                 if ($package) {
-                    $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'Like', '%per message%')->first();
+                    $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)
+                        ->where('details', 'Like', '%per message%')
+                        ->first();
 
                     if ($packageDetailData) {
                         $activity = Activity::where('id', $packageDetailData->activityId)->first();
@@ -79,19 +229,25 @@ class ChatController extends Controller
                             ->first();
 
                         if ($packageDetail && $packageDetail->points < $brandPackageSum) {
-                            // Assuming $campaign is defined somewhere in your code
                             $roles = Auth::user()->roles->pluck('name');
+
+                            // ✅ FIXED GROUP CREATION HERE
                             $newChat = new ChatGroup();
-                            $newChat->brandId = $receiverId;
-                            $newChat->influencerId = $id;
                             if ($roles->contains('Brand')) {
+                                $newChat->brandId = $id;
+                                $newChat->influencerId = $receiverId;
                                 $newChat->session = "brand";
                             }
+
                             if ($roles->contains('Influencer')) {
+                                $newChat->brandId = $receiverId;
+                                $newChat->influencerId = $id;
                                 $newChat->session = "influencer";
                             }
+
                             $newChat->save();
 
+                            // create chat message
                             $chat  = new Chat();
                             $chat->groupId = $newChat->id;
                             if ($roles->contains('Brand')) {
@@ -101,9 +257,9 @@ class ChatController extends Controller
                                 $chat->session = "influencer";
                             }
                             $chat->message = $request->message;
-
                             $chat->save();
 
+                            // deduct points
                             $point = new BrandPoints();
                             $point->userId = $id;
                             $point->email = $email;
@@ -111,8 +267,9 @@ class ChatController extends Controller
                             $point->remark = 'Sent Message';
                             $point->save();
 
+                            // notification
                             $notification = new BrandInfluencerNotification();
-                            $notification->userId = $receiverId;   // receiver id
+                            $notification->userId = $receiverId;
                             $notification->title = "New Message from " . Auth::user()->name;
                             $notification->type = "General";
                             $notification->visible = "I";
@@ -120,16 +277,17 @@ class ChatController extends Controller
                             $notification->is_read = "Yes";
                             $notification->save();
 
-                            return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
+                            return redirect()->back()->with('success', 'Message sent successfully. You can continue in Chat menu.');
                         }
                     } else {
-                        return \redirect()->back()->with('warning', "some issue in package");
+                        return redirect()->back()->with('warning', "Some issue in package");
                     }
                 }
             } else {
-                return \redirect('pricing')->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
+                return redirect('pricing')->with('warning', "You don't have enough points to send a message. Please purchase or renew your package.");
             }
         } else {
+            // existing chat group found
             $brandPackageSum = BrandPoints::where('userId', '=', $id)->sum('points');
             $brandPackage = BrandPoints::where('userId', '=', $id)->first();
             $roles = Auth::user()->roles->pluck('name');
@@ -137,9 +295,10 @@ class ChatController extends Controller
             if ($brandPackageSum > 0) {
                 $package = BrandPackage::where('points', $brandPackage->points)->first();
 
-
                 if ($package) {
-                    $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'Like', '%per message%')->first();
+                    $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)
+                        ->where('details', 'Like', '%per message%')
+                        ->first();
 
                     if ($packageDetailData) {
                         $activity = Activity::where('id', $packageDetailData->activityId)->first();
@@ -157,9 +316,11 @@ class ChatController extends Controller
                             if ($roles->contains('Influencer')) {
                                 $chat->session = "influencer";
                             }
+
                             $chat->message = $request->message;
                             $chat->save();
 
+                            // deduct points
                             $point = new BrandPoints();
                             $point->userId = $id;
                             $point->email = $email;
@@ -167,27 +328,30 @@ class ChatController extends Controller
                             $point->remark = 'Sent Message';
                             $point->save();
 
+                            // notification
                             $notification = new BrandInfluencerNotification();
-                            $notification->userId = $receiverId;   // receiver id
+                            $notification->userId = $receiverId;
                             $notification->title = "New Message from " . Auth::user()->name;
                             $notification->type = "General";
                             $notification->visible = "I";
                             $notification->dateTime = Carbon::now();
                             $notification->is_read = "Yes";
                             $notification->save();
-                            return redirect()->back()->with('success', 'Message send successfully you can send other message at Chat menu');
+
+                            return redirect()->back()->with('success', 'Message sent successfully. You can continue in Chat menu.');
                         }
                     } else {
-                        return \redirect('pricing')->with('warning', "some issue in package");
+                        return redirect('pricing')->with('warning', "Some issue in package");
                     }
                 } else {
-                    return \redirect('pricing')->with('warning', "package not found");
+                    return redirect('pricing')->with('warning', "Package not found");
                 }
             } else {
-                return \redirect('pricing')->with('warning', "You don't have enough points to Send Message,  Please purchase or renew your package.");
+                return redirect('pricing')->with('warning', "You don't have enough points to send a message. Please purchase or renew your package.");
             }
         }
     }
+
 
     public function newBrandChatIndex(Request $request)
     {
