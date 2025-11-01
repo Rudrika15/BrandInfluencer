@@ -276,7 +276,8 @@ Route::get('/brand-campaign-delete/{id?}', [ApiController::class, 'brandCampainD
 
 // Campaign Step
 
-Route::get('/brand-campaign-step-list/{userId?}', [ApiController::class, 'brandCampainStepList']);
+// Route::get('/brand-campaign-step-list/{userId?}', [ApiController::class, 'brandCampainStepList']);
+Route::get('/brand-campaign-step-list/{userId}/{campaignId?}', [ApiController::class, 'brandCampainStepList']);
 Route::post('/brand-campaign-step-store', [ApiController::class, 'brandCampainStepStore']);
 Route::post('/brand-campaign-step-edit/{id?}', [ApiController::class, 'brandCampainStepEdit']);
 Route::get('/brand-campaign-step-delete/{id?}', [ApiController::class, 'brandCampainStepDelete']);

@@ -276,6 +276,80 @@ class ApiController extends Controller
     //     }
 
 
+    // function sendotp(Request $request)
+    // {
+    //     Log::info('ApiController@sendotp called');
+
+    //     $rules = [
+    //         'mobile' => 'required',
+    //         'userType' => 'nullable|in:Influencer,Brand,influencer,brand',
+    //     ];
+
+    //     $validator = Validator::make($request->all(), $rules);
+
+    //     if ($validator->fails()) {
+    //         Log::error('Validation failed', ['errors' => $validator->errors()]);
+    //         return $validator->errors();
+    //     }
+
+    //     Log::info('Validation passed');
+
+    //     // Default OTP
+    //     $otp = 123456;
+    //     $numbers = $request->mobile;
+    //     $sender = urlencode('DGSAPI');
+    //     $message = "Your One Time Verification Password is {$otp}.";
+    //     $username = "BrandBeans";
+    //     $smstype = "TRANS";
+    //     $apiKey = urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b');
+
+    //     // Prepare data for POST request
+    //     $data = [
+    //         'apikey' => $apiKey,
+    //         'numbers' => $numbers,
+    //         'sender' => $sender,
+    //         'message' => $message,
+    //         'username' => $username,
+    //         'sendername' => $sender,
+    //         'smstype' => $smstype,
+    //     ];
+
+    //     // Send the POST request with cURL
+    //     $ch = curl_init('http://sms.hspsms.com/sendSMS');
+    //     curl_setopt($ch, CURLOPT_POST, true);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     $response = curl_exec($ch);
+    //     curl_close($ch);
+
+    //     Log::info('Request sent to sms.hspsms.com', ['response' => $response]);
+
+    //     $time = Carbon::now()->toTimeString();
+
+    //     // Save OTP to database
+    //     $userFind = User::where('mobileno', $request->mobile)->first();
+    //     if ($userFind) {
+    //         $otps = new Otp();
+    //         $otps->otp = $otp;
+    //         $otps->mobileno = $request->mobile;
+    //         $otps->time = $time;
+    //         $otps->save();
+    //     }
+
+    //     // Return response
+    //     if ($response) {
+    //         return response([
+    //             'message' => "OTP Send Successfully",
+    //             'otp' => $otp // optional, for testing
+    //         ], 201);
+    //     } else {
+    //         return response([
+    //             'message' => ['No Data Found']
+    //         ], 404);
+    //     }
+    // }
+
+
     function sendotp(Request $request)
     {
         Log::info('ApiController@sendotp called');
@@ -326,9 +400,18 @@ class ApiController extends Controller
 
         $time = Carbon::now()->toTimeString();
 
-        // Save OTP to database
+        // ✅ Save OTP to database (for both cases)
         $userFind = User::where('mobileno', $request->mobile)->first();
+
         if ($userFind) {
+            Log::info('User found, saving OTP');
+            $otps = new Otp();
+            $otps->otp = $otp;
+            $otps->mobileno = $request->mobile;
+            $otps->time = $time;
+            $otps->save();
+        } else {
+            Log::info('User not found, saving OTP anyway');
             $otps = new Otp();
             $otps->otp = $otp;
             $otps->mobileno = $request->mobile;
@@ -348,6 +431,7 @@ class ApiController extends Controller
             ], 404);
         }
     }
+
 
 
     // function checkotp(Request $request)
@@ -533,8 +617,8 @@ class ApiController extends Controller
 
         if (!$user) {
             return response([
-                'flag' => false,
-                'message' => ['User not found'],
+                'flag' => true,
+                'message' => 'User not found',
             ], 200);
         }
 
@@ -3710,17 +3794,117 @@ class ApiController extends Controller
 
     // Campaign Step
 
-    function brandCampainStepList($userId)
+    // function brandCampainStepList($userId)
+    // {
+    //     $step = CampaignStep::with(['campaign' => function ($query) use ($userId) {
+    //         $query->where('userId', '=', $userId);
+    //     }])->get();
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $step,
+    //     ];
+    //     return response($response, 200);
+    // }
+
+
+    // function brandCampainStepList($userId, $campaignId = null)
+    // {
+    //     $step = CampaignStep::with(['campaign' => function ($query) use ($userId) {
+    //         $query->where('userId', '=', $userId);
+    //     }]);
+
+    //     if ($campaignId) {
+    //         $step->where('campaignId', $campaignId);
+    //     }
+
+    //     $step = $step->get();
+
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $step,
+    //     ];
+
+    //     return response($response, 200);
+    // }
+
+
+    // function brandCampainStepList($userId, $campaignId = null)
+    // {
+    //     $step = CampaignStep::with([
+    //         'campaign' => function ($query) use ($userId) {
+    //             $query->where('userId', '=', $userId);
+    //         },
+    //         'activitySteps' // new relation
+    //     ]);
+
+    //     if ($campaignId) {
+    //         $step->where('campaignId', $campaignId);
+    //     }
+
+    //     $step = $step->get();
+
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $step,
+    //     ];
+
+    //     return response($response, 200);
+    // }
+
+
+    // function brandCampainStepList($userId, $campaignId = null)
+    // {
+    //     $step = CampaignStep::with(['activitySteps' => function ($q) {
+    //         $q->latest(); // get latest one if multiple
+    //     }])
+    //         ->whereHas('campaign', function ($query) use ($userId) {
+    //             $query->where('userId', $userId);
+    //         });
+
+    //     if ($campaignId) {
+    //         $step->where('campaignId', $campaignId);
+    //     }
+
+    //     $step = $step->get()->map(function ($item) {
+    //         // remove campaign
+    //         unset($item['campaign']);
+    //         // keep only first activity_step (not array)
+    //         $item['activity_step'] = $item->activitySteps->first();
+    //         unset($item['activitySteps']);
+    //         return $item;
+    //     });
+
+    //     return response([
+    //         'status' => 200,
+    //         'data' => $step,
+    //     ], 200);
+    // }
+
+    function brandCampainStepList($userId = null, $campaignId = null)
     {
-        $step = CampaignStep::with(['campaign' => function ($query) use ($userId) {
-            $query->where('userId', '=', $userId);
-        }])->get();
-        $response = [
+        $step = CampaignStep::with(['activitySteps' => function ($q) {
+            $q->latest(); // get latest one if multiple
+        }]);
+
+        if ($campaignId) {
+            $step->where('campaignId', $campaignId);
+        }
+
+        $step = $step->get()->map(function ($item) {
+            // keep only first activity_step (not array)
+            $item['activity_step'] = $item->activitySteps->first();
+            unset($item['activitySteps'], $item['campaign']);
+            return $item;
+        });
+
+        return response([
             'status' => 200,
             'data' => $step,
-        ];
-        return response($response, 200);
+        ], 200);
     }
+
+
+
 
     function influencerFollowedSteps($campaignId, $influencerId)
     {
@@ -4218,6 +4402,7 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return $validator->errors();
         }
+
         $appliers = new CheckApply();
         $appliers->campaignId = $request->campaignId;
         $appliers->userId = $request->userId;
@@ -4240,6 +4425,7 @@ class ApiController extends Controller
             ], 404);
         }
     }
+
     function influencerContentforCampaignView($id)
     {
 
@@ -4456,7 +4642,6 @@ class ApiController extends Controller
                 'status' => true,
                 'message' => "package is not found",
             ];
-
             return response($response, 200);
         }
     }
