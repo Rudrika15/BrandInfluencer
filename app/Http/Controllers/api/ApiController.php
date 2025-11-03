@@ -3410,10 +3410,13 @@ class ApiController extends Controller
 
     function contactInfluencer(Request $request)
     {
+        
         $rules = array(
             'brandId' => 'required',
             'influencerId' => 'required',
-        );
+        );  
+
+       
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return $validator->errors();
@@ -3758,17 +3761,41 @@ class ApiController extends Controller
     }
 
     // content approval
-    function brandCampaignApplierContentApproval($id)
+    // function brandCampaignApplierContentApproval($id)
+    // {
+    //     $applier = CheckApply::find($id);
+    //     $applier->status = "Approved";
+    //     $applier->save();
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $applier,
+    //     ];
+    //     return response($response, 200);
+    // }
+    public function brandCampaignApplierContentApproval($id)
     {
         $applier = CheckApply::find($id);
+
+        if (!$applier) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Applicant not found'
+            ], 404);
+        }
+
         $applier->status = "Approved";
         $applier->save();
-        $response = [
+
+        return response()->json([
             'status' => 200,
-            'data' => $applier,
-        ];
-        return response($response, 200);
+            'message' => 'Applicant approved successfully',
+            'data' => [
+                'id' => $applier->id,
+                'status' => $applier->status
+            ]
+        ]);
     }
+
     // on hold
     function brandCampaignApplierContentPending($id)
     {
@@ -4150,53 +4177,56 @@ class ApiController extends Controller
     //         ], 404);
     //     }
     // }
-    
- 
- function influencerContentforCampaignView(Request $request, $campaignId)
-    {
-        // Step 1: Get campaign details
-        $campaign = Campaign::find($campaignId);
- 
-        if (!$campaign) {
+
+
+     function influencerContentforCampaignView(Request $request, $campaignId)
+        {
+            // Step 1: Get campaign details
+            $campaign = Campaign::find($campaignId);
+            if ($request->has('influencerId')) {
+                $influencerId = $request->influencerId;
+
+                $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+                    ->where('influencerId', $influencerId)
+                    ->get();
+
+                return response([
+                    'status' => 200,
+                    'steps' => $steps,
+                ], 200);
+            }
+
+            if (!$campaign) {
+                return response([
+                    'message' => ['Campaign not found']
+                ], 404);
+            }
+
+            // Step 2: Get influencers who applied
+            $influencers = Apply::where('campaignId', $campaignId)
+                ->pluck('userId');
+
+            // Step 3: Build influencer bunch with their steps
+            $influencerBunch = [];
+
+            foreach ($influencers as $influencerId) {
+                $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+                    ->where('influencerId', $influencerId)
+                    ->get();
+
+                $influencerBunch[] = [
+                    'influencerId' => $influencerId,
+                    'steps' => $steps,
+                ];
+            }
+
+            // Step 4: Return both bunches
             return response([
-                'message' => ['Campaign not found']
-            ], 404);
+                'status' => 200,
+                'campaignBunch' => $campaign,
+                'influencerBunch' => $influencerBunch,
+            ], 200);
         }
- 
-        // Step 2: Get influencers who applied
-        $influencers = Apply::where('campaignId', $campaignId)
-            ->pluck('userId');
- 
-        // Step 3: Build influencer bunch with their steps
-        $influencerBunch = [];
- 
-        foreach ($influencers as $influencerId) {
-            $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
-                ->where('influencerId', $influencerId)
-                ->get();
- 
-            $influencerBunch[] = [
-                'influencerId' => $influencerId,
-                'steps' => $steps,
-            ];
-        }
- 
-        // Step 4: Return both bunches
-        return response([
-            'status' => 200,
-            'campaignBunch' => $campaign,
-            'influencerBunch' => $influencerBunch,
-        ], 200);
-    }
- 
- 
-
- 
-
- 
-
- 
-
 
     function BrandInfluencerList()
     {

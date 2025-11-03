@@ -104,7 +104,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('influencer/dashboard', [DashboardController::class, 'dashboard'])->name('influencer.dashboard');
 
     Route::get('influencer/profile/{id?}', [DashboardController::class, 'influencerProfile'])->name('general.influencerProfile');
-
+    // Contact influencer
+    Route::post('contact-influencer', [DashboardController::class, 'contactInfluencer'])
+        ->name('brand.contactInfluencer');
    
 
 
@@ -226,6 +228,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('brand/campaign/update', [CampaignController::class, 'update'])->name('brand.campaign.update');
     Route::get('brand/campaign/delete/{id?}', [CampaignController::class, 'delete'])->name('brand.campaign.delete');
     Route::get('brand/campaign/appliers/{id}', [CampaignController::class, 'appliers'])->name('brand.campaign.appliers');
+    Route::get('brand/campaign/content/{campaignId}', [CampaignController::class, 'campaignContentView'])->name('brand.campaign.content');
+
     Route::get('brand/campaign/{id}/steps/create', [CampaignStepController::class, 'create'])
         ->name('brand.campaignStep.create');
 
@@ -235,7 +239,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('brand/campaign/step/edit/{id?}', [CampaignStepController::class, 'edit'])->name('brand.campaignStep.edit');
     Route::post('brand/campaign/step/update', [CampaignStepController::class, 'update'])->name('brand.campaignStep.update');
     Route::get('brand/campaign/step/delete/{id?}', [CampaignStepController::class, 'delete'])->name('brand.campaignStep.delete');
-
+  
     // Payment
 
     Route::get('payment', [PricingController::class, 'index']);

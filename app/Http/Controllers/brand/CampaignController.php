@@ -190,6 +190,19 @@ class CampaignController extends Controller
         }
     }
 
+    public function campaignContentView($id)
+    {
+        try {
+            // Fetch campaign steps
+            $steps = CampaignInfluencerActivityStep::where('id', $id)->get();
+
+            // You can also fetch other related data if needed
+
+            return view('brand.campaign.content', compact('steps', 'id'));
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
     // appliers status management Start
 
     public function influencerApproval($campaignId, $userId, Request $request)
@@ -205,6 +218,23 @@ class CampaignController extends Controller
             throw $th;
         }
     }
+
+    public function brandCampaignInfluencerApproval($campaignId, $userId)
+    {
+        $apply = CheckApply::where('campaignId', $campaignId)
+            ->where('userId', $userId)
+            ->first();
+
+        if (!$apply) {
+            return response()->json(['status' => 404, 'message' => 'Record not found']);
+        }
+
+        $apply->status = 'Approved';
+        $apply->save();
+
+        return response()->json(['status' => 200, 'message' => 'Influencer approved successfully']);
+    }
+
 
     public function influencerOnHold($campaignId, $userId, Request $request)
     {

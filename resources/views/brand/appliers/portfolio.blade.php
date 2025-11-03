@@ -38,7 +38,7 @@
                         <h3> Followed Steps </h3>
                     </div>
                     <div class="p-2">
-                        <a href="{{ route('brand.campaign.appliers') }}" class="btn btn-primary">Back</a>
+                        {{-- <a href="{{ route('brand.campaign.appliers') }}" class="btn btn-primary">Back</a> --}}
                     </div>
                 </div>
             </div>
