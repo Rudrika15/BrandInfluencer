@@ -18,6 +18,7 @@ class CampaignStepController extends Controller
                     $q->where('userId', Auth::user()->id);
                 })
                 ->get();
+                
             return view('brand.campaignStep.index', compact('step'));
         } catch (\Throwable $th) {
             throw $th;

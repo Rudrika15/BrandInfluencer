@@ -1,0 +1,3 @@
+[2025-10-16 12:28:51] local.INFO: ApiController@sendotp called  
+[2025-10-16 12:28:51] local.INFO: Validation passed  
+[2025-10-16 12:28:51] local.INFO: Request sent to sms.hspsms.com {"response":"[{\"responseCode\":\"Message SuccessFully Submitted\"},{\"msgid\":\"768080339\"}]"} 

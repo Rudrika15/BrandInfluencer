@@ -276,15 +276,85 @@ class ApiController extends Controller
     //     }
 
 
+    // function sendotp(Request $request)
+    // {
+    //     Log::info('ApiController@sendotp called');
+
+    //     $rules = [
+    //         'mobile' => 'required',
+    //         'userType' => 'nullable|in:Influencer,Brand,influencer,brand',
+    //     ];
+
+    //     $validator = Validator::make($request->all(), $rules);
+
+    //     if ($validator->fails()) {
+    //         Log::error('Validation failed', ['errors' => $validator->errors()]);
+    //         return $validator->errors();
+    //     }
+
+    //     Log::info('Validation passed');
+
+    //     // Default OTP
+    //     $otp = 123456;
+    //     $numbers = $request->mobile;
+    //     $sender = urlencode('DGSAPI');
+    //     $message = "Your One Time Verification Password is {$otp}.";
+    //     $username = "BrandBeans";
+    //     $smstype = "TRANS";
+    //     $apiKey = urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b');
+
+    //     // Prepare data for POST request
+    //     $data = [
+    //         'apikey' => $apiKey,
+    //         'numbers' => $numbers,
+    //         'sender' => $sender,
+    //         'message' => $message,
+    //         'username' => $username,
+    //         'sendername' => $sender,
+    //         'smstype' => $smstype,
+    //     ];
+
+    //     // Send the POST request with cURL
+    //     $ch = curl_init('http://sms.hspsms.com/sendSMS');
+    //     curl_setopt($ch, CURLOPT_POST, true);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     $response = curl_exec($ch);
+    //     curl_close($ch);
+
+    //     Log::info('Request sent to sms.hspsms.com', ['response' => $response]);
+
+    //     $time = Carbon::now()->toTimeString();
+
+    //     // Save OTP to database
+    //     $userFind = User::where('mobileno', $request->mobile)->first();
+    //     if ($userFind) {
+    //         $otps = new Otp();
+    //         $otps->otp = $otp;
+    //         $otps->mobileno = $request->mobile;
+    //         $otps->time = $time;
+    //         $otps->save();
+    //     }
+
+    //     // Return response
+    //     if ($response) {
+    //         return response([
+    //             'message' => "OTP Send Successfully",
+    //             'otp' => $otp // optional, for testing
+    //         ], 201);
+    //     } else {
+    //         return response([
+    //             'message' => ['No Data Found']
+    //         ], 404);
+    //     }
+    // }
+
+
     function sendotp(Request $request)
     {
-        Log::info('ApiController@sendotp called');
+        Log::info('ApiController@sendotp called', ['mobile' => $request->mobile]);
 
-        $rules = [
-            'mobile' => 'required',
-            'userType' => 'nullable|in:Influencer,Brand,influencer,brand',
-        ];
-
+        $rules = ['mobile' => 'required'];
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
@@ -294,27 +364,19 @@ class ApiController extends Controller
 
         Log::info('Validation passed');
 
-        // Default OTP
         $otp = 123456;
         $numbers = $request->mobile;
-        $sender = urlencode('DGSAPI');
-        $message = "Your One Time Verification Password is {$otp}.";
-        $username = "BrandBeans";
-        $smstype = "TRANS";
-        $apiKey = urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b');
 
-        // Prepare data for POST request
         $data = [
-            'apikey' => $apiKey,
+            'apikey' => urlencode('0c5ff664-819f-48f1-a22c-d5894e9fba3b'),
             'numbers' => $numbers,
-            'sender' => $sender,
-            'message' => $message,
-            'username' => $username,
-            'sendername' => $sender,
-            'smstype' => $smstype,
+            'sender' => urlencode('DGSAPI'),
+            'message' => "Your One Time Verification Password is {$otp}.",
+            'username' => "BrandBeans",
+            'sendername' => urlencode('DGSAPI'),
+            'smstype' => "TRANS",
         ];
 
-        // Send the POST request with cURL
         $ch = curl_init('http://sms.hspsms.com/sendSMS');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -322,7 +384,7 @@ class ApiController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
 
-        Log::info('Request sent to sms.hspsms.com', ['response' => $response]);
+        Log::info('SMS API Response', ['response' => $response]);
 
         $time = Carbon::now()->toTimeString();
 
@@ -336,11 +398,12 @@ class ApiController extends Controller
             $otps->save();
         }
 
-        // Return response
+        Log::info('OTP saved successfully', ['mobile' => $request->mobile, 'otp_id' => $otps->id]);
+
         if ($response) {
             return response([
                 'message' => "OTP Send Successfully",
-                'otp' => $otp // optional, for testing
+                'otp' => $otp
             ], 201);
         } else {
             return response([
@@ -348,6 +411,7 @@ class ApiController extends Controller
             ], 404);
         }
     }
+
 
 
     // function checkotp(Request $request)
@@ -499,8 +563,7 @@ class ApiController extends Controller
     {
         $rules = [
             'mobile' => 'required',
-            'otp' => 'required',
-            'userType' => 'required|in:Influencer,Brand,influencer,brand',
+            'otp' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -513,9 +576,9 @@ class ApiController extends Controller
 
         $mobile = $request->mobile;
         $otp = $request->otp;
-        $requestedRole = ucfirst(strtolower($request->userType)); // Normalize
+        $requestedRole = ucfirst(strtolower($request->userType));
 
-        // Check OTP record
+        // ✅ Check OTP in otps table (for both new & existing users)
         $otpRecord = Otp::where('mobileno', $mobile)
             ->where('otp', $otp)
             ->orderBy('id', 'DESC')
@@ -528,9 +591,10 @@ class ApiController extends Controller
             ], 200);
         }
 
-        // Check user
+        // ✅ Check user existence
         $user = User::where('mobileno', $mobile)->first();
 
+        // 🟢 If user not found — new user
         if (!$user) {
             return response([
                 'flag' => false,
@@ -538,9 +602,9 @@ class ApiController extends Controller
             ], 200);
         }
 
-        $roles = $user->getRoleNames(); // ['Brand'] or ['Influencer']
+        // ✅ If user found — verify role
+        $roles = $user->getRoleNames();
 
-        // ✅ Role validation
         if (!$roles->contains($requestedRole)) {
             return response([
                 'flag' => false,
@@ -548,17 +612,20 @@ class ApiController extends Controller
             ], 200);
         }
 
-        // ✅ Allow if correct or has both roles
+        // ✅ Create token for login
         $token = $user->createToken('my-app-token')->plainTextToken;
 
         return response([
             'flag' => true,
             'message' => 'OTP verified successfully',
+            'is_new_user' => false,
             'user' => $user,
             'role' => $roles,
             'token' => $token,
         ], 200);
     }
+
+
 
     // Register
     function register(Request $request)
@@ -568,6 +635,7 @@ class ApiController extends Controller
             "userType" => "required",
             "mobileno" => "required",
             "categoryId" => "required",
+            "email" => "required|required|email|unique:users,email",
         );
 
 
@@ -595,8 +663,6 @@ class ApiController extends Controller
                 $user->assignRole('Brand');
             }
             $user->save();
-
-
 
             if ($request->userType == "influencer" || $request->userType == "Influencer") {
 
@@ -632,6 +698,7 @@ class ApiController extends Controller
                 $role = $user->getRoleNames();
                 $response = [
                     'User Data' => $user,
+                    'role' => $role,
                     'token' => $token,
                     'flag' => false
                 ];
@@ -1061,21 +1128,128 @@ class ApiController extends Controller
     //     }
     // }
 
-    function updateProfile(Request $request)
-    {
+    // function updateProfile(Request $request)
+    // {
 
+    //     $rules = array(
+    //         'userId' => 'required',
+    //         // 'name' => 'required',
+    //         // 'profilePhoto' => 'required',
+    //         // 'category' => 'required',
+    //     );
+    //     $validator = Validator::make($request->all(), $rules);
+    //     if ($validator->fails()) {
+    //         return $validator->errors();
+    //     }
+    //     $userId = $request->userId;
+
+    //     $user = User::find($userId);
+
+    //     if ($request->name) {
+    //         $user->name = $request->name;
+    //     }
+    //     if ($request->username) {
+    //         $user->username = $request->username;
+    //     }
+    //     if ($request->mobileno) {
+    //         $user->mobileno = $request->mobileno;
+    //     }
+
+    //     if ($request->hasFile('profilePhoto')) {
+    //         $image = $request->file('profilePhoto');
+    //         $fileName = time() . '.' . $image->getClientOriginalExtension();
+    //         $image->move(public_path('profile'), $fileName);
+    //         $user->profilePhoto = $fileName;
+    //     }
+
+
+    //     if ($request->category) {
+    //         $roleCollection = $user->getRoleNames();
+    //         $roles = $roleCollection->toArray();
+
+    //         if (in_array('Influencer', $roles)) {
+
+    //             $influencerCategory = InfluencerProfile::where('userId', '=', $request->userId)->first();
+    //             $influencerCategory->contactNo = $request->mobileno;
+    //             $influencerCategory->address = $request->address;
+    //             $influencerCategory->about = $request->about;
+    //             $influencerCategory->city = $request->city;
+    //             $influencerCategory->state = $request->state;
+    //             $influencerCategory->gender = $request->gender;
+    //             $influencerCategory->dob = $request->dob;
+    //             $influencerCategory->instagramUrl = $request->instagramUrl;
+    //             $influencerCategory->publicLocation = $request->publicLocation;
+    //             $influencerCategory->pinCode = $request->pinCode;
+    //             $influencerCategory->instagramFollowers = $request->instagramFollowers;
+    //             $influencerCategory->youtubeChannelUrl = $request->youtubeChannelUrl;
+    //             $influencerCategory->youtubeSubscriber = $request->youtubeSubscriber;
+    //             $influencerCategory->categoryId = $request['category'];
+    //             $influencerCategory->save();
+
+    //             $response = [
+    //                 'User Data' => $user->where('id', $userId)->with('influencer')->get(),
+    //                 'imagePath' => 'profile/' . $user->profilePhoto
+    //             ];
+    //             return response($response, 201);
+    //         }
+
+    //         if (in_array('Brand', $roles)) {
+    //             $findBrand = BrandWithCategory::where('brandId', '=', $request->userId)->get();
+    //             if ($findBrand) {
+    //                 // Get existing categories as an array
+    //                 $existingCategories = $findBrand->pluck('brandCategoryId')->toArray();
+
+    //                 // Ensure the request 'category' is treated as an array
+    //                 $newCategories = $request->input('category', []);
+
+    //                 // Decode JSON if it's a string
+    //                 if (is_string($newCategories)) {
+    //                     $newCategories = json_decode($newCategories, true);
+    //                 }
+
+    //                 // Filter out the categories that already exist
+    //                 $categoriesToAdd = array_diff($newCategories, $existingCategories);
+
+    //                 foreach ($categoriesToAdd as $categoryId) {
+    //                     // Store the new categories
+    //                     $data = new BrandWithCategory();
+    //                     $data->brandId = $request->userId;
+    //                     $data->brandCategoryId = $categoryId;
+    //                     $data->save();
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     $user->save();
+
+
+    //     if ($user) {
+    //         $response = [
+    //             'User Data' => $user,
+    //             'flag' => true,
+    //             'imagePath' => 'profile/' . $user->profilePhoto
+    //         ];
+
+    //         return response($response, 201);
+    //     } else {
+    //         return response([
+    //             'message' => ['No Data Found']
+    //         ], 404);
+    //     }
+    // }
+
+
+    public function updateProfile(Request $request)
+    {
         $rules = array(
             'userId' => 'required',
-            // 'name' => 'required',
-            // 'profilePhoto' => 'required',
-            'category' => 'required',
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return $validator->errors();
         }
-        $userId = $request->userId;
 
+        $userId = $request->userId;
         $user = User::find($userId);
 
         if ($request->name) {
@@ -1127,21 +1301,20 @@ class ApiController extends Controller
             }
 
             if (in_array('Brand', $roles)) {
-                $findBrand = BrandWithCategory::where('brandId', '=', $request->userId)->get();
-                if ($findBrand) {
-                    // Get existing categories as an array
-                    $existingCategories = $findBrand->pluck('brandCategoryId')->toArray();
 
-                    // Ensure the request 'category' is treated as an array
-                    $newCategories = $request->input('category', []);
-
-                    // Decode JSON if it's a string
-                    if (is_string($newCategories)) {
-                        $newCategories = json_decode($newCategories, true);
+                // ✅ FIXED BRAND CATEGORY UPDATE LOGIC
+                // If category not sent or empty → remove all
+                if (!$request->has('category') || empty($request->category)) {
+                    BrandWithCategory::where('brandId', '=', $request->userId)->delete();
+                } else {
+                    // Decode if JSON
+                    $categories = $request->input('category', []);
+                    if (is_string($categories)) {
+                        $categories = json_decode($categories, true);
                     }
 
-                    // Filter out the categories that already exist
-                    $categoriesToAdd = array_diff($newCategories, $existingCategories);
+                    // Delete old categories
+                    BrandWithCategory::where('brandId', '=', $request->userId)->delete();
 
                     foreach ($categoriesToAdd as $categoryId) {
                         // Store the new categories
@@ -1162,7 +1335,6 @@ class ApiController extends Controller
                 'flag' => true,
                 'imagePath' => 'profile/' . $user->profilePhoto
             ];
-
             return response($response, 201);
         } else {
             return response([
@@ -1170,6 +1342,7 @@ class ApiController extends Controller
             ], 404);
         }
     }
+
 
 
     // category list
@@ -3606,17 +3779,117 @@ class ApiController extends Controller
 
     // Campaign Step
 
-    function brandCampainStepList($userId)
+    // function brandCampainStepList($userId)
+    // {
+    //     $step = CampaignStep::with(['campaign' => function ($query) use ($userId) {
+    //         $query->where('userId', '=', $userId);
+    //     }])->get();
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $step,
+    //     ];
+    //     return response($response, 200);
+    // }
+
+
+    // function brandCampainStepList($userId, $campaignId = null)
+    // {
+    //     $step = CampaignStep::with(['campaign' => function ($query) use ($userId) {
+    //         $query->where('userId', '=', $userId);
+    //     }]);
+
+    //     if ($campaignId) {
+    //         $step->where('campaignId', $campaignId);
+    //     }
+
+    //     $step = $step->get();
+
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $step,
+    //     ];
+
+    //     return response($response, 200);
+    // }
+
+
+    // function brandCampainStepList($userId, $campaignId = null)
+    // {
+    //     $step = CampaignStep::with([
+    //         'campaign' => function ($query) use ($userId) {
+    //             $query->where('userId', '=', $userId);
+    //         },
+    //         'activitySteps' // new relation
+    //     ]);
+
+    //     if ($campaignId) {
+    //         $step->where('campaignId', $campaignId);
+    //     }
+
+    //     $step = $step->get();
+
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $step,
+    //     ];
+
+    //     return response($response, 200);
+    // }
+
+
+    // function brandCampainStepList($userId, $campaignId = null)
+    // {
+    //     $step = CampaignStep::with(['activitySteps' => function ($q) {
+    //         $q->latest(); // get latest one if multiple
+    //     }])
+    //         ->whereHas('campaign', function ($query) use ($userId) {
+    //             $query->where('userId', $userId);
+    //         });
+
+    //     if ($campaignId) {
+    //         $step->where('campaignId', $campaignId);
+    //     }
+
+    //     $step = $step->get()->map(function ($item) {
+    //         // remove campaign
+    //         unset($item['campaign']);
+    //         // keep only first activity_step (not array)
+    //         $item['activity_step'] = $item->activitySteps->first();
+    //         unset($item['activitySteps']);
+    //         return $item;
+    //     });
+
+    //     return response([
+    //         'status' => 200,
+    //         'data' => $step,
+    //     ], 200);
+    // }
+
+    function brandCampainStepList($userId = null, $campaignId = null)
     {
-        $step = CampaignStep::with(['campaign' => function ($query) use ($userId) {
-            $query->where('userId', '=', $userId);
-        }])->get();
-        $response = [
+        $step = CampaignStep::with(['activitySteps' => function ($q) {
+            $q->latest(); // get latest one if multiple
+        }]);
+
+        if ($campaignId) {
+            $step->where('campaignId', $campaignId);
+        }
+
+        $step = $step->get()->map(function ($item) {
+            // keep only first activity_step (not array)
+            $item['activity_step'] = $item->activitySteps->first();
+            unset($item['activitySteps'], $item['campaign']);
+            return $item;
+        });
+
+        return response([
             'status' => 200,
             'data' => $step,
-        ];
-        return response($response, 200);
+        ], 200);
     }
+
+
+
 
     function influencerFollowedSteps($campaignId, $influencerId)
     {
@@ -4138,6 +4411,7 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return $validator->errors();
         }
+
         $appliers = new CheckApply();
         $appliers->campaignId = $request->campaignId;
         $appliers->userId = $request->userId;
@@ -4179,54 +4453,286 @@ class ApiController extends Controller
     // }
 
 
-     function influencerContentforCampaignView(Request $request, $campaignId)
-        {
-            // Step 1: Get campaign details
-            $campaign = Campaign::find($campaignId);
-            if ($request->has('influencerId')) {
-                $influencerId = $request->influencerId;
+    //  function influencerContentforCampaignView(Request $request, $campaignId)
+    //     {
+    //         // Step 1: Get campaign details
+    //         $campaign = Campaign::find($campaignId);
 
-                $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
-                    ->where('influencerId', $influencerId)
-                    ->get();
+    //         if ($request->has('influencerId')) {
+    //             $influencerId = $request->influencerId;
 
-                return response([
-                    'status' => 200,
-                    'steps' => $steps,
-                ], 200);
-            }
+    //             $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //                 ->where('influencerId', $influencerId)
+    //                 ->get();
 
-            if (!$campaign) {
-                return response([
-                    'message' => ['Campaign not found']
+    //             return response([
+    //                 'status' => 200,
+    //                 'steps' => $steps,
+    //             ], 200);
+    //         }
+
+    //         if (!$campaign) {
+    //             return response([
+    //                 'message' => ['Campaign not found']
+    //             ], 404);
+    //         }
+
+    //         // Step 2: Get influencers who applied
+    //         $influencers = Apply::where('campaignId', $campaignId)
+    //             ->pluck('userId');
+
+    //         // Step 3: Build influencer bunch with their steps
+    //         $influencerBunch = [];
+
+    //         foreach ($influencers as $influencerId) {
+    //             $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //                 ->where('influencerId', $influencerId)
+    //                 ->get();
+
+    //             $influencerBunch[] = [
+    //                 'influencerId' => $influencerId,
+    //                 'steps' => $steps,
+    //             ];
+    //         }
+
+    //         // Step 4: Return both bunches
+    //         return response([
+    //             'status' => 200,
+    //             'campaignBunch' => $campaign,
+    //             'influencerBunch' => $influencerBunch,
+    //         ], 200);
+    //     }
+
+
+    // public function influencerContentforCampaignView($campaignId, $influencerId = null)
+    // {
+    //     // Step 1: Get campaign details
+    //     $campaign = Campaign::find($campaignId);
+
+    //     if (!$campaign) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Campaign not found',
+    //         ], 404);
+    //     }
+
+    //     // Step 2: If influencerId is provided → show only that influencer’s steps
+    //     if ($influencerId) {
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $influencerId)
+    //             ->get();
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             'campaign' => $campaign,
+    //             'influencerId' => $influencerId,
+    //             'steps' => $steps,
+    //         ], 200);
+    //     }
+
+    //     // Step 3: Get all influencers for this campaign
+    //     $influencers = Apply::where('campaignId', $campaignId)
+    //         ->pluck('userId');
+
+    //     // Step 4: Build influencer bunch with their steps
+    //     $influencerBunch = [];
+
+    //     foreach ($influencers as $id) {
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $id)
+    //             ->get();
+
+    //         $influencerBunch[] = [
+    //             'influencerId' => $id,
+    //             'steps' => $steps,
+    //         ];
+    //     }
+
+    //     // Step 5: Return combined response
+    //     return response()->json([
+    //         'status' => 200,
+    //         'campaign' => $campaign,
+    //         'influencerBunch' => $influencerBunch,
+    //     ], 200);
+    // }
+
+
+    // public function influencerContentforCampaignView($campaignId, $influencerId = null)
+    // {
+    //     // Step 1: Get campaign details
+    //     $campaign = Campaign::find($campaignId);
+
+    //     if (!$campaign) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Campaign not found',
+    //         ], 404);
+    //     }
+
+    //     // Step 2: If influencerId is provided → show only that influencer’s steps
+    //     if ($influencerId) {
+    //         // Get influencer details from users and influencer_profiles tables
+    //         $influencer = User::with('influencer')->find($influencerId);
+
+    //         if (!$influencer) {
+    //             return response()->json([
+    //                 'status' => 404,
+    //                 'message' => 'Influencer not found',
+    //             ], 404);
+    //         }
+
+    //         // Get steps for this influencer
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $influencerId)
+    //             ->get();
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             // 'campaign' => $campaign,
+    //             // 'influencerId' => $influencerId,
+    //             'influencer' => $influencer, // 👈 includes full profile and user details
+    //             'steps' => $steps,
+    //         ], 200);
+    //     }
+
+    //     // Step 3: Get all influencers for this campaign
+    //     $influencers = Apply::where('campaignId', $campaignId)
+    //         ->pluck('userId');
+
+    //     // Step 4: Build influencer bunch with their steps and profiles
+    //     $influencer = [];
+
+    //     foreach ($influencers as $id) {
+    //         $influencer = User::with('influencer')->find($id);
+
+    //         $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+    //             ->where('influencerId', $id)
+    //             ->get();
+
+    //         $influencer[] = [
+    //             // 'influencerId' => $id,
+    //             'influencer' => $influencer,
+    //             'steps' => $steps,
+    //         ];
+    //     }
+
+    //     // Step 5: Return combined response
+    //     return response()->json([
+    //         'status' => 200,
+    //         'campaign' => $campaign,
+    //         'influencer' => $influencer,
+    //     ], 200);
+    // }
+
+
+    public function influencerContentforCampaignView($campaignId, $influencerId = null)
+    {
+        // Step 1: Get campaign details
+        $campaign = Campaign::find($campaignId);
+
+        if (!$campaign) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Campaign not found',
+            ], 404);
+        }
+
+        // Step 2: If influencerId is provided → show only that influencer’s steps
+        if ($influencerId) {
+            // Get influencer details
+            $influencer = User::with('influencer')->find($influencerId);
+
+            if (!$influencer) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Influencer not found',
                 ], 404);
             }
 
-            // Step 2: Get influencers who applied
-            $influencers = Apply::where('campaignId', $campaignId)
-                ->pluck('userId');
+            // Rename relation key from influencer → influencerProfile
+            $influencerData = $influencer->toArray();
+            $influencerData['influencerProfile'] = $influencerData['influencer'] ?? null;
+            unset($influencerData['influencer']);
 
-            // Step 3: Build influencer bunch with their steps
-            $influencerBunch = [];
+            // Step 3: Get all campaign steps
+            $campaignSteps = CampaignStep::where('campaignId', $campaignId)->get();
 
-            foreach ($influencers as $influencerId) {
-                $steps = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+            // Step 4: For each campaign step, attach influencer’s activity data (if any)
+            $stepsWithActivity = $campaignSteps->map(function ($step) use ($campaignId, $influencerId) {
+                $activity = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
                     ->where('influencerId', $influencerId)
-                    ->get();
+                    ->where('stepId', $step->id)
+                    ->first();
 
-                $influencerBunch[] = [
-                    'influencerId' => $influencerId,
-                    'steps' => $steps,
+                return [
+                    'id' => $step->id,
+                    'title' => $step->title ?? null,
+                    'description' => $step->description ?? null,
+                    'status' => $step->status ?? null,
+                    'influencerActivity' => $activity, // can be null if not submitted
                 ];
-            }
+            });
 
-            // Step 4: Return both bunches
-            return response([
+            return response()->json([
                 'status' => 200,
-                'campaignBunch' => $campaign,
-                'influencerBunch' => $influencerBunch,
+                // 'campaign' => $campaign, // optional
+                'influencer' => $influencerData,
+                'steps' => $stepsWithActivity,
             ], 200);
         }
+
+        // Step 5: If no influencerId, show all influencers with their steps
+        $appliedInfluencers = Apply::where('campaignId', $campaignId)->pluck('userId');
+
+        $influencerList = [];
+
+        foreach ($appliedInfluencers as $id) {
+            $user = User::with('influencer')->find($id);
+            if (!$user) continue;
+
+            // Rename relation key
+            $userData = $user->toArray();
+            $userData['influencerProfile'] = $userData['influencer'] ?? null;
+            unset($userData['influencer']);
+
+            // Get all campaign steps
+            $campaignSteps = CampaignStep::where('campaignId', $campaignId)->get();
+
+            $stepsWithActivity = $campaignSteps->map(function ($step) use ($campaignId, $id) {
+                $activity = CampaignInfluencerActivityStep::where('campaignId', $campaignId)
+                    ->where('influencerId', $id)
+                    ->where('stepId', $step->id)
+                    ->first();
+
+                return [
+                    'id' => $step->id,
+                    'title' => $step->title ?? null,
+                    'description' => $step->description ?? null,
+                    'status' => $step->status ?? null,
+                    'influencerActivity' => $activity,
+                ];
+            });
+
+            $influencerList[] = [
+                'influencer' => $userData,
+                'steps' => $stepsWithActivity,
+            ];
+        }
+
+        // Step 6: Return combined response
+        return response()->json([
+            'status' => 200,
+            'campaign' => $campaign,
+            'influencers' => $influencerList,
+        ], 200);
+    }
+
+
+
+
+
+
+
 
     function BrandInfluencerList()
     {
@@ -4426,7 +4932,6 @@ class ApiController extends Controller
                 'status' => true,
                 'message' => "package is not found",
             ];
-
             return response($response, 200);
         }
     }
@@ -5328,7 +5833,7 @@ class ApiController extends Controller
                 ->first();
 
             // Get categories manually
-            $categories = $profile->influencer ? $profile->influencer->incategoriies()->select('id', 'name')->get() : [];
+            $categories = $profile->influencer ? $profile->influencer->incategoriies()->select('id', 'categoryName')->get() : [];
             // $categories = $profile->influencer ? $profile->influencer->inCategories()->select('id', 'name')->get() : [];
 
             return response([
