@@ -64,7 +64,7 @@
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp">
+                        aria-describedby="emailHelp" value="{{ old('email') }}" >
                     @error('email')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

@@ -63,14 +63,13 @@
                                                         class="bi bi-check  fa-lg"></i></a>
                                             @endif --}}
                                             @if ($data->status != 'Approved')
-    <button class="btn btn-outline-success btn-xs approveBtn"
-        data-campaign-id="{{ $data->campaignId }}"
-        data-user-id="{{ $data->userId }}"
-        style="margin-left: 8px;"
-        title="Approve">
-        <i class="bi bi-check fa-lg"></i>
-    </button>
-@endif
+                                                <button class="btn btn-outline-success btn-xs approveBtn"
+                                                    data-campaign-id="{{ $data->campaignId }}"
+                                                    data-user-id="{{ $data->userId }}" style="margin-left: 8px;"
+                                                    title="Approve">
+                                                    <i class="bi bi-check fa-lg"></i>
+                                                </button>
+                                            @endif
 
                                             @if ($data->status != 'On Hold')
                                                 <a class="btn btn-outline-warning btn-xs" style="margin-left: 8px;"
@@ -89,14 +88,12 @@
                                                 title="View influencer Detail"
                                                 href="{{ route('brand.campaign.influencerDetail') }}/{{ $data->campaignId }}/{{ $data->userId }}"><i
                                                     class="bi bi-info fa-lg"></i></a>
-                                                    {{-- <a class="btn btn-outline-primary btn-xs" style="margin-left: 8px;"
+                                            {{-- <a class="btn btn-outline-primary btn-xs" style="margin-left: 8px;"
                                                 title="Campaign Appliers Content"
                                                 href="{{ route('brand.campaign.content')}}/{{ $data->campaignId }}"><i
                                                     class="bi bi-file-richtext-fill"></i></a> --}}
 
-                                            {{-- @if ($data->status == 'Approved')
-                                    <a class="btn btn-outline-primary btn-xs" title="View Post" style="margin-left: 8px;" href="{{ route('brand.campaign.influencerPortfolio') }}/{{ $data->campaignId }}/{{ $data->userId }}"><i class="bi bi-eye  fa-lg"></i></a>
-                                @endif --}}
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -124,48 +121,52 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-$(document).on('click', '.approveBtn', function () {
-    let id = $(this).data('id');
+    <script>
+        $(document).on('click', '.approveBtn', function() {
+            let id = $(this).data('id');
 
-    Swal.fire({
-        title: 'Approve this applicant?',
-        text: "The status will change to Approved!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, approve!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: '/brand/campaign/applier/approve/' + id,
-                type: 'POST',
-                data: { _token: '{{ csrf_token() }}' },
-                success: function (response) {
-                    if (response.status === 200) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Approved!',
-                            text: response.message,
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
+            Swal.fire({
+                title: 'Approve this applicant?',
+                text: "The status will change to Approved!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, approve!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/brand-campaign-applier-content-approval/' + id,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.status === 200) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Approved!',
+                                    text: response.message,
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
 
-                        // 💚 Update the status badge
-                        $('#status-' + id).html('<span class="badge bg-success">Approved</span>');
+                                // Update the status badge
+                                $('#status-' + id).html(
+                                    '<span class="badge bg-success">Approved</span>');
 
-                        // 🧹 Update the action buttons
-                        $('#action-' + id).html('<span class="text-success">✔ Approved</span>');
-                    }
-                },
-                error: function () {
-                    Swal.fire('Error', 'Something went wrong.', 'error');
+                                //Update the action buttons
+                                $('#action-' + id).html(
+                                    '<span class="text-success">Approved</span>');
+                            }
+                        },
+                        error: function() {
+                            Swal.fire('Error', 'Something went wrong.', 'error');
+                        }
+                    });
                 }
             });
-        }
-    });
-});
-</script>
+        });
+    </script>
 
 
 

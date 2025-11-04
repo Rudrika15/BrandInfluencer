@@ -1316,7 +1316,7 @@ class ApiController extends Controller
                     // Delete old categories
                     BrandWithCategory::where('brandId', '=', $request->userId)->delete();
 
-                    foreach ($categoriesToAdd as $categoryId) {
+                    foreach ($categories as $categoryId) {
                         // Store the new categories
                         $data = new BrandWithCategory();
                         $data->brandId = $request->userId;
@@ -3583,18 +3583,18 @@ class ApiController extends Controller
 
     function contactInfluencer(Request $request)
     {
-        
+
         $rules = array(
             'brandId' => 'required',
             'influencerId' => 'required',
-        );  
+        );
 
        
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return $validator->errors();
         }
-
+  
         $userId = $request->brandId;
         $influencerId = $request->influencerId;
         $brandPackagefind = BrandPoints::where('userId', '=', $userId)->get();
@@ -3603,8 +3603,6 @@ class ApiController extends Controller
                 ->where('influencerId', $influencerId)
                 ->first();
             if (!$seenStatus) {
-
-
                 $brandPackageSum = BrandPoints::where('userId', '=', $userId)->sum('points');
                 $brandPackage = BrandPoints::where('userId', '=', $userId)->first();
 
@@ -3961,7 +3959,7 @@ class ApiController extends Controller
     }
 
 
-    // brand campaign appliers
+    // brand campaign appliers table
     function brandCampaignAppliers($userId)
     {
         $appliers = Apply::with(['campaign' => function ($query) use ($userId) {
@@ -3974,19 +3972,42 @@ class ApiController extends Controller
         return response($response, 200);
     }
     // approval
-    function brandCampaignApplierApproval($campaignId, $userId)
+    // function brandCampaignApplierApproval($campaignId, $userId)
+    // {
+    //     $applier = Apply::where('campaignId', '=', $campaignId)
+    //         ->where('userId', '=', $userId)
+    //         ->first();
+    //     $applier->status = "Approved";
+    //     $applier->save();
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $applier,
+    //     ];
+    //     return response($response, 200);
+    // }
+    public function brandCampaignApplierApproval($campaignId, $userId)
     {
-        $applier = Apply::where('campaignId', '=', $campaignId)
-            ->where('userId', '=', $userId)
+        $applier = Apply::where('campaignId', $campaignId)
+            ->where('userId', $userId)
             ->first();
+
+        if (!$applier) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No applicant found for the given campaign and user.',
+            ], 404);
+        }
+
         $applier->status = "Approved";
         $applier->save();
-        $response = [
+
+        return response()->json([
             'status' => 200,
+            'message' => 'Applicant approved successfully!',
             'data' => $applier,
-        ];
-        return response($response, 200);
+        ], 200);
     }
+
     // on hold
     function brandCampaignApplierOnHold($campaignId, $userId)
     {
@@ -4047,7 +4068,7 @@ class ApiController extends Controller
     // }
     public function brandCampaignApplierContentApproval($id)
     {
-        $applier = CheckApply::find($id);
+        $applier = CampaignInfluencerActivityStep::find($id);
 
         if (!$applier) {
             return response()->json([
@@ -4072,7 +4093,7 @@ class ApiController extends Controller
     // on hold
     function brandCampaignApplierContentPending($id)
     {
-        $applier = CheckApply::find($id);
+        $applier = CampaignInfluencerActivityStep::find($id);
         $applier->status = "Pending";
         $applier->save();
         $response = [
@@ -4091,7 +4112,7 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return $validator->errors();
         }
-        $applier = CheckApply::find($id);
+        $applier = CampaignInfluencerActivityStep::find($id);
         $applier->status = "Rejected";
         $applier->remark = $request->remark;
         $applier->save();
@@ -4380,23 +4401,42 @@ class ApiController extends Controller
         }
     }
 
+
+    // function campaignAppliedList($id)
+    // {
+    //     $apply = Apply::with('campaign')->where('userId', '=', $id)->get();
+    //     if ($apply->isEmpty()) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'No applied campaigns found for this user.',
+    //         ], 404);
+    //     }
+
+    //     return response()->json([
+    //         'status' => 200,
+    //         'data' => $apply,
+    //     ], 200);
+    // }
+
     function campaignAppliedList($id)
     {
-        $apply = Apply::with('campaign')->where('userId', '=', $id)->get();
-        if ($apply) {
+        $apply = Apply::with(['campaign.brand'])
+            ->where('userId', $id)
+            ->get();
 
-
-            $response = [
-                'status' => 200,
-                'data' => $apply,
-            ];
-            return response($response, 200);
-        } else {
-            return response([
-                'message' => ['No List Found']
+        if ($apply->isEmpty()) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No applied campaigns found for this user.',
             ], 404);
         }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $apply,
+        ], 200);
     }
+
 
     function addContentforCampaign(Request $request)
     {
@@ -4726,13 +4766,6 @@ class ApiController extends Controller
             'influencers' => $influencerList,
         ], 200);
     }
-
-
-
-
-
-
-
 
     function BrandInfluencerList()
     {

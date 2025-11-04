@@ -289,7 +289,7 @@ Route::get('/influencer-steps/{campaignId?}/{influencerId?}', [ApiController::cl
 Route::get('/brandPackage', [ApiController::class, 'brandPackage']);
 
 
-// brand campaign appliers
+// brand campaign appliers table
 
 Route::get('/brand-campaign-appliers/{userId?}', [ApiController::class, 'brandCampaignAppliers']);
 
