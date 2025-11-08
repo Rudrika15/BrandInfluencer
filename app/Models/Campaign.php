@@ -24,4 +24,9 @@ class Campaign extends Model
     {
         return $this->hasMany(CampaignStep::class, 'campaignId', 'id');
     }
+
+    public function brand()
+    {
+        return $this->belongsTo(User::class, 'userId');
+    }
 }
