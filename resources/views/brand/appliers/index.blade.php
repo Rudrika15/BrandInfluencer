@@ -28,40 +28,22 @@
                             <tbody>
                                 @foreach ($campaign->appliedInfluencer as $data)
                                     <tr>
-                                        <td>
-                                            {{ $campaign->title ?? '-' }}
-                                        </td>
-                                        <td>
-                                            {{ $data->user->username ?? '-' }}
-                                        </td>
+                                        <td>{{ $campaign->title ?? '-' }}</td>
+                                        <td>{{ $data->user->username ?? '-' }}</td>
                                         <td>
                                             @if ($data->status == 'Approved')
-                                                <p class="text-success">
-                                                    {{ $data->status }}
-                                                </p>
+                                                <p class="text-success">{{ $data->status }}</p>
                                             @elseif ($data->status == 'On Hold')
-                                                <p class="text-warning">
-                                                    {{ $data->status }}
-                                                </p>
+                                                <p class="text-warning">{{ $data->status }}</p>
                                             @elseif ($data->status == 'Rejected')
-                                                <p class="text-danger">
-                                                    {{ $data->status }}
-                                                </p>
+                                                <p class="text-danger">{{ $data->status }}</p>
                                             @else
-                                                <p class="text-primary">
-                                                    {{ $data->status }}
-                                                </p>
+                                                <p class="text-primary">{{ $data->status }}</p>
                                             @endif
                                         </td>
 
-                                        <td class="text-light" style="display:flex; justify-content:end; ">
-                                            {{-- @if ($data->status != 'Approved')
-                                                <a class="btn btn-outline-success btn-xs" style="margin-left: 8px;"
-                                                    title="Approve"
-                                                    href="{{ route('brand.campaign.influencerApproval') }}/{{ $data->campaignId }}/{{ $data->userId }}"
-                                                    onclick="return confirm('Are you sure?')"><i
-                                                        class="bi bi-check  fa-lg"></i></a>
-                                            @endif --}}
+                                        <td class="text-light" style="display:flex; justify-content:end;">
+                                            {{-- Approve Button --}}
                                             @if ($data->status != 'Approved')
                                                 <button class="btn btn-outline-success btn-xs approveBtn"
                                                     data-campaign-id="{{ $data->campaignId }}"
@@ -71,32 +53,44 @@
                                                 </button>
                                             @endif
 
+                                            {{-- On Hold --}}
                                             @if ($data->status != 'On Hold')
                                                 <a class="btn btn-outline-warning btn-xs" style="margin-left: 8px;"
                                                     title="On Hold"
-                                                    href="{{ route('brand.campaign.influencerOnHold') }}/{{ $data->campaignId }}/{{ $data->userId }}"><i
-                                                        class="bi bi-pause  fa-lg"></i></a>
+                                                    href="{{ route('brand.campaign.influencerOnHold', [$data->campaignId, $data->userId]) }}">
+                                                    <i class="bi bi-pause fa-lg"></i>
+                                                </a>
                                             @endif
+
+                                            {{-- Reject --}}
                                             @if ($data->status != 'Rejected')
-                                                <a class="btn btn-outline-danger  btn-xs" style="margin-left: 8px;"
+                                                <a class="btn btn-outline-danger btn-xs" style="margin-left: 8px;"
                                                     title="Reject"
-                                                    href="{{ route('brand.campaign.influencerReject') }}/{{ $data->campaignId }}/{{ $data->userId }}"
-                                                    onclick="return confirm('Are you sure?')"><i
-                                                        class="bi bi-x-lg fa-lg"></i></a>
+                                                    href="{{ route('brand.campaign.influencerReject', [$data->campaignId, $data->userId]) }}"
+                                                    onclick="return confirm('Are you sure?')">
+                                                    <i class="bi bi-x-lg fa-lg"></i>
+                                                </a>
                                             @endif
+
+                                            {{-- Influencer Detail --}}
                                             <a class="btn btn-outline-info btn-xs" style="margin-left: 8px;"
                                                 title="View influencer Detail"
-                                                href="{{ route('brand.campaign.influencerDetail') }}/{{ $data->campaignId }}/{{ $data->userId }}"><i
-                                                    class="bi bi-info fa-lg"></i></a>
-                                            {{-- <a class="btn btn-outline-primary btn-xs" style="margin-left: 8px;"
-                                                title="Campaign Appliers Content"
-                                                href="{{ route('brand.campaign.content')}}/{{ $data->campaignId }}"><i
-                                                    class="bi bi-file-richtext-fill"></i></a> --}}
+                                                href="{{ route('brand.campaign.influencerDetail', [$data->campaignId, $data->userId]) }}">
+                                                <i class="bi bi-info fa-lg"></i>
+                                            </a>
 
-
+                                            {{-- Campaign Appliers Content --}}
+                                            {{-- @if (!empty($data->activity_step_id)) --}}
+                                            <a class="btn btn-outline-primary btn-xs" style="margin-left: 8px;"
+                                                title="View Appliers Content"
+                                                href="{{ route('brand.campaign.content', $data->id) }}">
+                                                <i class="bi bi-file-earmark-text fa-lg"></i>
+                                            </a>
+                                            {{-- @endif --}}
                                         </td>
                                     </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
                     </div>

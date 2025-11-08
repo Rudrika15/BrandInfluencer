@@ -1,42 +1,37 @@
 @extends('layouts.app')
 @section('title', 'Brand beans | Create Campaign Step')
 @section('content')
-    <div class='container'>
-        <div class="card w-100">
-            <div class="card-body">
-                <div class='row'>
-                    <div class='col-md-12'>
-                        <div class="d-flex justify-content-between mb-3">
-                            <div class="p-2">
-                                <h3 class="line-title">Campaign Appliers Content</h3>
-                            </div>
+<div class="container py-4">
+    <h4 class="mb-4">Applier Uploaded Content</h4>
 
+    @if ($activitySteps->isEmpty())
+        <div class="alert alert-warning">No content available.</div>
+    @else
+        <div class="row">
+            @foreach ($activitySteps as $step)
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            {{-- Uploaded Photo --}}
+                            @if (!empty($step->uploadedActivityPhoto))
+                                <img src="{{ asset('/uploadActivityPhoto/' . $step->uploadedActivityPhoto) }}" 
+                                     class="img-fluid rounded mb-2" alt="Uploaded Photo">
+                            @endif
+
+                            {{-- Uploaded Video --}}
+                            @if (!empty($step->uploadedActivityLink))
+                                <video width="100%" height="240" controls class="rounded">
+                                    <source src="{{ asset('/uploadActivityVideo/' . $step->uploadedActivityLink) }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            @endif
                         </div>
-                    </div>    
-                </div>    
-                <div class="container-fluid ">
-                    <table id="" class="table table-bordered table-responsive">
-                        <thead>
-                            <tr>
-                                <th> Step Name</th>
-                                <th> Content</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- @foreach ($applierContents as $data)
-                                <tr>
-                                    <td>
-                                        {{ $data->step_name ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $data->content ?? '-' }}
-                                    </td>
-                                </tr>
-                            @endforeach --}}
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-    </div>
+    @endif
+
+    
+</div>
 @endsection

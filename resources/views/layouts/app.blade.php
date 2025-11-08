@@ -8,7 +8,7 @@
     {{-- csrf token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Document</title>
-
+     {{-- <link rel="stylesheet" href="./styles.css"> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     {{-- bootstrap 5 --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"

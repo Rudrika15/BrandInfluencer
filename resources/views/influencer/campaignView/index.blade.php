@@ -2,15 +2,26 @@
 @section('title', 'Brand beans | Brand Campaign')
 @section('content')
 <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="line-title"><h3>Campaign Details</h3></div>
+                <a href="{{ route('home')}}" class="btn btn-primary btn-sm mb-3">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+            </div>
     <div class="card" style="width: 95%">
+
         <div class="card-body">
+
             <div class="p-3">
                 <h4 class="card-title text-uppercase mb-3">{{ $campaign->title }}</h4>
                 <small>Posted {{ $campaign->created_at->diffForHumans() }}</small>
-                <div class="col-2 mt-3 text-center">
+                <div class="col-2 mt-3 text-center d-flex flex-column gap-2">
                     <h4 class="rounded" style="background-color: rgb(231, 227, 227); height: 35px">
                         <small class="lead"><b>₹ {{ $campaign->price }}</b></small>
                     </h4>
+                     <a class="btn btn-success btn-sm" href="{{ route('brand.campaign.campaign.step', $campaign->id) }}">
+                    Campaign Steps
+                </a>
                 </div>
             </div>
 
@@ -98,9 +109,7 @@
                 <h5 class="card-text mb-3 mt-5">Max Application</h5>
                 <p>{{ $campaign->maxApplication }}</p>
 
-                <a class="btn btn-success btn-sm" href="{{ route('brand.campaign.campaign.step', $campaign->id) }}">
-                    Campaign Steps
-                </a>
+
             </div>
         </div>
     </div>

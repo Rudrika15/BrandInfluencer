@@ -86,7 +86,7 @@ class DashboardController extends Controller
             // }
         } catch (\Throwable $th) {
             throw $th;
-            // 
+            //
 
         }
     }
@@ -134,10 +134,10 @@ class DashboardController extends Controller
             // Influencer updates
             if (in_array('Influencer', $roles)) {
 
-                $request->validate([
-                    'instagramUrl' => ['required', 'regex:/^https:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9._]+$/'],
-                    'youtubeChannelUrl' => ['required', 'regex:/^https:\/\/(www\.)?youtube\.com\/@[-a-zA-Z0-9_]+$/'],
-                ]);
+                // $request->validate([
+                //     'instagramUrl' => ['required', 'regex:/^https:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9._]+$/'],
+                //     'youtubeChannelUrl' => ['required', 'regex:/^https:\/\/(www\.)?youtube\.com\/@[-a-zA-Z0-9_]+$/'],
+                // ]);
 
                 // ✅ create if not exists
                 $influencer = InfluencerProfile::firstOrNew(['userId' => $id]);
