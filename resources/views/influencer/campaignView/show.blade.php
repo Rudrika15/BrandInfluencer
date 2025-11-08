@@ -90,13 +90,19 @@
             @endif
 
         </div> --}}
+
+            <div class="mb-4">
+                <h3>My Applied Campaigns</h3>
+                </div>
+
+
         <div class="row">
     @if ($campaignList->count() > 0)
         @foreach ($campaignList as $brand)
             @if ($brand->campaign)
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card shadow-sm border-0 h-100">
-                        <a href="{{ route('influencer.campaignView.show', $brand->campaign->id) }}" 
+                    <div class="card shadow-sm border-0 h-100" style="border-radius: 10px; overflow: hidden; width: 18rem; height: 35rem;">
+                        <a href="{{ route('influencer.campaignView.show', $brand->campaign->id) }}"
                            class="text-decoration-none text-dark">
 
                             <img src="{{ asset('campaignPhoto/' . $brand->campaign->photo) }}"
@@ -116,6 +122,9 @@
                                     -webkit-line-clamp: 2;
                                     -webkit-box-orient: vertical;">
                                     {{ $brand->campaign->detail }}
+                                </p>
+                                <p class="text-muted mb-1">
+                                    <strong>Brand:</strong> {{ ucfirst($brand->campaign->brand->name) }}
                                 </p>
 
                                 <p class="text-muted mb-1">

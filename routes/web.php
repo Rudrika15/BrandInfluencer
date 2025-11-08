@@ -104,8 +104,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('influencer/dashboard', [DashboardController::class, 'dashboard'])->name('influencer.dashboard');
 
     Route::get('influencer/profile/{id?}', [DashboardController::class, 'influencerProfile'])->name('general.influencerProfile');
+    // Contact influencer
+    Route::post('contact-influencer', [DashboardController::class, 'contactInfluencer'])
+        ->name('brand.contactInfluencer');
 
-   
 
 
     // user Profile
@@ -181,7 +183,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('influencer/campaign/step/{campaignId?}', [InfluencerStepController::class, 'index'])->name('brand.campaign.campaign.step');
     Route::post('influencer/campaign/step', [InfluencerStepController::class, 'store'])->name('influencer.campaign.step.store');
-    
+
 
 
     // influencer status management
@@ -226,6 +228,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('brand/campaign/update', [CampaignController::class, 'update'])->name('brand.campaign.update');
     Route::get('brand/campaign/delete/{id?}', [CampaignController::class, 'delete'])->name('brand.campaign.delete');
     Route::get('brand/campaign/appliers/{id}', [CampaignController::class, 'appliers'])->name('brand.campaign.appliers');
+    Route::get('brand/campaign/content/{applierId}', [CampaignController::class, 'campaignContent'])->name('brand.campaign.content');
+
     Route::get('brand/campaign/{id}/steps/create', [CampaignStepController::class, 'create'])
         ->name('brand.campaignStep.create');
 

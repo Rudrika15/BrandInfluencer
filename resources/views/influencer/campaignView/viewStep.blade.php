@@ -9,6 +9,11 @@
                     <div class="p-2">
                         <h3>Steps</h3>
                     </div>
+
+                    <div class="">
+                        <a class="btn btn-sm btn-primary"
+                            href="{{ url()->previous() }}">Back</a>
+                    </div>
                 </div>
             </div>
         </div>

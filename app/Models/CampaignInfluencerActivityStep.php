@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class CampaignInfluencerActivityStep extends Model
 {
     use HasFactory;
+
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class, 'campaignId');
+    }
+
+    public function influencer()
+    {
+        return $this->belongsTo(User::class, 'userId');
+    }
 }
+

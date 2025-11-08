@@ -190,6 +190,63 @@ class CampaignController extends Controller
         }
     }
 
+
+    // public function campaignContentView($id)
+    // {
+    //     try {
+    //         // Fetch campaign steps
+    //         $steps = CampaignInfluencerActivityStep::where('id', $id)->get();
+
+    //         // You can also fetch other related data if needed
+    //         return view('brand.campaign.content', compact('steps', 'id'));
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+
+    // public function campaignContentView($id)
+    // {
+    //     try {
+    //         $step = CampaignInfluencerActivityStep::find($id);
+
+    //         if (!$step) {
+    //             return redirect()->back()->with('error', 'Step not found!');
+    //         }
+
+    //         return view('brand.campaign.content', compact('step'));
+    //     } catch (\Throwable $th) {
+    //         return redirect()->back()->with('error', $th->getMessage());
+    //     }
+    // }
+    // public function campaignContent($applierId)
+    // {
+    //     // Fetch all content (images/videos) for this applier
+    //     $activitySteps =CampaignInfluencerActivityStep::where('campaignInfluencerActivityId', $applierId)->get();
+
+    //     // if ($activitySteps->isEmpty()) {
+    //     //     return back()->with('error', 'No content found for this applier.');
+    //     // }
+
+    //     // Load applier info (influencer + campaign)
+    //     $applier =Apply::with('user', 'campaign')->find($applierId);
+
+    //     return view('brand.appliers.content', compact('activitySteps', 'applier'));
+    // }
+    public function campaignContent($applierId)
+    {
+        // Fetch all uploaded activity steps for this applier
+        $activitySteps = \App\Models\CampaignInfluencerActivityStep::where('campaignInfluencerActivityId', $applierId)->get();
+
+        // if ($activitySteps->isEmpty()) {
+        //     return back()->with('error', 'No uploaded content found for this applier.');
+        // }
+
+        return view('brand.appliers.content', compact('activitySteps'));
+    }
+
+
+
+
     // appliers status management Start
 
     public function influencerApproval($campaignId, $userId, Request $request)
@@ -205,6 +262,23 @@ class CampaignController extends Controller
             throw $th;
         }
     }
+
+    public function brandCampaignInfluencerApproval($campaignId, $userId)
+    {
+        $apply = CheckApply::where('campaignId', $campaignId)
+            ->where('userId', $userId)
+            ->first();
+
+        if (!$apply) {
+            return response()->json(['status' => 404, 'message' => 'Record not found']);
+        }
+
+        $apply->status = 'Approved';
+        $apply->save();
+
+        return response()->json(['status' => 200, 'message' => 'Influencer approved successfully']);
+    }
+
 
     public function influencerOnHold($campaignId, $userId, Request $request)
     {

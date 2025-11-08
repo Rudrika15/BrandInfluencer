@@ -155,6 +155,12 @@
                                                 style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                                                 {{ $campaign->detail }}
                                             </p>
+                                             <p class="card-text"
+                                                style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                                <strong>Brand Name:</strong>
+                                                {{ $campaign->brand->name }}
+                                            </p>
+                                         
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <p class="card-text"><strong>Price:</strong> {{ $campaign->price }}</p>

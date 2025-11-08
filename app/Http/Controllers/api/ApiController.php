@@ -3583,10 +3583,13 @@ class ApiController extends Controller
 
     // function contactInfluencer(Request $request)
     // {
+
     //     $rules = array(
     //         'brandId' => 'required',
     //         'influencerId' => 'required',
     //     );
+
+
     //     $validator = Validator::make($request->all(), $rules);
     //     if ($validator->fails()) {
     //         return $validator->errors();
@@ -3609,6 +3612,11 @@ class ApiController extends Controller
 
     //                 if ($package) {
     //                     $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'LIKE', '%contact influencer%')->first();
+    //                     if (!$packageDetailData) {
+    //                         return response()->json([
+    //                             // 
+    //                         ]);
+    //                     }
     //                     $activity = Activity::where('id', $packageDetailData->activityId)->first();
     //                     $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
     //                         ->where('activityId', $activity->id)
@@ -3677,145 +3685,115 @@ class ApiController extends Controller
     //         ];
     //         return response($response, 200);
     //     }
-    // }
-
+    // } 
     public function contactInfluencer(Request $request)
     {
-        try {
-            Log::info('=== contactInfluencer START ===', $request->all());
+        // 1️⃣ Validation
+        $validator = Validator::make($request->all(), [
+            'brandId' => 'required',
+            'influencerId' => 'required',
+        ]);
 
-            $rules = [
-                'brandId' => 'required',
-                'influencerId' => 'required',
-            ];
-            $validator = Validator::make($request->all(), $rules);
-            if ($validator->fails()) {
-                Log::warning('Validation failed', $validator->errors()->toArray());
-                return $validator->errors();
-            }
-
-            $userId = $request->brandId;
-            $influencerId = $request->influencerId;
-            Log::info('Step 1: Extracted IDs', ['brandId' => $userId, 'influencerId' => $influencerId]);
-
-            $brandPackagefind = BrandPoints::where('userId', $userId)->get();
-            Log::info('Step 2: BrandPoints found', ['count' => count($brandPackagefind)]);
-
-            if (count($brandPackagefind) > 0) {
-                $seenStatus = ContactInfluencer::where('userId', $userId)
-                    ->where('influencerId', $influencerId)
-                    ->first();
-                Log::info('Step 3: Seen status check', ['seenStatus' => $seenStatus ? 'Yes' : 'No']);
-
-                if (!$seenStatus) {
-                    $brandPackageSum = BrandPoints::where('userId', $userId)->sum('points');
-                    $brandPackage = BrandPoints::where('userId', $userId)->first();
-                    Log::info('Step 4: BrandPoints total', ['sum' => $brandPackageSum]);
-
-                    if ($brandPackageSum > 0) {
-                        $package = BrandPackage::where('points', $brandPackage->points)->first();
-                        Log::info('Step 5: BrandPackage found', ['package' => $package]);
-
-                        if ($package) {
-                            $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)
-                                ->where('details', 'LIKE', '%contact influencer%')
-                                ->first();
-                            Log::info('Step 6: Package detail found', ['packageDetailData' => $packageDetailData]);
-
-                            $activity = Activity::find($packageDetailData->activityId ?? null);
-                            Log::info('Step 7: Activity found', ['activity' => $activity]);
-
-                            $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
-                                ->where('activityId', $activity->id ?? 0)
-                                ->first();
-                            Log::info('Step 8: Final packageDetail', ['packageDetail' => $packageDetail]);
-
-                            if ($packageDetail && $packageDetail->points < $brandPackageSum) {
-                                Log::info('Step 9: User has enough points', [
-                                    'pointsRequired' => $packageDetail->points,
-                                    'pointsAvailable' => $brandPackageSum
-                                ]);
-
-                                $point = new BrandPoints();
-                                $point->userId = $userId;
-                                $point->email = $brandPackage->email;
-                                $point->points = '-' . $packageDetail->points;
-                                $point->remark = 'Contact Influencer';
-                                $point->save();
-
-                                Log::info('Step 10: Deducted points', ['newPoint' => $point]);
-
-                                $influencerSeen = new ContactInfluencer();
-                                $influencerSeen->userId = $userId;
-                                $influencerSeen->influencerId = $influencerId;
-                                $influencerSeen->status  = "Seen";
-                                $influencerSeen->save();
-
-                                Log::info('Step 11: Created ContactInfluencer entry', ['entry' => $influencerSeen]);
-
-                                $response = [
-                                    'status' => 200,
-                                    'message' => "Contacting Influencer Successfully and you spent {$packageDetail->points} points.",
-                                    'remaining points' => $brandPackageSum - $packageDetail->points,
-                                    'pointStatus' => 1
-                                ];
-                                Log::info('Step 12: Success response', $response);
-                                return response($response, 200);
-                            } else {
-                                Log::warning('Step 13: Not enough points', [
-                                    'pointsRequired' => $packageDetail->points ?? 0,
-                                    'pointsAvailable' => $brandPackageSum
-                                ]);
-                                return response([
-                                    'status' => 200,
-                                    'pointStatus' => 0,
-                                    'message' => "You don't have enough points to contact influencer. Please buy your package.",
-                                ], 200);
-                            }
-                        } else {
-                            Log::warning('Step 14: Package not found');
-                            return response([
-                                'status' => 200,
-                                'pointStatus' => 0,
-                                'message' => "You don't have enough points to contact influencer. Please buy your package.",
-                            ], 200);
-                        }
-                    } else {
-                        Log::warning('Step 15: BrandPackageSum is 0');
-                        return response([
-                            'status' => 200,
-                            'pointStatus' => 0,
-                            'message' => "You don't have enough points to contact influencer. Please buy your package.",
-                        ], 200);
-                    }
-                } else {
-                    Log::info('Step 16: Already contacted');
-                    return response([
-                        'status' => 200,
-                        'message' => "Already Contacted.",
-                    ], 200);
-                }
-            } else {
-                Log::warning('Step 17: No BrandPoints record found');
-                return response([
-                    'status' => 200,
-                    'pointStatus' => 0,
-                    'message' => "You don't have enough points to contact influencer. Please buy your package.",
-                ], 200);
-            }
-        } catch (\Throwable $th) {
-            Log::error('Error in contactInfluencer', [
-                'message' => $th->getMessage(),
-                'trace' => $th->getTraceAsString(),
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->errors(),
             ]);
-            return response([
-                'status' => 500,
-                'message' => 'Internal Server Error',
-                'error' => $th->getMessage(),
-            ], 500);
         }
-    }
 
+        $userId = $request->brandId;
+        $influencerId = $request->influencerId;
+
+        // 2️⃣ Check existing contact
+        $alreadyContacted = ContactInfluencer::where('userId', $userId)
+            ->where('influencerId', $influencerId)
+            ->first();
+
+        if ($alreadyContacted) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Already Contacted.',
+            ]);
+        }
+
+        // 3️⃣ Check user’s total points
+        $totalPoints = BrandPoints::where('userId', $userId)->sum('points');
+        if ($totalPoints <= 0) {
+            return response()->json([
+                'status' => 200,
+                'pointStatus' => 0,
+                'message' => "You don't have enough points to contact influencer. Please buy a package.",
+            ]);
+        }
+
+        // 4️⃣ Fetch package details
+        $brandPackage = BrandPoints::where('userId', $userId)->first();
+        $package = BrandPackage::where('points', $brandPackage->points)->first();
+
+        if (!$package) {
+            return response()->json([
+                'status' => 200,
+                'pointStatus' => 0,
+                'message' => "No valid package found for your account.",
+            ]);
+        }
+
+        // 5️⃣ Find specific package detail for contact influencer
+        $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)
+            ->where('details', 'LIKE', '%contact influencer%')
+            ->first();
+
+        if (!$packageDetailData) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Contact Influencer activity not found in your package.',
+            ]);
+        }
+
+        $activity = Activity::find($packageDetailData->activityId);
+        if (!$activity) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Associated activity not found.',
+            ]);
+        }
+
+        $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
+            ->where('activityId', $activity->id)
+            ->first();
+
+        // 6️⃣ Check if user has enough points
+        if (!$packageDetail || $packageDetail->points > $totalPoints) {
+            return response()->json([
+                'status' => 200,
+                'pointStatus' => 0,
+                'message' => "You don't have enough points to contact influencer. Please buy a package.",
+            ]);
+        }
+
+        // 7️⃣ Deduct points
+        $deductPoints = new BrandPoints();
+        $deductPoints->userId = $userId;
+        $deductPoints->email = $brandPackage->email;
+        $deductPoints->points = -$packageDetail->points;
+        $deductPoints->remark = 'Contact Influencer';
+        $deductPoints->save();
+
+        // 8️⃣ Save contact entry
+        $contact = new ContactInfluencer();
+        $contact->userId = $userId;
+        $contact->influencerId = $influencerId;
+        $contact->status = 'Seen';
+        $contact->save();
+
+        // 9️⃣ Return success response
+        return response()->json([
+            'status' => 200,
+            'message' => "Contacting influencer successfully! You spent {$packageDetail->points} points.",
+            'remaining_points' => $totalPoints - $packageDetail->points,
+            'pointStatus' => 1,
+        ]);
+    }
 
 
     function brandCampainEdit($id, Request $request)
@@ -4094,7 +4072,7 @@ class ApiController extends Controller
     }
 
 
-    // brand campaign appliers
+    // brand campaign appliers table
     function brandCampaignAppliers($userId)
     {
         $appliers = Apply::with(['campaign' => function ($query) use ($userId) {
@@ -4107,19 +4085,42 @@ class ApiController extends Controller
         return response($response, 200);
     }
     // approval
-    function brandCampaignApplierApproval($campaignId, $userId)
+    // function brandCampaignApplierApproval($campaignId, $userId)
+    // {
+    //     $applier = Apply::where('campaignId', '=', $campaignId)
+    //         ->where('userId', '=', $userId)
+    //         ->first();
+    //     $applier->status = "Approved";
+    //     $applier->save();
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $applier,
+    //     ];
+    //     return response($response, 200);
+    // }
+    public function brandCampaignApplierApproval($campaignId, $userId)
     {
-        $applier = Apply::where('campaignId', '=', $campaignId)
-            ->where('userId', '=', $userId)
+        $applier = Apply::where('campaignId', $campaignId)
+            ->where('userId', $userId)
             ->first();
+
+        if (!$applier) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No applicant found for the given campaign and user.',
+            ], 404);
+        }
+
         $applier->status = "Approved";
         $applier->save();
-        $response = [
+
+        return response()->json([
             'status' => 200,
+            'message' => 'Applicant approved successfully!',
             'data' => $applier,
-        ];
-        return response($response, 200);
+        ], 200);
     }
+
     // on hold
     function brandCampaignApplierOnHold($campaignId, $userId)
     {
@@ -4167,17 +4168,41 @@ class ApiController extends Controller
     }
 
     // content approval
-    function brandCampaignApplierContentApproval($id)
+    // function brandCampaignApplierContentApproval($id)
+    // {
+    //     $applier = CheckApply::find($id);
+    //     $applier->status = "Approved";
+    //     $applier->save();
+    //     $response = [
+    //         'status' => 200,
+    //         'data' => $applier,
+    //     ];
+    //     return response($response, 200);
+    // }
+    public function brandCampaignApplierContentApproval($id)
     {
         $applier = CampaignInfluencerActivityStep::find($id);
+
+        if (!$applier) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Applicant not found'
+            ], 404);
+        }
+
         $applier->status = "Approved";
         $applier->save();
-        $response = [
+
+        return response()->json([
             'status' => 200,
-            'data' => $applier,
-        ];
-        return response($response, 200);
+            'message' => 'Applicant approved successfully',
+            'data' => [
+                'id' => $applier->id,
+                'status' => $applier->status
+            ]
+        ]);
     }
+
     // on hold
     function brandCampaignApplierContentPending($id)
     {
@@ -4489,24 +4514,22 @@ class ApiController extends Controller
         }
     }
 
+
     // function campaignAppliedList($id)
     // {
     //     $apply = Apply::with('campaign')->where('userId', '=', $id)->get();
-    //     if ($apply) {
-
-
-    //         $response = [
-    //             'status' => 200,
-    //             'data' => $apply,
-    //         ];
-    //         return response($response, 200);
-    //     } else {
-    //         return response([
-    //             'message' => ['No List Found']
+    //     if ($apply->isEmpty()) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'No applied campaigns found for this user.',
     //         ], 404);
     //     }
-    // }
 
+    //     return response()->json([
+    //         'status' => 200,
+    //         'data' => $apply,
+    //     ], 200);
+    // }
 
     function campaignAppliedList($id)
     {
@@ -4526,6 +4549,7 @@ class ApiController extends Controller
             'data' => $apply,
         ], 200);
     }
+
 
     function addContentforCampaign(Request $request)
     {
@@ -4855,13 +4879,6 @@ class ApiController extends Controller
             'influencers' => $influencerList,
         ], 200);
     }
-
-
-
-
-
-
-
 
     function BrandInfluencerList()
     {

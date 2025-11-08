@@ -136,4 +136,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(BrandWithCategory::class, 'brandId', 'id');
     }
+
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class, 'userId');
+    }
 }

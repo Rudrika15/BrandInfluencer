@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('uploadActivityPhoto')->nullable();
             $table->string('uploadActivityLink')->nullable();
             $table->string('brandApproved')->default('Pending');
+            $table->string('remark')->nullable();
             $table->timestamps();
         });
     }
