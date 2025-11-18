@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class InfluencerProfile extends Model
 {
     use HasFactory;
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'userId', 'id');
+    }
+
 
     function profile()
     {

@@ -36,40 +36,71 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index(Request $request)
+    // {
+    //     // 
+    //     try {
+    //         $data = User::whereHas('roles', function ($query) {
+    //             return $query->where('name', '!=', 'User');
+    //         })->orderBy('name', 'ASC')->paginate(10);
+    //         $userRoles = Role::all();
+
+    //         $search = $request->roleSearch;
+    //         if ($search == "Admin") {
+    //             $data = User::whereHas('roles', function ($query) {
+    //                 return $query->where('name', '=', 'Admin');
+    //             })->orderBy('id', 'DESC')->paginate(10);
+    //         }
+    //         if ($search == "Brand") {
+    //             $data = User::whereHas('roles', function ($query) {
+    //                 return $query->where('name', '=', 'Brand');
+    //             })->orderBy('id', 'DESC')->paginate(10);
+    //         }
+    //         if ($search == "Influencer") {
+    //             $data = User::whereHas('roles', function ($query) {
+    //                 return $query->where('name', '=', 'Influencer');
+    //             })->orderBy('id', 'DESC')->paginate(10);
+    //         }
+
+
+    //         return view('admin.users.index', compact('data', 'userRoles'))
+    //             ->with('i', ($request->input('page', 1) - 1) * 5);
+    //         // $data = User::all();
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
     public function index(Request $request)
     {
-        // 
         try {
-            $data = User::whereHas('roles', function ($query) {
-                return $query->where('name', '!=', 'User');
-            })->orderBy('name', 'ASC')->paginate(10);
+            $roleSearch = $request->input('roleSearch');
+
+            
+            $query = User::whereHas('roles', function ($q) {
+                $q->where('name', '!=', 'User');
+            });
+
+            
+            if ($roleSearch) {
+                $query->whereHas('roles', function ($q) use ($roleSearch) {
+                    $q->where('name', $roleSearch);
+                });
+            }
+
+            
+            $data = $query->orderBy('id', 'DESC')
+                ->paginate(10)
+                ->appends($request->all());
+
             $userRoles = Role::all();
 
-            $search = $request->roleSearch;
-            if ($search == "Admin") {
-                $data = User::whereHas('roles', function ($query) {
-                    return $query->where('name', '=', 'Admin');
-                })->orderBy('id', 'DESC')->paginate(10);
-            }
-            if ($search == "Brand") {
-                $data = User::whereHas('roles', function ($query) {
-                    return $query->where('name', '=', 'Brand');
-                })->orderBy('id', 'DESC')->paginate(10);
-            }
-            if ($search == "Influencer") {
-                $data = User::whereHas('roles', function ($query) {
-                    return $query->where('name', '=', 'Influencer');
-                })->orderBy('id', 'DESC')->paginate(10);
-            }
-
-
             return view('admin.users.index', compact('data', 'userRoles'))
-                ->with('i', ($request->input('page', 1) - 1) * 5);
-            // $data = User::all();
+                ->with('i', ($request->input('page', 1) - 1) * 10);
         } catch (\Throwable $th) {
             throw $th;
         }
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -552,7 +552,7 @@
 
                                                                     <div class="col-md-4"><label>Instagram Url:</label></div>
                                                                     <div class="col-md-7">
-                                                                        <input type="text" class=" form-control shadow-none" name="instagramUrl" value="{{ old('instagramUrl', $influencer->instagramUrl ?? '') }}" id="instagramUrl">
+                                                                        <input type="url" class=" form-control shadow-none" name="instagramUrl" value="{{ old('instagramUrl', $influencer->instagramUrl ?? '') }}" id="instagramUrl">
                                                                         @if ($errors->has('instagramUrl'))
                                                                             <span class="text-danger">
                                                                                 {{ $errors->first('instagramUrl') }}
@@ -581,7 +581,7 @@
                                                                     <div class="col-md-4"><label>Youtube Channel Url:</label>
                                                                     </div>
                                                                     <div class="col-md-7">
-                                                                        <input type="text" class=" form-control shadow-none" name="youtubeChannelUrl" value="{{ old('youtubeChannelUrl', $influencer->youtubeChannelUrl ?? '') }}" id="youtubeChannelUrl">
+                                                                        <input type="url" class=" form-control shadow-none" name="youtubeChannelUrl" value="{{ old('youtubeChannelUrl', $influencer->youtubeChannelUrl ?? '') }}" id="youtubeChannelUrl">
                                                                         @if ($errors->has('youtubeChannelUrl'))
                                                                             <span class="text-danger">
                                                                                 {{ $errors->first('youtubeChannelUrl') }}

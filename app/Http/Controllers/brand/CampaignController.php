@@ -34,32 +34,112 @@ use Illuminate\Support\Facades\Hash;
 
 class CampaignController extends Controller
 {
+    // public function index()
+    // {
+    //     try {
+    //         $userId = Auth::user()->id;
+    //         $campaign = Campaign::where('userId', '=', $userId)->orderBy('id', 'DESC')->get();
+    //         $brandCategory = BrandCategory::all();
+    //         $brandOfCategory = BrandWithCategory::where('brandId', '=', $userId)->with('brandCategory')->first();
+    //         if ($brandOfCategory) {
+
+    //             $influencer = User::whereHas('roles', function ($q) {
+    //                 $q->where('name', 'Influencer');
+    //             })->whereHas('influencer', function ($q) use ($brandOfCategory) {
+    //                 $q->whereHas('category', function ($q) use ($brandOfCategory) {
+    //                     $q->where('name', 'LIKE', '%' .  $brandOfCategory->brandCategory->categoryName . '%');
+    //                 });
+    //             })
+    //                 ->with(['influencer', 'influencer.category'])
+    //                 ->get();
+    //             return view('brand.campaign.index', \compact('campaign', 'influencer'));
+    //         } else {
+    //             return view('brand.campaign.index', \compact('campaign'));
+    //         }
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+
+    // public function index()
+    // {
+    //     try {
+    //         $userId = Auth::user()->id;
+    //         $campaign = Campaign::where('userId', '=', $userId)->orderBy('id', 'DESC')->get();
+    //         $brandCategory = BrandCategory::all();
+    //         $brandOfCategory = BrandWithCategory::where('brandId', '=', $userId)->with('brandCategory')->first();
+    //         if ($brandOfCategory) {
+
+    //             $influencer = User::whereHas('roles', function ($q) {
+    //                 $q->where('name', 'Influencer');
+    //             })->whereHas('influencer', function ($q) use ($brandOfCategory) {
+    //                 $q->whereHas('category', function ($q) use ($brandOfCategory) {
+    //                     $q->where('name', 'LIKE', '%' .  $brandOfCategory->brandCategory->categoryName . '%');
+    //                 });
+    //             })
+    //                 ->with(['influencer', 'influencer.category'])
+    //                 ->get();
+    //             return view('brand.campaign.index', \compact('campaign', 'influencer'));
+    //         } else {
+    //             return view('brand.campaign.index', \compact('campaign'));
+    //         }
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+
     public function index()
     {
         try {
-            $userId = Auth::user()->id;
-            $campaign = Campaign::where('userId', '=', $userId)->orderBy('id', 'DESC')->get();
-            $brandCategory = BrandCategory::all();
-            $brandOfCategory = BrandWithCategory::where('brandId', '=', $userId)->with('brandCategory')->first();
-            if ($brandOfCategory) {
+            $userId = Auth::id();
 
-                $influencer = User::whereHas('roles', function ($q) {
-                    $q->where('name', 'Influencer');
-                })->whereHas('influencer', function ($q) use ($brandOfCategory) {
-                    $q->whereHas('category', function ($q) use ($brandOfCategory) {
-                        $q->where('name', 'LIKE', '%' .  $brandOfCategory->brandCategory->categoryName . '%');
-                    });
+            // Get brand's campaigns
+            $campaign = Campaign::where('userId', $userId)
+                ->orderByDesc('id')
+                ->get();
+
+            // Get brand category
+            $brandOfCategory = BrandWithCategory::where('brandId', $userId)
+                ->with('brandCategory')
+                ->first();
+
+            // 🟢 Query trending influencers
+            $query = User::whereHas('roles', function ($q) {
+                $q->where('name', 'Influencer');
+            })
+                ->whereHas('influencer', function ($q) {
+                    $q->where('is_trending', 'Yes');
                 })
-                    ->with(['influencer', 'influencer.category'])
-                    ->get();
-                return view('brand.campaign.index', \compact('campaign', 'influencer'));
-            } else {
-                return view('brand.campaign.index', \compact('campaign'));
+                ->with(['influencer', 'influencer.category']);
+
+            // If brand has a category, filter influencers of that category
+            if ($brandOfCategory) {
+                $query->whereHas('influencer.category', function ($q) use ($brandOfCategory) {
+                    $q->where('name', 'LIKE', '%' . $brandOfCategory->brandCategory->categoryName . '%');
+                });
             }
+
+            // Order by combined social reach (YouTube + Instagram followers)
+            $influencer = $query->get()->sortByDesc(function ($influencer) {
+                $insta = (int) ($influencer->influencer->instagramFollowers ?? 0);
+                $youtube = (int) ($influencer->influencer->youtubeSubscriber ?? 0);
+                return $insta + $youtube;
+            })->take(5); // Top 5 trending influencers
+
+            return view('brand.campaign.index', compact('campaign', 'influencer'));
         } catch (\Throwable $th) {
             throw $th;
         }
     }
+
+
+
+
+
+
+
+
+
 
     public function create()
     {
@@ -86,7 +166,7 @@ class CampaignController extends Controller
                 throw $th;
             }
         } else {
-            return redirect('pricing')->with('warning', 'You are not a BrandBeans Premium User. Unlock premium benefits for your campaign success 🚀 Please  to Purchase Premium Package..');
+            return redirect('pricing')->with('warning', 'You are not a BrandBeans Premium User. Unlock premium benefits for your campaign success  Please  to Purchase Premium Package..');
         }
     }
 
@@ -232,36 +312,78 @@ class CampaignController extends Controller
 
     //     return view('brand.appliers.content', compact('activitySteps', 'applier'));
     // }
-    public function campaignContent($applierId)
+    //    public function campaignContent($campaignId)
+    //     {
+    //         // Fetch all appliers for this campaign with their uploads
+    //         $applies = Apply::with(['user', 'activitySteps'])
+    //             ->where('campaignId', $campaignId)
+    //             ->get();
+
+    //         return view('brand.appliers.content', compact('applies'));
+    //     }
+    public function campaignContent($campaignId)
     {
-        // Fetch all uploaded activity steps for this applier
-        $activitySteps = \App\Models\CampaignInfluencerActivityStep::where('campaignInfluencerActivityId', $applierId)->get();
-
-        // if ($activitySteps->isEmpty()) {
-        //     return back()->with('error', 'No uploaded content found for this applier.');
-        // }
-
-        return view('brand.appliers.content', compact('activitySteps'));
+        $applies = DB::table('applies')
+            ->join('campaign_influencer_activity_steps', function ($join) {
+                $join->on('applies.userId', '=', 'campaign_influencer_activity_steps.influencerId')
+                    ->on('applies.campaignId', '=', 'campaign_influencer_activity_steps.campaignId');
+            })
+            ->where('applies.campaignId', $campaignId)
+            ->select(
+                'applies.*',
+                'campaign_influencer_activity_steps.uploadActivityPhoto',
+                'campaign_influencer_activity_steps.uploadActivityLink'
+            )
+            ->get();
+        return view('brand.appliers.content', compact('applies'));
     }
 
 
+    public function updateInfluencerStatus(Request $request)
+    {
+        $request->validate([
+            'campaignId' => 'required',
+            'userId' => 'required',
+            'status' => 'required|in:Approved,Rejected,Hold'
+        ]);
 
+        $apply = Apply::where('campaignId', $request->campaignId)
+            ->where('userId', $request->userId)
+            ->first();
+
+        if (!$apply) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Application not found'
+            ]);
+        }
+
+        $apply->status = $request->status;
+        $apply->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Status updated successfully'
+        ]);
+    }
 
     // appliers status management Start
 
-    public function influencerApproval($campaignId, $userId, Request $request)
-    {
-        try {
-            $apply = Apply::where('campaignId', '=', $campaignId)
-                ->where('userId', '=', $userId)
-                ->first();
-            $apply->status = "Approved";
-            $apply->save();
-            return redirect('brand/campaign/appliers')->with('success', 'Status Updated Successfully');
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
+    // public function influencerApproval($campaignId, $userId, Request $request)
+    // {
+    //     try {
+    //         $apply = Apply::where('campaignId', '=', $campaignId)
+    //             ->where('userId', '=', $userId)
+    //             ->first();
+    //         $apply->status = "Approved";
+    //         $apply->save();
+    //         return redirect('brand/campaign/appliers')->with('success', 'Status Updated Successfully');
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+
+
 
     public function brandCampaignInfluencerApproval($campaignId, $userId)
     {
@@ -408,50 +530,158 @@ class CampaignController extends Controller
         }
     }
 
+    // public function update(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'title' => 'required',
+    //         'detail' => 'required',
+    //         'price' => 'required',
+    //         'rule' => 'required',
+    //         'eligibleCriteria' => 'required',
+    //         'targetGender' => 'required',
+    //         'targetAgeGroup' => 'required',
+    //         'startDate' => 'required',
+    //         'endDate' => 'required',
+    //         'applyForLastDate' => 'required',
+    //         'task' => 'required',
+    //         'maxApplication' => 'required',
+    //     ]);
+
+    //     try {
+    //         $id = $request->campaignId;
+
+    //         $campaign = Campaign::find($id);
+    //         $campaign->title = $request->title;
+    //         $campaign->detail = $request->detail;
+    //         $campaign->price = $request->price;
+    //         if ($request->photo) {
+    //             $campaign->photo = time() . '.' . $request->photo->extension();
+    //             $request->photo->move(public_path('campaignPhoto'), $campaign->photo);
+    //         }
+    //         $campaign->rule = $request->rule;
+    //         $campaign->eligibleCriteria = $request->eligibleCriteria;
+    //         $campaign->targetGender = $request->targetGender;
+    //         $campaign->targetAgeGroup = $request->targetAgeGroup;
+    //         $campaign->startDate = $request->startDate;
+    //         $campaign->endDate = $request->endDate;
+    //         $campaign->applyForLastDate = $request->applyForLastDate;
+    //         $campaign->task = $request->task;
+    //         $campaign->maxApplication = $request->maxApplication;
+    //         $campaign->status = "Active";
+    //         $campaign->save();
+    //         // return redirect('brand/campaign/index')->with('success', 'Campaign Updated Successfully..');
+    //         return redirect()->back()->with('success', 'Campaign Updated Successfully..');
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+
+    // public function update(Request $request)
+    // {
+
+    //     //dd($request->all());
+    //     // 🟢 Validate input
+    //     $request->validate([
+    //         'campaignId'        => 'required|exists:campaigns,id',
+    //         // 'title'             => 'required|string|max:255',
+    //         // 'detail'            => 'required|string',
+    //         // 'price'             => 'required|numeric|min:0',
+    //         // 'rule'              => 'required|string',
+    //         // 'eligibleCriteria'  => 'required|string',
+    //         // 'targetGender'      => 'required|string',
+    //         // 'targetAgeGroup'    => 'required|string',
+    //         // 'startDate'         => 'required|date',
+    //         // 'endDate'           => 'required|date|after_or_equal:startDate',
+    //         // 'applyForLastDate'  => 'required|date|before_or_equal:endDate',
+    //         // 'task'              => 'required|string',
+    //         // 'maxApplication'    => 'required|integer|min:1',
+    //         // 'photo'             => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+    //     ]);
+
+    //     try {
+    //         $campaign = Campaign::findOrFail($request->campaignId);
+
+    //         // 🟢 Update basic fields
+    //         $campaign->title             = $request->title;
+    //         $campaign->detail            = $request->detail;
+    //         $campaign->price             = $request->price;
+    //         $campaign->rule              = $request->rule;
+    //         $campaign->eligibleCriteria  = $request->eligibleCriteria;
+    //         $campaign->targetGender      = $request->targetGender;
+    //         $campaign->targetAgeGroup    = $request->targetAgeGroup;
+    //         $campaign->startDate         = $request->startDate;
+    //         $campaign->endDate           = $request->endDate;
+    //         $campaign->applyForLastDate  = $request->applyForLastDate;
+    //         $campaign->task              = $request->task;
+    //         $campaign->maxApplication    = $request->maxApplication;
+    //         $campaign->status            = "Active";
+
+    //         // 🟢 Handle image upload (optional)
+    //         if ($request->hasFile('photo')) {
+    //             // Delete old photo if exists
+    //             if ($campaign->photo && file_exists(public_path('campaignPhoto/' . $campaign->photo))) {
+    //                 unlink(public_path('campaignPhoto/' . $campaign->photo));
+    //             }
+
+    //             $filename = time() . '.' . $request->photo->extension();
+    //             $request->photo->move(public_path('campaignPhoto'), $filename);
+    //             $campaign->photo = $filename;
+    //         }
+
+    //         $campaign->save();
+
+    //         return redirect()->back()->with('success', 'Campaign updated successfully.');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+    //     }
+    // }
     public function update(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'detail' => 'required',
+        // Debug what is coming in
+        // \Log::info('Update Request:', $request->all());
+
+        $request->validate([
+            'campaignId' => 'required|exists:campaigns,id',
+            'title' => 'required|string|max:255',
+            'detail' => 'required|string',
             'price' => 'required',
-            'rule' => 'required',
-            'eligibleCriteria' => 'required',
-            'targetGender' => 'required',
-            'targetAgeGroup' => 'required',
-            'startDate' => 'required',
-            'endDate' => 'required',
-            'applyForLastDate' => 'required',
-            'task' => 'required',
-            'maxApplication' => 'required',
+            'eligibleCriteria' => 'required|string',
+            'targetGender' => 'required|string',
+            'targetAgeGroup' => 'required|string',
+            'startDate' => 'required|date',
+            'endDate' => 'required|date',
+            'applyForLastDate' => 'required|date',
+            'maxApplication' => 'required|integer',
         ]);
 
-        try {
-            $id = $request->campaignId;
+        $campaign = Campaign::findOrFail($request->campaignId);
 
-            $campaign = Campaign::find($id);
-            $campaign->title = $request->title;
-            $campaign->detail = $request->detail;
-            $campaign->price = $request->price;
-            if ($request->photo) {
-                $campaign->photo = time() . '.' . $request->photo->extension();
-                $request->photo->move(public_path('campaignPhoto'), $campaign->photo);
-            }
-            $campaign->rule = $request->rule;
-            $campaign->eligibleCriteria = $request->eligibleCriteria;
-            $campaign->targetGender = $request->targetGender;
-            $campaign->targetAgeGroup = $request->targetAgeGroup;
-            $campaign->startDate = $request->startDate;
-            $campaign->endDate = $request->endDate;
-            $campaign->applyForLastDate = $request->applyForLastDate;
-            $campaign->task = $request->task;
-            $campaign->maxApplication = $request->maxApplication;
-            $campaign->status = "Active";
-            $campaign->save();
-            return redirect('brand/campaign/index')->with('success', 'Campaign Updated Successfully..');
-        } catch (\Throwable $th) {
-            throw $th;
+        // Update campaign details
+        $campaign->title = $request->title;
+        $campaign->detail = $request->detail;
+        $campaign->price = $request->price;
+        $campaign->eligibleCriteria = $request->eligibleCriteria;
+        $campaign->targetGender = $request->targetGender;
+        $campaign->targetAgeGroup = $request->targetAgeGroup;
+        $campaign->startDate = $request->startDate;
+        $campaign->endDate = $request->endDate;
+        $campaign->applyForLastDate = $request->applyForLastDate;
+        $campaign->maxApplication = $request->maxApplication;
+
+        // Update photo if new uploaded
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('campaignPhoto'), $filename);
+            $campaign->photo = $filename;
         }
+
+        $campaign->save();
+
+        return redirect()->route('brand.campaign.index')->with('success', 'Campaign updated successfully!');
     }
+
+
 
     public function delete($id)
     {
