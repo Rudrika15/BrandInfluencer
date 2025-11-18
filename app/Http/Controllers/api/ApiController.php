@@ -3581,219 +3581,219 @@ class ApiController extends Controller
         }
     }
 
-    // function contactInfluencer(Request $request)
-    // {
-
-    //     $rules = array(
-    //         'brandId' => 'required',
-    //         'influencerId' => 'required',
-    //     );
-
-
-    //     $validator = Validator::make($request->all(), $rules);
-    //     if ($validator->fails()) {
-    //         return $validator->errors();
-    //     }
-
-    //     $userId = $request->brandId;
-    //     $influencerId = $request->influencerId;
-    //     $brandPackagefind = BrandPoints::where('userId', '=', $userId)->get();
-    //     if (count($brandPackagefind) > 0) {
-    //         $seenStatus = ContactInfluencer::where('userId', $userId)
-    //             ->where('influencerId', $influencerId)
-    //             ->first();
-    //         if (!$seenStatus) {
-    //             $brandPackageSum = BrandPoints::where('userId', '=', $userId)->sum('points');
-    //             $brandPackage = BrandPoints::where('userId', '=', $userId)->first();
-
-    //             if ($brandPackageSum > 0) {
-
-    //                 $package = BrandPackage::where('points', $brandPackage->points)->first();
-
-    //                 if ($package) {
-    //                     $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'LIKE', '%contact influencer%')->first();
-    //                     if (!$packageDetailData) {
-    //                         return response()->json([
-    //                             // 
-    //                         ]);
-    //                     }
-    //                     $activity = Activity::where('id', $packageDetailData->activityId)->first();
-    //                     $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
-    //                         ->where('activityId', $activity->id)
-    //                         ->first();
-
-    //                     if ($packageDetail && $packageDetail->points < $brandPackageSum) {
-
-    //                         $point = new BrandPoints();
-    //                         $point->userId = $userId;
-    //                         $point->email = $brandPackage->email;
-    //                         $point->points = '-' . $packageDetail->points;
-    //                         $point->remark = 'Contact Influencer';
-    //                         $point->save();
-
-    //                         $influencerSeen = new ContactInfluencer();
-    //                         $influencerSeen->userId = $userId;
-    //                         $influencerSeen->influencerId = $influencerId;
-    //                         $influencerSeen->status  = "Seen";
-    //                         $influencerSeen->save();
-
-    //                         $response = [
-    //                             'status' => 200,
-    //                             'message' => "Contacting Influencer Successfully and you spent " . $packageDetail->points . " points.",
-    //                             'remaining points' => $brandPackageSum - $packageDetail->points,
-    //                             'pointStatus' => 1
-
-    //                         ];
-    //                         return response($response, 200);
-    //                     } else {
-    //                         $response = [
-    //                             'status' => 200,
-    //                             'pointStatus' => 0,
-    //                             'message' => "you don't have enough points to contact influencer please buy your package. ",
-    //                         ];
-    //                         return response($response, 200);
-    //                     }
-    //                 } else {
-    //                     $response = [
-    //                         'status' => 200,
-    //                         'pointStatus' => 0,
-    //                         'message' => "you don't have enough points to contact influencer please buy your package. ",
-    //                     ];
-    //                     return response($response, 200);
-    //                 }
-    //             } else {
-
-    //                 $response = [
-    //                     'status' => 200,
-    //                     'pointStatus' => 0,
-    //                     'message' => "you don't have enough points to contact influencer please buy your package. ",
-    //                 ];
-    //                 return response($response, 200);
-    //             }
-    //         } else {
-    //             $response = [
-    //                 'status' => 200,
-    //                 'message' => "Already Contacted. ",
-    //             ];
-    //             return response($response, 200);
-    //         }
-    //     } else {
-    //         $response = [
-    //             'status' => 200,
-    //             'pointStatus' => 0,
-    //             'message' => "you don't have enough points to contact influencer please buy your package. ",
-    //         ];
-    //         return response($response, 200);
-    //     }
-    // } 
-    public function contactInfluencer(Request $request)
+    function contactInfluencer(Request $request)
     {
-        // 1️⃣ Validation
-        $validator = Validator::make($request->all(), [
+
+        $rules = array(
             'brandId' => 'required',
             'influencerId' => 'required',
-        ]);
+        );
 
+
+        $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 422,
-                'errors' => $validator->errors(),
-            ]);
+            return $validator->errors();
         }
 
         $userId = $request->brandId;
         $influencerId = $request->influencerId;
+        $brandPackagefind = BrandPoints::where('userId', '=', $userId)->get();
+        if (count($brandPackagefind) > 0) {
+            $seenStatus = ContactInfluencer::where('userId', $userId)
+                ->where('influencerId', $influencerId)
+                ->first();
+            if (!$seenStatus) {
+                $brandPackageSum = BrandPoints::where('userId', '=', $userId)->sum('points');
+                $brandPackage = BrandPoints::where('userId', '=', $userId)->first();
 
-        // 2️⃣ Check existing contact
-        $alreadyContacted = ContactInfluencer::where('userId', $userId)
-            ->where('influencerId', $influencerId)
-            ->first();
+                if ($brandPackageSum > 0) {
 
-        if ($alreadyContacted) {
-            return response()->json([
-                'status' => 200,
-                'message' => 'Already Contacted.',
-            ]);
-        }
+                    $package = BrandPackage::where('points', $brandPackage->points)->first();
 
-        // 3️⃣ Check user’s total points
-        $totalPoints = BrandPoints::where('userId', $userId)->sum('points');
-        if ($totalPoints <= 0) {
-            return response()->json([
+                    if ($package) {
+                        $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)->where('details', 'LIKE', '%contact influencer%')->first();
+                        if (!$packageDetailData) {
+                            return response()->json([
+                                // 
+                            ]);
+                        }
+                        $activity = Activity::where('id', $packageDetailData->activityId)->first();
+                        $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
+                            ->where('activityId', $activity->id)
+                            ->first();
+
+                        if ($packageDetail && $packageDetail->points < $brandPackageSum) {
+
+                            $point = new BrandPoints();
+                            $point->userId = $userId;
+                            $point->email = $brandPackage->email;
+                            $point->points = '-' . $packageDetail->points;
+                            $point->remark = 'Contact Influencer';
+                            $point->save();
+
+                            $influencerSeen = new ContactInfluencer();
+                            $influencerSeen->userId = $userId;
+                            $influencerSeen->influencerId = $influencerId;
+                            $influencerSeen->status  = "Seen";
+                            $influencerSeen->save();
+
+                            $response = [
+                                'status' => 200,
+                                'message' => "Contacting Influencer Successfully and you spent " . $packageDetail->points . " points.",
+                                'remaining points' => $brandPackageSum - $packageDetail->points,
+                                'pointStatus' => 1
+
+                            ];
+                            return response($response, 200);
+                        } else {
+                            $response = [
+                                'status' => 200,
+                                'pointStatus' => 0,
+                                'message' => "you don't have enough points to contact influencer please buy your package. ",
+                            ];
+                            return response($response, 200);
+                        }
+                    } else {
+                        $response = [
+                            'status' => 200,
+                            'pointStatus' => 0,
+                            'message' => "you don't have enough points to contact influencer please buy your package. ",
+                        ];
+                        return response($response, 200);
+                    }
+                } else {
+
+                    $response = [
+                        'status' => 200,
+                        'pointStatus' => 0,
+                        'message' => "you don't have enough points to contact influencer please buy your package. ",
+                    ];
+                    return response($response, 200);
+                }
+            } else {
+                $response = [
+                    'status' => 200,
+                    'message' => "Already Contacted. ",
+                ];
+                return response($response, 200);
+            }
+        } else {
+            $response = [
                 'status' => 200,
                 'pointStatus' => 0,
-                'message' => "You don't have enough points to contact influencer. Please buy a package.",
-            ]);
+                'message' => "you don't have enough points to contact influencer please buy your package. ",
+            ];
+            return response($response, 200);
         }
+    } 
+    // public function contactInfluencer(Request $request)
+    // {
+    //     // 1️⃣ Validation
+    //     $validator = Validator::make($request->all(), [
+    //         'brandId' => 'required',
+    //         'influencerId' => 'required',
+    //     ]);
 
-        // 4️⃣ Fetch package details
-        $brandPackage = BrandPoints::where('userId', $userId)->first();
-        $package = BrandPackage::where('points', $brandPackage->points)->first();
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'status' => 422,
+    //             'errors' => $validator->errors(),
+    //         ]);
+    //     }
 
-        if (!$package) {
-            return response()->json([
-                'status' => 200,
-                'pointStatus' => 0,
-                'message' => "No valid package found for your account.",
-            ]);
-        }
+    //     $userId = $request->brandId;
+    //     $influencerId = $request->influencerId;
 
-        // 5️⃣ Find specific package detail for contact influencer
-        $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)
-            ->where('details', 'LIKE', '%contact influencer%')
-            ->first();
+    //     // 2️⃣ Check existing contact
+    //     $alreadyContacted = ContactInfluencer::where('userId', $userId)
+    //         ->where('influencerId', $influencerId)
+    //         ->first();
 
-        if (!$packageDetailData) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Contact Influencer activity not found in your package.',
-            ]);
-        }
+    //     if ($alreadyContacted) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'message' => 'Already Contacted.',
+    //         ]);
+    //     }
 
-        $activity = Activity::find($packageDetailData->activityId);
-        if (!$activity) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Associated activity not found.',
-            ]);
-        }
+    //     // 3️⃣ Check user’s total points
+    //     $totalPoints = BrandPoints::where('userId', $userId)->sum('points');
+    //     if ($totalPoints <= 0) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'pointStatus' => 0,
+    //             'message' => "You don't have enough points to contact influencer. Please buy a package.",
+    //         ]);
+    //     }
 
-        $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
-            ->where('activityId', $activity->id)
-            ->first();
+    //     // 4️⃣ Fetch package details
+    //     $brandPackage = BrandPoints::where('userId', $userId)->first();
+    //     $package = BrandPackage::where('points', $brandPackage->points)->first();
 
-        // 6️⃣ Check if user has enough points
-        if (!$packageDetail || $packageDetail->points > $totalPoints) {
-            return response()->json([
-                'status' => 200,
-                'pointStatus' => 0,
-                'message' => "You don't have enough points to contact influencer. Please buy a package.",
-            ]);
-        }
+    //     if (!$package) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'pointStatus' => 0,
+    //             'message' => "No valid package found for your account.",
+    //         ]);
+    //     }
 
-        // 7️⃣ Deduct points
-        $deductPoints = new BrandPoints();
-        $deductPoints->userId = $userId;
-        $deductPoints->email = $brandPackage->email;
-        $deductPoints->points = -$packageDetail->points;
-        $deductPoints->remark = 'Contact Influencer';
-        $deductPoints->save();
+    //     // 5️⃣ Find specific package detail for contact influencer
+    //     $packageDetailData = BrandPackageDetail::where('brandPackageId', $package->id)
+    //         ->where('details', 'LIKE', '%contact influencer%')
+    //         ->first();
 
-        // 8️⃣ Save contact entry
-        $contact = new ContactInfluencer();
-        $contact->userId = $userId;
-        $contact->influencerId = $influencerId;
-        $contact->status = 'Seen';
-        $contact->save();
+    //     if (!$packageDetailData) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Contact Influencer activity not found in your package.',
+    //         ]);
+    //     }
 
-        // 9️⃣ Return success response
-        return response()->json([
-            'status' => 200,
-            'message' => "Contacting influencer successfully! You spent {$packageDetail->points} points.",
-            'remaining_points' => $totalPoints - $packageDetail->points,
-            'pointStatus' => 1,
-        ]);
-    }
+    //     $activity = Activity::find($packageDetailData->activityId);
+    //     if (!$activity) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Associated activity not found.',
+    //         ]);
+    //     }
+
+    //     $packageDetail = BrandPackageDetail::where('brandPackageId', $package->id)
+    //         ->where('activityId', $activity->id)
+    //         ->first();
+
+    //     // 6️⃣ Check if user has enough points
+    //     if (!$packageDetail || $packageDetail->points > $totalPoints) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'pointStatus' => 0,
+    //             'message' => "You don't have enough points to contact influencer. Please buy a package.",
+    //         ]);
+    //     }
+
+    //     // 7️⃣ Deduct points
+    //     $deductPoints = new BrandPoints();
+    //     $deductPoints->userId = $userId;
+    //     $deductPoints->email = $brandPackage->email;
+    //     $deductPoints->points = -$packageDetail->points;
+    //     $deductPoints->remark = 'Contact Influencer';
+    //     $deductPoints->save();
+
+    //     // 8️⃣ Save contact entry
+    //     $contact = new ContactInfluencer();
+    //     $contact->userId = $userId;
+    //     $contact->influencerId = $influencerId;
+    //     $contact->status = 'Seen';
+    //     $contact->save();
+
+    //     // 9️⃣ Return success response
+    //     return response()->json([
+    //         'status' => 200,
+    //         'message' => "Contacting influencer successfully! You spent {$packageDetail->points} points.",
+    //         'remaining_points' => $totalPoints - $packageDetail->points,
+    //         'pointStatus' => 1,
+    //     ]);
+    // }
 
 
     function brandCampainEdit($id, Request $request)
