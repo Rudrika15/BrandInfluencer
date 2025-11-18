@@ -10,22 +10,38 @@ use Illuminate\Support\Facades\Auth;
 
 class CampaignStepController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     try {
+    //         $step = CampaignStep::with('campaign')
+    //             ->whereHas('campaign', function ($q) {
+    //                 $q->where('userId', Auth::user()->id);
+    //             })
+    //             ->get();
+
+    //         return view('brand.campaignStep.index', compact('step'));
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
+    public function index($campaignId)
     {
         try {
             $step = CampaignStep::with('campaign')
+                ->where('campaignId', $campaignId)
                 ->whereHas('campaign', function ($q) {
-                    $q->where('userId', Auth::user()->id);
+                    $q->where('userId', Auth::id());
                 })
                 ->get();
-                
+
             return view('brand.campaignStep.index', compact('step'));
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
-   
+
+
 
     public function create()
     {
