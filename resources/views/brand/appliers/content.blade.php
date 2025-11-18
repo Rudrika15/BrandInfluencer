@@ -1,37 +1,35 @@
 @extends('layouts.app')
-@section('title', 'Brand beans | Create Campaign Step')
+@section('title', 'Brand Beans | Applier Uploaded Content')
 @section('content')
 <div class="container py-4">
     <h4 class="mb-4">Applier Uploaded Content</h4>
 
-    @if ($activitySteps->isEmpty())
-        <div class="alert alert-warning">No content available.</div>
-    @else
-        <div class="row">
-            @foreach ($activitySteps as $step)
-                <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-body text-center">
-                            {{-- Uploaded Photo --}}
-                            @if (!empty($step->uploadedActivityPhoto))
-                                <img src="{{ asset('/uploadActivityPhoto/' . $step->uploadedActivityPhoto) }}" 
-                                     class="img-fluid rounded mb-2" alt="Uploaded Photo">
-                            @endif
+    @forelse ($applies as $apply)
+        <div class="mb-5">
+            <h5 class="mt-3 mb-3">
+                <strong>Influencer:</strong> {{ $apply->user->name ?? 'Unknown User' }}
+            </h5>
 
-                            {{-- Uploaded Video --}}
-                            @if (!empty($step->uploadedActivityLink))
-                                <video width="100%" height="240" controls class="rounded">
-                                    <source src="{{ asset('/uploadActivityVideo/' . $step->uploadedActivityLink) }}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            @endif
-                        </div>
-                    </div>
+            {{-- Check if influencer has uploaded activity steps --}}
+            @if ($apply->activitySteps && $apply->activitySteps->count() > 0)
+                <div class="row">
+                    @forelse ($applies as $apply)
+    <div class="card mb-3 p-3">
+        <h5>{{ $apply->user->name ?? 'Unknown' }}</h5>
+        <p><strong>Photo:</strong> {{ $apply->activityStep->uploadActivityPhoto ?? 'No photo uploaded' }}</p>
+        <p><strong>Link:</strong> {{ $apply->activityStep->uploadActivityLink ?? 'No link uploaded' }}</p>
+    </div>
+@empty
+    <div class="alert alert-warning">No appliers found for this campaign.</div>
+@endforelse
+
                 </div>
-            @endforeach
+            @else
+                <div class="alert alert-secondary">No uploads yet.</div>
+            @endif
         </div>
-    @endif
-
-    
+    @empty
+        <div class="alert alert-warning">No appliers found for this campaign.</div>
+    @endforelse
 </div>
 @endsection

@@ -7,7 +7,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-
+use App\Models\InfluencerPortfolio;
+use App\Models\Campaign;
+use App\Models\InfluencerProfile;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -75,6 +77,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(InfluencerProfile::class, 'userId', 'id');
     }
+    public function influencerProfile()
+    {
+        return $this->hasOne(InfluencerProfile::class, 'userId', 'id');
+    }
+   
 
     public function content()
     {

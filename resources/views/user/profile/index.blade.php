@@ -539,6 +539,12 @@
 
                     </span>
                 </div>
+                <span>
+                        @role('Influencer')
+                           <a href="{{ $influencer->instagramUrl ?? '' }}"><i class="bi bi-youtube"></i></a>
+                           <a href="{{ $influencer->youtubeChannelUrl ??'' }}"><i class="bi bi-instagram"></i></a>
+                        @endrole
+                    </span>
                 <div class="">
                     <style>
                         .category-span {
@@ -583,7 +589,7 @@
                         <h3>About</h3>
                         <p>
                             {{ $users->about ?? '' }}
-                        </p>
+                        </p> 
                     </div>
                     {{-- <div class="profile-btn">
                         <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Contact</button>

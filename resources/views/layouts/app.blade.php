@@ -327,7 +327,7 @@
                         @csrf
                     </form>
                 </li>
-                <li class="mode">
+                {{-- <li class="mode">
                     <div class="moon-sun">
                         <i class="bx bx-moon icons moon"></i>
                         <i class="bx bx-sun icons sun"></i>
@@ -336,7 +336,7 @@
                     <div class="toggle-switch">
                         <span class="switch"></span>
                     </div>
-                </li>
+                </li> --}}
             </div>
         </div>
 

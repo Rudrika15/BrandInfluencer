@@ -61,27 +61,54 @@ class CategoryInfluencerController extends Controller
     //     return view('influencer.influencer.list', \compact('influencer'));
     // }
 
+
+    // public function list(Request $request)
+    // {
+    //     $search = $request->input('search');
+
+    //     $influencer = User::whereHas('roles', function ($q) {
+    //         $q->where('name', 'Influencer');
+    //     })
+    //         ->whereHas('influencer', function ($q) use ($search) {
+    //             if ($search) {
+    //                 $q->where(function ($subQuery) use ($search) {
+    //                     $subQuery->where('name', 'like', "%{$search}%")
+    //                         ->orWhere('email', 'like', "%{$search}%")
+    //                         ->orWhere('mobileno', 'like', "%{$search}%");
+    //                 });
+    //             }
+    //         })
+    //         ->orderBy('id', 'DESC')
+    //         ->paginate(10)
+    //         ->appends(['search' => $search]);
+
+    //     return view('influencer.influencer.list', compact('influencer'));
+    // }
+
     public function list(Request $request)
     {
         $search = $request->input('search');
 
-        $influencer = User::whereHas('roles', function ($q) {
-            $q->where('name', 'Influencer');
-        })->whereHas('influencer', function ($q) use ($search) {
-            if ($search) {
-                $q->where('name', 'like', "%$search%")
-                    ->orWhere('email', 'like', "%$search%")
-                    ->orWhere('mobileno', 'like', "%$search%");
-            }
-        })->paginate(10);
-
-        // Keep search term in pagination links
-        if ($search) {
-            $influencer->appends(['search' => $search]);
-        }
+        $influencer = User::with('influencerProfile') // ✅ Eager load influencer_profile
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'Influencer');
+            })
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('mobileno', 'like', "%{$search}%");
+                });
+            })
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->appends(['search' => $search]);
 
         return view('influencer.influencer.list', compact('influencer'));
     }
+
+
+
 
 
     // public function singleView($id)

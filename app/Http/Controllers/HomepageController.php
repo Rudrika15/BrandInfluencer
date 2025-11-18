@@ -185,6 +185,9 @@ class HomepageController extends Controller
         return view('home', compact('campaigns', 'influencer', 'category', 'brands'));
     }
 
+    
+
+
 
     // public function index(Request $request)
     // {

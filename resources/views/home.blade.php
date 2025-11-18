@@ -155,12 +155,12 @@
                                                 style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                                                 {{ $campaign->detail }}
                                             </p>
-                                             <p class="card-text"
+                                            <p class="card-text"
                                                 style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                                                 <strong>Brand Name:</strong>
                                                 {{ $campaign->brand->name }}
                                             </p>
-                                         
+
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <p class="card-text"><strong>Price:</strong> {{ $campaign->price }}</p>
@@ -170,7 +170,8 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <p class="card-text"><strong>End Date:</strong> {{ $campaign->endDate }}</p>
+                                                    <p class="card-text"><strong>End Date:</strong> {{ $campaign->endDate }}
+                                                    </p>
                                                 </div>
                                             </div>
 
@@ -195,6 +196,7 @@
         @role('Brand')
             <div class="card" style="width: 95%">
                 <div class="card-header justify-content-center">
+
                     <h1> Influencers</h1>
                 </div>
                 <div class="card-body p-3">
@@ -229,27 +231,27 @@
                                         </div>
                                     </div> --}}
                                     <div class="col-md-12 d-flex gap-5 mb-3">
-    <div class="form-check form-switch">
-        <label class="form-label pe-3">
-            <input type="checkbox" class="form-check-input" id="trending" value="trending">
-            <b>Trending</b>
-        </label>
-    </div>
+                                        <div class="form-check form-switch">
+                                            <label class="form-label pe-3">
+                                                <input type="checkbox" class="form-check-input" id="trending" value="trending">
+                                                <b>Trending</b>
+                                            </label>
+                                        </div>
 
-    <div class="form-check form-switch">
-        <label class="form-label pe-3">
-            <input type="checkbox" class="form-check-input" id="featured" value="featured">
-            <b>Featured</b>
-        </label>
-    </div>
+                                        <div class="form-check form-switch">
+                                            <label class="form-label pe-3">
+                                                <input type="checkbox" class="form-check-input" id="featured" value="featured">
+                                                <b>Featured</b>
+                                            </label>
+                                        </div>
 
-    <div class="form-check form-switch">
-        <label class="form-label pe-3">
-            <input type="checkbox" class="form-check-input" id="verified" value="verified">
-            <b>BrandBeans Verified</b>
-        </label>
-    </div>
-</div>
+                                        <div class="form-check form-switch">
+                                            <label class="form-label pe-3">
+                                                <input type="checkbox" class="form-check-input" id="verified" value="verified">
+                                                <b>BrandBeans Verified</b>
+                                            </label>
+                                        </div>
+                                    </div>
 
                                     <div class="col-md-12 d-flex gap-3 mt-3">
                                         <select name="category[]" class="form-select" id="categorySelect" multiple>
@@ -289,62 +291,61 @@
                 }
             </style>
 
-           <div class="container influencer_section mt-4">
-    <div class="influencer_inner me-5 pe-3">
-        @foreach ($influencer as $item)
-            @php
-                $inf = $item->influencer;
-                $profilePhoto = $item->profilePhoto ?? 'defaultPerson.jpg';
-                $name = $item->name ?? 'No Name';
-                $followers = $inf->instagramFollowers ?? '0';
-            @endphp
+            <div class="container influencer_section mt-4">
+                <div class="influencer_inner me-5 pe-3">
+                    @foreach ($influencer as $item)
+                        @php
+                            $inf = $item->influencer;
+                            $profilePhoto = $item->profilePhoto ?? 'defaultPerson.jpg';
+                            $name = $item->name ?? 'No Name';
+                            $followers = $inf->instagramFollowers ?? '0';
+                        @endphp
 
-            <div class="influencer_item"
-                 data-trending="{{ $inf->is_trending == 'on' ? 'true' : 'false' }}"
-                 data-featured="{{ $inf->is_featured == 'on' ? 'true' : 'false' }}"
-                 data-verified="{{ $inf->is_brandBeansVerified == 'on' ? 'true' : 'false' }}">
+                        <div class="influencer_item" data-trending="{{ $inf->is_trending == 'on' ? 'true' : 'false' }}"
+                            data-featured="{{ $inf->is_featured == 'on' ? 'true' : 'false' }}"
+                            data-verified="{{ $inf->is_brandBeansVerified == 'on' ? 'true' : 'false' }}">
 
-                {{-- Tags --}}
-                @if ($inf->is_trending == 'on')
-                    <span class="influencer_tag">Trending</span>
-                @endif
-                @if ($inf->is_featured == 'on')
-                    <span class="influencer_tag featured mt-4">Featured</span>
-                @endif
-                @if ($inf->is_brandBeansVerified == 'on')
-                    <i class="bi bi-patch-check-fill heart_icon" style="color: blue;"></i>
-                @endif
+                            {{-- Tags --}}
+                            @if ($inf->is_trending == 'on')
+                                <span class="influencer_tag">Trending</span>
+                            @endif
+                            @if ($inf->is_featured == 'on')
+                                <span class="influencer_tag featured mt-4">Featured</span>
+                            @endif
+                            @if ($inf->is_brandBeansVerified == 'on')
+                                <i class="bi bi-patch-check-fill heart_icon" style="color: blue;"></i>
+                            @endif
 
-                <div class="influencer_img">
-                    <img class="bg-light" src="{{ asset('profile/' . $profilePhoto) }}"
-                         onerror="this.src='{{ asset('images/default.jpg') }}'"
-                         style="height: 350px; object-fit: contain;" />
-                </div>
+                            <div class="influencer_img">
+                                <img class="bg-light" src="{{ asset('profile/' . $profilePhoto) }}"
+                                    onerror="this.src='{{ asset('images/default.jpg') }}'"
+                                    style="height: 350px; object-fit: contain;" />
+                            </div>
 
-                <div class="content">
-                    <p>{{ $name }}</p>
-                    <span>{{ $followers }} Followers</span>
+                            <div class="content">
+                                <p>{{ $name }}</p>
+                                <span>{{ $followers }} Followers</span>
 
-                    @php
-                        $catIds = json_decode($inf->categoryId ?? '[]');
-                        $cats = \App\Models\CategoryInfluencer::whereIn('id', $catIds)->pluck('name');
-                    @endphp
+                                @php
+                                    $catIds = json_decode($inf->categoryId ?? '[]');
+                                    $cats = \App\Models\CategoryInfluencer::whereIn('id', $catIds)->pluck('name');
+                                @endphp
 
-                    <div class="mt-2 d-flex flex-wrap gap-1">
-                        @foreach ($cats as $cat)
-                            <span class="badge bg-primary category-badge">{{ $cat }}</span>
-                        @endforeach
-                    </div>
+                                <div class="mt-2 d-flex flex-wrap gap-1">
+                                    @foreach ($cats as $cat)
+                                        <span class="badge bg-primary category-badge">{{ $cat }}</span>
+                                    @endforeach
+                                </div>
 
-                    <div class="explore_btn mt-3">
-                        <a href="{{ route('brand.influencerProfile', [$item->id, $item->userId]) }}"
-                           class="custombtn highlighbtn">View Profile</a>
-                    </div>
+                                <div class="explore_btn mt-3">
+                                    <a href="{{ route('brand.influencerProfile', [$item->id, $item->userId]) }}"
+                                        class="custombtn highlighbtn">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        @endforeach
-    </div>
-</div>
 
 
             <style>

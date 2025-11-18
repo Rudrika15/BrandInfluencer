@@ -36,6 +36,7 @@ use App\Http\Controllers\user\PaymentController;
 use App\Http\Controllers\user\QrcodeController;
 use App\Http\Controllers\user\ServiceController;
 use App\Http\Controllers\user\SliderController;
+use App\Models\Campaign;
 use App\Models\Categories;
 use App\Models\CategoryInfluencer;
 use App\Models\InfluencerProfile;
@@ -225,13 +226,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('brand/campaign/create', [CampaignController::class, 'create'])->name('brand.campaign.create');
     Route::post('brand/campaign/store', [CampaignController::class, 'store'])->name('brand.campaign.store');
     Route::get('brand/campaign/edit/{id?}', [CampaignController::class, 'edit'])->name('brand.campaign.edit');
+    // Route::post('brand/campaign/update', [CampaignController::class, 'update'])->name('brand.campaign.update');
     Route::post('brand/campaign/update', [CampaignController::class, 'update'])->name('brand.campaign.update');
+
     Route::get('brand/campaign/delete/{id?}', [CampaignController::class, 'delete'])->name('brand.campaign.delete');
     Route::get('brand/campaign/appliers/{id}', [CampaignController::class, 'appliers'])->name('brand.campaign.appliers');
-    Route::get('brand/campaign/content/{applierId}', [CampaignController::class, 'campaignContent'])->name('brand.campaign.content');
-
+    // Route::get('brand/campaign/content/{applierId}', [CampaignController::class, 'campaignContent'])->name('brand.appliers.content');
+    Route::get('brand/campaign/content/{campaignId}', [CampaignController::class, 'campaignContent'])
+        ->name('brand.appliers.content');
     Route::get('brand/campaign/{id}/steps/create', [CampaignStepController::class, 'create'])
         ->name('brand.campaignStep.create');
+    Route::post('/brand/influencer/status-update', 
+    [CampaignController::class, 'updateInfluencerStatus']
+)->name('brand.influencer.status.update');  
 
     // campaign step
     Route::post('brand/campaign/step/store', [CampaignStepController::class, 'store'])->name('brand.campaignStep.store');
